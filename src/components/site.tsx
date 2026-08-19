@@ -110,7 +110,7 @@ export function Wordmark({
         className="font-display leading-none"
         style={{ fontSize: '1.35rem', fontWeight: 460, letterSpacing: '-0.01em' }}
       >
-        Millbrook
+        Rothenhall
       </span>
       <span
         className="font-sans uppercase"
@@ -165,7 +165,7 @@ export function Header() {
     >
       <Container width="wide">
         <div className="flex h-[4.75rem] items-center justify-between">
-          <Link to="/" aria-label="Millbrook Partners, home" onClick={() => setOpen(false)}>
+          <Link to="/" aria-label="Rothenhall Partners, home" onClick={() => setOpen(false)}>
             <Wordmark tone={light ? 'light' : 'ink'} />
           </Link>
 
@@ -297,8 +297,8 @@ export function Footer() {
             <p className="eyebrow text-brass-soft">Enquiries</p>
             <ul className="mt-5 space-y-3 font-sans text-[0.95rem] text-canvas/70">
               <li>
-                <a href="mailto:hello@millbrookpartners.co" className="link-line">
-                  hello@millbrookpartners.co
+                <a href="mailto:hello@rothenhall.com" className="link-line">
+                  hello@rothenhall.com
                 </a>
               </li>
               <li className="text-canvas/50">Portfolio &amp; founder engagements</li>
@@ -311,7 +311,7 @@ export function Footer() {
 
         <hr className="mt-14 border-0 border-t border-night-line" />
         <div className="mt-6 flex flex-col justify-between gap-3 font-sans text-[0.78rem] text-canvas/45 sm:flex-row">
-          <p>© {new Date().getFullYear()} Millbrook Partners. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} Rothenhall Partners. All rights reserved.</p>
           <p className="tracking-wide">AEO · GEO · GTM · RevOps · Growth Operating</p>
         </div>
       </Container>

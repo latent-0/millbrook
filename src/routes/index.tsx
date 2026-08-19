@@ -7,7 +7,7 @@ import { StatScroll } from '../components/StatScroll'
 export const Route = createFileRoute('/')({
   head: () => ({
     meta: [
-      { title: 'Millbrook Partners · The Operating Partner for AI-Era Growth' },
+      { title: 'Rothenhall Partners · The Operating Partner for AI-Era Growth' },
       {
         name: 'description',
         content:
@@ -282,7 +282,7 @@ function TheMoat() {
         </Reveal>
         <Reveal delay={220}>
           <Link to="/about" className="link-line mt-8 inline-block font-sans text-[0.95rem]">
-            The thesis behind Millbrook →
+            The thesis behind Rothenhall →
           </Link>
         </Reveal>
       </Container>

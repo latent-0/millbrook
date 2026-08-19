@@ -37,13 +37,13 @@ export const submitInquiry = createServerFn({ method: 'POST' })
      * Inquiry received and validated on the server.
      *
      * TODO: wire this to a destination. Any of:
-     *   • Email:  await resend.emails.send({ to: 'hello@millbrookpartners.co', ... })
+     *   • Email:  await resend.emails.send({ to: 'hello@rothenhall.com', ... })
      *   • CRM:    POST to HubSpot / Attio / your RevOps stack (eat your own cooking)
      *   • Store:  append to a database or Google Sheet
      *
      * Until then, the submission is logged server-side so nothing is lost.
      */
-    console.log('[Millbrook inquiry]', {
+    console.log('[Rothenhall inquiry]', {
       ...data,
       receivedAt: new Date().toISOString(),
     })

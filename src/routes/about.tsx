@@ -4,11 +4,11 @@ import { Container, Eyebrow, Reveal } from '../components/site'
 export const Route = createFileRoute('/about')({
   head: () => ({
     meta: [
-      { title: 'About · Millbrook Partners' },
+      { title: 'About · Rothenhall Partners' },
       {
         name: 'description',
         content:
-          'The thesis behind Millbrook Partners: full-stack ownership of AI visibility, GTM, and RevOps that compounds into a proprietary library functioning like intellectual property.',
+          'The thesis behind Rothenhall Partners: full-stack ownership of AI visibility, GTM, and RevOps that compounds into a proprietary library functioning like intellectual property.',
       },
     ],
   }),
@@ -74,7 +74,7 @@ function About() {
                   The technology that changed how buyers discover companies did
                   not hand those companies a way to be found. That gap, between a
                   new front page made of AI answers and the lean teams with no
-                  strategy for appearing in them, is the reason Millbrook exists.
+                  strategy for appearing in them, is the reason Rothenhall exists.
                 </p>
               </Reveal>
             </div>
@@ -121,7 +121,7 @@ function About() {
           <div className="max-w-3xl">
             <Reveal>
               <Eyebrow>Operating principles</Eyebrow>
-              <h2 className="text-display-lg mt-6">How Millbrook works.</h2>
+              <h2 className="text-display-lg mt-6">How Rothenhall works.</h2>
             </Reveal>
           </div>
           <div className="mt-16 grid gap-px overflow-hidden rounded-2xl border border-line bg-line sm:grid-cols-2">

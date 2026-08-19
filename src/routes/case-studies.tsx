@@ -4,11 +4,11 @@ import { Container, Eyebrow, Reveal } from '../components/site'
 export const Route = createFileRoute('/case-studies')({
   head: () => ({
     meta: [
-      { title: 'Case Studies · Millbrook Partners' },
+      { title: 'Case Studies · Rothenhall Partners' },
       {
         name: 'description',
         content:
-          'How Millbrook documents proof: the anatomy of a before-and-after case study across AI visibility, GTM, and RevOps, and the outcomes each engagement is built to move.',
+          'How Rothenhall documents proof: the anatomy of a before-and-after case study across AI visibility, GTM, and RevOps, and the outcomes each engagement is built to move.',
       },
     ],
   }),
@@ -112,7 +112,7 @@ function CaseStudies() {
                 </h2>
                 <p className="mt-6 font-sans text-[1rem] leading-relaxed text-ink-60">
                   These are the measures we baseline on day one and report against
-                  throughout: the axes a Millbrook case study is written along.
+                  throughout: the axes a Rothenhall case study is written along.
                 </p>
               </Reveal>
             </div>
@@ -145,7 +145,7 @@ function CaseStudies() {
               The first case studies are being written now.
             </h2>
             <p className="mx-auto mt-6 max-w-xl font-sans text-[1.05rem] leading-relaxed text-ink-60">
-              Millbrook is taking on a small founding cohort of startups and
+              Rothenhall is taking on a small founding cohort of startups and
               portfolio companies. Early clients get a senior operator’s full
               attention, and become the documented proof this practice is built
               on. If you want to be first, the seat is worth taking.

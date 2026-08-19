@@ -4,11 +4,11 @@ import { Container, Eyebrow, Reveal } from '../components/site'
 export const Route = createFileRoute('/approach')({
   head: () => ({
     meta: [
-      { title: 'Approach · Millbrook Partners' },
+      { title: 'Approach · Rothenhall Partners' },
       {
         name: 'description',
         content:
-          'The Millbrook operating model: AEO/GEO for AI visibility, GTM operations, RevOps, and growth operating, owned end to end by one accountable partner.',
+          'The Rothenhall operating model: AEO/GEO for AI visibility, GTM operations, RevOps, and growth operating, owned end to end by one accountable partner.',
       },
     ],
   }),
@@ -97,7 +97,7 @@ function Approach() {
               Four disciplines. One operator. A single accountable engine.
             </h1>
             <p className="text-lead mt-8 max-w-2xl text-ink-60">
-              Most companies buy these separately and hope they add up. Millbrook
+              Most companies buy these separately and hope they add up. Rothenhall
               runs them as one system, because AI visibility without RevOps is
               unmeasurable, and RevOps without a growth engine has nothing to
               measure.
@@ -176,13 +176,13 @@ function Approach() {
         </Container>
       </section>
 
-      {/* Where Millbrook fits */}
+      {/* Where Rothenhall fits */}
       <section className="border-t border-line">
         <Container className="py-24 sm:py-32">
           <div className="grid gap-14 md:grid-cols-12">
             <div className="md:col-span-5">
               <Reveal>
-                <Eyebrow>Where Millbrook fits</Eyebrow>
+                <Eyebrow>Where Rothenhall fits</Eyebrow>
                 <h2 className="text-display-md mt-6">
                   The specialists do one thing. We own how they add up.
                 </h2>
@@ -225,7 +225,7 @@ function Approach() {
                   ))}
                 </div>
                 <p className="mt-8 font-sans text-[1.05rem] leading-relaxed text-ink-80">
-                  Millbrook is the one seat that holds all of it, so there is no
+                  Rothenhall is the one seat that holds all of it, so there is no
                   gap between being found, being measured, and being sold.
                 </p>
               </Reveal>

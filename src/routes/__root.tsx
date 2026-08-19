@@ -10,10 +10,10 @@ import appCss from '../styles.css?url'
 import { Header, Footer, Container } from '../components/site'
 
 const SITE = {
-  name: 'Millbrook Partners',
-  url: 'https://millbrookpartners.co',
+  name: 'Rothenhall Partners',
+  url: 'https://rothenhall.com',
   description:
-    'Millbrook Partners is a fractional operating partner practice for venture- and PE-backed companies, owning AI answer-engine visibility (AEO/GEO), go-to-market, and revenue operations as one accountable engine.',
+    'Rothenhall Partners is a fractional operating partner practice for venture- and PE-backed companies, owning AI answer-engine visibility (AEO/GEO), go-to-market, and revenue operations as one accountable engine.',
 }
 
 const orgSchema = {
@@ -45,15 +45,15 @@ export const Route = createRootRoute({
     meta: [
       { charSet: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { title: 'Millbrook Partners · The Operating Partner for AI-Era Growth' },
+      { title: 'Rothenhall Partners · The Operating Partner for AI-Era Growth' },
       { name: 'description', content: SITE.description },
       { name: 'theme-color', content: '#f7f3ea' },
       { property: 'og:type', content: 'website' },
       { property: 'og:site_name', content: SITE.name },
-      { property: 'og:title', content: 'Millbrook Partners · The Operating Partner for AI-Era Growth' },
+      { property: 'og:title', content: 'Rothenhall Partners · The Operating Partner for AI-Era Growth' },
       { property: 'og:description', content: SITE.description },
       { name: 'twitter:card', content: 'summary_large_image' },
-      { name: 'twitter:title', content: 'Millbrook Partners' },
+      { name: 'twitter:title', content: 'Rothenhall Partners' },
       { name: 'twitter:description', content: SITE.description },
     ],
     links: [

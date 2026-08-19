@@ -6,11 +6,11 @@ import { submitInquiry, type InquiryInput } from '../server/inquiry'
 export const Route = createFileRoute('/contact')({
   head: () => ({
     meta: [
-      { title: 'Contact · Millbrook Partners' },
+      { title: 'Contact · Rothenhall Partners' },
       {
         name: 'description',
         content:
-          'Start a conversation with Millbrook Partners about AI visibility, go-to-market, and revenue operations for your company or portfolio.',
+          'Start a conversation with Rothenhall Partners about AI visibility, go-to-market, and revenue operations for your company or portfolio.',
       },
     ],
   }),
@@ -78,7 +78,7 @@ function Contact() {
               <Eyebrow>Contact</Eyebrow>
               <h1 className="text-display-lg mt-8">Start a conversation.</h1>
               <p className="text-lead mt-6 text-ink-60">
-                Tell us where you are and what you’re trying to move. If Millbrook
+                Tell us where you are and what you’re trying to move. If Rothenhall
                 is the right fit, you’ll know quickly, and so will we.
               </p>
             </Reveal>
@@ -108,10 +108,10 @@ function Contact() {
                   Prefer email
                 </p>
                 <a
-                  href="mailto:hello@millbrookpartners.co"
+                  href="mailto:hello@rothenhall.com"
                   className="link-line mt-3 inline-block font-display text-xl text-ink"
                 >
-                  hello@millbrookpartners.co
+                  hello@rothenhall.com
                 </a>
               </div>
             </Reveal>
