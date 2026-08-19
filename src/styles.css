@@ -1,0 +1,284 @@
+@import "tailwindcss";
+
+/* ------------------------------------------------------------------ */
+/*  Millbrook Partners  ·  design tokens                               */
+/*  Neo-classical editorial: warm paper, ink, brass. High whitespace. */
+/* ------------------------------------------------------------------ */
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-display: "Jost", ui-sans-serif, system-ui, -apple-system, sans-serif;
+
+  /* Paper & ink */
+  --color-canvas: #f7f3ea;
+  --color-canvas-2: #efe9dc;
+  --color-paper: #fbf9f3;
+  --color-ink: #1a1712;
+  --color-ink-80: #3a352c;
+  --color-ink-60: #5c5648;
+  --color-ink-45: #857d6c;
+  --color-line: #ddd5c4;
+  --color-line-strong: #cbc0a9;
+
+  /* Brass accent */
+  --color-brass: #9a7a4a;
+  --color-brass-deep: #7c6238;
+  --color-brass-soft: #b79a6b;
+
+  /* Cognac accent — warmer, more saturated than brass */
+  --color-cognac: #a85c30;
+  --color-cognac-deep: #8a4a26;
+  --color-cognac-soft: #c67c48;
+
+  /* Night (dramatic dark bands) */
+  --color-night: #14120d;
+  --color-night-2: #201c15;
+  --color-night-line: #35301f;
+
+  /* Editorial rhythm */
+  --tracking-eyebrow: 0.24em;
+  --spacing-gutter: 1.5rem;
+}
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  html,
+  body,
+  #app {
+    min-height: 100%;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    margin: 0;
+    background-color: var(--color-canvas);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: 1.02rem;
+    line-height: 1.6;
+    /* Luxury body: kerning, ligatures, old-style proportional figures */
+    font-feature-settings: "kern", "liga", "calt", "onum", "pnum";
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background: var(--color-brass);
+    color: #fff;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    letter-spacing: -0.015em;
+    line-height: 1.08;
+    margin: 0;
+    text-wrap: balance;
+    font-feature-settings: "kern", "liga", "calt";
+  }
+
+  em {
+    font-style: italic;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      transition-duration: 0.001ms !important;
+    }
+  }
+}
+
+@layer components {
+  /* Editorial eyebrow: tracked small-caps label with optional leading tick */
+  .eyebrow {
+    font-family: var(--font-sans);
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: var(--tracking-eyebrow);
+    text-transform: uppercase;
+    color: var(--color-brass-deep);
+  }
+
+  /* Eyebrow labels are plain tracked type now — no leading rule. */
+  .eyebrow-line {
+    display: inline-block;
+  }
+
+  /* Hairline rule */
+  .rule {
+    border: 0;
+    border-top: 1px solid var(--color-line);
+    width: 100%;
+    margin: 0;
+  }
+
+  /* Buttons */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    font-family: var(--font-sans);
+    font-size: 0.9rem;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    padding: 0.95rem 1.8rem;
+    border-radius: 999px;
+    transition: background-color 0.3s ease, color 0.3s ease,
+      border-color 0.3s ease, transform 0.3s ease;
+    cursor: pointer;
+    line-height: 1;
+  }
+  .btn-primary {
+    background: var(--color-ink);
+    color: var(--color-canvas);
+    border: 1px solid var(--color-ink);
+  }
+  .btn-primary:hover {
+    background: var(--color-brass-deep);
+    border-color: var(--color-brass-deep);
+    color: #fff;
+  }
+  .btn-ghost {
+    background: transparent;
+    color: var(--color-ink);
+    border: 1px solid var(--color-line-strong);
+  }
+  .btn-ghost:hover {
+    border-color: var(--color-ink);
+  }
+  .btn-light {
+    background: var(--color-canvas);
+    color: var(--color-ink);
+    border: 1px solid var(--color-canvas);
+  }
+  .btn-light:hover {
+    background: var(--color-brass-soft);
+    border-color: var(--color-brass-soft);
+  }
+  .btn-ghost-light {
+    background: transparent;
+    color: var(--color-canvas);
+    border: 1px solid rgba(247, 243, 234, 0.28);
+  }
+  .btn-ghost-light:hover {
+    border-color: var(--color-canvas);
+    background: rgba(247, 243, 234, 0.06);
+  }
+
+  /* Eyebrow tuned for dark surfaces */
+  .eyebrow-light {
+    color: var(--color-brass-soft);
+  }
+
+  /* Understated animated underline link */
+  .link-line {
+    position: relative;
+    display: inline-block;
+    font-weight: 500;
+  }
+  .link-line::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    height: 1px;
+    width: 100%;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .link-line:hover::after {
+    transform: scaleX(1);
+  }
+
+  /* Drop cap for editorial lead paragraphs */
+  .dropcap::first-letter {
+    font-family: var(--font-display);
+    font-weight: 400;
+    float: left;
+    font-size: 3.6em;
+    line-height: 0.72;
+    padding: 0.06em 0.12em 0 0;
+    color: var(--color-brass-deep);
+    font-variation-settings: "opsz" 144;
+  }
+
+  /* Gentle reveal on scroll */
+  .reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 1s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 1s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: opacity, transform;
+  }
+  .reveal.is-in {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Slow rotation for the engraved rosette */
+@keyframes slow-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.animate-slow-spin {
+  animation: slow-spin 120s linear infinite;
+  transform-origin: center;
+}
+
+/* Film grain overlay */
+.grain {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+}
+
+/* Fluid display type scale */
+.text-display-xl {
+  font-size: clamp(3rem, 8vw, 7.5rem);
+  line-height: 0.96;
+  letter-spacing: -0.025em;
+}
+.text-display-lg {
+  font-size: clamp(2.4rem, 5vw, 4.6rem);
+  line-height: 1.01;
+  letter-spacing: -0.018em;
+}
+.text-display-md {
+  font-size: clamp(1.9rem, 3.4vw, 3rem);
+  line-height: 1.06;
+  letter-spacing: -0.012em;
+}
+.text-lead {
+  font-size: clamp(1.1rem, 1.5vw, 1.35rem);
+  line-height: 1.55;
+  letter-spacing: -0.005em;
+}
