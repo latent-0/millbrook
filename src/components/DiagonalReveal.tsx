@@ -31,9 +31,6 @@ export function DiagonalReveal() {
   // Intro stays put and recolors as the image slides under it; fades at the end.
   const introOpacity = useTransform(scrollYProgress, [0.52, 0.66], [1, 0])
   const lineOpacity = useTransform(scrollYProgress, [0.42, 0.6], [1, 0])
-  const scrimOpacity = useTransform(scrollYProgress, [0.4, 0.72], [0, 0.6])
-  const cardOpacity = useTransform(scrollYProgress, [0.62, 0.86], [0, 1])
-  const cardY = useTransform(scrollYProgress, [0.62, 0.9], [50, 0])
 
   if (reduce) {
     return <ReducedFallback />
@@ -69,11 +66,14 @@ export function DiagonalReveal() {
             className="absolute inset-0 mix-blend-multiply"
             style={{ background: 'rgba(32,26,18,0.28)' }}
           />
-          {/* darkening scrim for the glass card */}
-          <motion.div
+          {/* legibility gradient at the bottom-right for the persistent caption */}
+          <div
             aria-hidden
             className="absolute inset-0"
-            style={{ opacity: scrimOpacity, background: 'rgba(12,10,7,1)' }}
+            style={{
+              background:
+                'linear-gradient(305deg, rgba(12,10,7,0.66) 0%, rgba(12,10,7,0) 46%)',
+            }}
           />
         </motion.div>
 
@@ -114,27 +114,13 @@ export function DiagonalReveal() {
           </motion.div>
         </motion.div>
 
-        {/* glass card — fades in once the image is full */}
-        <motion.div
-          style={{ opacity: cardOpacity, y: cardY }}
-          className="absolute inset-0 flex items-center justify-center px-6"
-        >
-          <div
-            className="max-w-xl rounded-3xl border border-white/20 p-10 text-center backdrop-blur-md sm:p-12"
-            style={{ background: 'rgba(255,255,255,0.08)' }}
-          >
-            <p className="eyebrow" style={{ color: 'var(--color-brass-soft)', letterSpacing: '0.2em' }}>
-              The Rothenhall way
-            </p>
-            <h3 className="mt-5 font-display text-canvas" style={{ fontSize: 'clamp(1.8rem,3.6vw,3rem)', fontWeight: 400, lineHeight: 1.1 }}>
-              One operator owns the entire stack.
-            </h3>
-            <p className="mx-auto mt-5 max-w-md font-sans text-[1.02rem] leading-relaxed text-canvas/70">
-              AI visibility, go-to-market, and revenue operations, run as one
-              accountable engine.
-            </p>
-          </div>
-        </motion.div>
+        {/* persistent caption, bottom-right; recolors as the image covers it */}
+        <div className="absolute inset-0">
+          <SolutionLayer color="var(--color-ink)" eyebrowColor="var(--color-cognac)" />
+          <motion.div style={{ clipPath }} className="absolute inset-0">
+            <SolutionLayer color="var(--color-canvas)" eyebrowColor="var(--color-brass-soft)" />
+          </motion.div>
+        </div>
       </div>
     </section>
   )
@@ -160,6 +146,35 @@ function IntroLayer({
           <h2 className="text-display-lg mt-5" style={{ color }}>
             A tangle of vendors. No one accountable.
           </h2>
+        </div>
+      </Container>
+    </div>
+  )
+}
+
+function SolutionLayer({
+  color,
+  eyebrowColor,
+}: {
+  color: string
+  eyebrowColor: string
+}) {
+  return (
+    <div className="flex h-full items-end">
+      <Container width="wide" className="pb-14 sm:pb-20">
+        <div className="ml-auto max-w-md text-right">
+          <p
+            className="font-sans uppercase"
+            style={{ color: eyebrowColor, letterSpacing: '0.2em', fontSize: '0.72rem', fontWeight: 500 }}
+          >
+            The Rothenhall way
+          </p>
+          <h3
+            className="mt-4 font-display"
+            style={{ color, fontSize: 'clamp(1.7rem,3.4vw,2.9rem)', fontWeight: 400, lineHeight: 1.12 }}
+          >
+            One operator owns the entire stack.
+          </h3>
         </div>
       </Container>
     </div>
