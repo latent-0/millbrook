@@ -2,7 +2,8 @@ import { createFileRoute, Link } from '@tanstack/react-router'
 import { Container, Eyebrow, Reveal } from '../components/site'
 import { HomeHero } from '../components/HomeHero'
 import { StoryScroll } from '../components/StoryScroll'
-import { StatScroll } from '../components/StatScroll'
+import { StatBlock } from '../components/StatBlock'
+import { DiagonalReveal } from '../components/DiagonalReveal'
 
 export const Route = createFileRoute('/')({
   head: () => ({
@@ -70,8 +71,9 @@ function Home() {
     <>
       <HomeHero />
       <StoryScroll />
-      <StatScroll />
+      <StatBlock />
       <TheShift />
+      <DiagonalReveal />
       <TheModel />
       <Engagements />
       <TheMoat />
@@ -258,8 +260,24 @@ function Engagements() {
 
 function TheMoat() {
   return (
-    <section className="border-t border-line">
-      <Container width="narrow" className="py-24 sm:py-32 text-center">
+    <section
+      className="relative overflow-hidden border-t border-line"
+      style={{
+        backgroundImage: 'url(/paper-texture.jpg)',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+      }}
+    >
+      {/* warm ivory wash so the crumple reads but ink text stays crisp */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background:
+            'linear-gradient(rgba(247,243,234,0.62), rgba(243,238,225,0.74))',
+        }}
+      />
+      <Container width="narrow" className="relative py-24 sm:py-32 text-center">
         <Reveal>
           <Eyebrow className="justify-center inline-flex">The compounding advantage</Eyebrow>
         </Reveal>

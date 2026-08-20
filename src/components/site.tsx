@@ -100,31 +100,21 @@ export function Reveal({
 
 export function Wordmark({
   tone = 'ink',
+  className = '',
 }: {
   tone?: 'ink' | 'light'
+  className?: string
 }) {
-  const color = tone === 'light' ? 'text-canvas' : 'text-ink'
   return (
-    <span className={`flex items-baseline gap-2 ${color}`}>
-      <span
-        className="font-display leading-none"
-        style={{ fontSize: '1.35rem', fontWeight: 460, letterSpacing: '-0.01em' }}
-      >
-        Rothenhall
-      </span>
-      <span
-        className="font-sans uppercase"
-        style={{
-          fontSize: '0.62rem',
-          letterSpacing: '0.28em',
-          fontWeight: 500,
-          color: 'var(--color-brass-deep)',
-          transform: 'translateY(-1px)',
-        }}
-      >
-        Partners
-      </span>
-    </span>
+    <img
+      src="/brand/wordmark.png"
+      alt="Rothenhall Partners"
+      className={`block w-auto ${className}`}
+      style={{
+        height: '1.7rem',
+        filter: tone === 'light' ? 'brightness(0) invert(1)' : 'none',
+      }}
+    />
   )
 }
 
@@ -263,10 +253,25 @@ export function Header() {
 
 export function Footer() {
   return (
-    <footer className="bg-night text-canvas">
-      <Container width="wide" className="py-16 sm:py-20">
+    <footer className="relative overflow-hidden bg-night text-canvas">
+      {/* Griffin watermark */}
+      <img
+        src="/brand/griffin.png"
+        alt=""
+        aria-hidden
+        className="pointer-events-none absolute -right-16 bottom-0 hidden w-[32rem] select-none md:block"
+        style={{ filter: 'brightness(0) invert(1)', opacity: 0.05 }}
+      />
+      <Container width="wide" className="relative py-16 sm:py-20">
         <div className="grid gap-12 md:grid-cols-[1.5fr_1fr_1fr]">
           <div>
+            <img
+              src="/brand/griffin.png"
+              alt=""
+              aria-hidden
+              className="mb-6 h-16 w-auto select-none"
+              style={{ filter: 'brightness(0) invert(1)', opacity: 0.92 }}
+            />
             <Wordmark tone="light" />
             <p className="mt-5 max-w-sm font-sans text-[0.95rem] leading-relaxed text-canvas/60">
               The fractional operating partner for AI-era growth. AI visibility,

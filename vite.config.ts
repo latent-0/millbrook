@@ -9,6 +9,13 @@ import tailwindcss from '@tailwindcss/vite'
 
 const config = defineConfig({
   resolve: { tsconfigPaths: true },
+  server: {
+    watch: {
+      // Don't watch build output — avoids Windows EBUSY watcher crashes
+      // when a production build writes here while the dev server runs.
+      ignored: ['**/.vercel/**', '**/dist/**', '**/.output/**', '**/.nitro/**'],
+    },
+  },
   plugins: [devtools(), tailwindcss(), tanstackStart(), nitro({ preset: 'vercel' }), viteReact()],
 })
 

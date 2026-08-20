@@ -72,7 +72,7 @@ export function StoryScroll() {
         <div
           aria-hidden
           className="absolute inset-0"
-          style={{ background: 'linear-gradient(rgba(18,15,11,0.84), rgba(14,12,8,0.9))' }}
+          style={{ background: 'linear-gradient(rgba(20,15,9,0.6), rgba(14,10,6,0.74))' }}
         />
         <div className="relative mx-auto max-w-4xl space-y-20 px-6 py-32 text-center">
           {STORY.map((s, i) => (
@@ -105,7 +105,7 @@ export function StoryScroll() {
           className="pointer-events-none absolute inset-0"
           style={{
             background:
-              'linear-gradient(rgba(18,15,11,0.82), rgba(13,11,7,0.9))',
+              'linear-gradient(rgba(20,15,9,0.58), rgba(14,10,6,0.72))',
           }}
         />
         <div
@@ -144,52 +144,74 @@ function Beat({
   const seg = 1 / total
   const start = index * seg
   const end = (index + 1) * seg
-  const inAt = start + seg * 0.2
-  const outAt = end - seg * 0.28
+  const p0 = start + seg * 0.1
+  const inAt = start + seg * 0.3
+  const outAt = end - seg * 0.3
+  const p1 = end - seg * 0.1
 
-  const opacity = useTransform(progress, [start, inAt, outAt, end], [0, 1, 1, 0])
-  const blurPx = useTransform(progress, [start, inAt, outAt, end], [16, 0, 0, 16])
+  // Fully 0 at the seams (small blank gap) so no two sentences overlap.
+  const opacity = useTransform(
+    progress,
+    [start, p0, inAt, outAt, p1, end],
+    [0, 0, 1, 1, 0, 0],
+  )
+  const blurPx = useTransform(progress, [start, inAt, outAt, end], [12, 0, 0, 12])
   const filter = useMotionTemplate`blur(${blurPx}px)`
   const textY = useTransform(progress, [start, end], [70, -70])
-  const imgY = useTransform(progress, [start, end], [110, -110])
+  const imgY = useTransform(progress, [start, end], [130, -130])
+  const imgScale = useTransform(
+    progress,
+    [start, inAt, outAt, end],
+    [0.68, 1, 1, 0.68],
+  )
+  const imgRotate = useTransform(
+    progress,
+    [start, inAt, outAt, end],
+    [beat.rot - 18, beat.rot, beat.rot, beat.rot + 18],
+  )
 
   return (
     <motion.div
       style={{ opacity, filter }}
       className="absolute inset-0 flex items-center justify-center px-6"
     >
-      <div className="relative mx-auto w-full max-w-5xl">
-        {/* Tilted random image */}
-        <motion.div
-          style={{ y: imgY, rotate: beat.rot }}
-          className={`absolute top-1/2 hidden -translate-y-1/2 lg:block ${
-            beat.side === 'right' ? 'right-0' : 'left-0'
-          }`}
-        >
-          <div className="overflow-hidden rounded-2xl border border-line bg-paper p-2 shadow-[0_40px_80px_-32px_rgba(26,23,18,0.45)]">
-            <img
-              src={beat.img}
-              alt=""
-              className="block h-64 w-52 rounded-xl object-cover"
-              loading="lazy"
-            />
-          </div>
-        </motion.div>
-
-        {/* Sentence */}
-        <motion.h2
+      {/* Circular medallion, pushed out to the margin so it clears the text */}
+      <motion.div
+        style={{ y: imgY, rotate: imgRotate, scale: imgScale }}
+        className={`absolute top-1/2 hidden -translate-y-1/2 lg:block ${
+          beat.side === 'right' ? 'right-[2vw] xl:right-[5vw]' : 'left-[2vw] xl:left-[5vw]'
+        }`}
+      >
+        <div
+          className="overflow-hidden rounded-full border border-white/15 shadow-[0_50px_90px_-28px_rgba(0,0,0,0.72)]"
           style={{
-            y: textY,
-            fontSize: 'clamp(2rem, 5vw, 4.25rem)',
-            fontWeight: 300,
-            lineHeight: 1.12,
-            letterSpacing: '-0.02em',
+            width: 'clamp(9rem, 13vw, 15rem)',
+            height: 'clamp(9rem, 13vw, 15rem)',
           }}
-          className="relative z-10 mx-auto max-w-3xl text-center font-display text-canvas"
         >
-          {beat.text}
-        </motion.h2>
-      </div>
+          <img
+            src={beat.img}
+            alt=""
+            className="h-full w-full object-cover"
+            style={{ filter: 'grayscale(1) contrast(1.05) brightness(0.95)' }}
+            loading="lazy"
+          />
+        </div>
+      </motion.div>
+
+      {/* Sentence */}
+      <motion.h2
+        style={{
+          y: textY,
+          fontSize: 'clamp(2rem, 5vw, 4.25rem)',
+          fontWeight: 300,
+          lineHeight: 1.12,
+          letterSpacing: '-0.02em',
+        }}
+        className="relative z-10 mx-auto max-w-2xl text-center font-display text-canvas"
+      >
+        {beat.text}
+      </motion.h2>
     </motion.div>
   )
 }
