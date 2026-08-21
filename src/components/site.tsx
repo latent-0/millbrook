@@ -125,6 +125,7 @@ export function Wordmark({
 const NAV = [
   { to: '/', label: 'Home' },
   { to: '/approach', label: 'Approach' },
+  { to: '/research', label: 'Research' },
   { to: '/case-studies', label: 'Case Studies' },
   { to: '/about', label: 'About' },
 ] as const
@@ -141,7 +142,7 @@ export function Header() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  // Light (over the dark home hero), only at the top of the home page.
+  // Light nav (over a dark hero), only at the top of the home page.
   const light = pathname === '/' && !scrolled && !open
   const barBg = light ? 'bg-canvas' : 'bg-ink'
 
