@@ -327,6 +327,16 @@ export function Footer() {
                   +91 93983 86765
                 </a>
               </li>
+              <li>
+                <a
+                  href="https://www.linkedin.com/company/rothenhall/"
+                  target="_blank"
+                  rel="me noopener noreferrer"
+                  className="link-line"
+                >
+                  LinkedIn
+                </a>
+              </li>
             </ul>
             <address className="mt-4 font-sans text-[0.9rem] not-italic leading-relaxed text-canvas/50">
               2nd Floor, HAL 2nd Stage

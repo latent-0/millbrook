@@ -28,6 +28,7 @@ const orgSchema = {
   url: SITE.url,
   logo: `${SITE.url}/brand/wordmark.png`,
   image: `${SITE.url}/og-image.jpg`,
+  sameAs: ['https://www.linkedin.com/company/rothenhall/'],
   email: 'office@rothenhall.com',
   telephone: '+91-9398386765',
   slogan: 'Be the company the AI recommends.',
