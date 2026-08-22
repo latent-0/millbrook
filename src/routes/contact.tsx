@@ -2,18 +2,16 @@ import { createFileRoute } from '@tanstack/react-router'
 import { useState } from 'react'
 import { Container, Eyebrow, Reveal } from '../components/site'
 import { submitInquiry, type InquiryInput } from '../server/inquiry'
+import { seo } from '../lib/seo'
 
 export const Route = createFileRoute('/contact')({
-  head: () => ({
-    meta: [
-      { title: 'Contact · Rothenhall Partners' },
-      {
-        name: 'description',
-        content:
-          'Start a conversation with Rothenhall Partners about AI visibility, go-to-market, and revenue operations for your company or portfolio.',
-      },
-    ],
-  }),
+  head: () =>
+    seo({
+      path: '/contact',
+      title: 'Contact · Start a Conversation · Rothenhall Partners',
+      description:
+        'Talk to Rothenhall Partners about AI answer-engine visibility (AEO/GEO), go-to-market, and revenue operations for your company or portfolio, in India or worldwide. Email office@rothenhall.com.',
+    }),
   component: Contact,
 })
 

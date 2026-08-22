@@ -1,17 +1,17 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { Container, Eyebrow, Reveal } from '../components/site'
+import { seo } from '../lib/seo'
 
 export const Route = createFileRoute('/about')({
-  head: () => ({
-    meta: [
-      { title: 'About · Rothenhall Partners' },
-      {
-        name: 'description',
-        content:
-          'The thesis behind Rothenhall Partners: full-stack ownership of AI visibility, GTM, and RevOps that compounds into a proprietary library functioning like intellectual property.',
-      },
-    ],
-  }),
+  head: () =>
+    seo({
+      path: '/about',
+      title: 'About · The AI-Era Operating Partner · Rothenhall Partners',
+      description:
+        'Rothenhall Partners is an India-first fractional operating partner practice for the AI era, owning AI answer-engine visibility, go-to-market, and revenue operations as one compounding engine for founders and funds worldwide.',
+      keywords:
+        'fractional operating partner, AI era growth, AEO, GEO, RevOps, go-to-market, India',
+    }),
   component: About,
 })
 

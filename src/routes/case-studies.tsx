@@ -1,17 +1,17 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { Container, Eyebrow, Reveal } from '../components/site'
+import { seo } from '../lib/seo'
 
 export const Route = createFileRoute('/case-studies')({
-  head: () => ({
-    meta: [
-      { title: 'Case Studies · Rothenhall Partners' },
-      {
-        name: 'description',
-        content:
-          'How Rothenhall documents proof: the anatomy of a before-and-after case study across AI visibility, GTM, and RevOps, and the outcomes each engagement is built to move.',
-      },
-    ],
-  }),
+  head: () =>
+    seo({
+      path: '/case-studies',
+      title: 'Case Studies · Proof of AI-Era Growth · Rothenhall Partners',
+      description:
+        'How Rothenhall documents before-and-after proof across AI answer-engine visibility, go-to-market, and revenue operations. Credibility earned in results, not claims.',
+      keywords:
+        'AEO case study, AI visibility results, RevOps outcomes, go-to-market proof, fractional operating partner',
+    }),
   component: CaseStudies,
 })
 

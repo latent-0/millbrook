@@ -1,17 +1,17 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { Container, Eyebrow, Reveal } from '../components/site'
+import { seo } from '../lib/seo'
 
 export const Route = createFileRoute('/approach')({
-  head: () => ({
-    meta: [
-      { title: 'Approach · Rothenhall Partners' },
-      {
-        name: 'description',
-        content:
-          'The Rothenhall operating model: AEO/GEO for AI visibility, GTM operations, RevOps, and growth operating, owned end to end by one accountable partner.',
-      },
-    ],
-  }),
+  head: () =>
+    seo({
+      path: '/approach',
+      title: 'Approach · AI Visibility, GTM & RevOps as One Engine · Rothenhall Partners',
+      description:
+        'The Rothenhall operating model: AEO/GEO for AI answer-engine visibility, go-to-market, revenue operations, and growth operating, run by one accountable partner for startups and portfolios in India and worldwide.',
+      keywords:
+        'AEO, GEO, answer engine optimization, generative engine optimization, RevOps, go-to-market, fractional operating partner, AI visibility',
+    }),
   component: Approach,
 })
 

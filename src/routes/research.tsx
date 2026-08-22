@@ -8,24 +8,18 @@ import {
   Stagger,
   StaggerItem,
 } from '../components/ResearchMotion'
+import { seo } from '../lib/seo'
 
 export const Route = createFileRoute('/research')({
-  head: () => ({
-    meta: [
-      { title: 'Research · How Claude Decides Who to Recommend · Rothenhall Partners' },
-      {
-        name: 'description',
-        content:
-          'A Rothenhall field study of how Claude recommends brands: 52% of answers come from memory, not search. What that means for AI visibility, and how to earn a place on the shortlist.',
-      },
-      { property: 'og:title', content: 'How Claude Decides Who to Recommend' },
-      {
-        property: 'og:description',
-        content:
-          'Claude answers more than half of buying questions from memory, with no web search. Our study of ~90,000 AI answers across 15+ industries, and what to do about it.',
-      },
-    ],
-  }),
+  head: () =>
+    seo({
+      path: '/research',
+      title: 'How Claude Decides Who to Recommend · Research · Rothenhall Partners',
+      description:
+        'A Rothenhall field study of how Claude recommends brands: more than half of answers come from memory, not web search. Built on ~90,000 AI answers across 15+ industries, and how to earn a place on the shortlist.',
+      keywords:
+        'AI visibility research, how Claude recommends, answer engine optimization study, AEO, GEO, LLM brand memory, ChatGPT Perplexity citations',
+    }),
   component: Research,
 })
 

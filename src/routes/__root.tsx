@@ -13,19 +13,31 @@ const SITE = {
   name: 'Rothenhall Partners',
   url: 'https://rothenhall.com',
   description:
-    'Rothenhall Partners is a fractional operating partner practice for venture- and PE-backed companies, owning AI answer-engine visibility (AEO/GEO), go-to-market, and revenue operations as one accountable engine.',
+    'Rothenhall Partners is India-first fractional operating partner practice for venture- and PE-backed companies worldwide, owning AI answer-engine visibility (AEO/GEO), go-to-market, and revenue operations as one accountable engine.',
 }
 
 const orgSchema = {
   '@context': 'https://schema.org',
   '@type': 'ProfessionalService',
+  '@id': `${SITE.url}/#organization`,
   name: SITE.name,
+  alternateName: 'Rothenhall',
   description: SITE.description,
   url: SITE.url,
-  areaServed: 'Global',
+  logo: `${SITE.url}/brand/wordmark.png`,
+  image: `${SITE.url}/og-image.jpg`,
+  email: 'office@rothenhall.com',
+  slogan: 'Be the company the AI recommends.',
+  address: { '@type': 'PostalAddress', addressCountry: 'IN' },
+  areaServed: [
+    { '@type': 'Country', name: 'India' },
+    { '@type': 'Place', name: 'Worldwide' },
+  ],
   knowsAbout: [
     'Answer Engine Optimization',
     'Generative Engine Optimization',
+    'AI search visibility',
+    'ChatGPT, Perplexity and Google AI Overviews citations',
     'Go-to-Market Strategy',
     'Revenue Operations',
     'Growth Marketing',
@@ -40,6 +52,17 @@ const orgSchema = {
   ],
 }
 
+const websiteSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  '@id': `${SITE.url}/#website`,
+  name: SITE.name,
+  url: SITE.url,
+  description: SITE.description,
+  inLanguage: 'en',
+  publisher: { '@id': `${SITE.url}/#organization` },
+}
+
 export const Route = createRootRoute({
   head: () => ({
     meta: [
@@ -47,18 +70,31 @@ export const Route = createRootRoute({
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { title: 'Rothenhall Partners · The Operating Partner for AI-Era Growth' },
       { name: 'description', content: SITE.description },
-      { name: 'theme-color', content: '#f7f3ea' },
+      { name: 'theme-color', content: '#14120d' },
+      {
+        name: 'robots',
+        content:
+          'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1',
+      },
+      { name: 'author', content: SITE.name },
       { property: 'og:type', content: 'website' },
       { property: 'og:site_name', content: SITE.name },
       { property: 'og:title', content: 'Rothenhall Partners · The Operating Partner for AI-Era Growth' },
       { property: 'og:description', content: SITE.description },
+      { property: 'og:url', content: SITE.url },
+      { property: 'og:image', content: `${SITE.url}/og-image.jpg` },
+      { property: 'og:image:width', content: '1200' },
+      { property: 'og:image:height', content: '630' },
+      { property: 'og:locale', content: 'en_IN' },
       { name: 'twitter:card', content: 'summary_large_image' },
       { name: 'twitter:title', content: 'Rothenhall Partners' },
       { name: 'twitter:description', content: SITE.description },
+      { name: 'twitter:image', content: `${SITE.url}/og-image.jpg` },
     ],
     links: [
       { rel: 'stylesheet', href: appCss },
       { rel: 'icon', href: '/favicon-griffin.png', type: 'image/png' },
+      { rel: 'apple-touch-icon', href: '/apple-touch-icon.png' },
       { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
       {
         rel: 'preconnect',
@@ -101,6 +137,10 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(orgSchema) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
         />
       </head>
       <body>
