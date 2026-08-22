@@ -292,6 +292,11 @@ export function Footer() {
                 </li>
               ))}
               <li>
+                <Link to="/faq" className="link-line">
+                  FAQ
+                </Link>
+              </li>
+              <li>
                 <Link to="/contact" className="link-line">
                   Contact
                 </Link>
@@ -307,9 +312,20 @@ export function Footer() {
                   office@rothenhall.com
                 </a>
               </li>
-              <li className="text-canvas/50">Portfolio &amp; founder engagements</li>
+              <li>
+                <a href="tel:+919398386765" className="link-line">
+                  +91 93983 86765
+                </a>
+              </li>
             </ul>
-            <Link to="/contact" className="btn btn-light mt-7 !py-2.5 !px-5 text-[0.82rem]">
+            <address className="mt-4 font-sans text-[0.9rem] not-italic leading-relaxed text-canvas/50">
+              2nd Floor, HAL 2nd Stage
+              <br />
+              Vimanapura S.O., Bengaluru 560017
+              <br />
+              Karnataka, India
+            </address>
+            <Link to="/contact" className="btn btn-light mt-6 !py-2.5 !px-5 text-[0.82rem]">
               Start a conversation
             </Link>
           </div>

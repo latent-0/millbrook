@@ -101,16 +101,36 @@ function Contact() {
             </Reveal>
 
             <Reveal delay={200}>
-              <div className="mt-12 border-t border-line pt-8">
-                <p className="eyebrow" style={{ letterSpacing: '0.16em' }}>
-                  Prefer email
-                </p>
-                <a
-                  href="mailto:office@rothenhall.com"
-                  className="link-line mt-3 inline-block font-display text-xl text-ink"
-                >
-                  office@rothenhall.com
-                </a>
+              <div className="mt-12 grid grid-cols-1 gap-8 border-t border-line pt-8 sm:grid-cols-2">
+                <div>
+                  <p className="eyebrow" style={{ letterSpacing: '0.16em' }}>
+                    Prefer email
+                  </p>
+                  <a
+                    href="mailto:office@rothenhall.com"
+                    className="link-line mt-3 inline-block font-display text-xl text-ink"
+                  >
+                    office@rothenhall.com
+                  </a>
+                  <a
+                    href="tel:+919398386765"
+                    className="link-line mt-2 block font-sans text-[1rem] text-ink-80"
+                  >
+                    +91 93983 86765
+                  </a>
+                </div>
+                <div>
+                  <p className="eyebrow" style={{ letterSpacing: '0.16em' }}>
+                    Office
+                  </p>
+                  <address className="mt-3 font-sans text-[0.98rem] not-italic leading-relaxed text-ink-60">
+                    2nd Floor, HAL 2nd Stage
+                    <br />
+                    Vimanapura S.O., Bengaluru 560017
+                    <br />
+                    Karnataka, India
+                  </address>
+                </div>
               </div>
             </Reveal>
           </div>

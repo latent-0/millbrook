@@ -389,15 +389,6 @@ const FAQ_ITEMS = [
 ]
 
 function Faq() {
-  const faqSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'FAQPage',
-    mainEntity: FAQ_ITEMS.map((item) => ({
-      '@type': 'Question',
-      name: item.q,
-      acceptedAnswer: { '@type': 'Answer', text: item.a },
-    })),
-  }
   return (
     <section className="border-t border-line bg-canvas-2">
       <Container className="py-24 sm:py-32">
@@ -406,6 +397,12 @@ function Faq() {
             <Reveal>
               <Eyebrow>Common questions</Eyebrow>
               <h2 className="text-display-md mt-6">The answers, plainly.</h2>
+              <Link
+                to="/faq"
+                className="link-line mt-6 inline-block font-sans text-[0.95rem] text-ink-80"
+              >
+                See all questions →
+              </Link>
             </Reveal>
           </div>
           <div className="md:col-span-7 md:col-start-6">
@@ -426,10 +423,6 @@ function Faq() {
           </div>
         </div>
       </Container>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
-      />
     </section>
   )
 }
