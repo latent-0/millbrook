@@ -108,10 +108,10 @@ function Contact() {
                   Prefer email
                 </p>
                 <a
-                  href="mailto:hello@rothenhall.com"
+                  href="mailto:office@rothenhall.com"
                   className="link-line mt-3 inline-block font-display text-xl text-ink"
                 >
-                  hello@rothenhall.com
+                  office@rothenhall.com
                 </a>
               </div>
             </Reveal>

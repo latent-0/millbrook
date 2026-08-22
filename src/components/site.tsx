@@ -303,8 +303,8 @@ export function Footer() {
             <p className="eyebrow text-brass-soft">Enquiries</p>
             <ul className="mt-5 space-y-3 font-sans text-[0.95rem] text-canvas/70">
               <li>
-                <a href="mailto:hello@rothenhall.com" className="link-line">
-                  hello@rothenhall.com
+                <a href="mailto:office@rothenhall.com" className="link-line">
+                  office@rothenhall.com
                 </a>
               </li>
               <li className="text-canvas/50">Portfolio &amp; founder engagements</li>

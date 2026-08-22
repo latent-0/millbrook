@@ -37,7 +37,7 @@ export const submitInquiry = createServerFn({ method: 'POST' })
      * Inquiry received and validated on the server.
      *
      * TODO: wire this to a destination. Any of:
-     *   • Email:  await resend.emails.send({ to: 'hello@rothenhall.com', ... })
+     *   • Email:  await resend.emails.send({ to: 'office@rothenhall.com', ... })
      *   • CRM:    POST to HubSpot / Attio / your RevOps stack (eat your own cooking)
      *   • Store:  append to a database or Google Sheet
      *

@@ -12,7 +12,7 @@ land. Phases overlap; the ordering is about priority, not hard gates.
 - [ ] Wire the contact form to a real destination. Replace the `console.log` in
       `src/server/inquiry.ts` with Resend (email), or a CRM endpoint
       (HubSpot / Attio). See README.
-- [ ] Replace remaining placeholders: `hello@rothenhall.com`,
+- [ ] Replace remaining placeholders: `office@rothenhall.com`,
       `https://rothenhall.com` canonical URL, and confirm the griffin favicon.
 - [ ] Final proofread of all copy (no em dashes).
 - [ ] Ship the `/research` page as the lead credibility asset and confirm its

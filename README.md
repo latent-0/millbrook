@@ -50,13 +50,13 @@ The form already submits end to end through the server function in
 logged server-side. To deliver them somewhere real, replace the `console.log` in
 the `.handler()` with one of:
 
-- **Email** — e.g. Resend: `await resend.emails.send({ to: 'hello@rothenhall.com', ... })`
+- **Email** — e.g. Resend: `await resend.emails.send({ to: 'office@rothenhall.com', ... })`
 - **CRM** — POST to HubSpot / Attio / your RevOps stack
 - **Store** — append to a database or Google Sheet
 
 ## Placeholders to replace
 
-- `hello@rothenhall.com` — the contact email (in `site.tsx` footer and `contact.tsx`)
+- `office@rothenhall.com` — the contact email (in `site.tsx` footer and `contact.tsx`)
 - `https://rothenhall.com` — the canonical URL in the JSON-LD / SEO meta (`__root.tsx`)
 - The "illustrative" framing on Case Studies once real before-and-after studies exist
 
