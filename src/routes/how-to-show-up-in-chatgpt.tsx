@@ -55,6 +55,19 @@ function HowTo() {
       text: s.text,
     })),
   }
+  const breadcrumb = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: SITE.url },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'How to show up in ChatGPT',
+        item: `${SITE.url}/how-to-show-up-in-chatgpt`,
+      },
+    ],
+  }
 
   return (
     <>
@@ -150,6 +163,7 @@ function HowTo() {
       </section>
 
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }} />
     </>
   )
 }
