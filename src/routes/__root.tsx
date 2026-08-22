@@ -23,6 +23,8 @@ const orgSchema = {
   name: SITE.name,
   alternateName: 'Rothenhall',
   description: SITE.description,
+  disambiguatingDescription:
+    'Rothenhall Partners is a B2B fractional operating partner and AI-visibility (AEO/GEO), go-to-market, and RevOps firm based in Bengaluru, India. It is not the historical place or manor of the same name.',
   url: SITE.url,
   logo: `${SITE.url}/brand/wordmark.png`,
   image: `${SITE.url}/og-image.jpg`,

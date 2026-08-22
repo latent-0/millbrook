@@ -11,10 +11,12 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutRouteImport } from './routes/about'
+import { Route as AeoVsSeoRouteImport } from './routes/aeo-vs-seo'
 import { Route as ApproachRouteImport } from './routes/approach'
 import { Route as CaseStudiesRouteImport } from './routes/case-studies'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as FaqRouteImport } from './routes/faq'
+import { Route as HowToShowUpInChatgptRouteImport } from './routes/how-to-show-up-in-chatgpt'
 import { Route as ResearchRouteImport } from './routes/research'
 
 const IndexRoute = IndexRouteImport.update({
@@ -25,6 +27,11 @@ const IndexRoute = IndexRouteImport.update({
 const AboutRoute = AboutRouteImport.update({
   id: '/about',
   path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AeoVsSeoRoute = AeoVsSeoRouteImport.update({
+  id: '/aeo-vs-seo',
+  path: '/aeo-vs-seo',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApproachRoute = ApproachRouteImport.update({
@@ -47,6 +54,11 @@ const FaqRoute = FaqRouteImport.update({
   path: '/faq',
   getParentRoute: () => rootRouteImport,
 } as any)
+const HowToShowUpInChatgptRoute = HowToShowUpInChatgptRouteImport.update({
+  id: '/how-to-show-up-in-chatgpt',
+  path: '/how-to-show-up-in-chatgpt',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ResearchRoute = ResearchRouteImport.update({
   id: '/research',
   path: '/research',
@@ -56,29 +68,35 @@ const ResearchRoute = ResearchRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/aeo-vs-seo': typeof AeoVsSeoRoute
   '/approach': typeof ApproachRoute
   '/case-studies': typeof CaseStudiesRoute
   '/contact': typeof ContactRoute
   '/faq': typeof FaqRoute
+  '/how-to-show-up-in-chatgpt': typeof HowToShowUpInChatgptRoute
   '/research': typeof ResearchRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/aeo-vs-seo': typeof AeoVsSeoRoute
   '/approach': typeof ApproachRoute
   '/case-studies': typeof CaseStudiesRoute
   '/contact': typeof ContactRoute
   '/faq': typeof FaqRoute
+  '/how-to-show-up-in-chatgpt': typeof HowToShowUpInChatgptRoute
   '/research': typeof ResearchRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/aeo-vs-seo': typeof AeoVsSeoRoute
   '/approach': typeof ApproachRoute
   '/case-studies': typeof CaseStudiesRoute
   '/contact': typeof ContactRoute
   '/faq': typeof FaqRoute
+  '/how-to-show-up-in-chatgpt': typeof HowToShowUpInChatgptRoute
   '/research': typeof ResearchRoute
 }
 export interface FileRouteTypes {
@@ -86,38 +104,46 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/about'
+    | '/aeo-vs-seo'
     | '/approach'
     | '/case-studies'
     | '/contact'
     | '/faq'
+    | '/how-to-show-up-in-chatgpt'
     | '/research'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/about'
+    | '/aeo-vs-seo'
     | '/approach'
     | '/case-studies'
     | '/contact'
     | '/faq'
+    | '/how-to-show-up-in-chatgpt'
     | '/research'
   id:
     | '__root__'
     | '/'
     | '/about'
+    | '/aeo-vs-seo'
     | '/approach'
     | '/case-studies'
     | '/contact'
     | '/faq'
+    | '/how-to-show-up-in-chatgpt'
     | '/research'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
+  AeoVsSeoRoute: typeof AeoVsSeoRoute
   ApproachRoute: typeof ApproachRoute
   CaseStudiesRoute: typeof CaseStudiesRoute
   ContactRoute: typeof ContactRoute
   FaqRoute: typeof FaqRoute
+  HowToShowUpInChatgptRoute: typeof HowToShowUpInChatgptRoute
   ResearchRoute: typeof ResearchRoute
 }
 
@@ -135,6 +161,13 @@ declare module '@tanstack/react-router' {
       path: '/about'
       fullPath: '/about'
       preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/aeo-vs-seo': {
+      id: '/aeo-vs-seo'
+      path: '/aeo-vs-seo'
+      fullPath: '/aeo-vs-seo'
+      preLoaderRoute: typeof AeoVsSeoRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/approach': {
@@ -165,6 +198,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FaqRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/how-to-show-up-in-chatgpt': {
+      id: '/how-to-show-up-in-chatgpt'
+      path: '/how-to-show-up-in-chatgpt'
+      fullPath: '/how-to-show-up-in-chatgpt'
+      preLoaderRoute: typeof HowToShowUpInChatgptRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/research': {
       id: '/research'
       path: '/research'
@@ -178,10 +218,12 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
+  AeoVsSeoRoute: AeoVsSeoRoute,
   ApproachRoute: ApproachRoute,
   CaseStudiesRoute: CaseStudiesRoute,
   ContactRoute: ContactRoute,
   FaqRoute: FaqRoute,
+  HowToShowUpInChatgptRoute: HowToShowUpInChatgptRoute,
   ResearchRoute: ResearchRoute,
 }
 export const routeTree = rootRouteImport

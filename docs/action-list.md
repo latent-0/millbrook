@@ -62,6 +62,34 @@ land. Phases overlap; the ordering is about priority, not hard gates.
 - [ ] Formalize pricing tiers now that fixed-fee sprints, retainers, and
       portfolio retainers each have proof behind them.
 
+## AEO discoverability (from the AI post-mortem)
+
+A live test showed ChatGPT could not surface Rothenhall for its own ideal query:
+not a quality judgment, an entity-discovery failure. The brand name resolves to
+the historical place, and the web lacked signals binding Rothenhall to
+AEO/GEO/RevOps/GTM. On-site fixes are shipped (structured entity, answer-shaped
+pages, disambiguation). The remaining levers are off-site and only you can drive:
+
+- [ ] Create and complete authoritative profiles and link them in the schema
+      `sameAs`: LinkedIn (company + founder), Crunchbase, G2, Clutch, Google
+      Business Profile. Use the exact name "Rothenhall Partners" everywhere.
+- [ ] Get named in third-party listicles and directories for "AEO agencies",
+      "GEO agencies", "fractional GTM/RevOps India" (this feeds LLM memory).
+- [ ] Earn mentions: guest posts, podcasts, partner pages, reviews, press.
+- [ ] Publish more answer-shaped guides that repeat the
+      Rothenhall -> AEO/GEO/GTM/RevOps/B2B/India association.
+
+**AEO benchmark (run monthly across ChatGPT, Perplexity, Gemini, AI Overviews).**
+Record: named? position? description? cited? source cited? competitor mentions?
+category assigned? recommended for what use case?
+
+1. Best AEO/GEO agencies for B2B SaaS
+2. Best GTM + RevOps agencies for early-stage B2B SaaS
+3. Agency that can own GEO/AEO and RevOps together
+4. Best AI-search agency for an Indian B2B startup
+5. Rothenhall alternatives
+6. Who competes with Rothenhall?
+
 ## Standing principles (do not drift from these)
 
 - One accountable owner per engagement. No hand-offs.

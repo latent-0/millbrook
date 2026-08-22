@@ -297,6 +297,16 @@ export function Footer() {
                 </Link>
               </li>
               <li>
+                <Link to="/aeo-vs-seo" className="link-line">
+                  AEO vs SEO
+                </Link>
+              </li>
+              <li>
+                <Link to="/how-to-show-up-in-chatgpt" className="link-line">
+                  Show up in ChatGPT
+                </Link>
+              </li>
+              <li>
                 <Link to="/contact" className="link-line">
                   Contact
                 </Link>
