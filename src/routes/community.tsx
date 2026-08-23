@@ -106,7 +106,7 @@ function Community() {
             </motion.p>
             <motion.div variants={rise} className="mt-10">
               <a href="#apply" className="btn btn-light">
-                Request an invite
+                Request a free invite
               </a>
             </motion.div>
           </motion.div>
@@ -234,7 +234,7 @@ function ApplyForm() {
         <p className="font-sans text-[0.9rem] text-[#e0a08a]">{error}</p>
       )}
       <button type="submit" disabled={status === 'submitting'} className="btn btn-light w-full disabled:opacity-60">
-        {status === 'submitting' ? 'Sending…' : 'Request an invite'}
+        {status === 'submitting' ? 'Sending…' : 'Request a free invite'}
       </button>
     </form>
   )
