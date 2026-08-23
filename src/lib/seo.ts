@@ -1,6 +1,6 @@
 export const SITE = {
   name: 'Rothenhall Partners',
-  url: 'https://rothenhall.com',
+  url: 'https://www.rothenhall.com',
   email: 'office@rothenhall.com',
   ogImage: '/og-image.jpg',
 }

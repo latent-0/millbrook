@@ -44,4 +44,4 @@ Allow: /
 User-agent: cohere-ai
 Allow: /
 
-Sitemap: https://rothenhall.com/sitemap.xml
+Sitemap: https://www.rothenhall.com/sitemap.xml

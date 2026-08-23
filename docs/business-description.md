@@ -16,7 +16,7 @@ Profile, Wikidata, directories, press). Use verbatim for consistency. No em dash
 - **Founded:** 2026 (adjust if different)
 - **Email:** office@rothenhall.com
 - **Phone:** +91 93983 86765
-- **Website:** https://rothenhall.com
+- **Website:** https://www.rothenhall.com
 
 ## Tagline (5 to 6 words)
 
@@ -76,4 +76,4 @@ before-and-after, because credibility here is earned through proof, not claims.
 About Rothenhall Partners: Rothenhall Partners is an India-first fractional
 operating partner practice for AI-era growth, owning AI answer-engine visibility
 (AEO/GEO), go-to-market, and revenue operations as one accountable engine for
-venture- and PE-backed companies worldwide. Learn more at https://rothenhall.com.
+venture- and PE-backed companies worldwide. Learn more at https://www.rothenhall.com.

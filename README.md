@@ -57,7 +57,7 @@ the `.handler()` with one of:
 ## Placeholders to replace
 
 - `office@rothenhall.com` — the contact email (in `site.tsx` footer and `contact.tsx`)
-- `https://rothenhall.com` — the canonical URL in the JSON-LD / SEO meta (`__root.tsx`)
+- `https://www.rothenhall.com` — the canonical URL in the JSON-LD / SEO meta (`__root.tsx`)
 - The "illustrative" framing on Case Studies once real before-and-after studies exist
 
 ## Deploy

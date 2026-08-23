@@ -11,7 +11,7 @@ import { Header, Footer, Container } from '../components/site'
 
 const SITE = {
   name: 'Rothenhall Partners',
-  url: 'https://rothenhall.com',
+  url: 'https://www.rothenhall.com',
   description:
     'Rothenhall Partners is India-first fractional operating partner practice for venture- and PE-backed companies worldwide, owning AI answer-engine visibility (AEO/GEO), go-to-market, and revenue operations as one accountable engine.',
 }
