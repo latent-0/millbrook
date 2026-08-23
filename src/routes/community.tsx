@@ -38,7 +38,7 @@ const rise: Variants = {
 }
 
 const BENEFITS = [
-  { n: '01', title: 'The engine, on us', body: 'Founding members get GTM, AEO, and growth work from Rothenhall at no cost.' },
+  { n: '01', title: 'The engine, on us', body: 'Our initial cohort of founders gets GTM, AEO, and growth work from Rothenhall, free.' },
   { n: '02', title: 'A private founders network', body: 'Exclusive access to a circle of founders. Warm intros, shared playbooks, candid rooms.' },
   { n: '03', title: 'Early access to Cailyx', body: 'First in line for our agentic AEO engine and the Cailyx MCP.' },
   { n: '04', title: 'Your name in the proof', body: 'Your before-and-after becomes the case studies this practice is known by.' },
@@ -74,7 +74,8 @@ function Community() {
               </div>
               <p className="mt-8 max-w-md font-sans text-[1.1rem] leading-relaxed text-ink-60">
                 A private network of founders, with our full growth engine behind
-                you. Founding members get GTM and AEO from Rothenhall, at no cost.
+                you. Our initial cohort of founders gets GTM and AEO from
+                Rothenhall, free.
               </p>
             </motion.div>
 
@@ -92,9 +93,9 @@ function Community() {
                 className="mx-auto max-w-3xl font-display"
                 style={{ fontSize: 'clamp(1.4rem, 2.6vw, 2.1rem)', lineHeight: 1.3 }}
               >
-                For a small founding cohort, the entire Rothenhall engine, GTM,
-                AEO, and growth, at{' '}
-                <span style={{ color: 'var(--color-cognac)' }}>no cost</span>. In
+                For our initial cohort of founders, the entire Rothenhall engine,
+                GTM, AEO, and growth, for{' '}
+                <span style={{ color: 'var(--color-cognac)' }}>free</span>. In
                 return, you become the proof this practice is known by.
               </p>
             </motion.div>
@@ -207,10 +208,15 @@ function InviteFlow() {
 
   const shell =
     'convex-light relative overflow-hidden rounded-[2rem] rounded-tr-[5rem] p-8 sm:p-10'
+  // Soft cognac duotone wash so the form tile reads as the focal surface.
+  const formBg: React.CSSProperties = {
+    background:
+      'linear-gradient(155deg, rgba(198,124,72,0.24), rgba(240,225,205,0.35) 45%, rgba(247,243,234,0.2) 100%), var(--color-paper)',
+  }
 
   if (status === 'success') {
     return (
-      <div className={`${shell} flex h-full min-h-[20rem] flex-col justify-center`}>
+      <div className={`${shell} flex h-full min-h-[20rem] flex-col justify-center`} style={formBg}>
         <Watermark />
         <div className="relative">
           <p className="font-display text-ink" style={{ fontSize: '1.9rem' }}>
@@ -226,7 +232,7 @@ function InviteFlow() {
   }
 
   return (
-    <form onSubmit={onSubmit} noValidate className={`${shell} flex h-full min-h-[20rem] flex-col`}>
+    <form onSubmit={onSubmit} noValidate className={`${shell} flex h-full min-h-[20rem] flex-col`} style={formBg}>
       <Watermark />
       <div className="relative flex items-center justify-between">
         <p className="eyebrow">Request a free invite</p>

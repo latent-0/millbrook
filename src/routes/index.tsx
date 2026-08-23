@@ -404,7 +404,8 @@ function CommunityTeaser() {
               </h2>
               <p className="mt-5 max-w-xl font-sans text-[1.05rem] leading-relaxed text-ink-60">
                 A private founders network, with our growth engine behind you.
-                Founding members get GTM and AEO from Rothenhall, at no cost.
+                Our initial cohort of founders gets GTM and AEO from Rothenhall,
+                free.
               </p>
             </Reveal>
           </div>
