@@ -182,7 +182,6 @@ function Community() {
   )
 }
 
-const WHATSAPP = 'https://chat.whatsapp.com/LBcbQiRfjQrIVB3xegVrm5?s=sw&p=a&ilr=1'
 const empty: CommunityInput = { name: '', email: '', company: '', building: '' }
 const inputCls =
   'w-full rounded-lg border border-night-line bg-night-2 px-4 py-3 font-sans text-[1rem] text-canvas placeholder:text-canvas/40 outline-none transition-colors focus:border-cognac-soft'
@@ -216,17 +215,9 @@ function ApplyForm() {
       <div className="rounded-2xl border border-night-line bg-night-2 p-8 text-center">
         <p className="font-display text-2xl text-canvas">Invite requested.</p>
         <p className="mt-3 font-sans text-[1rem] leading-relaxed text-canvas/60">
-          Jump straight into the Founder’s Circle on WhatsApp. We will follow up
-          personally too.
+          We review every request personally. If it is a fit, we will email your
+          invite to the Founder’s Circle.
         </p>
-        <a
-          href={WHATSAPP}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="btn btn-light mt-6"
-        >
-          Join on WhatsApp
-        </a>
       </div>
     )
   }
