@@ -73,17 +73,30 @@ function Community() {
           transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut' }}
         />
         <div className="grain pointer-events-none absolute inset-0 opacity-[0.05] mix-blend-overlay" />
-        {/* griffin crest watermark */}
-        <img
-          src="/brand/griffin.png"
-          alt=""
-          aria-hidden
-          className="pointer-events-none absolute left-1/2 top-24 hidden w-[26rem] -translate-x-1/2 select-none sm:block"
-          style={{ filter: 'brightness(0) invert(1)', opacity: 0.05 }}
-        />
 
-        <Container className="relative pt-28 pb-24 text-center sm:pt-36 sm:pb-32">
+        <Container className="relative pt-24 pb-24 text-center sm:pt-32 sm:pb-32">
           <motion.div variants={stagger} initial="hidden" animate="visible">
+            {/* convex orb, griffin docked in a moulded sphere */}
+            <motion.div variants={rise} className="mb-10 flex justify-center">
+              <div className="relative">
+                <div
+                  aria-hidden
+                  className="absolute -inset-8 rounded-full"
+                  style={{ background: 'radial-gradient(circle, rgba(168,92,48,0.5), rgba(20,18,13,0) 70%)' }}
+                />
+                <div
+                  className={`relative flex h-28 w-28 items-center justify-center rounded-full convex-dark ${reduce ? '' : 'animate-float'}`}
+                >
+                  <img
+                    src="/brand/griffin.png"
+                    alt=""
+                    aria-hidden
+                    className="h-16 w-auto select-none"
+                    style={{ filter: 'brightness(0) invert(1)', opacity: 0.92 }}
+                  />
+                </div>
+              </div>
+            </motion.div>
             <motion.div variants={rise}>
               <Eyebrow className="eyebrow-light justify-center inline-flex">
                 By invitation
@@ -140,19 +153,28 @@ function Community() {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.25 }}
-            className="grid gap-px overflow-hidden rounded-2xl border border-night-line bg-night-line sm:grid-cols-2"
+            className="grid gap-5 sm:grid-cols-2"
           >
             {BENEFITS.map((b) => (
-              <motion.div key={b.n} variants={rise} className="bg-night">
-                <div className="h-full p-8 sm:p-10">
-                  <span className="font-display text-4xl text-cognac-soft">{b.n}</span>
-                  <h2 className="mt-5 font-display text-canvas" style={{ fontSize: '1.6rem' }}>
-                    {b.title}
-                  </h2>
-                  <p className="mt-3 font-sans text-[1rem] leading-relaxed text-canvas/60">
-                    {b.body}
-                  </p>
-                </div>
+              <motion.div
+                key={b.n}
+                variants={rise}
+                whileHover={reduce ? undefined : { y: -6 }}
+                transition={{ type: 'spring', stiffness: 300, damping: 22 }}
+                className="convex-dark rounded-3xl p-8 sm:p-10"
+              >
+                <span
+                  className="flex h-12 w-12 items-center justify-center rounded-2xl font-display text-2xl text-cognac-soft"
+                  style={{ background: 'rgba(168,92,48,0.12)', boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.06)' }}
+                >
+                  {b.n}
+                </span>
+                <h2 className="mt-6 font-display text-canvas" style={{ fontSize: '1.6rem' }}>
+                  {b.title}
+                </h2>
+                <p className="mt-3 font-sans text-[1rem] leading-relaxed text-canvas/60">
+                  {b.body}
+                </p>
               </motion.div>
             ))}
           </motion.div>
@@ -212,7 +234,7 @@ function ApplyForm() {
 
   if (status === 'success') {
     return (
-      <div className="rounded-2xl border border-night-line bg-night-2 p-8 text-center">
+      <div className="convex-dark rounded-3xl p-8 text-center">
         <p className="font-display text-2xl text-canvas">Invite requested.</p>
         <p className="mt-3 font-sans text-[1rem] leading-relaxed text-canvas/60">
           We review every request personally. If it is a fit, we will email your
@@ -223,7 +245,7 @@ function ApplyForm() {
   }
 
   return (
-    <form onSubmit={onSubmit} className="space-y-4 text-left" noValidate>
+    <form onSubmit={onSubmit} className="convex-dark space-y-4 rounded-3xl p-6 text-left sm:p-8" noValidate>
       <div className="grid gap-4 sm:grid-cols-2">
         <input type="text" required value={form.name} onChange={set('name')} className={inputCls} placeholder="Name" autoComplete="name" />
         <input type="text" value={form.company} onChange={set('company')} className={inputCls} placeholder="Company (optional)" autoComplete="organization" />
