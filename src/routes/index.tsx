@@ -76,6 +76,7 @@ function Home() {
       <DiagonalReveal />
       <TheModel />
       <Engagements />
+      <CommunityTeaser />
       <TheMoat />
       <CailyxTeaser />
       <Faq />
@@ -388,6 +389,45 @@ const FAQ_ITEMS = [
     a: 'Yes. Rothenhall is India-first and works with founders and funds worldwide.',
   },
 ]
+
+function CommunityTeaser() {
+  return (
+    <section className="border-t border-line bg-canvas-2">
+      <Container className="py-20 sm:py-28">
+        <div className="grid gap-10 md:grid-cols-12 md:items-center">
+          <div className="md:col-span-8">
+            <Reveal>
+              <Eyebrow>By invitation</Eyebrow>
+              <h2 className="text-display-md mt-6">
+                Join the{' '}
+                <span style={{ color: 'var(--color-cognac)' }}>Founders Circle</span>.
+              </h2>
+              <p className="mt-5 max-w-xl font-sans text-[1.05rem] leading-relaxed text-ink-60">
+                A private founders network, with our growth engine behind you.
+                Founding members get GTM and AEO from Rothenhall, at no cost.
+              </p>
+            </Reveal>
+          </div>
+          <div className="md:col-span-4">
+            <Reveal delay={100}>
+              <div className="flex flex-col gap-4 md:items-end">
+                <Link to="/community" className="btn btn-primary">
+                  Apply to join
+                </Link>
+                <Link
+                  to="/community"
+                  className="link-line font-sans text-[0.95rem] text-ink-80"
+                >
+                  See what members get →
+                </Link>
+              </div>
+            </Reveal>
+          </div>
+        </div>
+      </Container>
+    </section>
+  )
+}
 
 function CailyxTeaser() {
   return (

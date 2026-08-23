@@ -56,6 +56,38 @@ export const joinWaitlist = createServerFn({ method: 'POST' })
     return { ok: true as const }
   })
 
+export type CommunityInput = {
+  name: string
+  email: string
+  company: string
+  building: string
+}
+
+function validateCommunity(data: unknown): CommunityInput {
+  if (!data || typeof data !== 'object') throw new Error('Invalid submission.')
+  const d = data as Record<string, unknown>
+  const name = String(d.name ?? '').trim()
+  const email = String(d.email ?? '').trim()
+  const company = String(d.company ?? '').trim()
+  const building = String(d.building ?? '').trim()
+  if (name.length < 2) throw new Error('Please enter your name.')
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    throw new Error('Please enter a valid email address.')
+  }
+  return { name, email, company, building }
+}
+
+/** Founders Circle application. Same wiring note as submitInquiry applies. */
+export const joinCommunity = createServerFn({ method: 'POST' })
+  .validator(validateCommunity)
+  .handler(async ({ data }) => {
+    console.log('[Rothenhall community]', {
+      ...data,
+      receivedAt: new Date().toISOString(),
+    })
+    return { ok: true as const }
+  })
+
 export const submitInquiry = createServerFn({ method: 'POST' })
   .validator(validate)
   .handler(async ({ data }) => {

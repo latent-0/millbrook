@@ -293,6 +293,11 @@ export function Footer() {
                 </li>
               ))}
               <li>
+                <Link to="/community" className="link-line">
+                  Founders Circle
+                </Link>
+              </li>
+              <li>
                 <Link to="/faq" className="link-line">
                   FAQ
                 </Link>

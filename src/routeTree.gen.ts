@@ -15,6 +15,7 @@ import { Route as AeoVsSeoRouteImport } from './routes/aeo-vs-seo'
 import { Route as ApproachRouteImport } from './routes/approach'
 import { Route as CailyxRouteImport } from './routes/cailyx'
 import { Route as CaseStudiesRouteImport } from './routes/case-studies'
+import { Route as CommunityRouteImport } from './routes/community'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as FaqRouteImport } from './routes/faq'
 import { Route as HowToShowUpInChatgptRouteImport } from './routes/how-to-show-up-in-chatgpt'
@@ -50,6 +51,11 @@ const CaseStudiesRoute = CaseStudiesRouteImport.update({
   path: '/case-studies',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CommunityRoute = CommunityRouteImport.update({
+  id: '/community',
+  path: '/community',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ContactRoute = ContactRouteImport.update({
   id: '/contact',
   path: '/contact',
@@ -78,6 +84,7 @@ export interface FileRoutesByFullPath {
   '/approach': typeof ApproachRoute
   '/cailyx': typeof CailyxRoute
   '/case-studies': typeof CaseStudiesRoute
+  '/community': typeof CommunityRoute
   '/contact': typeof ContactRoute
   '/faq': typeof FaqRoute
   '/how-to-show-up-in-chatgpt': typeof HowToShowUpInChatgptRoute
@@ -90,6 +97,7 @@ export interface FileRoutesByTo {
   '/approach': typeof ApproachRoute
   '/cailyx': typeof CailyxRoute
   '/case-studies': typeof CaseStudiesRoute
+  '/community': typeof CommunityRoute
   '/contact': typeof ContactRoute
   '/faq': typeof FaqRoute
   '/how-to-show-up-in-chatgpt': typeof HowToShowUpInChatgptRoute
@@ -103,6 +111,7 @@ export interface FileRoutesById {
   '/approach': typeof ApproachRoute
   '/cailyx': typeof CailyxRoute
   '/case-studies': typeof CaseStudiesRoute
+  '/community': typeof CommunityRoute
   '/contact': typeof ContactRoute
   '/faq': typeof FaqRoute
   '/how-to-show-up-in-chatgpt': typeof HowToShowUpInChatgptRoute
@@ -117,6 +126,7 @@ export interface FileRouteTypes {
     | '/approach'
     | '/cailyx'
     | '/case-studies'
+    | '/community'
     | '/contact'
     | '/faq'
     | '/how-to-show-up-in-chatgpt'
@@ -129,6 +139,7 @@ export interface FileRouteTypes {
     | '/approach'
     | '/cailyx'
     | '/case-studies'
+    | '/community'
     | '/contact'
     | '/faq'
     | '/how-to-show-up-in-chatgpt'
@@ -141,6 +152,7 @@ export interface FileRouteTypes {
     | '/approach'
     | '/cailyx'
     | '/case-studies'
+    | '/community'
     | '/contact'
     | '/faq'
     | '/how-to-show-up-in-chatgpt'
@@ -154,6 +166,7 @@ export interface RootRouteChildren {
   ApproachRoute: typeof ApproachRoute
   CailyxRoute: typeof CailyxRoute
   CaseStudiesRoute: typeof CaseStudiesRoute
+  CommunityRoute: typeof CommunityRoute
   ContactRoute: typeof ContactRoute
   FaqRoute: typeof FaqRoute
   HowToShowUpInChatgptRoute: typeof HowToShowUpInChatgptRoute
@@ -204,6 +217,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CaseStudiesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/community': {
+      id: '/community'
+      path: '/community'
+      fullPath: '/community'
+      preLoaderRoute: typeof CommunityRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/contact': {
       id: '/contact'
       path: '/contact'
@@ -242,6 +262,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApproachRoute: ApproachRoute,
   CailyxRoute: CailyxRoute,
   CaseStudiesRoute: CaseStudiesRoute,
+  CommunityRoute: CommunityRoute,
   ContactRoute: ContactRoute,
   FaqRoute: FaqRoute,
   HowToShowUpInChatgptRoute: HowToShowUpInChatgptRoute,
