@@ -1,7 +1,12 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { useState } from 'react'
-import { motion, useReducedMotion, type Variants } from 'motion/react'
-import { Container, Eyebrow } from '../components/site'
+import { useEffect, useRef, useState } from 'react'
+import {
+  motion,
+  AnimatePresence,
+  useReducedMotion,
+  type Variants,
+} from 'motion/react'
+import { Container, Eyebrow, Reveal } from '../components/site'
 import { seo } from '../lib/seo'
 import { joinCommunity, type CommunityInput } from '../server/inquiry'
 
@@ -11,7 +16,7 @@ export const Route = createFileRoute('/community')({
       path: '/community',
       title: 'The Founders Circle · An Invite-Only Network · Rothenhall Partners',
       description:
-        'A private founders network from Rothenhall Partners. Founding members get GTM, AEO, and growth work from Rothenhall at no cost, early access to Cailyx, and an exclusive circle of founders. By invitation.',
+        'A private founders network from Rothenhall Partners. Founding members get GTM, AEO, and growth work from Rothenhall at no cost, early access to Cailyx, and an exclusive circle of founders. Request a free invite.',
       keywords:
         'founders network, founders community India, startup community, free GTM AEO for founders, Rothenhall Founders Circle',
     }),
@@ -20,7 +25,7 @@ export const Route = createFileRoute('/community')({
 
 const stagger: Variants = {
   hidden: {},
-  visible: { transition: { staggerChildren: 0.12, delayChildren: 0.1 } },
+  visible: { transition: { staggerChildren: 0.1, delayChildren: 0.08 } },
 }
 const rise: Variants = {
   hidden: { opacity: 0, y: 22, filter: 'blur(6px)' },
@@ -33,120 +38,85 @@ const rise: Variants = {
 }
 
 const BENEFITS = [
-  {
-    n: '01',
-    title: 'The engine, on us',
-    body: 'Founding members get GTM, AEO, and growth work from Rothenhall at no cost.',
-  },
-  {
-    n: '02',
-    title: 'A private founders network',
-    body: 'Exclusive access to a circle of founders. Warm intros, shared playbooks, candid rooms.',
-  },
-  {
-    n: '03',
-    title: 'Early access to Cailyx',
-    body: 'First in line for our agentic AEO engine and the Cailyx MCP.',
-  },
-  {
-    n: '04',
-    title: 'Your name in the proof',
-    body: 'Your before-and-after becomes the case studies this practice is known by.',
-  },
+  { n: '01', title: 'The engine, on us', body: 'Founding members get GTM, AEO, and growth work from Rothenhall at no cost.' },
+  { n: '02', title: 'A private founders network', body: 'Exclusive access to a circle of founders. Warm intros, shared playbooks, candid rooms.' },
+  { n: '03', title: 'Early access to Cailyx', body: 'First in line for our agentic AEO engine and the Cailyx MCP.' },
+  { n: '04', title: 'Your name in the proof', body: 'Your before-and-after becomes the case studies this practice is known by.' },
 ]
 
 function Community() {
   const reduce = useReducedMotion()
   return (
-    <div className="bg-night text-canvas">
-      {/* Hero */}
-      <section className="relative overflow-hidden">
-        {/* griffin watermark in the background */}
-        <img
-          src="/brand/griffin.png"
-          alt=""
-          aria-hidden
-          className="pointer-events-none absolute left-1/2 top-16 w-[34rem] max-w-[92vw] -translate-x-1/2 select-none"
-          style={{ filter: 'brightness(0) invert(1)', opacity: 0.05 }}
-        />
-        {/* grainy, glass-like texture */}
-        <div className="grain pointer-events-none absolute inset-0 opacity-[0.09] mix-blend-overlay" />
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0"
-          style={{ background: 'linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0) 26%)' }}
-        />
-
-        <Container width="wide" className="relative pt-28 pb-24 sm:pt-32 sm:pb-28">
-          <div className="grid items-center gap-14 md:grid-cols-12">
-            {/* Left, the pitch */}
+    <div className="bg-canvas text-ink">
+      {/* Hero, a bento of interlocking tiles */}
+      <section>
+        <Container width="wide" className="pt-16 pb-16 sm:pt-20 sm:pb-24">
+          <motion.div
+            variants={stagger}
+            initial="hidden"
+            animate="visible"
+            className="grid gap-4 md:grid-cols-12"
+          >
+            {/* Pitch tile */}
             <motion.div
-              variants={stagger}
-              initial="hidden"
-              animate="visible"
-              className="md:col-span-6"
+              variants={rise}
+              className="convex-light flex flex-col justify-between rounded-[2rem] rounded-br-[5rem] p-8 sm:p-12 md:col-span-7"
             >
-              <motion.div variants={rise}>
-                <Eyebrow className="eyebrow-light">By invitation</Eyebrow>
-              </motion.div>
-              <motion.h1
-                variants={rise}
-                className="mt-8 font-display"
-                style={{ fontSize: 'clamp(2.6rem, 5.5vw, 5rem)', fontWeight: 500, letterSpacing: '-0.03em', lineHeight: 1.02 }}
-              >
-                The Rothenhall{' '}
-                <span style={{ color: 'var(--color-cognac-soft)' }}>Founders Circle.</span>
-              </motion.h1>
-              <motion.p
-                variants={rise}
-                className="mt-7 max-w-md font-sans text-[1.1rem] leading-relaxed text-canvas/65"
-              >
+              <div>
+                <Eyebrow>By invitation</Eyebrow>
+                <h1
+                  className="mt-7 font-display"
+                  style={{ fontSize: 'clamp(2.6rem, 5.2vw, 4.8rem)', fontWeight: 500, letterSpacing: '-0.03em', lineHeight: 1.02 }}
+                >
+                  The Rothenhall{' '}
+                  <span style={{ color: 'var(--color-cognac)' }}>Founders Circle.</span>
+                </h1>
+              </div>
+              <p className="mt-8 max-w-md font-sans text-[1.1rem] leading-relaxed text-ink-60">
                 A private network of founders, with our full growth engine behind
                 you. Founding members get GTM and AEO from Rothenhall, at no cost.
-              </motion.p>
+              </p>
             </motion.div>
 
-            {/* Right, the informal questionnaire */}
+            {/* Form tile */}
+            <motion.div variants={rise} className="md:col-span-5">
+              <InviteFlow />
+            </motion.div>
+
+            {/* Offer strip */}
             <motion.div
-              initial={{ opacity: 0, y: 28, filter: 'blur(6px)' }}
-              animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-              transition={{ type: 'spring', damping: 24, stiffness: 120, delay: 0.35 }}
-              className="md:col-span-5 md:col-start-8"
+              variants={rise}
+              className="convex-light rounded-[2rem] rounded-tl-[4rem] p-8 text-center sm:p-10 md:col-span-12"
             >
-              <ApplyForm />
+              <p
+                className="mx-auto max-w-3xl font-display"
+                style={{ fontSize: 'clamp(1.4rem, 2.6vw, 2.1rem)', lineHeight: 1.3 }}
+              >
+                For a small founding cohort, the entire Rothenhall engine, GTM,
+                AEO, and growth, at{' '}
+                <span style={{ color: 'var(--color-cognac)' }}>no cost</span>. In
+                return, you become the proof this practice is known by.
+              </p>
             </motion.div>
-          </div>
-        </Container>
-      </section>
-
-      {/* Founding-cohort offer */}
-      <section className="border-t border-night-line">
-        <Container width="narrow" className="py-20 text-center sm:py-28">
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.5 }}
-            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-            className="mx-auto max-w-3xl font-display"
-            style={{ fontSize: 'clamp(1.5rem, 3vw, 2.4rem)', lineHeight: 1.25 }}
-          >
-            For a small founding cohort, the entire Rothenhall engine, GTM, AEO,
-            and growth, at{' '}
-            <span style={{ color: 'var(--color-cognac-soft)' }}>no cost</span>. In
-            return, you become the proof this practice is known by.
-          </motion.p>
+          </motion.div>
         </Container>
       </section>
 
       {/* Benefits */}
-      <section className="border-t border-night-line">
+      <section className="border-t border-line bg-canvas-2">
         <Container className="py-20 sm:py-28">
+          <div className="max-w-2xl">
+            <Reveal>
+              <Eyebrow>What members get</Eyebrow>
+              <h2 className="text-display-md mt-6">More than an invite.</h2>
+            </Reveal>
+          </div>
           <motion.div
             variants={stagger}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.25 }}
-            className="grid gap-5 sm:grid-cols-2"
+            className="mt-14 grid gap-5 sm:grid-cols-2"
           >
             {BENEFITS.map((b) => (
               <motion.div
@@ -154,75 +124,99 @@ function Community() {
                 variants={rise}
                 whileHover={reduce ? undefined : { y: -6 }}
                 transition={{ type: 'spring', stiffness: 300, damping: 22 }}
-                className="socket-shadow"
+                className="convex-light rounded-[1.75rem] p-8 sm:p-10"
               >
-                <div
-                  className="socket h-full rounded-[28px] p-8 pt-14 sm:p-10 sm:pt-14"
-                  style={{
-                    background:
-                      'linear-gradient(158deg, rgba(255,255,255,0.06), rgba(255,255,255,0) 42%), var(--color-night-2)',
-                  }}
+                <span
+                  className="flex h-12 w-12 items-center justify-center rounded-2xl font-display text-2xl text-cognac"
+                  style={{ background: 'rgba(168,92,48,0.10)' }}
                 >
-                  <span
-                    className="flex h-12 w-12 items-center justify-center rounded-2xl font-display text-2xl text-cognac-soft"
-                    style={{ background: 'rgba(168,92,48,0.14)' }}
-                  >
-                    {b.n}
-                  </span>
-                  <h2 className="mt-6 font-display text-canvas" style={{ fontSize: '1.6rem' }}>
-                    {b.title}
-                  </h2>
-                  <p className="mt-3 font-sans text-[1rem] leading-relaxed text-canvas/60">
-                    {b.body}
-                  </p>
-                </div>
+                  {b.n}
+                </span>
+                <h3 className="mt-6 font-display text-ink" style={{ fontSize: '1.6rem' }}>
+                  {b.title}
+                </h3>
+                <p className="mt-3 font-sans text-[1rem] leading-relaxed text-ink-60">
+                  {b.body}
+                </p>
               </motion.div>
             ))}
           </motion.div>
         </Container>
       </section>
-
     </div>
   )
 }
 
-const empty: CommunityInput = { name: '', email: '', company: '', building: '' }
-const inputCls =
-  'w-full rounded-lg border border-night-line bg-night-2 px-4 py-3 font-sans text-[1rem] text-canvas placeholder:text-canvas/40 outline-none transition-colors focus:border-cognac-soft'
+/* ---------------------------------------------------------------- */
+/*  Invite flow, one question at a time                              */
+/* ---------------------------------------------------------------- */
 
-function ApplyForm() {
+const QUESTIONS: Array<{
+  key: keyof CommunityInput
+  q: string
+  type: string
+  optional?: boolean
+}> = [
+  { key: 'name', q: 'What should we call you?', type: 'text' },
+  { key: 'email', q: 'Where do we send the invite?', type: 'email' },
+  { key: 'company', q: 'What is your company or project?', type: 'text', optional: true },
+  { key: 'building', q: 'What are you building?', type: 'text', optional: true },
+]
+
+const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+const empty: CommunityInput = { name: '', email: '', company: '', building: '' }
+
+function InviteFlow() {
   const [form, setForm] = useState<CommunityInput>(empty)
+  const [step, setStep] = useState(0)
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle')
   const [error, setError] = useState('')
+  const inputRef = useRef<HTMLInputElement>(null)
 
-  const set =
-    (key: keyof CommunityInput) =>
-    (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
-      setForm((f) => ({ ...f, [key]: e.target.value }))
+  useEffect(() => {
+    if (step > 0) inputRef.current?.focus()
+  }, [step])
 
-  async function onSubmit(e: React.FormEvent) {
-    e.preventDefault()
+  const current = QUESTIONS[step]
+  const value = form[current?.key] ?? ''
+
+  async function submit(data: CommunityInput) {
     setStatus('submitting')
     setError('')
     try {
-      await joinCommunity({ data: form })
+      await joinCommunity({ data })
       setStatus('success')
-      setForm(empty)
     } catch (err) {
       setStatus('error')
       setError(err instanceof Error ? err.message : 'Something went wrong.')
     }
   }
 
+  function onSubmit(e: React.FormEvent) {
+    e.preventDefault()
+    const v = value.trim()
+    if (current.key === 'name' && v.length < 2) return setError('A name, please.')
+    if (current.key === 'email' && !emailRe.test(v)) return setError('A valid email, please.')
+    setError('')
+    if (step < QUESTIONS.length - 1) {
+      setStep(step + 1)
+    } else {
+      submit({ ...form, [current.key]: v })
+    }
+  }
+
+  const shell =
+    'convex-light relative overflow-hidden rounded-[2rem] rounded-tr-[5rem] p-8 sm:p-10'
+
   if (status === 'success') {
     return (
-      <div className="socket-shadow">
-        <div
-          className="socket rounded-[28px] p-8 pt-14 text-center"
-          style={{ background: 'linear-gradient(158deg, rgba(255,255,255,0.06), rgba(255,255,255,0) 42%), var(--color-night-2)' }}
-        >
-          <p className="font-display text-2xl text-canvas">You’re in the queue.</p>
-          <p className="mt-3 font-sans text-[1rem] leading-relaxed text-canvas/60">
+      <div className={`${shell} flex h-full min-h-[20rem] flex-col justify-center`}>
+        <Watermark />
+        <div className="relative">
+          <p className="font-display text-ink" style={{ fontSize: '1.9rem' }}>
+            You’re in the queue.
+          </p>
+          <p className="mt-3 font-sans text-[1rem] leading-relaxed text-ink-60">
             We read every request ourselves. If it is a fit, your invite to the
             Founder’s Circle lands in your inbox.
           </p>
@@ -232,67 +226,79 @@ function ApplyForm() {
   }
 
   return (
-    <div className="socket-shadow">
-      <form
-        onSubmit={onSubmit}
-        noValidate
-        className="socket rounded-[28px] p-7 pt-14 text-left sm:p-9 sm:pt-14"
-        style={{ background: 'linear-gradient(158deg, rgba(255,255,255,0.06), rgba(255,255,255,0) 42%), var(--color-night-2)' }}
-      >
-        <p className="eyebrow eyebrow-light">Request a free invite</p>
-        <p className="mt-2 font-display text-canvas" style={{ fontSize: '1.5rem' }}>
-          Let’s get you in.
+    <form onSubmit={onSubmit} noValidate className={`${shell} flex h-full min-h-[20rem] flex-col`}>
+      <Watermark />
+      <div className="relative flex items-center justify-between">
+        <p className="eyebrow">Request a free invite</p>
+        <p className="font-sans text-[0.75rem] tracking-wide text-ink-45">
+          {String(step + 1).padStart(2, '0')} / {String(QUESTIONS.length).padStart(2, '0')}
         </p>
+      </div>
 
-        <div className="mt-7 space-y-6">
-          <QField n="01" label="What should we call you?">
-            <input type="text" required value={form.name} onChange={set('name')} className={inputCls} placeholder="Your name" autoComplete="name" />
-          </QField>
-          <QField n="02" label="Where do we send the invite?">
-            <input type="email" required value={form.email} onChange={set('email')} className={inputCls} placeholder="you@company.com" autoComplete="email" />
-          </QField>
-          <QField n="03" label="What are you building?" hint="(a line is plenty)">
-            <textarea rows={2} value={form.building} onChange={set('building')} className={`${inputCls} resize-none`} placeholder="We help teams get cited by AI..." />
-          </QField>
-        </div>
+      <div className="relative mt-auto">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={step}
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -14 }}
+            transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <input
+              ref={inputRef}
+              type={current.type}
+              value={value}
+              onChange={(e) => setForm((f) => ({ ...f, [current.key]: e.target.value }))}
+              placeholder={current.q}
+              autoComplete={
+                current.key === 'name' ? 'name' : current.key === 'email' ? 'email' : current.key === 'company' ? 'organization' : 'off'
+              }
+              autoFocus={step > 0}
+              className="w-full border-0 border-b border-line bg-transparent pb-3 font-display text-[1.6rem] text-ink outline-none transition-colors placeholder:text-ink-45 focus:border-cognac sm:text-[2rem]"
+            />
+          </motion.div>
+        </AnimatePresence>
 
-        {status === 'error' && (
-          <p className="mt-4 font-sans text-[0.9rem] text-[#e0a08a]">{error}</p>
+        {error && (
+          <p className="mt-3 font-sans text-[0.85rem] text-cognac-deep">{error}</p>
         )}
-        <button type="submit" disabled={status === 'submitting'} className="btn btn-light mt-7 w-full disabled:opacity-60">
-          {status === 'submitting' ? 'Sending…' : 'Request my invite'}
-        </button>
-        <p className="mt-4 text-center font-sans text-[0.78rem] text-canvas/40">
-          No spam. We reply to founders, not forms.
-        </p>
-      </form>
-    </div>
+
+        <div className="mt-7 flex items-center justify-between">
+          <span className="font-sans text-[0.8rem] text-ink-45">
+            {current.optional ? 'Optional · press enter to skip' : 'Press enter'}
+          </span>
+          <button
+            type="submit"
+            disabled={status === 'submitting'}
+            aria-label={step < QUESTIONS.length - 1 ? 'Next' : 'Request my invite'}
+            className="flex h-12 w-12 items-center justify-center rounded-full bg-ink text-canvas transition-colors hover:bg-cognac disabled:opacity-60"
+          >
+            {status === 'submitting' ? (
+              <span className="text-[0.7rem]">···</span>
+            ) : step < QUESTIONS.length - 1 ? (
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                <path d="M5 12h14M13 6l6 6-6 6" />
+              </svg>
+            ) : (
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                <path d="M20 6 9 17l-5-5" />
+              </svg>
+            )}
+          </button>
+        </div>
+      </div>
+    </form>
   )
 }
 
-function QField({
-  n,
-  label,
-  hint,
-  children,
-}: {
-  n: string
-  label: string
-  hint?: string
-  children: React.ReactNode
-}) {
+function Watermark() {
   return (
-    <div>
-      <label className="flex items-baseline gap-2">
-        <span className="font-display text-cognac-soft" style={{ fontSize: '0.9rem' }}>
-          {n}
-        </span>
-        <span className="font-sans text-[0.95rem] text-canvas/80">
-          {label}
-          {hint ? <span className="text-canvas/40"> {hint}</span> : null}
-        </span>
-      </label>
-      <div className="mt-2">{children}</div>
-    </div>
+    <img
+      src="/brand/griffin.png"
+      alt=""
+      aria-hidden
+      className="pointer-events-none absolute -right-10 -top-8 w-56 select-none"
+      style={{ opacity: 0.05 }}
+    />
   )
 }
