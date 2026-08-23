@@ -265,6 +265,26 @@
     0 30px 60px -38px rgba(26, 23, 18, 0.45);
 }
 
+/* Concave socket: carves a semicircle notch into the top-center of a surface.
+   mask clips box-shadow, so pair with .socket-shadow on a wrapper element
+   (uses filter: drop-shadow, which follows the carved outline). */
+.socket {
+  --notch: 30px;
+  -webkit-mask: radial-gradient(
+    circle var(--notch) at 50% 0,
+    transparent calc(var(--notch) - 0.5px),
+    #000 var(--notch)
+  );
+  mask: radial-gradient(
+    circle var(--notch) at 50% 0,
+    transparent calc(var(--notch) - 0.5px),
+    #000 var(--notch)
+  );
+}
+.socket-shadow {
+  filter: drop-shadow(0 26px 44px rgba(0, 0, 0, 0.6));
+}
+
 /* Gentle float for hero orbs and docked artwork */
 @keyframes soft-float {
   0%, 100% { transform: translateY(0) }

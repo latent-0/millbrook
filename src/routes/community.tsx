@@ -61,68 +61,61 @@ function Community() {
     <div className="bg-night text-canvas">
       {/* Hero */}
       <section className="relative overflow-hidden">
-        {/* ambient glow */}
-        <motion.div
+        {/* griffin watermark in the background */}
+        <img
+          src="/brand/griffin.png"
+          alt=""
+          aria-hidden
+          className="pointer-events-none absolute left-1/2 top-16 w-[34rem] max-w-[92vw] -translate-x-1/2 select-none"
+          style={{ filter: 'brightness(0) invert(1)', opacity: 0.05 }}
+        />
+        {/* grainy, glass-like texture */}
+        <div className="grain pointer-events-none absolute inset-0 opacity-[0.09] mix-blend-overlay" />
+        <div
           aria-hidden
           className="pointer-events-none absolute inset-0"
-          style={{
-            background:
-              'radial-gradient(55% 50% at 50% 8%, rgba(168,92,48,0.28), rgba(20,18,13,0) 62%)',
-          }}
-          animate={reduce ? undefined : { opacity: [0.7, 1, 0.7] }}
-          transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut' }}
+          style={{ background: 'linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0) 26%)' }}
         />
-        <div className="grain pointer-events-none absolute inset-0 opacity-[0.05] mix-blend-overlay" />
 
-        <Container className="relative pt-24 pb-24 text-center sm:pt-32 sm:pb-32">
-          <motion.div variants={stagger} initial="hidden" animate="visible">
-            {/* convex orb, griffin docked in a moulded sphere */}
-            <motion.div variants={rise} className="mb-10 flex justify-center">
-              <div className="relative">
-                <div
-                  aria-hidden
-                  className="absolute -inset-8 rounded-full"
-                  style={{ background: 'radial-gradient(circle, rgba(168,92,48,0.5), rgba(20,18,13,0) 70%)' }}
-                />
-                <div
-                  className={`relative flex h-28 w-28 items-center justify-center rounded-full convex-dark ${reduce ? '' : 'animate-float'}`}
-                >
-                  <img
-                    src="/brand/griffin.png"
-                    alt=""
-                    aria-hidden
-                    className="h-16 w-auto select-none"
-                    style={{ filter: 'brightness(0) invert(1)', opacity: 0.92 }}
-                  />
-                </div>
-              </div>
-            </motion.div>
-            <motion.div variants={rise}>
-              <Eyebrow className="eyebrow-light justify-center inline-flex">
-                By invitation
-              </Eyebrow>
-            </motion.div>
-            <motion.h1
-              variants={rise}
-              className="mx-auto mt-8 max-w-4xl font-display"
-              style={{ fontSize: 'clamp(2.8rem, 7vw, 6rem)', fontWeight: 500, letterSpacing: '-0.03em', lineHeight: 1.02 }}
+        <Container width="wide" className="relative pt-28 pb-24 sm:pt-32 sm:pb-28">
+          <div className="grid items-center gap-14 md:grid-cols-12">
+            {/* Left, the pitch */}
+            <motion.div
+              variants={stagger}
+              initial="hidden"
+              animate="visible"
+              className="md:col-span-6"
             >
-              The Rothenhall{' '}
-              <span style={{ color: 'var(--color-cognac-soft)' }}>Founders Circle.</span>
-            </motion.h1>
-            <motion.p
-              variants={rise}
-              className="mx-auto mt-8 max-w-xl font-sans text-[1.15rem] leading-relaxed text-canvas/65"
-            >
-              A private network of founders, with our full growth engine behind
-              you.
-            </motion.p>
-            <motion.div variants={rise} className="mt-10">
-              <a href="#apply" className="btn btn-light">
-                Request a free invite
-              </a>
+              <motion.div variants={rise}>
+                <Eyebrow className="eyebrow-light">By invitation</Eyebrow>
+              </motion.div>
+              <motion.h1
+                variants={rise}
+                className="mt-8 font-display"
+                style={{ fontSize: 'clamp(2.6rem, 5.5vw, 5rem)', fontWeight: 500, letterSpacing: '-0.03em', lineHeight: 1.02 }}
+              >
+                The Rothenhall{' '}
+                <span style={{ color: 'var(--color-cognac-soft)' }}>Founders Circle.</span>
+              </motion.h1>
+              <motion.p
+                variants={rise}
+                className="mt-7 max-w-md font-sans text-[1.1rem] leading-relaxed text-canvas/65"
+              >
+                A private network of founders, with our full growth engine behind
+                you. Founding members get GTM and AEO from Rothenhall, at no cost.
+              </motion.p>
             </motion.div>
-          </motion.div>
+
+            {/* Right, the informal questionnaire */}
+            <motion.div
+              initial={{ opacity: 0, y: 28, filter: 'blur(6px)' }}
+              animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+              transition={{ type: 'spring', damping: 24, stiffness: 120, delay: 0.35 }}
+              className="md:col-span-5 md:col-start-8"
+            >
+              <ApplyForm />
+            </motion.div>
+          </div>
         </Container>
       </section>
 
@@ -161,45 +154,34 @@ function Community() {
                 variants={rise}
                 whileHover={reduce ? undefined : { y: -6 }}
                 transition={{ type: 'spring', stiffness: 300, damping: 22 }}
-                className="convex-dark rounded-3xl p-8 sm:p-10"
+                className="socket-shadow"
               >
-                <span
-                  className="flex h-12 w-12 items-center justify-center rounded-2xl font-display text-2xl text-cognac-soft"
-                  style={{ background: 'rgba(168,92,48,0.12)', boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.06)' }}
+                <div
+                  className="socket h-full rounded-[28px] p-8 pt-14 sm:p-10 sm:pt-14"
+                  style={{
+                    background:
+                      'linear-gradient(158deg, rgba(255,255,255,0.06), rgba(255,255,255,0) 42%), var(--color-night-2)',
+                  }}
                 >
-                  {b.n}
-                </span>
-                <h2 className="mt-6 font-display text-canvas" style={{ fontSize: '1.6rem' }}>
-                  {b.title}
-                </h2>
-                <p className="mt-3 font-sans text-[1rem] leading-relaxed text-canvas/60">
-                  {b.body}
-                </p>
+                  <span
+                    className="flex h-12 w-12 items-center justify-center rounded-2xl font-display text-2xl text-cognac-soft"
+                    style={{ background: 'rgba(168,92,48,0.14)' }}
+                  >
+                    {b.n}
+                  </span>
+                  <h2 className="mt-6 font-display text-canvas" style={{ fontSize: '1.6rem' }}>
+                    {b.title}
+                  </h2>
+                  <p className="mt-3 font-sans text-[1rem] leading-relaxed text-canvas/60">
+                    {b.body}
+                  </p>
+                </div>
               </motion.div>
             ))}
           </motion.div>
         </Container>
       </section>
 
-      {/* Request an invite */}
-      <section id="apply" className="border-t border-night-line">
-        <Container width="narrow" className="py-20 sm:py-28">
-          <div className="mx-auto max-w-xl text-center">
-            <Eyebrow className="eyebrow-light justify-center inline-flex">
-              Request an invite
-            </Eyebrow>
-            <h2 className="mt-6 font-display text-canvas" style={{ fontSize: 'clamp(1.8rem,3.4vw,2.6rem)', lineHeight: 1.1 }}>
-              We take on only a handful.
-            </h2>
-            <p className="mt-5 font-sans text-[1.05rem] leading-relaxed text-canvas/60">
-              Tell us what you are building.
-            </p>
-            <div className="mt-10">
-              <ApplyForm />
-            </div>
-          </div>
-        </Container>
-      </section>
     </div>
   )
 }
@@ -234,30 +216,83 @@ function ApplyForm() {
 
   if (status === 'success') {
     return (
-      <div className="convex-dark rounded-3xl p-8 text-center">
-        <p className="font-display text-2xl text-canvas">Invite requested.</p>
-        <p className="mt-3 font-sans text-[1rem] leading-relaxed text-canvas/60">
-          We review every request personally. If it is a fit, we will email your
-          invite to the Founder’s Circle.
-        </p>
+      <div className="socket-shadow">
+        <div
+          className="socket rounded-[28px] p-8 pt-14 text-center"
+          style={{ background: 'linear-gradient(158deg, rgba(255,255,255,0.06), rgba(255,255,255,0) 42%), var(--color-night-2)' }}
+        >
+          <p className="font-display text-2xl text-canvas">You’re in the queue.</p>
+          <p className="mt-3 font-sans text-[1rem] leading-relaxed text-canvas/60">
+            We read every request ourselves. If it is a fit, your invite to the
+            Founder’s Circle lands in your inbox.
+          </p>
+        </div>
       </div>
     )
   }
 
   return (
-    <form onSubmit={onSubmit} className="convex-dark space-y-4 rounded-3xl p-6 text-left sm:p-8" noValidate>
-      <div className="grid gap-4 sm:grid-cols-2">
-        <input type="text" required value={form.name} onChange={set('name')} className={inputCls} placeholder="Name" autoComplete="name" />
-        <input type="text" value={form.company} onChange={set('company')} className={inputCls} placeholder="Company (optional)" autoComplete="organization" />
-      </div>
-      <input type="email" required value={form.email} onChange={set('email')} className={inputCls} placeholder="Work email" autoComplete="email" />
-      <textarea rows={3} value={form.building} onChange={set('building')} className={`${inputCls} resize-none`} placeholder="What are you building? (optional)" />
-      {status === 'error' && (
-        <p className="font-sans text-[0.9rem] text-[#e0a08a]">{error}</p>
-      )}
-      <button type="submit" disabled={status === 'submitting'} className="btn btn-light w-full disabled:opacity-60">
-        {status === 'submitting' ? 'Sending…' : 'Request a free invite'}
-      </button>
-    </form>
+    <div className="socket-shadow">
+      <form
+        onSubmit={onSubmit}
+        noValidate
+        className="socket rounded-[28px] p-7 pt-14 text-left sm:p-9 sm:pt-14"
+        style={{ background: 'linear-gradient(158deg, rgba(255,255,255,0.06), rgba(255,255,255,0) 42%), var(--color-night-2)' }}
+      >
+        <p className="eyebrow eyebrow-light">Request a free invite</p>
+        <p className="mt-2 font-display text-canvas" style={{ fontSize: '1.5rem' }}>
+          Let’s get you in.
+        </p>
+
+        <div className="mt-7 space-y-6">
+          <QField n="01" label="What should we call you?">
+            <input type="text" required value={form.name} onChange={set('name')} className={inputCls} placeholder="Your name" autoComplete="name" />
+          </QField>
+          <QField n="02" label="Where do we send the invite?">
+            <input type="email" required value={form.email} onChange={set('email')} className={inputCls} placeholder="you@company.com" autoComplete="email" />
+          </QField>
+          <QField n="03" label="What are you building?" hint="(a line is plenty)">
+            <textarea rows={2} value={form.building} onChange={set('building')} className={`${inputCls} resize-none`} placeholder="We help teams get cited by AI..." />
+          </QField>
+        </div>
+
+        {status === 'error' && (
+          <p className="mt-4 font-sans text-[0.9rem] text-[#e0a08a]">{error}</p>
+        )}
+        <button type="submit" disabled={status === 'submitting'} className="btn btn-light mt-7 w-full disabled:opacity-60">
+          {status === 'submitting' ? 'Sending…' : 'Request my invite'}
+        </button>
+        <p className="mt-4 text-center font-sans text-[0.78rem] text-canvas/40">
+          No spam. We reply to founders, not forms.
+        </p>
+      </form>
+    </div>
+  )
+}
+
+function QField({
+  n,
+  label,
+  hint,
+  children,
+}: {
+  n: string
+  label: string
+  hint?: string
+  children: React.ReactNode
+}) {
+  return (
+    <div>
+      <label className="flex items-baseline gap-2">
+        <span className="font-display text-cognac-soft" style={{ fontSize: '0.9rem' }}>
+          {n}
+        </span>
+        <span className="font-sans text-[0.95rem] text-canvas/80">
+          {label}
+          {hint ? <span className="text-canvas/40"> {hint}</span> : null}
+        </span>
+      </label>
+      <div className="mt-2">{children}</div>
+    </div>
   )
 }
