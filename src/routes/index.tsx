@@ -412,7 +412,7 @@ function CommunityTeaser() {
             <Reveal delay={100}>
               <div className="flex flex-col gap-4 md:items-end">
                 <Link to="/community" className="btn btn-primary">
-                  Apply to join
+                  Request an invite
                 </Link>
                 <Link
                   to="/community"

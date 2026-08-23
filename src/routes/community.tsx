@@ -106,7 +106,7 @@ function Community() {
             </motion.p>
             <motion.div variants={rise} className="mt-10">
               <a href="#apply" className="btn btn-light">
-                Apply to join
+                Request an invite
               </a>
             </motion.div>
           </motion.div>
@@ -159,12 +159,12 @@ function Community() {
         </Container>
       </section>
 
-      {/* Apply */}
+      {/* Request an invite */}
       <section id="apply" className="border-t border-night-line">
         <Container width="narrow" className="py-20 sm:py-28">
           <div className="mx-auto max-w-xl text-center">
             <Eyebrow className="eyebrow-light justify-center inline-flex">
-              Apply
+              Request an invite
             </Eyebrow>
             <h2 className="mt-6 font-display text-canvas" style={{ fontSize: 'clamp(1.8rem,3.4vw,2.6rem)', lineHeight: 1.1 }}>
               We take on only a handful.
@@ -182,6 +182,7 @@ function Community() {
   )
 }
 
+const WHATSAPP = 'https://chat.whatsapp.com/LBcbQiRfjQrIVB3xegVrm5?s=sw&p=a&ilr=1'
 const empty: CommunityInput = { name: '', email: '', company: '', building: '' }
 const inputCls =
   'w-full rounded-lg border border-night-line bg-night-2 px-4 py-3 font-sans text-[1rem] text-canvas placeholder:text-canvas/40 outline-none transition-colors focus:border-cognac-soft'
@@ -213,10 +214,19 @@ function ApplyForm() {
   if (status === 'success') {
     return (
       <div className="rounded-2xl border border-night-line bg-night-2 p-8 text-center">
-        <p className="font-display text-2xl text-canvas">Application received.</p>
+        <p className="font-display text-2xl text-canvas">Invite requested.</p>
         <p className="mt-3 font-sans text-[1rem] leading-relaxed text-canvas/60">
-          If it is a fit, you will hear from us. We reply to founders, not forms.
+          Jump straight into the Founder’s Circle on WhatsApp. We will follow up
+          personally too.
         </p>
+        <a
+          href={WHATSAPP}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="btn btn-light mt-6"
+        >
+          Join on WhatsApp
+        </a>
       </div>
     )
   }
@@ -233,7 +243,7 @@ function ApplyForm() {
         <p className="font-sans text-[0.9rem] text-[#e0a08a]">{error}</p>
       )}
       <button type="submit" disabled={status === 'submitting'} className="btn btn-light w-full disabled:opacity-60">
-        {status === 'submitting' ? 'Sending…' : 'Apply to the Founders Circle'}
+        {status === 'submitting' ? 'Sending…' : 'Request an invite'}
       </button>
     </form>
   )

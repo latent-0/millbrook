@@ -1,5 +1,27 @@
 import { createServerFn } from '@tanstack/react-start'
 
+/**
+ * Forwards a validated submission to the forms webhook (a Google Apps Script
+ * web app that appends to a Sheet and emails office@rothenhall.com). Set the
+ * URL in the FORMS_WEBHOOK_URL environment variable. Always logs server-side as
+ * a fallback, and never throws, so a webhook hiccup does not break the form.
+ */
+async function forward(form: string, data: Record<string, unknown>) {
+  const payload = { form, ...data, receivedAt: new Date().toISOString() }
+  console.log(`[Rothenhall ${form}]`, payload)
+  const url = process.env.FORMS_WEBHOOK_URL
+  if (!url) return
+  try {
+    await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    })
+  } catch (err) {
+    console.error('[Rothenhall forms] webhook failed', err)
+  }
+}
+
 export type InquiryInput = {
   name: string
   email: string
@@ -49,10 +71,7 @@ function validateWaitlist(data: unknown): WaitlistInput {
 export const joinWaitlist = createServerFn({ method: 'POST' })
   .validator(validateWaitlist)
   .handler(async ({ data }) => {
-    console.log('[Cailyx waitlist]', {
-      ...data,
-      receivedAt: new Date().toISOString(),
-    })
+    await forward('cailyx-waitlist', data)
     return { ok: true as const }
   })
 
@@ -81,30 +100,13 @@ function validateCommunity(data: unknown): CommunityInput {
 export const joinCommunity = createServerFn({ method: 'POST' })
   .validator(validateCommunity)
   .handler(async ({ data }) => {
-    console.log('[Rothenhall community]', {
-      ...data,
-      receivedAt: new Date().toISOString(),
-    })
+    await forward('community', data)
     return { ok: true as const }
   })
 
 export const submitInquiry = createServerFn({ method: 'POST' })
   .validator(validate)
   .handler(async ({ data }) => {
-    /*
-     * Inquiry received and validated on the server.
-     *
-     * TODO: wire this to a destination. Any of:
-     *   • Email:  await resend.emails.send({ to: 'office@rothenhall.com', ... })
-     *   • CRM:    POST to HubSpot / Attio / your RevOps stack (eat your own cooking)
-     *   • Store:  append to a database or Google Sheet
-     *
-     * Until then, the submission is logged server-side so nothing is lost.
-     */
-    console.log('[Rothenhall inquiry]', {
-      ...data,
-      receivedAt: new Date().toISOString(),
-    })
-
+    await forward('inquiry', data)
     return { ok: true as const }
   })
