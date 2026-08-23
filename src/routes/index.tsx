@@ -77,6 +77,7 @@ function Home() {
       <TheModel />
       <Engagements />
       <TheMoat />
+      <CailyxTeaser />
       <Faq />
       <ProofBand />
     </>
@@ -387,6 +388,47 @@ const FAQ_ITEMS = [
     a: 'Yes. Rothenhall is India-first and works with founders and funds worldwide.',
   },
 ]
+
+function CailyxTeaser() {
+  return (
+    <section className="border-t border-line">
+      <Container className="py-20 sm:py-28">
+        <Reveal>
+          <div className="relative overflow-hidden rounded-3xl bg-night px-8 py-14 text-canvas sm:px-14 sm:py-20">
+            <div className="grid gap-10 md:grid-cols-12 md:items-center">
+              <div className="md:col-span-8">
+                <Eyebrow className="eyebrow-light">Our product</Eyebrow>
+                <h2 className="text-display-md mt-6 text-canvas">
+                  Cailyx, our agentic AEO engine.
+                </h2>
+                <p className="mt-5 max-w-xl font-sans text-[1.05rem] leading-relaxed text-canvas/65">
+                  The AI-native engine that powers our work: it maps how AI sees
+                  you, builds the entities and citations that move visibility, and
+                  tracks citation share across engines. A Cailyx MCP is on the
+                  roadmap.
+                </p>
+              </div>
+              <div className="md:col-span-4">
+                <div className="flex flex-col gap-4 md:items-end">
+                  <Link to="/cailyx" className="btn btn-light">
+                    Explore Cailyx
+                  </Link>
+                  <Link
+                    to="/cailyx"
+                    hash="waitlist"
+                    className="link-line font-sans text-[0.95rem] text-canvas/80"
+                  >
+                    Join the waitlist →
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </div>
+        </Reveal>
+      </Container>
+    </section>
+  )
+}
 
 function Faq() {
   return (

@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as AeoVsSeoRouteImport } from './routes/aeo-vs-seo'
 import { Route as ApproachRouteImport } from './routes/approach'
+import { Route as CailyxRouteImport } from './routes/cailyx'
 import { Route as CaseStudiesRouteImport } from './routes/case-studies'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as FaqRouteImport } from './routes/faq'
@@ -37,6 +38,11 @@ const AeoVsSeoRoute = AeoVsSeoRouteImport.update({
 const ApproachRoute = ApproachRouteImport.update({
   id: '/approach',
   path: '/approach',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CailyxRoute = CailyxRouteImport.update({
+  id: '/cailyx',
+  path: '/cailyx',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CaseStudiesRoute = CaseStudiesRouteImport.update({
@@ -70,6 +76,7 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/aeo-vs-seo': typeof AeoVsSeoRoute
   '/approach': typeof ApproachRoute
+  '/cailyx': typeof CailyxRoute
   '/case-studies': typeof CaseStudiesRoute
   '/contact': typeof ContactRoute
   '/faq': typeof FaqRoute
@@ -81,6 +88,7 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/aeo-vs-seo': typeof AeoVsSeoRoute
   '/approach': typeof ApproachRoute
+  '/cailyx': typeof CailyxRoute
   '/case-studies': typeof CaseStudiesRoute
   '/contact': typeof ContactRoute
   '/faq': typeof FaqRoute
@@ -93,6 +101,7 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/aeo-vs-seo': typeof AeoVsSeoRoute
   '/approach': typeof ApproachRoute
+  '/cailyx': typeof CailyxRoute
   '/case-studies': typeof CaseStudiesRoute
   '/contact': typeof ContactRoute
   '/faq': typeof FaqRoute
@@ -106,6 +115,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/aeo-vs-seo'
     | '/approach'
+    | '/cailyx'
     | '/case-studies'
     | '/contact'
     | '/faq'
@@ -117,6 +127,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/aeo-vs-seo'
     | '/approach'
+    | '/cailyx'
     | '/case-studies'
     | '/contact'
     | '/faq'
@@ -128,6 +139,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/aeo-vs-seo'
     | '/approach'
+    | '/cailyx'
     | '/case-studies'
     | '/contact'
     | '/faq'
@@ -140,6 +152,7 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   AeoVsSeoRoute: typeof AeoVsSeoRoute
   ApproachRoute: typeof ApproachRoute
+  CailyxRoute: typeof CailyxRoute
   CaseStudiesRoute: typeof CaseStudiesRoute
   ContactRoute: typeof ContactRoute
   FaqRoute: typeof FaqRoute
@@ -175,6 +188,13 @@ declare module '@tanstack/react-router' {
       path: '/approach'
       fullPath: '/approach'
       preLoaderRoute: typeof ApproachRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cailyx': {
+      id: '/cailyx'
+      path: '/cailyx'
+      fullPath: '/cailyx'
+      preLoaderRoute: typeof CailyxRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/case-studies': {
@@ -220,6 +240,7 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   AeoVsSeoRoute: AeoVsSeoRoute,
   ApproachRoute: ApproachRoute,
+  CailyxRoute: CailyxRoute,
   CaseStudiesRoute: CaseStudiesRoute,
   ContactRoute: ContactRoute,
   FaqRoute: FaqRoute,

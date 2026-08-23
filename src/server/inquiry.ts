@@ -30,6 +30,32 @@ function validate(data: unknown): InquiryInput {
   return { name, email, company, type, message }
 }
 
+export type WaitlistInput = { name: string; email: string; company: string }
+
+function validateWaitlist(data: unknown): WaitlistInput {
+  if (!data || typeof data !== 'object') throw new Error('Invalid submission.')
+  const d = data as Record<string, unknown>
+  const name = String(d.name ?? '').trim()
+  const email = String(d.email ?? '').trim()
+  const company = String(d.company ?? '').trim()
+  if (name.length < 2) throw new Error('Please enter your name.')
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    throw new Error('Please enter a valid email address.')
+  }
+  return { name, email, company }
+}
+
+/** Cailyx waitlist signup. Same wiring note as submitInquiry applies. */
+export const joinWaitlist = createServerFn({ method: 'POST' })
+  .validator(validateWaitlist)
+  .handler(async ({ data }) => {
+    console.log('[Cailyx waitlist]', {
+      ...data,
+      receivedAt: new Date().toISOString(),
+    })
+    return { ok: true as const }
+  })
+
 export const submitInquiry = createServerFn({ method: 'POST' })
   .validator(validate)
   .handler(async ({ data }) => {
