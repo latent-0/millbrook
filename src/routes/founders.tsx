@@ -7,17 +7,30 @@ const HEADER = '4.75rem'
 
 export const Route = createFileRoute('/founders')({
   // Invite-only: keep it out of search and AI indexes, and off the navbar.
-  head: () => ({
-    meta: [
-      { title: 'Claim your free AEO + GTM diagnostic · Rothenhall Partners' },
-      {
-        name: 'description',
-        content:
-          'A free AEO and GTM diagnostic for the Rothenhall Founders Circle: where you stand in AI answers, and where the go-to-market is leaking. By invitation.',
-      },
-      { name: 'robots', content: 'noindex, nofollow' },
-    ],
-  }),
+  head: () => {
+    const title = 'Claim your free AEO + GTM diagnostic · Rothenhall Partners'
+    const description =
+      'A free AEO and GTM diagnostic for the Rothenhall Founders Circle: where you stand in AI answers, and where the go-to-market is leaking. By invitation.'
+    const image = 'https://www.rothenhall.com/founders-og.png'
+    return {
+      meta: [
+        { title },
+        { name: 'description', content: description },
+        { name: 'robots', content: 'noindex, nofollow' },
+        // Page-specific share card that mirrors the page itself.
+        { property: 'og:title', content: 'Claim your free AEO + GTM diagnostic' },
+        { property: 'og:description', content: description },
+        { property: 'og:image', content: image },
+        { property: 'og:image:width', content: '1200' },
+        { property: 'og:image:height', content: '630' },
+        { property: 'og:image:type', content: 'image/png' },
+        { name: 'twitter:card', content: 'summary_large_image' },
+        { name: 'twitter:title', content: 'Claim your free AEO + GTM diagnostic' },
+        { name: 'twitter:description', content: description },
+        { name: 'twitter:image', content: image },
+      ],
+    }
+  },
   component: Founders,
 })
 
@@ -25,9 +38,24 @@ export const Route = createFileRoute('/founders')({
 /*  Line-art monogram motif, drawn in on mount                        */
 /* ------------------------------------------------------------------ */
 
+const ART_PATHS = [
+  // parallel left stems
+  'M96 60 V 452',
+  // large arch behind, an open tunnel
+  'M52 300 V 190 A 104 104 0 0 1 260 190 V 300',
+  // R stem
+  'M150 88 V 452',
+  // R bowl
+  'M150 88 H 214 A 78 78 0 0 1 214 244 H 150',
+  // R leg
+  'M150 244 L 268 452',
+  // inner echo of the bowl
+  'M150 120 H 200 A 50 50 0 0 1 200 212 H 150',
+]
+
 function LineArt() {
   const reduce = useReducedMotion()
-  const stroke = {
+  const base = {
     fill: 'none',
     stroke: 'var(--color-cognac)',
     strokeWidth: 1.25,
@@ -35,43 +63,53 @@ function LineArt() {
     strokeLinejoin: 'round' as const,
     vectorEffect: 'non-scaling-stroke' as const,
   }
-  const paths = [
-    // parallel left stems
-    'M96 60 V 452',
-    // large arch behind, an open tunnel
-    'M52 300 V 190 A 104 104 0 0 1 260 190 V 300',
-    // R stem
-    'M150 88 V 452',
-    // R bowl
-    'M150 88 H 214 A 78 78 0 0 1 214 244 H 150',
-    // R leg
-    'M150 244 L 268 452',
-    // inner echo of the bowl
-    'M150 120 H 200 A 50 50 0 0 1 200 212 H 150',
-  ]
   return (
     <svg
       aria-hidden
       viewBox="0 0 320 480"
       className="pointer-events-none absolute right-0 top-1/2 hidden h-[118%] -translate-y-1/2 select-none md:block"
-      style={{ opacity: 0.42 }}
+      style={{ opacity: 0.5 }}
       preserveAspectRatio="xMidYMid meet"
     >
-      {paths.map((d, i) => (
+      {/* base lines, faint, drawn in once */}
+      {ART_PATHS.map((d, i) => (
         <motion.path
-          key={i}
+          key={`b${i}`}
           d={d}
-          {...stroke}
-          initial={reduce ? { opacity: 1 } : { pathLength: 0, opacity: 0 }}
-          animate={reduce ? { opacity: 1 } : { pathLength: 1, opacity: 1 }}
-          transition={{ duration: 1.7, delay: 0.3 + i * 0.16, ease: [0.22, 1, 0.36, 1] }}
+          {...base}
+          style={{ opacity: 0.32 }}
+          initial={reduce ? { pathLength: 1 } : { pathLength: 0 }}
+          animate={{ pathLength: 1 }}
+          transition={{ duration: 1.6, delay: 0.3 + i * 0.14, ease: [0.22, 1, 0.36, 1] }}
         />
       ))}
+      {/* a light travels along each line, constantly */}
+      {!reduce &&
+        ART_PATHS.map((d, i) => (
+          <motion.path
+            key={`t${i}`}
+            d={d}
+            {...base}
+            stroke="var(--color-cognac-deep)"
+            strokeWidth={1.9}
+            pathLength={1}
+            style={{ strokeDasharray: '0.16 1' }}
+            initial={{ strokeDashoffset: 1, opacity: 0 }}
+            animate={{ strokeDashoffset: [1, 0], opacity: [0, 0.9, 0.9, 0] }}
+            transition={{
+              duration: 5.5,
+              repeat: Infinity,
+              ease: 'linear',
+              delay: 1.6 + i * 0.7,
+            }}
+          />
+        ))}
     </svg>
   )
 }
 
 function Founders() {
+  const reduce = useReducedMotion()
   return (
     <div className="relative overflow-hidden bg-canvas">
       {/* slightly darker warm panel under the left (line-art) side */}
@@ -83,14 +121,30 @@ function Founders() {
             'linear-gradient(120deg, rgba(198,124,72,0.10), rgba(198,124,72,0) 70%), var(--color-canvas-2)',
         }}
       />
-      {/* soft cognac warmth near the card */}
-      <div
+      {/* drifting cognac light, refracted through the glass card */}
+      <motion.div
         aria-hidden
-        className="pointer-events-none absolute inset-0"
+        className="pointer-events-none absolute h-[42rem] w-[42rem] rounded-full"
         style={{
-          background:
-            'radial-gradient(42% 42% at 80% 26%, rgba(198,124,72,0.12), rgba(247,243,234,0) 60%)',
+          right: '2%',
+          top: '-6%',
+          background: 'radial-gradient(circle, rgba(198,124,72,0.20), rgba(247,243,234,0) 66%)',
+          filter: 'blur(20px)',
         }}
+        animate={reduce ? undefined : { x: [0, -46, 0], y: [0, 34, 0] }}
+        transition={{ duration: 15, repeat: Infinity, ease: 'easeInOut' }}
+      />
+      <motion.div
+        aria-hidden
+        className="pointer-events-none absolute h-[34rem] w-[34rem] rounded-full"
+        style={{
+          right: '12%',
+          bottom: '-12%',
+          background: 'radial-gradient(circle, rgba(168,92,48,0.16), rgba(247,243,234,0) 68%)',
+          filter: 'blur(24px)',
+        }}
+        animate={reduce ? undefined : { x: [0, 40, 0], y: [0, -28, 0] }}
+        transition={{ duration: 19, repeat: Infinity, ease: 'easeInOut' }}
       />
       <Container>
         <div
@@ -172,12 +226,17 @@ const empty: DiagnosticInput = { phone: '', company: '', website: '', descriptio
 
 const labelCls = 'block font-sans text-[0.8rem] tracking-wide text-ink-60'
 const inputCls =
-  'w-full rounded-xl border border-line bg-paper/70 px-4 py-3.5 font-sans text-[0.98rem] text-ink placeholder:text-ink-45 outline-none transition-colors duration-300 focus:border-cognac'
+  'w-full rounded-xl border border-white/60 bg-white/45 px-4 py-3.5 font-sans text-[0.98rem] text-ink placeholder:text-ink-45 outline-none backdrop-blur-sm transition-colors duration-300 focus:border-cognac focus:bg-white/65'
 
-// Soft cognac duotone so the card reads as the focal surface, light-themed.
+// Liquid glass: translucent, blurred, with a light top edge and specular sheen.
 const cardBg: React.CSSProperties = {
   background:
-    'linear-gradient(155deg, rgba(198,124,72,0.22), rgba(240,225,205,0.4) 48%, rgba(247,243,234,0.55) 100%), var(--color-paper)',
+    'linear-gradient(150deg, rgba(255,255,255,0.5), rgba(240,225,205,0.26) 55%, rgba(198,124,72,0.12) 100%)',
+  backdropFilter: 'blur(22px) saturate(1.4)',
+  WebkitBackdropFilter: 'blur(22px) saturate(1.4)',
+  border: '1px solid rgba(255,255,255,0.5)',
+  boxShadow:
+    'inset 0 1px 0 rgba(255,255,255,0.75), inset 0 -1px 2px rgba(120,60,25,0.06), 0 34px 80px -46px rgba(120,60,25,0.45)',
 }
 
 function ClaimForm() {
@@ -225,14 +284,20 @@ function ClaimForm() {
     <form
       onSubmit={onSubmit}
       noValidate
-      className="group relative overflow-hidden rounded-[1.75rem] border border-line p-7 transition-shadow duration-500 hover:shadow-[0_30px_70px_-40px_rgba(120,60,25,0.4)] sm:p-9"
+      className="group relative overflow-hidden rounded-[1.75rem] p-7 transition-shadow duration-500 hover:shadow-[0_40px_90px_-46px_rgba(120,60,25,0.5)] sm:p-9"
       style={cardBg}
     >
+      {/* glass specular highlight, top-left */}
+      <span
+        aria-hidden
+        className="pointer-events-none absolute inset-0"
+        style={{ background: 'radial-gradient(70% 45% at 26% 0%, rgba(255,255,255,0.55), rgba(255,255,255,0) 62%)' }}
+      />
       {/* hover glare sweep */}
       <span
         aria-hidden
         className="pointer-events-none absolute inset-y-0 -left-1/3 w-1/2 -skew-x-12 -translate-x-[130%] transition-transform duration-[900ms] ease-out group-hover:translate-x-[260%]"
-        style={{ background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.55), transparent)' }}
+        style={{ background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent)' }}
       />
 
       <div className="relative z-10">
