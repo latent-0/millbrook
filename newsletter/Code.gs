@@ -277,8 +277,8 @@ function installDailyTrigger() {
 /*  with Gemini, send it. Set GEMINI_API_KEY in Script Properties.     */
 /* ------------------------------------------------------------------ */
 
-// A small, fast, cheap model to stay well under rate limits.
-const GEMINI_MODEL = 'gemini-flash-latest'
+// Small, fast, cheap models. We try them in order and retry on overload (503).
+const GEMINI_MODELS = ['gemini-flash-latest', 'gemini-flash-lite-latest', 'gemini-2.0-flash']
 
 // Google News RSS is free and current. Tune the queries to taste.
 const NEWS_FEEDS = [
@@ -331,21 +331,40 @@ function geminiCompose_(items) {
       },
     },
   }
-  const res = UrlFetchApp.fetch(
-    'https://generativelanguage.googleapis.com/v1beta/models/' + GEMINI_MODEL + ':generateContent',
-    {
-      method: 'post',
-      contentType: 'application/json',
-      headers: { 'X-goog-api-key': key },
-      payload: JSON.stringify(payload),
-      muteHttpExceptions: true,
-    },
-  )
-  const data = JSON.parse(res.getContentText())
-  if (!data.candidates || !data.candidates[0]) {
-    throw new Error('Gemini returned no content: ' + res.getContentText().slice(0, 300))
+  const body = JSON.stringify(payload)
+  let lastErr = ''
+  // Try each model; retry a few times with backoff when Google is overloaded.
+  for (let m = 0; m < GEMINI_MODELS.length; m++) {
+    for (let attempt = 0; attempt < 3; attempt++) {
+      const res = UrlFetchApp.fetch(
+        'https://generativelanguage.googleapis.com/v1beta/models/' + GEMINI_MODELS[m] + ':generateContent',
+        {
+          method: 'post',
+          contentType: 'application/json',
+          headers: { 'X-goog-api-key': key },
+          payload: body,
+          muteHttpExceptions: true,
+        },
+      )
+      const code = res.getResponseCode()
+      const text = res.getContentText()
+      if (code === 200) {
+        const data = JSON.parse(text)
+        if (data.candidates && data.candidates[0]) {
+          return JSON.parse(data.candidates[0].content.parts[0].text)
+        }
+        lastErr = text.slice(0, 300)
+        break // valid HTTP but blocked/empty: try next model
+      }
+      lastErr = text.slice(0, 300)
+      if (code === 503 || code === 429 || code >= 500) {
+        Utilities.sleep(2000 * (attempt + 1)) // 2s, 4s, 6s backoff, then next model
+        continue
+      }
+      break // hard error (bad key, 400): stop retrying this model
+    }
   }
-  return JSON.parse(data.candidates[0].content.parts[0].text)
+  throw new Error('Gemini unavailable after retries: ' + lastErr)
 }
 
 /** mode: 'test' (to you), 'queue' (Queue tab, today), or 'all' (subscribers). */
