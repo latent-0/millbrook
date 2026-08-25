@@ -48,7 +48,7 @@ export function seo({ title, description, path = '/', image, keywords }: SeoInpu
     { name: 'twitter:title', content: title },
     { name: 'twitter:description', content: description },
     { name: 'twitter:image', content: img },
-  ].filter(Boolean) as Array<Record<string, string>>
+  ].filter(Boolean) as unknown as Array<Record<string, string>>
 
   const links = [{ rel: 'canonical', href: url }]
 

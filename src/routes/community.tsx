@@ -73,10 +73,21 @@ function Community() {
                 </h1>
               </div>
               <p className="mt-8 max-w-md font-sans text-[1.1rem] leading-relaxed text-ink-60">
-                A private network of founders, with our full growth engine behind
-                you. Our initial cohort of founders gets GTM and AEO from
-                Rothenhall, free.
+                A private network of founders across Europe, India, and the USA,
+                with our full growth engine behind you. Our initial cohort of
+                founders gets GTM and AEO from Rothenhall, free.
               </p>
+              <div className="mt-6 flex flex-wrap items-center gap-2.5">
+                {['Europe', 'India', 'USA'].map((r) => (
+                  <span
+                    key={r}
+                    className="inline-flex items-center rounded-full border border-line-strong px-3.5 py-1.5 font-sans text-ink-80"
+                    style={{ fontSize: '0.68rem', letterSpacing: '0.16em', textTransform: 'uppercase' }}
+                  >
+                    {r}
+                  </span>
+                ))}
+              </div>
             </motion.div>
 
             {/* Form tile */}
@@ -159,8 +170,8 @@ const QUESTIONS: Array<{
   optional?: boolean
 }> = [
   { key: 'name', q: 'What should we call you?', type: 'text' },
-  { key: 'email', q: 'Where do we send the invite?', type: 'email' },
-  { key: 'company', q: 'What is your company or project?', type: 'text', optional: true },
+  { key: 'email', q: 'Where do we send it?', type: 'email' },
+  { key: 'company', q: 'Your company or project?', type: 'text', optional: true },
   { key: 'building', q: 'What are you building?', type: 'text', optional: true },
 ]
 
@@ -260,7 +271,7 @@ function InviteFlow() {
                 current.key === 'name' ? 'name' : current.key === 'email' ? 'email' : current.key === 'company' ? 'organization' : 'off'
               }
               autoFocus={step > 0}
-              className="w-full border-0 border-b border-line bg-transparent pb-3 font-display text-[1.6rem] text-ink outline-none transition-colors placeholder:text-ink-45 focus:border-cognac sm:text-[2rem]"
+              className="w-full border-0 border-b border-line bg-transparent pb-3 font-display text-[1.25rem] text-ink outline-none transition-colors placeholder:text-ink-45 focus:border-cognac sm:text-[2rem]"
             />
           </motion.div>
         </AnimatePresence>

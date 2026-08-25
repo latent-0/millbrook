@@ -70,6 +70,7 @@ function Home() {
   return (
     <>
       <HomeHero />
+      <NetworkStrip />
       <StoryScroll />
       <StatBlock />
       <TheShift />
@@ -85,6 +86,33 @@ function Home() {
   )
 }
 
+
+/* ---------------------------------------------------------------- */
+/*  Network strip (early credential band)                            */
+/* ---------------------------------------------------------------- */
+
+function NetworkStrip() {
+  return (
+    <section className="border-b border-line bg-canvas">
+      <Container width="wide" className="py-7 sm:py-8">
+        <Reveal>
+          <div className="flex flex-col items-center gap-4 text-center sm:flex-row sm:justify-between sm:gap-6 sm:text-left">
+            <p className="eyebrow" style={{ letterSpacing: '0.2em' }}>
+              A private founder &amp; strategy network
+            </p>
+            <div className="flex items-center gap-4 font-display text-ink" style={{ fontSize: '1.05rem' }}>
+              <span>Europe</span>
+              <span className="text-line-strong">·</span>
+              <span>India</span>
+              <span className="text-line-strong">·</span>
+              <span>USA</span>
+            </div>
+          </div>
+        </Reveal>
+      </Container>
+    </section>
+  )
+}
 
 /* ---------------------------------------------------------------- */
 /*  The shift                                                        */
@@ -397,16 +425,27 @@ function CommunityTeaser() {
         <div className="grid gap-10 md:grid-cols-12 md:items-center">
           <div className="md:col-span-8">
             <Reveal>
-              <Eyebrow>By invitation</Eyebrow>
+              <Eyebrow>By invitation · Private community</Eyebrow>
               <h2 className="text-display-md mt-6">
                 Join the{' '}
                 <span style={{ color: 'var(--color-cognac)' }}>Founders Circle</span>.
               </h2>
               <p className="mt-5 max-w-xl font-sans text-[1.05rem] leading-relaxed text-ink-60">
                 A private founders network, with our growth engine behind you.
-                Our initial cohort of founders gets GTM and AEO from Rothenhall,
-                free.
+                Members span founders and operators across Europe, India, and the
+                USA, and our initial cohort gets GTM and AEO from Rothenhall, free.
               </p>
+              <div className="mt-6 flex flex-wrap items-center gap-2.5">
+                {['Europe', 'India', 'USA'].map((r) => (
+                  <span
+                    key={r}
+                    className="inline-flex items-center rounded-full border border-line-strong px-3.5 py-1.5 font-sans text-ink-80"
+                    style={{ fontSize: '0.72rem', letterSpacing: '0.14em', textTransform: 'uppercase' }}
+                  >
+                    {r}
+                  </span>
+                ))}
+              </div>
             </Reveal>
           </div>
           <div className="md:col-span-4">
