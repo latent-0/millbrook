@@ -67,16 +67,29 @@ In Google Workspace Admin for rothenhall.com:
 
 Most Workspace domains already have SPF/DKIM. Confirm before your first send.
 
-## Sending an issue
+## Sending: one-off vs scheduled
 
-1. Open the Sheet. Use the **Compose** tab (created on first run):
-   - `B1` = subject line
-   - `B2` = the body (plain text is fine, blank lines become paragraphs; HTML also works)
-2. First, **Rothenhall Newsletter → Send test to me** (menu appears after a reload).
-3. Happy with it? **Rothenhall Newsletter → Send issue from Compose tab.**
+### Send one now (Compose tab)
 
-You can also run `sendTest('you@domain.com')` or `sendIssue('Subject','Body')`
-directly from the Apps Script editor.
+1. Open the Sheet, use the **Compose** tab: `B1` = subject, `B2` = body (plain
+   text is fine, blank lines become paragraphs; HTML also works).
+2. First **Rothenhall Newsletter → Send test to me** (menu appears after a reload).
+3. Happy? **Rothenhall Newsletter → Send issue from Compose tab.**
+
+### Schedule issues to auto-send (Queue tab)
+
+1. Run **Rothenhall Newsletter → Turn on daily auto-send** once (authorize when
+   asked). This installs a trigger that runs ~8am daily and creates a **Queue** tab.
+2. In the **Queue** tab, add one row per issue:
+   - `sendOn` = the date to send (e.g. 2026-09-01)
+   - `subject` = subject line
+   - `body` = the update / news (plain text or HTML)
+   - leave `status` blank
+3. Each morning the trigger sends any row whose date has arrived and marks it
+   `sent`. To send daily, add one row per day; to send weekly, one row per week.
+
+You can also run `sendTest('you@domain.com')`, `sendIssue('Subject','Body')`, or
+`sendDueIssues()` from the Apps Script editor.
 
 ## Notes & limits
 
