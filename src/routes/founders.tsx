@@ -1,7 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useState } from 'react'
-import { motion, useReducedMotion, type Variants } from 'motion/react'
-import { Container, Eyebrow } from '../components/site'
+import { motion, useReducedMotion } from 'motion/react'
 import { claimDiagnostic, type DiagnosticInput } from '../server/inquiry'
 
 const HEADER = '4.75rem'
@@ -22,35 +21,6 @@ export const Route = createFileRoute('/founders')({
   component: Founders,
 })
 
-const stagger: Variants = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.1, delayChildren: 0.06 } },
-}
-const rise: Variants = {
-  hidden: { opacity: 0, y: 20, filter: 'blur(6px)' },
-  visible: {
-    opacity: 1,
-    y: 0,
-    filter: 'blur(0px)',
-    transition: { type: 'spring', damping: 24, stiffness: 120 },
-  },
-}
-
-const GETS = [
-  {
-    t: 'Where AI places you',
-    b: 'Whether ChatGPT, Perplexity, and Google AI Overviews name you in your category, and who they name instead.',
-  },
-  {
-    t: 'Where the funnel leaks',
-    b: 'A quick GTM read: the gaps between being found, being measured, and being sold.',
-  },
-  {
-    t: 'The first moves',
-    b: 'A short, specific list of what to fix first, whether or not we ever work together.',
-  },
-]
-
 /* ------------------------------------------------------------------ */
 /*  Line-art monogram motif, drawn in on mount                        */
 /* ------------------------------------------------------------------ */
@@ -59,14 +29,14 @@ function LineArt() {
   const reduce = useReducedMotion()
   const stroke = {
     fill: 'none',
-    stroke: 'var(--color-brass-soft)',
-    strokeWidth: 1.3,
+    stroke: 'var(--color-cognac)',
+    strokeWidth: 1.25,
     strokeLinecap: 'round' as const,
     strokeLinejoin: 'round' as const,
     vectorEffect: 'non-scaling-stroke' as const,
   }
   const paths = [
-    // parallel left stem (the "l" strokes)
+    // parallel left stems
     'M96 60 V 452',
     // large arch behind, an open tunnel
     'M52 300 V 190 A 104 104 0 0 1 260 190 V 300',
@@ -83,8 +53,8 @@ function LineArt() {
     <svg
       aria-hidden
       viewBox="0 0 320 480"
-      className="pointer-events-none absolute left-[36%] top-1/2 hidden h-[122%] -translate-x-1/2 -translate-y-1/2 select-none lg:block"
-      style={{ opacity: 0.3 }}
+      className="pointer-events-none absolute right-0 top-1/2 hidden h-[118%] -translate-y-1/2 select-none md:block"
+      style={{ opacity: 0.42 }}
       preserveAspectRatio="xMidYMid meet"
     >
       {paths.map((d, i) => (
@@ -94,7 +64,7 @@ function LineArt() {
           {...stroke}
           initial={reduce ? { opacity: 1 } : { pathLength: 0, opacity: 0 }}
           animate={reduce ? { opacity: 1 } : { pathLength: 1, opacity: 1 }}
-          transition={{ duration: 1.7, delay: 0.25 + i * 0.16, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 1.7, delay: 0.3 + i * 0.16, ease: [0.22, 1, 0.36, 1] }}
         />
       ))}
     </svg>
@@ -102,86 +72,83 @@ function LineArt() {
 }
 
 function Founders() {
-  const reduce = useReducedMotion()
   return (
-    <div className="relative overflow-hidden bg-night text-canvas">
-      {/* ambient cognac glow */}
-      <motion.div
+    <div className="relative overflow-hidden bg-canvas">
+      {/* slightly darker warm panel under the left (line-art) side */}
+      <div
+        aria-hidden
+        className="absolute inset-y-0 left-0 hidden w-1/2 md:block"
+        style={{
+          background:
+            'linear-gradient(120deg, rgba(198,124,72,0.10), rgba(198,124,72,0) 70%), var(--color-canvas-2)',
+        }}
+      />
+      {/* soft cognac warmth near the card */}
+      <div
         aria-hidden
         className="pointer-events-none absolute inset-0"
         style={{
           background:
-            'radial-gradient(48% 42% at 82% 14%, rgba(168,92,48,0.24), rgba(20,18,13,0) 60%)',
+            'radial-gradient(42% 42% at 80% 26%, rgba(198,124,72,0.12), rgba(247,243,234,0) 60%)',
         }}
-        animate={reduce ? undefined : { opacity: [0.7, 1, 0.7] }}
-        transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut' }}
       />
-      <div className="grain pointer-events-none absolute inset-0 opacity-[0.05] mix-blend-overlay" />
-      <LineArt />
-
-      <Container className="relative">
+      <Container>
         <div
-          className="grid items-stretch gap-10 py-14 md:grid-cols-12 md:gap-12 md:py-16"
+          className="grid items-stretch md:grid-cols-2"
           style={{ minHeight: `calc(100svh - ${HEADER})` }}
         >
-          {/* Pitch */}
-          <div className="flex flex-col justify-center md:col-span-5">
-            <motion.div variants={stagger} initial="hidden" animate="visible">
-              <motion.div variants={rise}>
-                <Eyebrow className="eyebrow-light">
-                  Founders Circle · By invitation
-                </Eyebrow>
-              </motion.div>
-              <motion.h1
-                variants={rise}
-                className="mt-7 font-display"
-                style={{
-                  fontSize: 'clamp(2.4rem, 4.6vw, 4.2rem)',
-                  fontWeight: 500,
-                  letterSpacing: '-0.03em',
-                  lineHeight: 1.03,
-                }}
-              >
-                Claim your free{' '}
-                <span style={{ color: 'var(--color-cognac-soft)' }}>
-                  AEO + GTM diagnostic
-                </span>
-                .
-              </motion.h1>
+          {/* LEFT: line art + two or three huge words */}
+          <div className="relative flex flex-col justify-center py-16 md:pr-12">
+            <LineArt />
+            <div className="relative">
               <motion.p
-                variants={rise}
-                className="mt-7 max-w-md font-sans text-[1.08rem] leading-relaxed text-canvas/65"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                className="font-sans uppercase text-ink-45"
+                style={{ letterSpacing: '0.24em', fontSize: '0.68rem' }}
               >
-                For founders in the circle, a senior read on where you stand in AI
-                answers and where your go-to-market is leaking revenue. No cost, no
-                obligation.
+                Founders Circle · AEO + GTM · By invitation
               </motion.p>
 
-              <motion.ul variants={rise} className="mt-9 space-y-5">
-                {GETS.map((g) => (
-                  <li key={g.t} className="flex gap-4">
-                    <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-cognac-soft" />
-                    <div>
-                      <p className="font-display text-canvas" style={{ fontSize: '1.15rem' }}>
-                        {g.t}
-                      </p>
-                      <p className="mt-1 font-sans text-[0.96rem] leading-relaxed text-canvas/55">
-                        {g.b}
-                      </p>
-                    </div>
-                  </li>
+              <h1
+                className="mt-8 font-display text-ink"
+                style={{
+                  fontSize: 'clamp(3.2rem, 9vw, 8rem)',
+                  fontWeight: 300,
+                  letterSpacing: '-0.03em',
+                  lineHeight: 0.92,
+                }}
+              >
+                {['Your', 'free', 'diagnostic.'].map((w, i) => (
+                  <motion.span
+                    key={w}
+                    className="block"
+                    style={i === 1 ? { color: 'var(--color-cognac)' } : undefined}
+                    initial={{ opacity: 0, y: 24, filter: 'blur(8px)' }}
+                    animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                    transition={{
+                      type: 'spring',
+                      damping: 26,
+                      stiffness: 90,
+                      mass: 1.05,
+                      delay: 0.15 + i * 0.12,
+                    }}
+                  >
+                    {w}
+                  </motion.span>
                 ))}
-              </motion.ul>
-            </motion.div>
+              </h1>
+            </div>
           </div>
 
-          {/* Form fills the hero */}
-          <div className="md:col-span-6 md:col-start-7">
+          {/* RIGHT: the glare card */}
+          <div className="flex items-center py-10 md:border-l md:border-line md:py-16 md:pl-12 lg:pl-16">
             <motion.div
               initial={{ opacity: 0, y: 26, filter: 'blur(7px)' }}
               animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-              transition={{ duration: 0.75, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-              className="h-full"
+              transition={{ duration: 0.75, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
+              className="w-full"
             >
               <ClaimForm />
             </motion.div>
@@ -192,24 +159,25 @@ function Founders() {
   )
 }
 
+/* small local Container so the file stays self-contained */
+function Container({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="relative z-10 mx-auto w-full max-w-[88rem] px-6 sm:px-8 lg:px-12">
+      {children}
+    </div>
+  )
+}
+
 const empty: DiagnosticInput = { phone: '', company: '', website: '', description: '' }
 
-const labelCls = 'block font-sans text-[0.82rem] tracking-wide text-canvas/60'
+const labelCls = 'block font-sans text-[0.8rem] tracking-wide text-ink-60'
 const inputCls =
-  'w-full rounded-xl border border-night-line bg-night/40 px-4 py-3.5 font-sans text-[0.98rem] text-canvas placeholder:text-canvas/35 outline-none transition-colors duration-300 focus:border-cognac-soft'
+  'w-full rounded-xl border border-line bg-paper/70 px-4 py-3.5 font-sans text-[0.98rem] text-ink placeholder:text-ink-45 outline-none transition-colors duration-300 focus:border-cognac'
 
-/* A single diagonal light sweep, reused for the card and the button. */
-function Glare({ scope = '', strength = 0.1 }: { scope?: string; strength?: number }) {
-  const hover = scope ? `group-hover/${scope}:translate-x-[130%]` : 'group-hover:translate-x-[130%]'
-  return (
-    <span
-      aria-hidden
-      className={`pointer-events-none absolute inset-y-0 -left-1/3 w-1/2 -skew-x-12 -translate-x-[130%] transition-transform duration-[900ms] ease-out ${hover}`}
-      style={{
-        background: `linear-gradient(90deg, transparent, rgba(247,243,234,${strength}), transparent)`,
-      }}
-    />
-  )
+// Soft cognac duotone so the card reads as the focal surface, light-themed.
+const cardBg: React.CSSProperties = {
+  background:
+    'linear-gradient(155deg, rgba(198,124,72,0.22), rgba(240,225,205,0.4) 48%, rgba(247,243,234,0.55) 100%), var(--color-paper)',
 }
 
 function ClaimForm() {
@@ -238,13 +206,16 @@ function ClaimForm() {
 
   if (status === 'success') {
     return (
-      <div className="flex h-full min-h-[26rem] flex-col justify-center rounded-2xl border border-night-line bg-night-2/70 p-8 sm:p-10">
-        <p className="font-display text-canvas" style={{ fontSize: '2rem', lineHeight: 1.1 }}>
+      <div
+        className="flex min-h-[24rem] flex-col justify-center rounded-[1.75rem] border border-line p-8 sm:p-10"
+        style={cardBg}
+      >
+        <p className="font-display text-ink" style={{ fontSize: '2rem', lineHeight: 1.1 }}>
           Your diagnostic is claimed.
         </p>
-        <p className="mt-4 max-w-sm font-sans text-[1rem] leading-relaxed text-canvas/60">
+        <p className="mt-4 max-w-sm font-sans text-[1rem] leading-relaxed text-ink-60">
           We read every request ourselves. We will reach out on the number you
-          shared to book it in. Keep an eye on your phone.
+          shared to book it in.
         </p>
       </div>
     )
@@ -254,17 +225,25 @@ function ClaimForm() {
     <form
       onSubmit={onSubmit}
       noValidate
-      className="group relative flex h-full min-h-[30rem] flex-col overflow-hidden rounded-2xl border border-night-line bg-night-2/70 p-7 backdrop-blur-sm transition-colors duration-500 hover:border-cognac-soft/40 sm:p-9"
+      className="group relative overflow-hidden rounded-[1.75rem] border border-line p-7 transition-shadow duration-500 hover:shadow-[0_30px_70px_-40px_rgba(120,60,25,0.4)] sm:p-9"
+      style={cardBg}
     >
-      <Glare strength={0.08} />
+      {/* hover glare sweep */}
+      <span
+        aria-hidden
+        className="pointer-events-none absolute inset-y-0 -left-1/3 w-1/2 -skew-x-12 -translate-x-[130%] transition-transform duration-[900ms] ease-out group-hover:translate-x-[260%]"
+        style={{ background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.55), transparent)' }}
+      />
 
-      <div className="relative z-10 flex h-full flex-col">
+      <div className="relative z-10">
         <div className="flex items-center justify-between">
-          <p className="eyebrow eyebrow-light">Claim your diagnostic</p>
-          <span className="h-2 w-2 rounded-full bg-cognac-soft" aria-hidden />
+          <p className="eyebrow" style={{ letterSpacing: '0.18em' }}>
+            Claim your diagnostic
+          </p>
+          <span className="h-2 w-2 rounded-full bg-cognac" aria-hidden />
         </div>
 
-        <div className="mt-auto space-y-5 pt-8">
+        <div className="mt-8 space-y-5">
           <Field id="f-phone" label="Phone number">
             <input
               id="f-phone"
@@ -310,7 +289,7 @@ function ClaimForm() {
             id="f-description"
             label={
               <>
-                About your company <span className="text-canvas/35">(optional)</span>
+                About your company <span className="text-ink-45">(optional)</span>
               </>
             }
           >
@@ -326,26 +305,25 @@ function ClaimForm() {
         </div>
 
         {status === 'error' && (
-          <p className="mt-4 font-sans text-[0.9rem] text-[#e0a08a]">{error}</p>
+          <p className="mt-4 font-sans text-[0.9rem] text-cognac-deep">{error}</p>
         )}
 
         <button
           type="submit"
           disabled={status === 'submitting'}
-          className="btn btn-light group/btn relative mt-7 w-full overflow-hidden transition-transform duration-200 ease-out hover:-translate-y-0.5 active:translate-y-0 disabled:opacity-60"
+          className="btn btn-primary group/btn relative mt-7 w-full overflow-hidden transition-transform duration-200 ease-out hover:-translate-y-0.5 active:translate-y-0 disabled:opacity-60"
         >
           <span className="relative z-10">
             {status === 'submitting' ? 'Sending…' : 'Claim free AEO + GTM Diagnostic'}
           </span>
-          {/* brighter glare for the light button */}
           <span
             aria-hidden
-            className="pointer-events-none absolute inset-y-0 -left-1/3 w-1/2 -skew-x-12 -translate-x-[130%] transition-transform duration-700 ease-out group-hover/btn:translate-x-[130%]"
-            style={{ background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent)' }}
+            className="pointer-events-none absolute inset-y-0 -left-1/3 w-1/2 -skew-x-12 -translate-x-[130%] transition-transform duration-700 ease-out group-hover/btn:translate-x-[260%]"
+            style={{ background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.65), transparent)' }}
           />
         </button>
 
-        <p className="mt-4 text-center font-sans text-[0.8rem] text-canvas/40">
+        <p className="mt-4 text-center font-sans text-[0.78rem] text-ink-45">
           Invite-only. We reply to founders, not forms.
         </p>
       </div>
