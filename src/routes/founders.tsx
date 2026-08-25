@@ -10,7 +10,7 @@ export const Route = createFileRoute('/founders')({
   head: () => {
     const title = 'Claim your free AEO + GTM diagnostic · Rothenhall Partners'
     const description =
-      'A free AEO and GTM diagnostic for the Rothenhall Founders Circle: where you stand in AI answers, and where the go-to-market is leaking. By invitation.'
+      'A free AEO + GTM diagnostic for the Founders Circle: where you stand in AI answers, and where go-to-market leaks.'
     const image = 'https://www.rothenhall.com/founders-og.png'
     return {
       meta: [
