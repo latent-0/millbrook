@@ -42,14 +42,18 @@ sends from it automatically with no alias juggling.
 
 ### 4. Point the site at it
 
-In Vercel → your project → Settings → Environment Variables, set:
+This script only handles the `/founders` diagnostic + newsletter. Your existing
+`FORMS_WEBHOOK_URL` (all your other forms) stays exactly as it is. Add a **new,
+separate** variable in Vercel → your project → Settings → Environment Variables:
 
 ```
-FORMS_WEBHOOK_URL = <the /exec URL from step 3>
+NEWSLETTER_WEBHOOK_URL = <the /exec URL from step 3>
 ```
 
-Redeploy the site. That's it, the form now writes to your Sheet and captures
-opt-ins. (This replaces the previous webhook; your other forms keep working.)
+Redeploy the site. The diagnostic form now posts to this script (it captures the
+email + newsletter opt-in and manages subscribers); everything else keeps using
+`FORMS_WEBHOOK_URL` untouched. (If `NEWSLETTER_WEBHOOK_URL` is ever unset, the
+diagnostic quietly falls back to `FORMS_WEBHOOK_URL`, so nothing breaks.)
 
 ### 5. Deliverability (so it lands in inboxes, not spam)
 

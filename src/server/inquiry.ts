@@ -1,15 +1,22 @@
 import { createServerFn } from '@tanstack/react-start'
 
 /**
- * Forwards a validated submission to the forms webhook (a Google Apps Script
- * web app that appends to a Sheet and emails office@rothenhall.com). Set the
- * URL in the FORMS_WEBHOOK_URL environment variable. Always logs server-side as
- * a fallback, and never throws, so a webhook hiccup does not break the form.
+ * Forwards a validated submission to a Google Apps Script web app that appends
+ * to a Sheet and emails office@rothenhall.com. Most forms go to
+ * FORMS_WEBHOOK_URL; pass `urlEnv` to route a form to a different webhook (e.g.
+ * the diagnostic/newsletter script at NEWSLETTER_WEBHOOK_URL). Always logs
+ * server-side as a fallback, and never throws, so a webhook hiccup does not
+ * break the form.
  */
-async function forward(form: string, data: Record<string, unknown>) {
+async function forward(
+  form: string,
+  data: Record<string, unknown>,
+  urlEnv: 'FORMS_WEBHOOK_URL' | 'NEWSLETTER_WEBHOOK_URL' = 'FORMS_WEBHOOK_URL',
+) {
   const payload = { form, ...data, receivedAt: new Date().toISOString() }
   console.log(`[Rothenhall ${form}]`, payload)
-  const url = process.env.FORMS_WEBHOOK_URL
+  // Fall back to the general webhook if the specific one is not set yet.
+  const url = process.env[urlEnv] || process.env.FORMS_WEBHOOK_URL
   if (!url) return
   try {
     await fetch(url, {
@@ -142,11 +149,16 @@ function validateDiagnostic(data: unknown): DiagnosticInput {
   return { phone, email, company, website, description, acceptTerms, newsletter }
 }
 
-/** Founders Circle free AEO + GTM diagnostic claim. Same wiring as above. */
+/**
+ * Founders Circle free AEO + GTM diagnostic claim. Routed to the dedicated
+ * newsletter/diagnostic Apps Script (NEWSLETTER_WEBHOOK_URL) so it can capture
+ * the email + newsletter opt-in and manage subscribers, without touching the
+ * main forms webhook. Falls back to FORMS_WEBHOOK_URL if that env is unset.
+ */
 export const claimDiagnostic = createServerFn({ method: 'POST' })
   .validator(validateDiagnostic)
   .handler(async ({ data }) => {
-    await forward('diagnostic', data)
+    await forward('diagnostic', data, 'NEWSLETTER_WEBHOOK_URL')
     return { ok: true as const }
   })
 
