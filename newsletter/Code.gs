@@ -272,14 +272,124 @@ function installDailyTrigger() {
   return 'Daily auto-send is on (about 8am). Add rows to the Queue tab.'
 }
 
+/* ------------------------------------------------------------------ */
+/*  Auto news: pull fresh AI + GTM headlines, write a crisp issue      */
+/*  with Gemini, send it. Set GEMINI_API_KEY in Script Properties.     */
+/* ------------------------------------------------------------------ */
+
+// A small, fast, cheap model to stay well under rate limits.
+const GEMINI_MODEL = 'gemini-flash-latest'
+
+// Google News RSS is free and current. Tune the queries to taste.
+const NEWS_FEEDS = [
+  'https://news.google.com/rss/search?q=' +
+    encodeURIComponent('(artificial intelligence OR LLM OR "AI agents" OR OpenAI OR Anthropic) when:2d') +
+    '&hl=en-US&gl=US&ceid=US:en',
+  'https://news.google.com/rss/search?q=' +
+    encodeURIComponent('("go-to-market" OR "B2B marketing" OR "AI search" OR "answer engine optimization") when:3d') +
+    '&hl=en-US&gl=US&ceid=US:en',
+]
+
+function fetchNews_() {
+  const items = []
+  NEWS_FEEDS.forEach(function (u) {
+    try {
+      const xml = UrlFetchApp.fetch(u, { muteHttpExceptions: true }).getContentText()
+      const channel = XmlService.parse(xml).getRootElement().getChild('channel')
+      channel.getChildren('item').slice(0, 7).forEach(function (it) {
+        items.push({ title: it.getChildText('title'), link: it.getChildText('link') })
+      })
+    } catch (e) {}
+  })
+  return items
+}
+
+function geminiCompose_(items) {
+  const key = PropertiesService.getScriptProperties().getProperty('GEMINI_API_KEY')
+  if (!key) throw new Error('Set GEMINI_API_KEY in Project Settings > Script properties.')
+  const headlines = items.map(function (i) { return '- ' + i.title + ' (' + i.link + ')' }).join('\n')
+  const prompt =
+    'You are the editor of the Rothenhall Partners newsletter for startup founders and operators. ' +
+    'Using ONLY the news headlines below from the last couple of days, write one short, high-signal issue on AI and go-to-market.\n\n' +
+    'Rules:\n' +
+    '- Never use em dashes. Use commas, periods, or short sentences instead.\n' +
+    '- Be compelling and concrete. Every point carries a specific insight or a clear "so what" for a founder, no filler.\n' +
+    '- Keep it short: a one line intro, then 4 to 6 points, each 1 to 2 sentences, then a one line sign off.\n' +
+    '- No hype words, no cliches, no "in today\'s fast-paced world".\n' +
+    '- Where a point maps to a headline, link the key phrase to its source URL.\n\n' +
+    'Return JSON { "subject": "...", "body": "..." } where body is simple HTML: <p> for the intro and sign off, and a <ul><li> list for the points, with the lead of each point wrapped in <strong>.\n\n' +
+    'Headlines:\n' + headlines
+  const payload = {
+    contents: [{ parts: [{ text: prompt }] }],
+    generationConfig: {
+      temperature: 0.7,
+      responseMimeType: 'application/json',
+      responseSchema: {
+        type: 'OBJECT',
+        properties: { subject: { type: 'STRING' }, body: { type: 'STRING' } },
+        required: ['subject', 'body'],
+      },
+    },
+  }
+  const res = UrlFetchApp.fetch(
+    'https://generativelanguage.googleapis.com/v1beta/models/' + GEMINI_MODEL + ':generateContent',
+    {
+      method: 'post',
+      contentType: 'application/json',
+      headers: { 'X-goog-api-key': key },
+      payload: JSON.stringify(payload),
+      muteHttpExceptions: true,
+    },
+  )
+  const data = JSON.parse(res.getContentText())
+  if (!data.candidates || !data.candidates[0]) {
+    throw new Error('Gemini returned no content: ' + res.getContentText().slice(0, 300))
+  }
+  return JSON.parse(data.candidates[0].content.parts[0].text)
+}
+
+/** mode: 'test' (to you), 'queue' (Queue tab, today), or 'all' (subscribers). */
+function autoNewsIssue(mode) {
+  const items = fetchNews_()
+  if (!items.length) throw new Error('No news fetched, try again shortly.')
+  const issue = geminiCompose_(items)
+  if (mode === 'test') {
+    sendOne_(Session.getEffectiveUser().getEmail(), '[Preview] ' + issue.subject, issue.body, 'PREVIEW')
+    return 'Preview sent to you.'
+  }
+  if (mode === 'queue') {
+    sheet_(QUEUE, QUEUE_HEADERS).appendRow([new Date(), issue.subject, issue.body, '', '', ''])
+    return 'Queued for today.'
+  }
+  return sendIssue(issue.subject, issue.body)
+}
+
+/** Trigger handler for daily auto-news. */
+function sendDailyNews() { return autoNewsIssue('all') }
+
+/** Preview today's auto-issue in your own inbox first. */
+function previewNewsIssue() { return autoNewsIssue('test') }
+
+/** Run once to turn on daily auto-news (fires around 8am). */
+function installNewsAutoSend() {
+  ScriptApp.getProjectTriggers().forEach(function (t) {
+    if (t.getHandlerFunction() === 'sendDailyNews') ScriptApp.deleteTrigger(t)
+  })
+  ScriptApp.newTrigger('sendDailyNews').timeBased().everyDays(1).atHour(8).create()
+  return 'Daily auto-news is on (about 8am).'
+}
+
 /** Optional: a menu in the Sheet for one-click actions. */
 function onOpen() {
   SpreadsheetApp.getUi()
     .createMenu('Rothenhall Newsletter')
+    .addItem('Preview today’s news issue (to me)', 'previewNewsIssue')
+    .addItem('Send today’s news issue now', 'sendDailyNews')
+    .addItem('Turn on daily auto-news', 'installNewsAutoSend')
+    .addSeparator()
     .addItem('Send test to me', 'sendTest')
     .addItem('Send issue from Compose tab', 'sendComposeSheet')
-    .addSeparator()
-    .addItem('Turn on daily auto-send', 'installDailyTrigger')
+    .addItem('Turn on scheduled Queue send', 'installDailyTrigger')
     .addItem('Send due queued issues now', 'sendDueIssues')
     .addToUi()
 }

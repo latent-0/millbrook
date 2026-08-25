@@ -91,6 +91,30 @@ Most Workspace domains already have SPF/DKIM. Confirm before your first send.
 You can also run `sendTest('you@domain.com')`, `sendIssue('Subject','Body')`, or
 `sendDueIssues()` from the Apps Script editor.
 
+## Auto-news (optional): pull AI + GTM headlines and send automatically
+
+The script can fetch fresh AI and go-to-market headlines (Google News RSS),
+write a short, no-fluff issue with Gemini, and send it, on a daily schedule.
+
+1. **Add your Gemini key as a Script Property (the Apps Script "env variable"):**
+   - In the Apps Script editor, click the **gear (Project Settings)** on the left.
+   - Scroll to **Script Properties → Add script property.**
+   - Property: `GEMINI_API_KEY`  Value: your key. Save.
+   - Get a key free at [aistudio.google.com](https://aistudio.google.com/app/apikey).
+     Keep it private, do not commit it anywhere.
+2. **Preview first:** reload the Sheet, then **Rothenhall Newsletter → Preview
+   today's news issue (to me)**. A draft lands in your inbox so you can judge quality.
+3. **Turn it on:** **Rothenhall Newsletter → Turn on daily auto-news** (authorize
+   once). It fires ~8am daily and sends to all active subscribers.
+
+Notes:
+- Model is `gemini-flash-latest` (small and cheap). To go even lighter, change
+  `GEMINI_MODEL` to `gemini-flash-lite-latest`.
+- The writing prompt forbids em dashes and demands short, concrete, value-first
+  points. Tune the queries in `NEWS_FEEDS` or the prompt in `geminiCompose_`.
+- Auto-generated content still carries your name. Preview a few before trusting
+  the daily send, and keep an eye on it.
+
 ## Notes & limits
 
 - **Volume:** Workspace accounts can send ~1,500–2,000 emails/day via Apps Script.
