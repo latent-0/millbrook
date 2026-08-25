@@ -106,28 +106,40 @@ export const joinCommunity = createServerFn({ method: 'POST' })
 
 export type DiagnosticInput = {
   phone: string
+  email: string
   company: string
   website: string
   description: string
+  acceptTerms: boolean
+  newsletter: boolean
 }
+
+const truthy = (v: unknown) => v === true || v === 'true' || v === 'on' || v === 1
 
 function validateDiagnostic(data: unknown): DiagnosticInput {
   if (!data || typeof data !== 'object') throw new Error('Invalid submission.')
   const d = data as Record<string, unknown>
   const phone = String(d.phone ?? '').trim()
+  const email = String(d.email ?? '').trim()
   const company = String(d.company ?? '').trim()
   const website = String(d.website ?? '').trim()
   const description = String(d.description ?? '').trim()
+  const acceptTerms = truthy(d.acceptTerms)
+  const newsletter = truthy(d.newsletter)
 
   if (phone.replace(/\D/g, '').length < 7) {
     throw new Error('Please enter a valid phone number.')
+  }
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    throw new Error('Please enter a valid email address.')
   }
   if (company.length < 2) throw new Error('Please enter your company name.')
   const host = website.replace(/^https?:\/\//i, '').replace(/\/+$/, '')
   if (!/^([a-z0-9-]+\.)+[a-z]{2,}(\/.*)?$/i.test(host)) {
     throw new Error('Please enter a valid website URL.')
   }
-  return { phone, company, website, description }
+  if (!acceptTerms) throw new Error('Please accept the terms to continue.')
+  return { phone, email, company, website, description, acceptTerms, newsletter }
 }
 
 /** Founders Circle free AEO + GTM diagnostic claim. Same wiring as above. */
