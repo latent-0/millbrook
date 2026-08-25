@@ -403,22 +403,36 @@ function ClaimForm() {
 
         {/* consent + opt-in */}
         <div className="mt-6 space-y-3.5">
-          <label className="flex cursor-pointer items-start gap-3">
+          <div className="flex items-start gap-3">
             <input
+              id="f-terms"
               type="checkbox"
               checked={form.acceptTerms}
               onChange={toggle('acceptTerms')}
               className="mt-0.5 h-4 w-4 shrink-0"
               style={{ accentColor: 'var(--color-cognac)' }}
             />
-            <span className="font-sans text-[0.82rem] leading-relaxed text-ink-60">
-              I accept the terms and allow Rothenhall to crawl my website’s public
-              pages to prepare the diagnostic.
-            </span>
-          </label>
+            <p className="font-sans text-[0.82rem] leading-relaxed text-ink-60">
+              <label htmlFor="f-terms" className="cursor-pointer">
+                I accept the{' '}
+              </label>
+              <a
+                href="/terms"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-ink underline underline-offset-2 hover:text-cognac"
+              >
+                Terms and Conditions
+              </a>
+              <label htmlFor="f-terms" className="cursor-pointer">
+                .
+              </label>
+            </p>
+          </div>
 
-          <label className="flex cursor-pointer items-start gap-3">
+          <label htmlFor="f-news" className="flex cursor-pointer items-start gap-3">
             <input
+              id="f-news"
               type="checkbox"
               checked={form.newsletter}
               onChange={toggle('newsletter')}
@@ -426,22 +440,9 @@ function ClaimForm() {
               style={{ accentColor: 'var(--color-cognac)' }}
             />
             <span className="font-sans text-[0.82rem] leading-relaxed text-ink-60">
-              Also send me occasional GTM + AI news. Unsubscribe anytime.
+              Send me GTM + AI news. Unsubscribe anytime.
             </span>
           </label>
-
-          <details className="group/terms">
-            <summary className="cursor-pointer list-none font-sans text-[0.74rem] text-ink-45 underline underline-offset-2">
-              What am I agreeing to?
-            </summary>
-            <p className="mt-2 font-sans text-[0.74rem] leading-relaxed text-ink-45">
-              By claiming, you allow Rothenhall Partners to fetch and read your
-              website’s public pages to assess your AI visibility and prepare the
-              diagnostic. We store the details you enter to contact you about it, and
-              nothing more. Newsletter is optional and separate. You can ask us to
-              delete your data, or unsubscribe, at any time.
-            </p>
-          </details>
         </div>
 
         {status === 'error' && (
