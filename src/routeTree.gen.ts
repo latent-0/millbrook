@@ -18,6 +18,7 @@ import { Route as CaseStudiesRouteImport } from './routes/case-studies'
 import { Route as CommunityRouteImport } from './routes/community'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as FaqRouteImport } from './routes/faq'
+import { Route as FoundersRouteImport } from './routes/founders'
 import { Route as HowToShowUpInChatgptRouteImport } from './routes/how-to-show-up-in-chatgpt'
 import { Route as ResearchRouteImport } from './routes/research'
 
@@ -66,6 +67,11 @@ const FaqRoute = FaqRouteImport.update({
   path: '/faq',
   getParentRoute: () => rootRouteImport,
 } as any)
+const FoundersRoute = FoundersRouteImport.update({
+  id: '/founders',
+  path: '/founders',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const HowToShowUpInChatgptRoute = HowToShowUpInChatgptRouteImport.update({
   id: '/how-to-show-up-in-chatgpt',
   path: '/how-to-show-up-in-chatgpt',
@@ -87,6 +93,7 @@ export interface FileRoutesByFullPath {
   '/community': typeof CommunityRoute
   '/contact': typeof ContactRoute
   '/faq': typeof FaqRoute
+  '/founders': typeof FoundersRoute
   '/how-to-show-up-in-chatgpt': typeof HowToShowUpInChatgptRoute
   '/research': typeof ResearchRoute
 }
@@ -100,6 +107,7 @@ export interface FileRoutesByTo {
   '/community': typeof CommunityRoute
   '/contact': typeof ContactRoute
   '/faq': typeof FaqRoute
+  '/founders': typeof FoundersRoute
   '/how-to-show-up-in-chatgpt': typeof HowToShowUpInChatgptRoute
   '/research': typeof ResearchRoute
 }
@@ -114,6 +122,7 @@ export interface FileRoutesById {
   '/community': typeof CommunityRoute
   '/contact': typeof ContactRoute
   '/faq': typeof FaqRoute
+  '/founders': typeof FoundersRoute
   '/how-to-show-up-in-chatgpt': typeof HowToShowUpInChatgptRoute
   '/research': typeof ResearchRoute
 }
@@ -129,6 +138,7 @@ export interface FileRouteTypes {
     | '/community'
     | '/contact'
     | '/faq'
+    | '/founders'
     | '/how-to-show-up-in-chatgpt'
     | '/research'
   fileRoutesByTo: FileRoutesByTo
@@ -142,6 +152,7 @@ export interface FileRouteTypes {
     | '/community'
     | '/contact'
     | '/faq'
+    | '/founders'
     | '/how-to-show-up-in-chatgpt'
     | '/research'
   id:
@@ -155,6 +166,7 @@ export interface FileRouteTypes {
     | '/community'
     | '/contact'
     | '/faq'
+    | '/founders'
     | '/how-to-show-up-in-chatgpt'
     | '/research'
   fileRoutesById: FileRoutesById
@@ -169,6 +181,7 @@ export interface RootRouteChildren {
   CommunityRoute: typeof CommunityRoute
   ContactRoute: typeof ContactRoute
   FaqRoute: typeof FaqRoute
+  FoundersRoute: typeof FoundersRoute
   HowToShowUpInChatgptRoute: typeof HowToShowUpInChatgptRoute
   ResearchRoute: typeof ResearchRoute
 }
@@ -238,6 +251,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FaqRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/founders': {
+      id: '/founders'
+      path: '/founders'
+      fullPath: '/founders'
+      preLoaderRoute: typeof FoundersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/how-to-show-up-in-chatgpt': {
       id: '/how-to-show-up-in-chatgpt'
       path: '/how-to-show-up-in-chatgpt'
@@ -265,6 +285,7 @@ const rootRouteChildren: RootRouteChildren = {
   CommunityRoute: CommunityRoute,
   ContactRoute: ContactRoute,
   FaqRoute: FaqRoute,
+  FoundersRoute: FoundersRoute,
   HowToShowUpInChatgptRoute: HowToShowUpInChatgptRoute,
   ResearchRoute: ResearchRoute,
 }

@@ -172,7 +172,7 @@ export function Header() {
                     : 'text-ink-80 hover:text-ink'
                 }`}
                 activeProps={{ className: light ? 'text-canvas' : 'text-ink' }}
-                activeOptions={{ exact: item.to === '/' }}
+                activeOptions={{ exact: false }}
               >
                 {item.label}
               </Link>
@@ -230,7 +230,7 @@ export function Header() {
                 onClick={() => setOpen(false)}
                 className="font-display text-2xl py-3 text-ink-80"
                 activeProps={{ className: 'text-ink' }}
-                activeOptions={{ exact: item.to === '/' }}
+                activeOptions={{ exact: false }}
               >
                 {item.label}
               </Link>
@@ -287,7 +287,7 @@ export function Footer() {
             <ul className="mt-5 space-y-3 font-sans text-[0.95rem] text-canvas/70">
               {NAV.map((item) => (
                 <li key={item.to}>
-                  <Link to={item.to} className="link-line" activeOptions={{ exact: item.to === '/' }}>
+                  <Link to={item.to} className="link-line" activeOptions={{ exact: false }}>
                     {item.label}
                   </Link>
                 </li>

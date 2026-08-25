@@ -104,6 +104,40 @@ export const joinCommunity = createServerFn({ method: 'POST' })
     return { ok: true as const }
   })
 
+export type DiagnosticInput = {
+  phone: string
+  company: string
+  website: string
+  description: string
+}
+
+function validateDiagnostic(data: unknown): DiagnosticInput {
+  if (!data || typeof data !== 'object') throw new Error('Invalid submission.')
+  const d = data as Record<string, unknown>
+  const phone = String(d.phone ?? '').trim()
+  const company = String(d.company ?? '').trim()
+  const website = String(d.website ?? '').trim()
+  const description = String(d.description ?? '').trim()
+
+  if (phone.replace(/\D/g, '').length < 7) {
+    throw new Error('Please enter a valid phone number.')
+  }
+  if (company.length < 2) throw new Error('Please enter your company name.')
+  const host = website.replace(/^https?:\/\//i, '').replace(/\/+$/, '')
+  if (!/^([a-z0-9-]+\.)+[a-z]{2,}(\/.*)?$/i.test(host)) {
+    throw new Error('Please enter a valid website URL.')
+  }
+  return { phone, company, website, description }
+}
+
+/** Founders Circle free AEO + GTM diagnostic claim. Same wiring as above. */
+export const claimDiagnostic = createServerFn({ method: 'POST' })
+  .validator(validateDiagnostic)
+  .handler(async ({ data }) => {
+    await forward('diagnostic', data)
+    return { ok: true as const }
+  })
+
 export const submitInquiry = createServerFn({ method: 'POST' })
   .validator(validate)
   .handler(async ({ data }) => {
