@@ -28,7 +28,9 @@ const SUB_HEADERS = [
   'email', 'name', 'source', 'status', 'token',
   'subscribedAt', 'unsubscribedAt', 'lastSentAt',
 ]
-const COMPOSE = 'Compose' // tab where you write an issue: B1 = subject, B2 = body
+const COMPOSE = 'Compose' // tab where you write a one-off issue: B1 = subject, B2 = body
+const QUEUE = 'Queue' // tab where you schedule issues, one per row
+const QUEUE_HEADERS = ['sendOn', 'subject', 'body', 'status', 'sentAt', 'sentCount']
 
 /* ------------------------------------------------------------------ */
 /*  Web endpoints                                                     */
@@ -230,11 +232,54 @@ function page_(title, body) {
   ).setTitle(title)
 }
 
-/** Optional: a menu in the Sheet for one-click sending. */
+/* ------------------------------------------------------------------ */
+/*  Scheduled sending (the Queue tab + a daily trigger)               */
+/* ------------------------------------------------------------------ */
+
+/**
+ * Runs automatically once a day (see installDailyTrigger). Sends any Queue row
+ * whose `sendOn` date has arrived and is not yet marked "sent". Put one issue
+ * per row: sendOn (a date), subject, body. Leave status blank until it sends.
+ */
+function sendDueIssues() {
+  const sh = sheet_(QUEUE, QUEUE_HEADERS)
+  const rows = sh.getDataRange().getValues()
+  const today = new Date()
+  today.setHours(0, 0, 0, 0)
+  for (let i = 1; i < rows.length; i++) {
+    const sendOn = rows[i][0], subject = rows[i][1], body = rows[i][2], status = rows[i][3]
+    if (String(status).toLowerCase() === 'sent') continue
+    if (!subject || !body || !sendOn) continue
+    const d = sendOn instanceof Date ? new Date(sendOn) : new Date(String(sendOn))
+    if (isNaN(d.getTime())) continue
+    d.setHours(0, 0, 0, 0)
+    if (d.getTime() > today.getTime()) continue // not due yet
+    const n = sendIssue(String(subject), String(body))
+    sh.getRange(i + 1, 4).setValue('sent')
+    sh.getRange(i + 1, 5).setValue(new Date())
+    sh.getRange(i + 1, 6).setValue(n)
+  }
+}
+
+/** Run this once to turn on automatic daily sending (fires around 8am). */
+function installDailyTrigger() {
+  ScriptApp.getProjectTriggers().forEach((t) => {
+    if (t.getHandlerFunction() === 'sendDueIssues') ScriptApp.deleteTrigger(t)
+  })
+  ScriptApp.newTrigger('sendDueIssues').timeBased().everyDays(1).atHour(8).create()
+  const sh = sheet_(QUEUE, QUEUE_HEADERS) // make sure the tab exists
+  if (sh.getLastRow() === 0) sh.appendRow(QUEUE_HEADERS)
+  return 'Daily auto-send is on (about 8am). Add rows to the Queue tab.'
+}
+
+/** Optional: a menu in the Sheet for one-click actions. */
 function onOpen() {
   SpreadsheetApp.getUi()
     .createMenu('Rothenhall Newsletter')
     .addItem('Send test to me', 'sendTest')
     .addItem('Send issue from Compose tab', 'sendComposeSheet')
+    .addSeparator()
+    .addItem('Turn on daily auto-send', 'installDailyTrigger')
+    .addItem('Send due queued issues now', 'sendDueIssues')
     .addToUi()
 }
