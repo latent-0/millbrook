@@ -457,6 +457,88 @@
   border-top: 1px solid var(--color-line);
   margin: 2.6rem 0;
 }
+/* Tables: horizontally scrollable, clear grid lines (extractable for AEO). */
+.blog-prose .table-scroll {
+  overflow-x: auto;
+  border: 1px solid var(--color-line-strong);
+  border-radius: 14px;
+  background: var(--color-paper);
+  -webkit-overflow-scrolling: touch;
+}
+.blog-prose .table-scroll table {
+  margin: 0;
+  border-collapse: collapse;
+  width: 100%;
+  min-width: 34rem;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+.blog-prose thead th {
+  background: var(--color-canvas-2);
+  font-family: var(--font-display);
+  font-weight: 600;
+  color: var(--color-ink);
+  font-size: 0.95rem;
+}
+.blog-prose th,
+.blog-prose td {
+  border: 1px solid var(--color-line-strong);
+  padding: 0.7rem 0.95rem;
+  text-align: left;
+  vertical-align: top;
+}
+.blog-prose tbody tr:nth-child(even) td {
+  background: color-mix(in oklab, var(--color-canvas-2) 40%, transparent);
+}
+.blog-prose tbody td:first-child {
+  font-weight: 600;
+  color: var(--color-ink);
+}
+
+/* Scroll blur-reveal for article blocks. Progressive enhancement only:
+   the class is added by JS, so no-JS crawlers get fully visible content. */
+.reveal-blur {
+  opacity: 0;
+  filter: blur(9px);
+  transform: translateY(16px);
+  transition:
+    opacity 0.75s cubic-bezier(0.22, 1, 0.36, 1),
+    filter 0.75s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, filter, transform;
+}
+.reveal-blur.is-in {
+  opacity: 1;
+  filter: blur(0);
+  transform: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal-blur {
+    opacity: 1;
+    filter: none;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* Cover: gentle settle-in zoom on load. */
+.blog-cover img {
+  animation: cover-zoom 1.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@keyframes cover-zoom {
+  from {
+    transform: scale(1.08);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .blog-cover img {
+    animation: none;
+  }
+}
+
 /* JSON-LD script blocks live in the html but must never display. */
 .blog-prose script {
   display: none;

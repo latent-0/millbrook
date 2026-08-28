@@ -30,14 +30,26 @@ function fmtDate(iso: string | null): string {
   }
 }
 
+/* Bento rhythm: tiles tile into 6-wide rows (4+2 / 2+2+2 / 3+3), repeating.
+   grid-flow-dense backfills any gaps so the wall always looks intentional. */
+const LAYOUT: Array<{ span: string; variant: 'feature' | 'wide' | 'small' }> = [
+  { span: 'sm:col-span-2 lg:col-span-4', variant: 'feature' },
+  { span: 'sm:col-span-1 lg:col-span-2', variant: 'small' },
+  { span: 'sm:col-span-1 lg:col-span-2', variant: 'small' },
+  { span: 'sm:col-span-2 lg:col-span-2', variant: 'small' },
+  { span: 'sm:col-span-1 lg:col-span-2', variant: 'small' },
+  { span: 'sm:col-span-2 lg:col-span-3', variant: 'wide' },
+  { span: 'sm:col-span-2 lg:col-span-3', variant: 'wide' },
+]
+
 function Meta({ post }: { post: PublicBlogCard }) {
   const bits = [
     post.authorName,
-    post.readingMinutes ? `${post.readingMinutes} min read` : '',
+    post.readingMinutes ? `${post.readingMinutes} min` : '',
     fmtDate(post.publishedAt),
   ].filter(Boolean)
   return (
-    <p className="font-sans text-[0.8rem] tracking-wide text-ink-45">
+    <p className="font-sans text-[0.76rem] tracking-wide text-ink-45">
       {bits.join('  ·  ')}
     </p>
   )
@@ -46,89 +58,76 @@ function Meta({ post }: { post: PublicBlogCard }) {
 function CategoryTag({ label }: { label: string }) {
   return (
     <span
-      className="inline-flex items-center rounded-full border border-line-strong px-3 py-1 font-sans text-ink-80"
-      style={{ fontSize: '0.62rem', letterSpacing: '0.16em', textTransform: 'uppercase' }}
+      className="inline-flex items-center rounded-full border border-line-strong bg-canvas/60 px-3 py-1 font-sans text-ink-80 backdrop-blur"
+      style={{ fontSize: '0.6rem', letterSpacing: '0.16em', textTransform: 'uppercase' }}
     >
       {label}
     </span>
   )
 }
 
-function FeaturedCard({ post }: { post: PublicBlogCard }) {
-  return (
-    <Link
-      to="/blog/$slug"
-      params={{ slug: post.slug }}
-      className="group convex-light block overflow-hidden rounded-[2rem] rounded-br-[4.5rem] md:grid md:grid-cols-2"
-    >
-      <div className="relative aspect-[16/11] overflow-hidden md:aspect-auto md:h-full">
-        <img
-          src={post.coverImageUrl}
-          alt={post.title}
-          loading="eager"
-          className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
-        />
-      </div>
-      <div className="flex flex-col justify-between p-8 sm:p-10">
-        <div>
-          <div className="flex items-center gap-2.5">
-            <CategoryTag label={post.category || 'Field note'} />
-            <span className="font-sans text-[0.68rem] uppercase tracking-[0.16em] text-cognac">
-              Latest
-            </span>
-          </div>
-          <h2
-            className="mt-6 font-display text-ink"
-            style={{ fontSize: 'clamp(1.9rem, 3.2vw, 2.7rem)', fontWeight: 500, lineHeight: 1.06, letterSpacing: '-0.02em' }}
-          >
-            {post.title}
-          </h2>
-          <p className="mt-4 max-w-xl font-sans text-[1.05rem] leading-relaxed text-ink-60">
-            {post.excerpt}
-          </p>
-        </div>
-        <div className="mt-8 flex items-center justify-between">
-          <Meta post={post} />
-          <span className="font-sans text-[0.85rem] font-medium text-cognac-deep">
-            Read
-            <span className="inline-block transition-transform duration-300 group-hover:translate-x-1"> →</span>
-          </span>
-        </div>
-      </div>
-    </Link>
-  )
-}
+function BentoTile({
+  post,
+  span,
+  variant,
+}: {
+  post: PublicBlogCard
+  span: string
+  variant: 'feature' | 'wide' | 'small'
+}) {
+  const minH =
+    variant === 'feature'
+      ? 'min-h-[16rem]'
+      : variant === 'wide'
+        ? 'min-h-[11rem]'
+        : 'min-h-[9rem]'
+  const titleSize =
+    variant === 'feature' ? '2rem' : variant === 'wide' ? '1.45rem' : '1.25rem'
+  const showExcerpt = variant !== 'small'
 
-function Card({ post }: { post: PublicBlogCard }) {
   return (
     <Link
       to="/blog/$slug"
       params={{ slug: post.slug }}
-      className="group convex-light flex flex-col overflow-hidden rounded-[1.75rem]"
+      className={`group convex-light flex h-full flex-col overflow-hidden rounded-[1.6rem] ${span}`}
     >
-      <div className="relative aspect-[16/10] overflow-hidden">
+      <div className={`relative ${minH} flex-1 overflow-hidden`}>
         <img
           src={post.coverImageUrl}
           alt={post.title}
-          loading="lazy"
-          className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+          loading={variant === 'feature' ? 'eager' : 'lazy'}
+          className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.05]"
         />
-      </div>
-      <div className="flex flex-1 flex-col p-7">
-        <div className="flex items-center gap-2">
+        <div
+          className="pointer-events-none absolute inset-0"
+          style={{ background: 'linear-gradient(180deg, rgba(20,18,13,0) 45%, rgba(20,18,13,0.28))' }}
+        />
+        <div className="absolute left-4 top-4">
           <CategoryTag label={post.category || 'Field note'} />
         </div>
-        <h3
-          className="mt-5 font-display text-ink"
-          style={{ fontSize: '1.5rem', fontWeight: 500, lineHeight: 1.12, letterSpacing: '-0.01em' }}
+      </div>
+      <div className={`flex flex-col ${variant === 'feature' ? 'p-8' : 'p-6'}`}>
+        <h2
+          className="font-display text-ink"
+          style={{ fontSize: titleSize, fontWeight: 500, lineHeight: 1.1, letterSpacing: '-0.015em' }}
         >
           {post.title}
-        </h3>
-        <p className="mt-3 flex-1 font-sans text-[0.98rem] leading-relaxed text-ink-60">
-          {post.excerpt.length > 140 ? `${post.excerpt.slice(0, 140).trim()}…` : post.excerpt}
-        </p>
-        <div className="mt-6">
+        </h2>
+        {showExcerpt && (
+          <p className="mt-3 font-sans text-[0.98rem] leading-relaxed text-ink-60">
+            {post.excerpt.length > (variant === 'feature' ? 200 : 120)
+              ? `${post.excerpt.slice(0, variant === 'feature' ? 200 : 120).trim()}…`
+              : post.excerpt}
+          </p>
+        )}
+        <div className="mt-5 flex items-center justify-between gap-3">
           <Meta post={post} />
+          <span
+            aria-hidden
+            className="font-sans text-[0.85rem] text-cognac-deep opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+          >
+            Read →
+          </span>
         </div>
       </div>
     </Link>
@@ -155,7 +154,6 @@ function EmptyState() {
 
 function BlogIndex() {
   const { posts } = Route.useLoaderData()
-  const [featured, ...rest] = posts
 
   return (
     <div className="bg-canvas text-ink">
@@ -179,22 +177,20 @@ function BlogIndex() {
         </Container>
       </section>
 
-      {/* Posts */}
+      {/* Bento wall */}
       <section>
-        <Container width="wide" className="py-16 sm:py-20">
+        <Container width="wide" className="py-14 sm:py-20">
           {posts.length === 0 ? (
             <EmptyState />
           ) : (
-            <>
-              <FeaturedCard post={featured} />
-              {rest.length > 0 && (
-                <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                  {rest.map((post) => (
-                    <Card key={post.id} post={post} />
-                  ))}
-                </div>
-              )}
-            </>
+            <div className="grid grid-flow-dense auto-rows-auto grid-cols-1 items-stretch gap-4 sm:grid-cols-2 lg:grid-cols-6">
+              {posts.map((post, i) => {
+                const l = LAYOUT[i % LAYOUT.length]
+                return (
+                  <BentoTile key={post.id} post={post} span={l.span} variant={l.variant} />
+                )
+              })}
+            </div>
           )}
         </Container>
       </section>

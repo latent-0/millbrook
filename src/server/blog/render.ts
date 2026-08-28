@@ -10,7 +10,12 @@ import { normalizeJsonLd, type JsonLd } from './types'
 marked.setOptions({ gfm: true, breaks: false })
 
 export function markdownToHtml(markdown: string): string {
-  return marked.parse(markdown, { async: false }) as string
+  const html = marked.parse(markdown, { async: false }) as string
+  // Wrap tables so they can scroll horizontally on narrow screens without
+  // pushing the page body sideways.
+  return html
+    .replace(/<table>/g, '<div class="table-scroll"><table>')
+    .replace(/<\/table>/g, '</table></div>')
 }
 
 /**

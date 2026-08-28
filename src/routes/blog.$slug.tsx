@@ -1,4 +1,5 @@
 import { createFileRoute, Link, notFound } from '@tanstack/react-router'
+import { useEffect, useRef } from 'react'
 import { Container, Eyebrow } from '../components/site'
 import { seo, SITE } from '../lib/seo'
 import { getPublishedBlog } from '../server/blog/queries'
@@ -68,6 +69,39 @@ function BlogPost() {
   ].filter(Boolean)
   const authorUrl = post.author?.url
   const authorExternal = !!authorUrl && !authorUrl.includes('rothenhall.com')
+  const proseRef = useRef<HTMLDivElement>(null)
+
+  // Scroll blur-reveal for article blocks. Progressive enhancement: the full
+  // text ships in the SSR HTML and is untouched for crawlers; only when JS runs
+  // do below-the-fold blocks start hidden and fade/blur in as you scroll. Blocks
+  // already on screen at load are never hidden, so there is no flash.
+  useEffect(() => {
+    const root = proseRef.current
+    if (!root || typeof IntersectionObserver === 'undefined') return
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            e.target.classList.add('is-in')
+            io.unobserve(e.target)
+          }
+        })
+      },
+      { threshold: 0.12, rootMargin: '0px 0px -8% 0px' },
+    )
+
+    const vh = window.innerHeight || 800
+    Array.from(root.children).forEach((node) => {
+      const el = node as HTMLElement
+      if (el.tagName === 'SCRIPT') return
+      if (el.getBoundingClientRect().top < vh * 0.85) return
+      el.classList.add('reveal-blur')
+      io.observe(el)
+    })
+    return () => io.disconnect()
+  }, [post.slug])
 
   return (
     <div className="bg-canvas text-ink">
@@ -127,19 +161,29 @@ function BlogPost() {
         {/* Cover */}
         {post.coverImage?.url && (
           <Container width="wide" className="pt-10 sm:pt-14">
-            <div className="overflow-hidden rounded-[2rem] rounded-br-[4rem] border border-line">
+            <figure className="blog-cover group relative overflow-hidden rounded-[2.5rem] rounded-br-[5.5rem] shadow-[0_50px_100px_-60px_rgba(26,23,18,0.6)]">
               <img
                 src={post.coverImage.url}
                 alt={post.coverImage.alt || post.title}
-                className="aspect-[16/8] w-full object-cover"
+                className="aspect-[16/10] w-full object-cover sm:aspect-[21/9]"
               />
-            </div>
+              <div
+                className="pointer-events-none absolute inset-0"
+                style={{ background: 'linear-gradient(180deg, rgba(20,18,13,0) 55%, rgba(20,18,13,0.32))' }}
+              />
+              {post.coverImage.caption && (
+                <figcaption className="absolute bottom-5 left-6 right-6 font-sans text-[0.82rem] text-canvas/85">
+                  {post.coverImage.caption}
+                </figcaption>
+              )}
+            </figure>
           </Container>
         )}
 
         {/* Body (rendered from stored markdown + JSON-LD script blocks) */}
         <Container width="narrow" className="py-14 sm:py-20">
           <div
+            ref={proseRef}
             className="blog-prose"
             dangerouslySetInnerHTML={{ __html: post.html }}
           />
