@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as AeoVsSeoRouteImport } from './routes/aeo-vs-seo'
 import { Route as ApproachRouteImport } from './routes/approach'
+import { Route as BlogsRouteImport } from './routes/blogs'
 import { Route as CailyxRouteImport } from './routes/cailyx'
 import { Route as CaseStudiesRouteImport } from './routes/case-studies'
 import { Route as CommunityRouteImport } from './routes/community'
@@ -22,6 +23,7 @@ import { Route as FoundersRouteImport } from './routes/founders'
 import { Route as HowToShowUpInChatgptRouteImport } from './routes/how-to-show-up-in-chatgpt'
 import { Route as ResearchRouteImport } from './routes/research'
 import { Route as TermsRouteImport } from './routes/terms'
+import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -41,6 +43,11 @@ const AeoVsSeoRoute = AeoVsSeoRouteImport.update({
 const ApproachRoute = ApproachRouteImport.update({
   id: '/approach',
   path: '/approach',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BlogsRoute = BlogsRouteImport.update({
+  id: '/blogs',
+  path: '/blogs',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CailyxRoute = CailyxRouteImport.update({
@@ -88,12 +95,18 @@ const TermsRoute = TermsRouteImport.update({
   path: '/terms',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BlogSlugRoute = BlogSlugRouteImport.update({
+  id: '/blog/$slug',
+  path: '/blog/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/aeo-vs-seo': typeof AeoVsSeoRoute
   '/approach': typeof ApproachRoute
+  '/blogs': typeof BlogsRoute
   '/cailyx': typeof CailyxRoute
   '/case-studies': typeof CaseStudiesRoute
   '/community': typeof CommunityRoute
@@ -103,12 +116,14 @@ export interface FileRoutesByFullPath {
   '/how-to-show-up-in-chatgpt': typeof HowToShowUpInChatgptRoute
   '/research': typeof ResearchRoute
   '/terms': typeof TermsRoute
+  '/blog/$slug': typeof BlogSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/aeo-vs-seo': typeof AeoVsSeoRoute
   '/approach': typeof ApproachRoute
+  '/blogs': typeof BlogsRoute
   '/cailyx': typeof CailyxRoute
   '/case-studies': typeof CaseStudiesRoute
   '/community': typeof CommunityRoute
@@ -118,6 +133,7 @@ export interface FileRoutesByTo {
   '/how-to-show-up-in-chatgpt': typeof HowToShowUpInChatgptRoute
   '/research': typeof ResearchRoute
   '/terms': typeof TermsRoute
+  '/blog/$slug': typeof BlogSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -125,6 +141,7 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/aeo-vs-seo': typeof AeoVsSeoRoute
   '/approach': typeof ApproachRoute
+  '/blogs': typeof BlogsRoute
   '/cailyx': typeof CailyxRoute
   '/case-studies': typeof CaseStudiesRoute
   '/community': typeof CommunityRoute
@@ -134,6 +151,7 @@ export interface FileRoutesById {
   '/how-to-show-up-in-chatgpt': typeof HowToShowUpInChatgptRoute
   '/research': typeof ResearchRoute
   '/terms': typeof TermsRoute
+  '/blog/$slug': typeof BlogSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -142,6 +160,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/aeo-vs-seo'
     | '/approach'
+    | '/blogs'
     | '/cailyx'
     | '/case-studies'
     | '/community'
@@ -151,12 +170,14 @@ export interface FileRouteTypes {
     | '/how-to-show-up-in-chatgpt'
     | '/research'
     | '/terms'
+    | '/blog/$slug'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/about'
     | '/aeo-vs-seo'
     | '/approach'
+    | '/blogs'
     | '/cailyx'
     | '/case-studies'
     | '/community'
@@ -166,12 +187,14 @@ export interface FileRouteTypes {
     | '/how-to-show-up-in-chatgpt'
     | '/research'
     | '/terms'
+    | '/blog/$slug'
   id:
     | '__root__'
     | '/'
     | '/about'
     | '/aeo-vs-seo'
     | '/approach'
+    | '/blogs'
     | '/cailyx'
     | '/case-studies'
     | '/community'
@@ -181,6 +204,7 @@ export interface FileRouteTypes {
     | '/how-to-show-up-in-chatgpt'
     | '/research'
     | '/terms'
+    | '/blog/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -188,6 +212,7 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   AeoVsSeoRoute: typeof AeoVsSeoRoute
   ApproachRoute: typeof ApproachRoute
+  BlogsRoute: typeof BlogsRoute
   CailyxRoute: typeof CailyxRoute
   CaseStudiesRoute: typeof CaseStudiesRoute
   CommunityRoute: typeof CommunityRoute
@@ -197,6 +222,7 @@ export interface RootRouteChildren {
   HowToShowUpInChatgptRoute: typeof HowToShowUpInChatgptRoute
   ResearchRoute: typeof ResearchRoute
   TermsRoute: typeof TermsRoute
+  BlogSlugRoute: typeof BlogSlugRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -227,6 +253,13 @@ declare module '@tanstack/react-router' {
       path: '/approach'
       fullPath: '/approach'
       preLoaderRoute: typeof ApproachRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/blogs': {
+      id: '/blogs'
+      path: '/blogs'
+      fullPath: '/blogs'
+      preLoaderRoute: typeof BlogsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/cailyx': {
@@ -292,6 +325,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TermsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/blog/$slug': {
+      id: '/blog/$slug'
+      path: '/blog/$slug'
+      fullPath: '/blog/$slug'
+      preLoaderRoute: typeof BlogSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -300,6 +340,7 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   AeoVsSeoRoute: AeoVsSeoRoute,
   ApproachRoute: ApproachRoute,
+  BlogsRoute: BlogsRoute,
   CailyxRoute: CailyxRoute,
   CaseStudiesRoute: CaseStudiesRoute,
   CommunityRoute: CommunityRoute,
@@ -309,6 +350,7 @@ const rootRouteChildren: RootRouteChildren = {
   HowToShowUpInChatgptRoute: HowToShowUpInChatgptRoute,
   ResearchRoute: ResearchRoute,
   TermsRoute: TermsRoute,
+  BlogSlugRoute: BlogSlugRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

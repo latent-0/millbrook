@@ -311,6 +311,134 @@
   background-repeat: repeat;
 }
 
+/* ------------------------------------------------------------------ */
+/*  Blog article prose (rendered from stored markdown/html)            */
+/* ------------------------------------------------------------------ */
+.blog-prose {
+  font-family: var(--font-sans);
+  font-size: 1.12rem;
+  line-height: 1.75;
+  color: var(--color-ink-80);
+}
+.blog-prose > * + * {
+  margin-top: 1.35em;
+}
+.blog-prose h2 {
+  font-family: var(--font-display);
+  font-size: clamp(1.7rem, 3vw, 2.3rem);
+  font-weight: 500;
+  color: var(--color-ink);
+  letter-spacing: -0.015em;
+  margin-top: 2.6rem;
+  line-height: 1.12;
+}
+.blog-prose h3 {
+  font-family: var(--font-display);
+  font-size: clamp(1.35rem, 2.2vw, 1.7rem);
+  font-weight: 500;
+  color: var(--color-ink);
+  margin-top: 2rem;
+}
+.blog-prose h4 {
+  font-family: var(--font-sans);
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: var(--color-ink);
+  margin-top: 1.8rem;
+}
+.blog-prose p {
+  text-wrap: pretty;
+}
+.blog-prose a {
+  color: var(--color-cognac-deep);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+  text-decoration-color: var(--color-line-strong);
+  transition: text-decoration-color 0.3s ease;
+}
+.blog-prose a:hover {
+  text-decoration-color: var(--color-cognac);
+}
+.blog-prose strong {
+  color: var(--color-ink);
+  font-weight: 600;
+}
+.blog-prose ul,
+.blog-prose ol {
+  padding-left: 1.4em;
+}
+.blog-prose ul {
+  list-style: none;
+}
+.blog-prose ul > li {
+  position: relative;
+}
+.blog-prose ul > li::before {
+  content: "";
+  position: absolute;
+  left: -1.1em;
+  top: 0.72em;
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--color-cognac);
+}
+.blog-prose ol {
+  list-style: decimal;
+}
+.blog-prose li + li {
+  margin-top: 0.5em;
+}
+.blog-prose blockquote {
+  border-left: 2px solid var(--color-cognac);
+  padding-left: 1.4rem;
+  margin-left: 0;
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  font-weight: 400;
+  line-height: 1.35;
+  color: var(--color-ink);
+}
+.blog-prose code {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.9em;
+  background: var(--color-canvas-2);
+  border: 1px solid var(--color-line);
+  border-radius: 6px;
+  padding: 0.12em 0.4em;
+}
+.blog-prose pre {
+  background: var(--color-night);
+  color: #ece5d6;
+  border-radius: 14px;
+  padding: 1.3rem 1.5rem;
+  overflow-x: auto;
+  font-size: 0.92rem;
+  line-height: 1.6;
+}
+.blog-prose pre code {
+  background: transparent;
+  border: 0;
+  padding: 0;
+  color: inherit;
+}
+.blog-prose img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 16px;
+}
+.blog-prose hr {
+  border: 0;
+  border-top: 1px solid var(--color-line);
+  margin: 2.6rem 0;
+}
+/* JSON-LD script blocks live in the html but must never display. */
+.blog-prose script {
+  display: none;
+}
+
 /* Fluid display type scale */
 .text-display-xl {
   font-size: clamp(3rem, 8vw, 7.5rem);
