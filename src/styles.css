@@ -285,6 +285,29 @@
   filter: drop-shadow(0 26px 44px rgba(0, 0, 0, 0.6));
 }
 
+/* Organic blob mask for the founder portrait: borderless, slowly morphing */
+.blob-founder {
+  border-radius: 62% 38% 57% 43% / 46% 58% 42% 54%;
+  animation: blob-morph 16s ease-in-out infinite;
+}
+@keyframes blob-morph {
+  0%,
+  100% {
+    border-radius: 62% 38% 57% 43% / 46% 58% 42% 54%;
+  }
+  33% {
+    border-radius: 52% 48% 45% 55% / 55% 47% 53% 45%;
+  }
+  66% {
+    border-radius: 56% 44% 52% 48% / 44% 56% 46% 54%;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .blob-founder {
+    animation: none;
+  }
+}
+
 /* Gentle float for hero orbs and docked artwork */
 @keyframes soft-float {
   0%, 100% { transform: translateY(0) }

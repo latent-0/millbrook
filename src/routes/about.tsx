@@ -119,20 +119,21 @@ function About() {
           <div className="grid gap-14 md:grid-cols-12 md:items-center">
             <div className="md:col-span-5">
               <Reveal>
-                <div className="group convex-light overflow-hidden rounded-[2rem] rounded-br-[4rem] p-2">
-                  <div className="relative flex aspect-[4/5] w-full items-center justify-center overflow-hidden rounded-[1.6rem] rounded-br-[3.4rem] bg-canvas-2">
-                    <span className="font-display text-7xl text-line-strong" aria-hidden>
-                      KA
-                    </span>
-                    <img
-                      src="/brand/founder.jpeg"
-                      alt="Kunal Achintya Reddy, founder of Rothenhall Partners"
-                      onError={(e) => {
-                        e.currentTarget.style.display = 'none'
-                      }}
-                      className="absolute inset-0 h-full w-full object-cover object-center grayscale transition-[filter,transform] duration-700 ease-out group-hover:grayscale-0 group-hover:scale-[1.02] motion-reduce:transition-none"
-                    />
-                  </div>
+                <div
+                  className="blob-founder group relative mx-auto flex aspect-[4/5] w-full max-w-md items-center justify-center overflow-hidden bg-canvas-2"
+                  style={{ boxShadow: '0 40px 80px -46px rgba(26, 23, 18, 0.5)' }}
+                >
+                  <span className="font-display text-7xl text-line-strong" aria-hidden>
+                    KA
+                  </span>
+                  <img
+                    src="/brand/founder.jpeg"
+                    alt="Kunal Achintya Reddy, founder of Rothenhall Partners"
+                    onError={(e) => {
+                      e.currentTarget.style.display = 'none'
+                    }}
+                    className="absolute inset-0 h-full w-full object-cover object-center grayscale transition-[filter,transform] duration-700 ease-out group-hover:grayscale-0 group-hover:scale-[1.03] motion-reduce:transition-none"
+                  />
                 </div>
               </Reveal>
             </div>
