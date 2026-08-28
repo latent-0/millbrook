@@ -53,6 +53,37 @@ const FOR = [
   },
 ]
 
+const FOUNDER_LINKS = [
+  {
+    label: 'Kunal on LinkedIn',
+    href: 'https://www.linkedin.com/in/kunalachintyareddy/',
+    icon: (
+      <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18" aria-hidden>
+        <path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM9 9h3.8v1.64h.06c.53-1 1.83-2.05 3.76-2.05 4.02 0 4.76 2.65 4.76 6.1V21h-4v-5.4c0-1.29-.02-2.95-1.8-2.95-1.8 0-2.08 1.4-2.08 2.85V21H9z" />
+      </svg>
+    ),
+  },
+  {
+    label: 'Kunal on Google Scholar',
+    href: 'https://scholar.google.com/citations?user=8ajuQHEAAAAJ&hl=en',
+    icon: (
+      <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18" aria-hidden>
+        <path d="M12 3 1 9l11 6 7-3.82V17h2V9.9L23 9zM5 13.18V17c0 1.66 3.13 3 7 3s7-1.34 7-3v-3.82l-7 3.82z" />
+      </svg>
+    ),
+  },
+  {
+    label: 'Email Kunal',
+    href: 'mailto:kunal@rothenhall.com',
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" width="18" height="18" aria-hidden>
+        <rect x="3" y="5" width="18" height="14" rx="2" />
+        <path d="m3.5 7 8.5 6 8.5-6" />
+      </svg>
+    ),
+  },
+]
+
 function About() {
   return (
     <>
@@ -76,6 +107,68 @@ function About() {
                   new front page made of AI answers and the lean teams with no
                   strategy for appearing in them, is the reason Rothenhall exists.
                 </p>
+              </Reveal>
+            </div>
+          </div>
+        </Container>
+      </section>
+
+      {/* Founder */}
+      <section id="founder" className="scroll-mt-28 border-b border-line">
+        <Container className="py-24 sm:py-32">
+          <div className="grid gap-14 md:grid-cols-12 md:items-center">
+            <div className="md:col-span-5">
+              <Reveal>
+                <div className="convex-light overflow-hidden rounded-[2rem] rounded-br-[4rem] p-2">
+                  <div className="relative flex aspect-[4/5] w-full items-center justify-center overflow-hidden rounded-[1.6rem] rounded-br-[3.4rem] bg-canvas-2">
+                    <span className="font-display text-7xl text-line-strong" aria-hidden>
+                      KA
+                    </span>
+                    <img
+                      src="/brand/founder.jpg"
+                      alt="Kunal Achintya Reddy, founder of Rothenhall Partners"
+                      onError={(e) => {
+                        e.currentTarget.style.display = 'none'
+                      }}
+                      className="absolute inset-0 h-full w-full object-cover object-center"
+                    />
+                  </div>
+                </div>
+              </Reveal>
+            </div>
+            <div className="md:col-span-6 md:col-start-7">
+              <Reveal delay={100}>
+                <Eyebrow>Founder</Eyebrow>
+                <h2 className="text-display-md mt-6">Kunal Achintya Reddy</h2>
+                <p className="mt-3 font-sans text-[0.82rem] uppercase tracking-[0.16em] text-cognac-deep">
+                  Founder, Rothenhall Partners
+                </p>
+                <p className="mt-7 text-lead text-ink-80">
+                  Kunal founded Rothenhall to close the gap the AI boom opened: a
+                  new front page made of AI answers, and lean teams with no way to
+                  appear in it.
+                </p>
+                <p className="mt-5 font-sans text-[1.05rem] leading-relaxed text-ink-60">
+                  He is the operating partner behind AEO, GTM, and RevOps for
+                  founders and funds, and researches how answer engines decide who
+                  gets recommended. The practice is that research turned into a
+                  repeatable operating standard.
+                </p>
+                <div className="mt-8 flex items-center gap-3">
+                  {FOUNDER_LINKS.map((l) => (
+                    <a
+                      key={l.label}
+                      href={l.href}
+                      aria-label={l.label}
+                      title={l.label}
+                      target={l.href.startsWith('mailto:') ? undefined : '_blank'}
+                      rel={l.href.startsWith('mailto:') ? undefined : 'me noopener noreferrer'}
+                      className="flex h-10 w-10 items-center justify-center rounded-full border border-line text-ink-45 transition-colors hover:border-cognac hover:text-cognac-deep"
+                    >
+                      {l.icon}
+                    </a>
+                  ))}
+                </div>
               </Reveal>
             </div>
           </div>

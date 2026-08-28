@@ -62,11 +62,12 @@ function fmtDate(iso: string | null): string {
 
 function BlogPost() {
   const { post } = Route.useLoaderData()
-  const meta = [
-    post.author?.name,
+  const rest = [
     post.readingMinutes ? `${post.readingMinutes} min read` : '',
     fmtDate(post.publishedAt),
   ].filter(Boolean)
+  const authorUrl = post.author?.url
+  const authorExternal = !!authorUrl && !authorUrl.includes('rothenhall.com')
 
   return (
     <div className="bg-canvas text-ink">
@@ -97,9 +98,27 @@ function BlogPost() {
             <p className="mt-6 max-w-2xl font-sans text-[1.2rem] leading-relaxed text-ink-60">
               {post.excerpt}
             </p>
-            {meta.length > 0 && (
+            {(post.author?.name || rest.length > 0) && (
               <p className="mt-8 font-sans text-[0.85rem] tracking-wide text-ink-45">
-                {meta.join('  ·  ')}
+                {post.author?.name && (
+                  <span>
+                    By{' '}
+                    {authorUrl ? (
+                      <a
+                        href={authorUrl}
+                        rel={authorExternal ? 'author noopener noreferrer' : 'author'}
+                        target={authorExternal ? '_blank' : undefined}
+                        className="text-ink-70 underline decoration-line-strong underline-offset-2 transition-colors hover:text-cognac-deep hover:decoration-cognac"
+                      >
+                        {post.author.name}
+                      </a>
+                    ) : (
+                      <span className="text-ink-70">{post.author.name}</span>
+                    )}
+                    {rest.length > 0 && '  ·  '}
+                  </span>
+                )}
+                {rest.join('  ·  ')}
               </p>
             )}
           </Container>

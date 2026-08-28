@@ -27,6 +27,8 @@ export type ImageAsset = {
 export type BlogAuthor = {
   name: string
   title?: string
+  /** Optional link for the byline (founder section, LinkedIn, etc.). */
+  url?: string
   externalId?: string
   avatarUrl?: string
 }

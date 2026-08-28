@@ -18,6 +18,9 @@ const imageAsset = z.object({
 const authorSchema = z.object({
   name: z.string().min(1).max(100),
   title: z.string().max(100).optional(),
+  // Link the byline. When set, "By {name}" on the article becomes a link,
+  // e.g. https://www.rothenhall.com/about#founder or a LinkedIn profile.
+  url: z.string().url().optional(),
   externalId: z.string().max(100).optional(),
   avatarUrl: z.string().url().optional(),
 })

@@ -58,7 +58,11 @@ curl -X POST https://www.rothenhall.com/api/v1/blog/upload \
     "metaDescription": "A practical guide to AEO for B2B SaaS: entity clarity, off-site corpus, answer-shaped pages.",
     "coverImage": { "url": "https://cdn.example.com/card-800x600.webp", "alt": "Diagram of the three AEO levers" },
     "ogImage":    { "url": "https://cdn.example.com/og-1200x630.webp", "alt": "AEO for B2B SaaS, social card" },
-    "author": { "name": "Rothenhall Partners", "title": "Operating Partners" },
+    "author": {
+      "name": "Kunal Achintya Reddy",
+      "title": "Founder",
+      "url": "https://www.rothenhall.com/about#founder"
+    },
     "category": "aeo",
     "tags": ["aeo", "geo", "b2b-saas"],
     "status": "published",
@@ -114,7 +118,31 @@ curl -X POST .../blog/$ID/status -H "Authorization: Bearer $TOKEN" \
 
 ---
 
-## 4. Image + JSON-LD notes
+## 4. Author byline (linked)
+
+`author` is `{ name, title?, url? }`. On the article the byline reads
+**By {name}**, and when `url` is set the name becomes a clickable link.
+
+- Link it to the founder section: `"url": "https://www.rothenhall.com/about#founder"`
+  (same-tab). This is the usual choice for posts written by Kunal.
+- Or link a personal profile, e.g. LinkedIn (opens in a new tab):
+  `"url": "https://www.linkedin.com/in/kunalachintyareddy/"`.
+
+```json
+"author": { "name": "Kunal Achintya Reddy", "title": "Founder", "url": "https://www.rothenhall.com/about#founder" }
+```
+
+Update the byline later without touching the post body:
+
+```bash
+curl -X PATCH https://www.rothenhall.com/api/v1/blog/BLOG_ID/author \
+  -H "Authorization: Bearer $BLOG_API_TOKEN" -H "Content-Type: application/json" \
+  -d '{ "author": { "name": "Kunal Achintya Reddy", "title": "Founder", "url": "https://www.rothenhall.com/about#founder" } }'
+```
+
+---
+
+## 5. Image + JSON-LD notes
 
 - **coverImage** = the card image on `/blogs` (aim 800x600, WebP, < 75KB).
 - **ogImage** = the social/share card (1200x630, < 300KB). If you only have one
@@ -129,7 +157,7 @@ curl -X POST .../blog/$ID/status -H "Authorization: Bearer $TOKEN" \
 
 ---
 
-## 5. Errors
+## 6. Errors
 
 - `400 ValidationError` - `{ error, issues: [{ path, message }] }`. Validation
   runs before conflict checks.
@@ -140,7 +168,7 @@ curl -X POST .../blog/$ID/status -H "Authorization: Bearer $TOKEN" \
 
 ---
 
-## 6. Where it lives in the repo
+## 7. Where it lives in the repo
 
 - `api/v1/**` - the Nitro REST handlers (thin; registered in `vite.config.ts`).
 - `src/server/blog/` - the engine: `store.ts` (KV/file), `schema.ts` (zod
