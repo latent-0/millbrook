@@ -19,8 +19,8 @@ Baseline from our own audit (Sept 2026):
 
 ## Phase 1 — Entity (SOP-4). Highest leverage for a brand nobody knows yet
 - [ ] Lock one canonical name and one canonical one-line descriptor. Use it verbatim everywhere (site, LinkedIn, directories, bios, press).
-- [ ] Add `Organization` and `Person` (founder) JSON-LD with a complete `sameAs` (LinkedIn company + personal, Crunchbase, any profiles). We currently ship `ProfessionalService` + `WebSite`; add the rest.
-- [ ] Disambiguate from "Roth Capital Partners" explicitly in the descriptor and schema, so a model never merges the two.
+- [x] Add `Organization` and `Person` (founder) JSON-LD with `sameAs` (done Sept 2026): org node is now `["Organization","ProfessionalService"]` linking a Person node for Kunal Achintya Reddy (sameAs LinkedIn + Google Scholar, worksFor the org). Still to add when the URLs exist: Crunchbase, G2/Clutch profiles to the `sameAs` arrays.
+- [x] Disambiguate from similarly named financial firms in the schema (done): org `disambiguatingDescription` now states it is distinct from any similarly named financial, capital, or investment firm.
 - [ ] Claim and standardise profiles: LinkedIn company page, Crunchbase, Google Business Profile, and one vendor directory (Clutch or G2) with the identical descriptor.
 - [ ] Assess Wikidata eligibility against the real criteria. Do not fabricate notability. Create the item only if it qualifies.
 
