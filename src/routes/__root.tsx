@@ -18,13 +18,13 @@ const SITE = {
 
 const orgSchema = {
   '@context': 'https://schema.org',
-  '@type': 'ProfessionalService',
+  '@type': ['Organization', 'ProfessionalService'],
   '@id': `${SITE.url}/#organization`,
   name: SITE.name,
   alternateName: 'Rothenhall',
   description: SITE.description,
   disambiguatingDescription:
-    'Rothenhall Partners is a B2B fractional operating partner and AI-visibility (AEO/GEO), go-to-market, and RevOps firm based in Bengaluru, India. It is not the historical place or manor of the same name.',
+    'Rothenhall Partners is a B2B fractional operating partner and AI-visibility (AEO/GEO), go-to-market, and RevOps firm based in Bengaluru, India, founded by Kunal Achintya Reddy. It is distinct from any similarly named financial, capital, or investment firm, and from the historical place of the same name.',
   url: SITE.url,
   logo: `${SITE.url}/brand/wordmark.png`,
   image: `${SITE.url}/og-image.jpg`,
@@ -32,6 +32,7 @@ const orgSchema = {
   email: 'office@rothenhall.com',
   telephone: '+91-9398386765',
   slogan: 'Be the company the AI recommends.',
+  founder: { '@id': `${SITE.url}/#founder` },
   address: {
     '@type': 'PostalAddress',
     streetAddress: '2nd Floor, HAL 2nd Stage, Vimanapura S.O.',
@@ -80,6 +81,30 @@ const websiteSchema = {
   description: SITE.description,
   inLanguage: 'en',
   publisher: { '@id': `${SITE.url}/#organization` },
+}
+
+const founderSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  '@id': `${SITE.url}/#founder`,
+  name: 'Kunal Achintya Reddy',
+  givenName: 'Kunal',
+  jobTitle: 'Founder',
+  url: `${SITE.url}/about#founder`,
+  image: `${SITE.url}/brand/founder.jpeg`,
+  email: 'kunal@rothenhall.com',
+  worksFor: { '@id': `${SITE.url}/#organization` },
+  sameAs: [
+    'https://www.linkedin.com/in/kunalachintyareddy/',
+    'https://scholar.google.com/citations?user=8ajuQHEAAAAJ&hl=en',
+  ],
+  knowsAbout: [
+    'Answer Engine Optimization',
+    'Generative Engine Optimization',
+    'AI search visibility',
+    'Go-to-Market Strategy',
+    'Revenue Operations',
+  ],
 }
 
 export const Route = createRootRoute({
@@ -160,6 +185,10 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(founderSchema) }}
         />
       </head>
       <body>
