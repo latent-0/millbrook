@@ -81,6 +81,23 @@ const CASE_STUDIES = [
   },
 ]
 
+const TESTIMONIALS = [
+  {
+    quote:
+      'I think your tool could be good for ad agencies too. It shares some of the similarities of the research we’re also interested in.',
+    name: 'Laurence O’Byrne',
+    role: 'Founder, Napkin',
+    initials: 'LO',
+  },
+  {
+    quote:
+      'This was a really great tool for us. After your recent fixes, we got 3 new leads.',
+    name: 'Kim Vemula',
+    role: 'DayOne Technologies',
+    initials: 'KV',
+  },
+]
+
 function CaseStudies() {
   return (
     <>
@@ -243,8 +260,54 @@ function CaseStudies() {
         </Container>
       </section>
 
-      {/* Founding cohort (honest state) */}
+      {/* Testimonials */}
       <section className="border-t border-line bg-canvas-2">
+        <Container className="py-24 sm:py-32">
+          <div className="max-w-3xl">
+            <Reveal>
+              <Eyebrow>In their words</Eyebrow>
+              <h2 className="text-display-md mt-6">What clients say.</h2>
+            </Reveal>
+          </div>
+          <div className="mt-14 grid gap-6 md:grid-cols-2">
+            {TESTIMONIALS.map((t, i) => (
+              <Reveal key={t.name} delay={i * 90}>
+                <figure className="flex h-full flex-col rounded-2xl border border-line bg-paper p-8 sm:p-10">
+                  <span
+                    aria-hidden="true"
+                    className="font-display text-brass-soft"
+                    style={{ fontSize: '3rem', lineHeight: 0.7 }}
+                  >
+                    &ldquo;
+                  </span>
+                  <blockquote
+                    className="mt-3 font-display text-ink"
+                    style={{ fontSize: 'clamp(1.3rem,2.1vw,1.6rem)', lineHeight: 1.3 }}
+                  >
+                    {t.quote}
+                  </blockquote>
+                  <figcaption className="mt-auto flex items-center gap-3 pt-8">
+                    <span className="flex h-11 w-11 flex-none items-center justify-center rounded-full bg-brass font-display text-[0.95rem] text-canvas">
+                      {t.initials}
+                    </span>
+                    <span>
+                      <span className="block font-sans font-medium text-ink">
+                        {t.name}
+                      </span>
+                      <span className="block font-sans text-[0.85rem] text-ink-45">
+                        {t.role}
+                      </span>
+                    </span>
+                  </figcaption>
+                </figure>
+              </Reveal>
+            ))}
+          </div>
+        </Container>
+      </section>
+
+      {/* Founding cohort (honest state) */}
+      <section className="border-t border-line">
         <Container width="narrow" className="py-24 sm:py-32 text-center">
           <Reveal>
             <Eyebrow className="justify-center inline-flex">Founding engagements</Eyebrow>
