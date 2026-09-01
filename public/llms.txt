@@ -1,0 +1,43 @@
+# Rothenhall Partners
+
+> India-first fractional operating partner for venture- and PE-backed companies worldwide. Rothenhall runs AEO and GEO (AI search visibility), go-to-market, and revenue operations as one accountable engine, so a company becomes the one an AI assistant recommends.
+
+Rothenhall Partners embeds a senior operator to run the demand system a full-time hire would run, without the full-time hire. The primary wedge is AI answer-engine visibility: measuring whether ChatGPT, Claude, Perplexity, and Google's AI surfaces recommend a company against a defined query set, then moving that rate. Results are reported as distributions, never as rankings, and no placement in any individual AI answer is ever promised.
+
+Tagline: Be the company the AI recommends.
+
+## Core pages
+- [Approach](https://www.rothenhall.com/approach): How Rothenhall works, the four-rung ladder from a free scorecard to a retainer, and what the firm refuses to do.
+- [Case studies](https://www.rothenhall.com/case-studies): Documented before-and-after engagements with measured AI Visibility Scores.
+- [Research](https://www.rothenhall.com/research): First-party data on how AI answer engines read, quote, and cite the web.
+- [AEO vs SEO](https://www.rothenhall.com/aeo-vs-seo): Why ranking in Google and being recommended by an AI are now two different problems.
+- [How to show up in ChatGPT](https://www.rothenhall.com/how-to-show-up-in-chatgpt): A practical primer on AI answer-engine visibility.
+- [FAQ](https://www.rothenhall.com/faq): Common questions on AEO, GEO, measurement, and timelines.
+- [About](https://www.rothenhall.com/about): The thesis and the practice behind Rothenhall.
+- [Contact](https://www.rothenhall.com/contact): Book a conversation or request a diagnostic.
+
+## What Rothenhall does
+- AEO and GEO (AI search visibility): measurement against a defined query set across ChatGPT, Claude, Perplexity, and Google's AI surfaces; entity and schema work; off-site corpus building; crawler-access and rendering audits.
+- Go-to-market: demand strategy, positioning, and pipeline as one system.
+- RevOps: measurement, attribution, and a single source of truth a fund can read and trust.
+
+## Facts
+- Entity: Rothenhall Partners, a fractional operating partner practice. Distinct from any similarly named financial or capital firm.
+- Serves: venture- and PE-backed companies, roughly Series A to C, worldwide, India-first.
+- Measurement standard: at least five runs per prompt across at least two geographies; distributions reported, never rankings; every number sourced and caveated; no guaranteed placement.
+
+## Optional
+- [Community](https://www.rothenhall.com/community)
+- [Cailyx](https://www.rothenhall.com/cailyx)
+- [Founders](https://www.rothenhall.com/founders)
+- [Journal](https://www.rothenhall.com/blogs)
+- [Terms](https://www.rothenhall.com/terms)
+
+<!--
+  Note on this file. llms.txt is a proposed convention (llmstxt.org), not a ranking signal.
+  Adoption by AI crawlers is limited and Google has said publicly it does not use it.
+  Rothenhall publishes it because it costs nothing, it gives any model that reads it a clean and
+  accurate summary of the entity, and it keeps the site's own content inventory honest.
+  It is not treated as a lever. The real work is off-site: entity consistency, third-party
+  citations, reviews, and original data.
+-->
