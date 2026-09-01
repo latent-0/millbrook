@@ -50,6 +50,7 @@ const CASE_STUDIES = [
     slug: 'napkin',
     client: 'Napkin',
     tag: 'Creative AI studio, Dublin',
+    no: '01',
     engagement: 'Diagnostic',
     metric: '43 / 100',
     metricLabel: 'AI Visibility Score',
@@ -61,6 +62,7 @@ const CASE_STUDIES = [
     slug: 'betterwaves',
     client: 'BetterWaves',
     tag: 'AI wellbeing app',
+    no: '02',
     engagement: 'Diagnostic',
     metric: '14 / 100',
     metricLabel: 'AI Visibility Score',
@@ -72,6 +74,7 @@ const CASE_STUDIES = [
     slug: 'day1tech',
     client: 'DayOne Technologies',
     tag: 'Technology operating partner',
+    no: '03',
     engagement: 'Diagnostic, then remediation',
     metric: '55 → 62',
     metricLabel: 'AI Visibility Score, +12%',
@@ -222,6 +225,15 @@ function CaseStudies() {
             {CASE_STUDIES.map((cs, i) => (
               <Reveal key={cs.slug} delay={i * 80}>
                 <div className="flex h-full flex-col rounded-2xl border border-line bg-canvas p-8">
+                  <div className="mb-5 flex items-center gap-3">
+                    <span
+                      className="font-display text-brass"
+                      style={{ fontSize: '1.4rem', lineHeight: 1 }}
+                    >
+                      {cs.no}
+                    </span>
+                    <span aria-hidden="true" className="h-px flex-1 bg-line" />
+                  </div>
                   <Eyebrow>{cs.tag}</Eyebrow>
                   <h3 className="mt-4 font-display" style={{ fontSize: '1.7rem' }}>
                     {cs.client}
