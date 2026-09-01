@@ -50,7 +50,7 @@ const CASE_STUDIES = [
     slug: 'napkin',
     client: 'Napkin',
     tag: 'Creative AI studio, Dublin',
-    type: 'Diagnostic',
+    engagement: 'Diagnostic',
     metric: '43 / 100',
     metricLabel: 'AI Visibility Score',
     result: 'A silent CDN rule was turning away Perplexity, Claude and ChatGPT.',
@@ -61,7 +61,7 @@ const CASE_STUDIES = [
     slug: 'betterwaves',
     client: 'BetterWaves',
     tag: 'AI wellbeing app',
-    type: 'Diagnostic',
+    engagement: 'Diagnostic',
     metric: '14 / 100',
     metricLabel: 'AI Visibility Score',
     result: 'A real app with almost no web footprint to be found by.',
@@ -72,7 +72,7 @@ const CASE_STUDIES = [
     slug: 'day1tech',
     client: 'DayOne Technologies',
     tag: 'Technology operating partner',
-    type: 'Diagnostic and remediation',
+    engagement: 'Diagnostic, then remediation',
     metric: '55 → 62',
     metricLabel: 'AI Visibility Score, +12%',
     result: '+12% AI visibility and 3 new qualified leads from phase one.',
@@ -222,15 +222,8 @@ function CaseStudies() {
             {CASE_STUDIES.map((cs, i) => (
               <Reveal key={cs.slug} delay={i * 80}>
                 <div className="flex h-full flex-col rounded-2xl border border-line bg-canvas p-8">
-                  <div className="flex items-center justify-between gap-3">
-                    <span className="font-sans text-[0.72rem] uppercase tracking-[0.18em] text-ink-45">
-                      {cs.tag}
-                    </span>
-                    <span className="whitespace-nowrap rounded-full border border-line-strong px-3 py-1 font-sans text-[0.62rem] uppercase tracking-[0.1em] text-brass-deep">
-                      {cs.type}
-                    </span>
-                  </div>
-                  <h3 className="mt-5 font-display" style={{ fontSize: '1.7rem' }}>
+                  <Eyebrow>{cs.tag}</Eyebrow>
+                  <h3 className="mt-4 font-display" style={{ fontSize: '1.7rem' }}>
                     {cs.client}
                   </h3>
                   <div className="mt-5 flex items-baseline gap-3">
@@ -250,15 +243,25 @@ function CaseStudies() {
                   <p className="mt-3 font-sans text-[0.92rem] leading-relaxed text-ink-60">
                     {cs.body}
                   </p>
-                  <a
-                    href={cs.report}
-                    target="_blank"
-                    rel="noopener"
-                    className="link-line mt-6 inline-flex items-center gap-2 font-sans text-[0.9rem] font-medium text-ink"
-                  >
-                    Read the AI visibility brief
-                    <span aria-hidden="true">&rarr;</span>
-                  </a>
+                  <div className="mt-auto flex items-center justify-between gap-4 border-t border-line pt-5">
+                    <span className="font-sans text-[0.72rem] leading-tight text-ink-45">
+                      <span className="uppercase tracking-[0.16em] text-brass-deep">
+                        Engagement
+                      </span>
+                      <span aria-hidden="true" className="mx-2 text-line-strong">
+                        /
+                      </span>
+                      {cs.engagement}
+                    </span>
+                    <a
+                      href={cs.report}
+                      target="_blank"
+                      rel="noopener"
+                      className="link-line whitespace-nowrap font-sans text-[0.85rem] font-medium text-ink"
+                    >
+                      Read the brief <span aria-hidden="true">&rarr;</span>
+                    </a>
+                  </div>
                 </div>
               </Reveal>
             ))}
