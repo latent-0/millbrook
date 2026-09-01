@@ -91,16 +91,12 @@ function BentoTile({
       params={{ slug: post.slug }}
       className={`group convex-light flex h-full flex-col overflow-hidden rounded-[1.6rem] ${span}`}
     >
-      <div className={`relative ${minH} flex-1 overflow-hidden`}>
+      <div className={`relative ${minH} flex-1 overflow-hidden bg-canvas-2`}>
         <img
           src={post.coverImageUrl}
           alt={post.title}
           loading={variant === 'feature' ? 'eager' : 'lazy'}
-          className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.05]"
-        />
-        <div
-          className="pointer-events-none absolute inset-0"
-          style={{ background: 'linear-gradient(180deg, rgba(20,18,13,0) 45%, rgba(20,18,13,0.28))' }}
+          className="absolute inset-0 h-full w-full object-contain p-2 transition-transform duration-700 ease-out group-hover:scale-[1.03]"
         />
         <div className="absolute left-4 top-4">
           <CategoryTag label={post.category || 'Field note'} />
