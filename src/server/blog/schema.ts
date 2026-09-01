@@ -1,5 +1,6 @@
 /**
- * Request validation for the blog API, mirroring BLOG_API_CONTRACT.md §6.
+ * Request validation for the blog API, mirroring the field rules in
+ * docs/blog-api.md §7.
  * Zod gives us the exact issue shape ({ path, message }) the contract returns
  * on 400.
  */
