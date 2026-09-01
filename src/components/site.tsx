@@ -314,6 +314,11 @@ export function Footer() {
                 </Link>
               </li>
               <li>
+                <Link to="/ai-visibility-score" className="link-line">
+                  AI Visibility Score
+                </Link>
+              </li>
+              <li>
                 <Link to="/contact" className="link-line">
                   Contact
                 </Link>
