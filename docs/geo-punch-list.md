@@ -34,7 +34,7 @@ Baseline from our own audit (Sept 2026):
 
 ## Phase 3 — Original data and named frameworks (SOP-8, SOP-9). The compounding assets
 - [ ] Repackage /research as a citable asset: headline stat, visible methodology, comparison tables, sourced numbers. Distribute it (LinkedIn, PR, Reddit, podcasts).
-- [ ] Brand-name our own framework at creation: define and publish "the Rothenhall AI Visibility Score" and its five dimensions as a named, owned concept, so models attribute it to us rather than absorbing it generically.
+- [x] Brand-name our own framework (done Sept 2026): published `/ai-visibility-score`, defining the AI Visibility Score, its five weighted dimensions, four bands, and measurement standard, with an extractable "Definition" block that names it as a Rothenhall framework. Linked from footer nav and sitemap.
 - [ ] Commit to one original data study per quarter (survey n≥200, or analysis of our own diagnostic corpus). One good study produces citable facts for roughly two years.
 
 ## Phase 4 — On-page extractability (SOP-6). Already strong; keep it sharp
