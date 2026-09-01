@@ -30,6 +30,7 @@ import {
   patchBlogSchema,
   patchAuthorSchema,
   statusTransitionSchema,
+  stripReadOnly,
   toIssues,
 } from './schema'
 import type { z } from 'zod'
@@ -212,7 +213,7 @@ async function applyChanges(
 }
 
 export async function patchBlog(id: string, raw: unknown) {
-  const parsed = patchBlogSchema.safeParse(raw)
+  const parsed = patchBlogSchema.safeParse(stripReadOnly(raw))
   if (!parsed.success) throw validationError(parsed.error)
   const record = await resolve(id)
   const next = await applyChanges(record, parsed.data)
@@ -221,7 +222,7 @@ export async function patchBlog(id: string, raw: unknown) {
 }
 
 export async function replaceBlog(id: string, raw: unknown) {
-  const parsed = createBlogSchema.safeParse(raw)
+  const parsed = createBlogSchema.safeParse(stripReadOnly(raw))
   if (!parsed.success) throw validationError(parsed.error)
   const record = await resolve(id)
   // Full replace keeps identity + createdAt, replaces everything else.
@@ -250,8 +251,11 @@ export async function patchAuthor(id: string, raw: unknown) {
 /*  Delete / archive                                                */
 /* ---------------------------------------------------------------- */
 
-export async function removeBlog(id: string, hard: boolean) {
-  const record = await getBlogById(id)
+export async function removeBlog(idOrSlug: string, hard: boolean) {
+  // Resolve by id or slug, matching GET/PATCH/PUT so a post can be deleted by
+  // whichever handle the caller has.
+  const record =
+    (await getBlogById(idOrSlug)) ?? (await getBlogBySlug(idOrSlug))
   if (!record) throw new ApiError(404, { error: 'NotFound', message: 'Blog not found' })
   if (hard && record.status !== 'draft') {
     throw new ApiError(409, {
@@ -259,9 +263,9 @@ export async function removeBlog(id: string, hard: boolean) {
       message: 'Hard delete is allowed on drafts only',
     })
   }
-  const res = await deleteBlog(id, hard)
+  const res = await deleteBlog(record.id, hard)
   if (hard) return { deleted: true }
-  return { id, status: res.record?.status ?? 'archived' }
+  return { id: record.id, status: res.record?.status ?? 'archived' }
 }
 
 /* ---------------------------------------------------------------- */

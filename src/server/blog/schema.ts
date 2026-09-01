@@ -70,9 +70,10 @@ export const createBlogSchema = z
     tags: z.array(z.string().max(30)).max(10).optional(),
     keywords: z.array(z.string().max(50)).max(10).optional(),
     faq: z.array(z.object({ question: z.string(), answer: z.string() })).max(8).optional(),
-    status: z
-      .enum(['draft', 'in_review', 'approved', 'scheduled', 'published'])
-      .default('draft'),
+    // Any valid status is accepted on write. This also lets a fetched record
+    // (which may be `archived`/`changes_requested`) round-trip back through
+    // PATCH/PUT without a spurious enum error.
+    status: z.enum(BLOG_STATUSES).default('draft'),
     publishedAt: z.coerce.date().optional(),
     updatedAt: z.coerce.date().optional(),
     noIndex: z.boolean().default(false),
@@ -80,6 +81,41 @@ export const createBlogSchema = z
   .strict()
 
 export const patchBlogSchema = createBlogSchema.partial().strict()
+
+/**
+ * Fields the API emits in responses but never accepts as input (server-owned
+ * mirrors and derived values). We strip them from PATCH/PUT bodies so the
+ * natural "GET a post, change a field, send it back" flow doesn't 400 on keys
+ * the client only received because we returned them. Along with these, any
+ * key whose value is `null` is dropped: the API returns `null` for unset
+ * optional fields (e.g. `author`, `category`, `publishedAt`), and a null means
+ * "not set" — there is nothing to write, so it is a no-op rather than a type
+ * error. Genuine unknown keys (typos in editable fields) are still rejected by
+ * `.strict()`.
+ */
+const READ_ONLY_KEYS = [
+  'id',
+  'html',
+  'coverImageUrl',
+  'ogImageUrl',
+  'jsonLdValid',
+  'jsonLdTypes',
+  'readingMinutes',
+  'scheduledAt',
+  'createdAt',
+  'publishedUrl',
+  'nextActions',
+] as const
+
+export function stripReadOnly(raw: unknown): unknown {
+  if (!raw || typeof raw !== 'object' || Array.isArray(raw)) return raw
+  const out: Record<string, unknown> = { ...(raw as Record<string, unknown>) }
+  for (const key of READ_ONLY_KEYS) delete out[key]
+  for (const key of Object.keys(out)) {
+    if (out[key] === null) delete out[key]
+  }
+  return out
+}
 
 export const patchAuthorSchema = z.object({ author: authorSchema }).strict()
 

@@ -103,8 +103,9 @@ Server derives `html` from `markdown` - do not send `html`.
 | `GET` | `/blog-sitemap.xml` | Public sitemap of published posts (no auth) |
 
 Every endpoint except the sitemap requires the `Authorization: Bearer` header.
-`:id` accepts the blog id (`blog_…`) everywhere; `GET`, `PATCH`, `PUT`, and the
-status/author sub-routes also resolve a slug passed in the `:id` position.
+`:id` accepts either the blog id (`blog_…`) or the slug in the `:id` position on
+every single-post route — `GET`, `PATCH`, `PUT`, `DELETE`, and the status/author
+sub-routes all resolve both.
 
 ### Create — `POST /blog/upload`
 
@@ -158,6 +159,12 @@ Send only the fields you want to change; everything else is untouched. Any
 create field is accepted. Changing `markdown` or `jsonLd` re-renders `html` and
 recomputes `readingMinutes`. Renaming `slug` is allowed until a post is
 published, after which it returns `409` (published URLs are permanent).
+
+**Round-trip friendly:** you can `GET` a post, change a field, and send the
+whole record straight back. Server-owned fields in the response (`id`, `html`,
+`readingMinutes`, `jsonLdTypes`, `coverImageUrl`/`ogImageUrl`, `scheduledAt`,
+`createdAt`, …) and any field returned as `null` are ignored rather than
+rejected; only genuine unknown keys (a typo in an editable field) return `400`.
 
 ```bash
 curl -X PATCH https://www.rothenhall.com/api/v1/blog/$ID \
