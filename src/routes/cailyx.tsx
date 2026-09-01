@@ -78,9 +78,14 @@ function Cailyx() {
             </p>
           </Reveal>
           <Reveal delay={200}>
-            <a href="#waitlist" className="btn btn-light mt-9">
-              Request early access
-            </a>
+            <div className="mt-9 flex flex-wrap gap-4">
+              <a href="#waitlist" className="btn btn-light">
+                Request early access
+              </a>
+              <a href="/pricing" className="btn btn-ghost-light">
+                See pricing
+              </a>
+            </div>
           </Reveal>
         </Container>
       </section>

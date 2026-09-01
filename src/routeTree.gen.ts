@@ -22,6 +22,7 @@ import { Route as ContactRouteImport } from './routes/contact'
 import { Route as FaqRouteImport } from './routes/faq'
 import { Route as FoundersRouteImport } from './routes/founders'
 import { Route as HowToShowUpInChatgptRouteImport } from './routes/how-to-show-up-in-chatgpt'
+import { Route as PricingRouteImport } from './routes/pricing'
 import { Route as ResearchRouteImport } from './routes/research'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
@@ -91,6 +92,11 @@ const HowToShowUpInChatgptRoute = HowToShowUpInChatgptRouteImport.update({
   path: '/how-to-show-up-in-chatgpt',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PricingRoute = PricingRouteImport.update({
+  id: '/pricing',
+  path: '/pricing',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ResearchRoute = ResearchRouteImport.update({
   id: '/research',
   path: '/research',
@@ -121,6 +127,7 @@ export interface FileRoutesByFullPath {
   '/faq': typeof FaqRoute
   '/founders': typeof FoundersRoute
   '/how-to-show-up-in-chatgpt': typeof HowToShowUpInChatgptRoute
+  '/pricing': typeof PricingRoute
   '/research': typeof ResearchRoute
   '/terms': typeof TermsRoute
   '/blog/$slug': typeof BlogSlugRoute
@@ -139,6 +146,7 @@ export interface FileRoutesByTo {
   '/faq': typeof FaqRoute
   '/founders': typeof FoundersRoute
   '/how-to-show-up-in-chatgpt': typeof HowToShowUpInChatgptRoute
+  '/pricing': typeof PricingRoute
   '/research': typeof ResearchRoute
   '/terms': typeof TermsRoute
   '/blog/$slug': typeof BlogSlugRoute
@@ -158,6 +166,7 @@ export interface FileRoutesById {
   '/faq': typeof FaqRoute
   '/founders': typeof FoundersRoute
   '/how-to-show-up-in-chatgpt': typeof HowToShowUpInChatgptRoute
+  '/pricing': typeof PricingRoute
   '/research': typeof ResearchRoute
   '/terms': typeof TermsRoute
   '/blog/$slug': typeof BlogSlugRoute
@@ -178,6 +187,7 @@ export interface FileRouteTypes {
     | '/faq'
     | '/founders'
     | '/how-to-show-up-in-chatgpt'
+    | '/pricing'
     | '/research'
     | '/terms'
     | '/blog/$slug'
@@ -196,6 +206,7 @@ export interface FileRouteTypes {
     | '/faq'
     | '/founders'
     | '/how-to-show-up-in-chatgpt'
+    | '/pricing'
     | '/research'
     | '/terms'
     | '/blog/$slug'
@@ -214,6 +225,7 @@ export interface FileRouteTypes {
     | '/faq'
     | '/founders'
     | '/how-to-show-up-in-chatgpt'
+    | '/pricing'
     | '/research'
     | '/terms'
     | '/blog/$slug'
@@ -233,6 +245,7 @@ export interface RootRouteChildren {
   FaqRoute: typeof FaqRoute
   FoundersRoute: typeof FoundersRoute
   HowToShowUpInChatgptRoute: typeof HowToShowUpInChatgptRoute
+  PricingRoute: typeof PricingRoute
   ResearchRoute: typeof ResearchRoute
   TermsRoute: typeof TermsRoute
   BlogSlugRoute: typeof BlogSlugRoute
@@ -331,6 +344,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof HowToShowUpInChatgptRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/pricing': {
+      id: '/pricing'
+      path: '/pricing'
+      fullPath: '/pricing'
+      preLoaderRoute: typeof PricingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/research': {
       id: '/research'
       path: '/research'
@@ -369,6 +389,7 @@ const rootRouteChildren: RootRouteChildren = {
   FaqRoute: FaqRoute,
   FoundersRoute: FoundersRoute,
   HowToShowUpInChatgptRoute: HowToShowUpInChatgptRoute,
+  PricingRoute: PricingRoute,
   ResearchRoute: ResearchRoute,
   TermsRoute: TermsRoute,
   BlogSlugRoute: BlogSlugRoute,

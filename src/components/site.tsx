@@ -319,6 +319,11 @@ export function Footer() {
                 </Link>
               </li>
               <li>
+                <Link to="/pricing" className="link-line">
+                  Pricing
+                </Link>
+              </li>
+              <li>
                 <Link to="/contact" className="link-line">
                   Contact
                 </Link>
