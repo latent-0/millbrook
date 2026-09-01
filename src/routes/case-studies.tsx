@@ -88,6 +88,9 @@ const TESTIMONIALS = [
     name: 'Laurence O’Byrne',
     role: 'Founder, Napkin',
     initials: 'LO',
+    // Drop a headshot at this path (with the client’s okay) to replace the initials.
+    photo: null as string | null,
+    linkedin: 'https://www.linkedin.com/in/laurence-o-byrne-napkin-17648724/',
   },
   {
     quote:
@@ -95,8 +98,18 @@ const TESTIMONIALS = [
     name: 'Kim Vemula',
     role: 'DayOne Technologies',
     initials: 'KV',
+    photo: null as string | null,
+    linkedin: 'https://www.linkedin.com/in/karthik-vemula-kim-903079153/',
   },
 ]
+
+function LinkedInIcon() {
+  return (
+    <svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor" aria-hidden="true">
+      <path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.8 0 0 .78 0 1.75v20.5C0 23.22.8 24 1.77 24h20.45c.98 0 1.78-.78 1.78-1.75V1.75C24 .78 23.2 0 22.22 0z" />
+    </svg>
+  )
+}
 
 function CaseStudies() {
   return (
@@ -287,17 +300,37 @@ function CaseStudies() {
                     {t.quote}
                   </blockquote>
                   <figcaption className="mt-auto flex items-center gap-3 pt-8">
-                    <span className="flex h-11 w-11 flex-none items-center justify-center rounded-full bg-brass font-display text-[0.95rem] text-canvas">
-                      {t.initials}
-                    </span>
-                    <span>
-                      <span className="block font-sans font-medium text-ink">
-                        {t.name}
+                    {t.photo ? (
+                      <img
+                        src={t.photo}
+                        alt={t.name}
+                        className="h-11 w-11 flex-none rounded-full object-cover"
+                        loading="lazy"
+                      />
+                    ) : (
+                      <span className="flex h-11 w-11 flex-none items-center justify-center rounded-full bg-brass font-display text-[0.95rem] text-canvas">
+                        {t.initials}
                       </span>
+                    )}
+                    <div className="min-w-0">
+                      <div className="flex items-center gap-2">
+                        <span className="font-sans font-medium text-ink">
+                          {t.name}
+                        </span>
+                        <a
+                          href={t.linkedin}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          aria-label={`${t.name} on LinkedIn`}
+                          className="text-ink-45 transition-colors hover:text-[#0a66c2]"
+                        >
+                          <LinkedInIcon />
+                        </a>
+                      </div>
                       <span className="block font-sans text-[0.85rem] text-ink-45">
                         {t.role}
                       </span>
-                    </span>
+                    </div>
                   </figcaption>
                 </figure>
               </Reveal>
