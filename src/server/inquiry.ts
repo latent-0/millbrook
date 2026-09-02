@@ -29,12 +29,31 @@ async function forward(
   }
 }
 
+/**
+ * "How did you hear about us?" options. AI assistants are broken out on purpose:
+ * self-reported attribution is the single best signal for AI-driven discovery.
+ */
+export const SOURCE_OPTIONS = [
+  'ChatGPT',
+  'Claude',
+  'Perplexity',
+  'Google AI Overviews or Gemini',
+  'Microsoft Copilot',
+  'Google search',
+  'LinkedIn',
+  'X (Twitter)',
+  'A referral or word of mouth',
+  'A podcast, event, or talk',
+  'Other',
+] as const
+
 export type InquiryInput = {
   name: string
   email: string
   company: string
   type: string
   message: string
+  source: string
 }
 
 /** Runs on the client and the server; throws with a user-facing message. */
@@ -48,6 +67,7 @@ function validate(data: unknown): InquiryInput {
   const company = String(d.company ?? '').trim()
   const type = String(d.type ?? '').trim()
   const message = String(d.message ?? '').trim()
+  const source = String(d.source ?? '').trim()
 
   if (name.length < 2) throw new Error('Please enter your name.')
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
@@ -56,10 +76,10 @@ function validate(data: unknown): InquiryInput {
   if (message.length < 10) {
     throw new Error('Please tell us a little more about what you need.')
   }
-  return { name, email, company, type, message }
+  return { name, email, company, type, message, source }
 }
 
-export type WaitlistInput = { name: string; email: string; company: string }
+export type WaitlistInput = { name: string; email: string; company: string; source: string }
 
 function validateWaitlist(data: unknown): WaitlistInput {
   if (!data || typeof data !== 'object') throw new Error('Invalid submission.')
@@ -67,11 +87,12 @@ function validateWaitlist(data: unknown): WaitlistInput {
   const name = String(d.name ?? '').trim()
   const email = String(d.email ?? '').trim()
   const company = String(d.company ?? '').trim()
+  const source = String(d.source ?? '').trim()
   if (name.length < 2) throw new Error('Please enter your name.')
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     throw new Error('Please enter a valid email address.')
   }
-  return { name, email, company }
+  return { name, email, company, source }
 }
 
 /** Cailyx waitlist signup. Same wiring note as submitInquiry applies. */
@@ -87,6 +108,7 @@ export type CommunityInput = {
   email: string
   company: string
   building: string
+  source: string
 }
 
 function validateCommunity(data: unknown): CommunityInput {
@@ -96,11 +118,12 @@ function validateCommunity(data: unknown): CommunityInput {
   const email = String(d.email ?? '').trim()
   const company = String(d.company ?? '').trim()
   const building = String(d.building ?? '').trim()
+  const source = String(d.source ?? '').trim()
   if (name.length < 2) throw new Error('Please enter your name.')
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     throw new Error('Please enter a valid email address.')
   }
-  return { name, email, company, building }
+  return { name, email, company, building, source }
 }
 
 /** Founders Circle application. Same wiring note as submitInquiry applies. */
@@ -119,6 +142,7 @@ export type DiagnosticInput = {
   description: string
   acceptTerms: boolean
   newsletter: boolean
+  source: string
 }
 
 const truthy = (v: unknown) => v === true || v === 'true' || v === 'on' || v === 1
@@ -133,6 +157,7 @@ function validateDiagnostic(data: unknown): DiagnosticInput {
   const description = String(d.description ?? '').trim()
   const acceptTerms = truthy(d.acceptTerms)
   const newsletter = truthy(d.newsletter)
+  const source = String(d.source ?? '').trim()
 
   if (phone.replace(/\D/g, '').length < 7) {
     throw new Error('Please enter a valid phone number.')
@@ -146,7 +171,7 @@ function validateDiagnostic(data: unknown): DiagnosticInput {
     throw new Error('Please enter a valid website URL.')
   }
   if (!acceptTerms) throw new Error('Please accept the terms to continue.')
-  return { phone, email, company, website, description, acceptTerms, newsletter }
+  return { phone, email, company, website, description, acceptTerms, newsletter, source }
 }
 
 /**

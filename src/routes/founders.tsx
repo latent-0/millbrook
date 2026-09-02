@@ -1,7 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useState } from 'react'
 import { motion, useReducedMotion } from 'motion/react'
-import { claimDiagnostic, type DiagnosticInput } from '../server/inquiry'
+import { claimDiagnostic, type DiagnosticInput, SOURCE_OPTIONS } from '../server/inquiry'
 
 const HEADER = '4.75rem'
 
@@ -230,6 +230,7 @@ const empty: DiagnosticInput = {
   description: '',
   acceptTerms: false,
   newsletter: false,
+  source: '',
 }
 
 const labelCls = 'block font-sans text-[0.8rem] tracking-wide text-ink-60'
@@ -398,6 +399,35 @@ function ClaimForm() {
               className={`${inputCls} resize-none`}
               placeholder="A sentence on what you do."
             />
+          </Field>
+
+          <Field
+            id="f-source"
+            label={
+              <>
+                How did you hear about us?{' '}
+                <span className="text-ink-45">(optional)</span>
+              </>
+            }
+          >
+            <div className="relative">
+              <select
+                id="f-source"
+                value={form.source}
+                onChange={(e) => setForm((f) => ({ ...f, source: e.target.value }))}
+                className={`${inputCls} appearance-none pr-10`}
+              >
+                <option value="">Select one</option>
+                {SOURCE_OPTIONS.map((s) => (
+                  <option key={s} value={s}>
+                    {s}
+                  </option>
+                ))}
+              </select>
+              <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-ink-45">
+                ▾
+              </span>
+            </div>
           </Field>
         </div>
 

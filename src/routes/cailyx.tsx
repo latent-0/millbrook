@@ -2,7 +2,7 @@ import { createFileRoute } from '@tanstack/react-router'
 import { useState } from 'react'
 import { Container, Eyebrow, Reveal } from '../components/site'
 import { seo, SITE } from '../lib/seo'
-import { joinWaitlist, type WaitlistInput } from '../server/inquiry'
+import { joinWaitlist, type WaitlistInput, SOURCE_OPTIONS } from '../server/inquiry'
 
 export const Route = createFileRoute('/cailyx')({
   head: () =>
@@ -158,7 +158,7 @@ function Cailyx() {
   )
 }
 
-const empty: WaitlistInput = { name: '', email: '', company: '' }
+const empty: WaitlistInput = { name: '', email: '', company: '', source: '' }
 const inputCls =
   'w-full rounded-lg border border-line bg-canvas px-4 py-3 font-sans text-[1rem] text-ink placeholder:text-ink-45 outline-none transition-colors focus:border-brass focus:bg-paper'
 
@@ -226,6 +226,24 @@ function WaitlistForm() {
         placeholder="Work email"
         autoComplete="email"
       />
+      <div className="relative">
+        <select
+          value={form.source}
+          onChange={(e) => setForm((f) => ({ ...f, source: e.target.value }))}
+          aria-label="How did you hear about us?"
+          className={`${inputCls} appearance-none pr-10`}
+        >
+          <option value="">How did you hear about us?</option>
+          {SOURCE_OPTIONS.map((s) => (
+            <option key={s} value={s}>
+              {s}
+            </option>
+          ))}
+        </select>
+        <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-ink-45">
+          ▾
+        </span>
+      </div>
       {status === 'error' && (
         <p className="font-sans text-[0.9rem] text-[#8a3a2f]">{error}</p>
       )}

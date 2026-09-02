@@ -202,7 +202,7 @@ function About() {
           </div>
         </Container>
         <Container className="pb-8 sm:pb-12">
-          {DISCIPLINES.map((d, i) => (
+          {DISCIPLINES.map((d) => (
             <Reveal key={d.n}>
               <div className="grid gap-8 border-t border-line py-16 sm:py-20 md:grid-cols-12">
                 <div className="md:col-span-5">

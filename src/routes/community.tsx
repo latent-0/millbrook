@@ -8,7 +8,7 @@ import {
 } from 'motion/react'
 import { Container, Eyebrow, Reveal } from '../components/site'
 import { seo } from '../lib/seo'
-import { joinCommunity, type CommunityInput } from '../server/inquiry'
+import { joinCommunity, type CommunityInput, SOURCE_OPTIONS } from '../server/inquiry'
 
 export const Route = createFileRoute('/community')({
   head: () =>
@@ -173,10 +173,11 @@ const QUESTIONS: Array<{
   { key: 'email', q: 'Where do we send it?', type: 'email' },
   { key: 'company', q: 'Your company or project?', type: 'text', optional: true },
   { key: 'building', q: 'What are you building?', type: 'text', optional: true },
+  { key: 'source', q: 'How did you hear about us?', type: 'select', optional: true },
 ]
 
 const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-const empty: CommunityInput = { name: '', email: '', company: '', building: '' }
+const empty: CommunityInput = { name: '', email: '', company: '', building: '', source: '' }
 
 function InviteFlow() {
   const [form, setForm] = useState<CommunityInput>(empty)
@@ -261,18 +262,33 @@ function InviteFlow() {
             exit={{ opacity: 0, y: -14 }}
             transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
           >
-            <input
-              ref={inputRef}
-              type={current.type}
-              value={value}
-              onChange={(e) => setForm((f) => ({ ...f, [current.key]: e.target.value }))}
-              placeholder={current.q}
-              autoComplete={
-                current.key === 'name' ? 'name' : current.key === 'email' ? 'email' : current.key === 'company' ? 'organization' : 'off'
-              }
-              autoFocus={step > 0}
-              className="w-full border-0 border-b border-line bg-transparent pb-3 font-display text-[1.25rem] text-ink outline-none transition-colors placeholder:text-ink-45 focus:border-cognac sm:text-[2rem]"
-            />
+            {current.type === 'select' ? (
+              <select
+                value={value}
+                onChange={(e) => setForm((f) => ({ ...f, [current.key]: e.target.value }))}
+                className="w-full border-0 border-b border-line bg-transparent pb-3 font-display text-[1.25rem] text-ink outline-none transition-colors focus:border-cognac sm:text-[2rem]"
+              >
+                <option value="">How did you hear about us?</option>
+                {SOURCE_OPTIONS.map((s) => (
+                  <option key={s} value={s}>
+                    {s}
+                  </option>
+                ))}
+              </select>
+            ) : (
+              <input
+                ref={inputRef}
+                type={current.type}
+                value={value}
+                onChange={(e) => setForm((f) => ({ ...f, [current.key]: e.target.value }))}
+                placeholder={current.q}
+                autoComplete={
+                  current.key === 'name' ? 'name' : current.key === 'email' ? 'email' : current.key === 'company' ? 'organization' : 'off'
+                }
+                autoFocus={step > 0}
+                className="w-full border-0 border-b border-line bg-transparent pb-3 font-display text-[1.25rem] text-ink outline-none transition-colors placeholder:text-ink-45 focus:border-cognac sm:text-[2rem]"
+              />
+            )}
           </motion.div>
         </AnimatePresence>
 

@@ -1,7 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useState } from 'react'
 import { Container, Eyebrow, Reveal } from '../components/site'
-import { submitInquiry, type InquiryInput } from '../server/inquiry'
+import { submitInquiry, type InquiryInput, SOURCE_OPTIONS } from '../server/inquiry'
 import { seo } from '../lib/seo'
 
 export const Route = createFileRoute('/contact')({
@@ -36,6 +36,7 @@ const empty: InquiryInput = {
   company: '',
   type: 'startup',
   message: '',
+  source: '',
 }
 
 function Contact() {
@@ -217,6 +218,28 @@ function Contact() {
                         className={`${inputCls} resize-none`}
                         placeholder="A sentence or two on where you are and what a win looks like."
                       />
+                    </Field>
+
+                    <Field label="How did you hear about us?" htmlFor="source" optional>
+                      <div className="relative">
+                        <select
+                          id="source"
+                          name="source"
+                          value={form.source}
+                          onChange={set('source')}
+                          className={`${inputCls} appearance-none pr-10`}
+                        >
+                          <option value="">Select one</option>
+                          {SOURCE_OPTIONS.map((s) => (
+                            <option key={s} value={s}>
+                              {s}
+                            </option>
+                          ))}
+                        </select>
+                        <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-ink-45">
+                          ▾
+                        </span>
+                      </div>
                     </Field>
 
                     {status === 'error' && (
