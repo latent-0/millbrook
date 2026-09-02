@@ -372,7 +372,7 @@ function CaseStudies() {
               <Link to="/contact" className="btn btn-primary">
                 Become a founding client
               </Link>
-              <Link to="/approach" className="btn btn-ghost">
+              <Link to="/about" className="btn btn-ghost">
                 See the model
               </Link>
             </div>

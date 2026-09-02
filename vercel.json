@@ -1,4 +1,7 @@
 {
   "buildCommand": "npm run build",
-  "installCommand": "npm ci"
+  "installCommand": "npm ci",
+  "redirects": [
+    { "source": "/approach", "destination": "/about", "permanent": true }
+  ]
 }

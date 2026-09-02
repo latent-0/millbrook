@@ -124,7 +124,6 @@ export function Wordmark({
 
 const NAV = [
   { to: '/community', label: 'Community' },
-  { to: '/approach', label: 'Approach' },
   { to: '/cailyx', label: 'Cailyx' },
   { to: '/blogs', label: 'Journal' },
   { to: '/research', label: 'Research' },

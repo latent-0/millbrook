@@ -221,7 +221,7 @@ function TheModel() {
 
         <Reveal>
           <div className="mt-12 text-center">
-            <Link to="/approach" className="link-line font-sans text-[0.95rem]">
+            <Link to="/about" className="link-line font-sans text-[0.95rem]">
               Read the full approach →
             </Link>
           </div>

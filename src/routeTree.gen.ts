@@ -13,7 +13,6 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as AeoVsSeoRouteImport } from './routes/aeo-vs-seo'
 import { Route as AiVisibilityScoreRouteImport } from './routes/ai-visibility-score'
-import { Route as ApproachRouteImport } from './routes/approach'
 import { Route as BlogsRouteImport } from './routes/blogs'
 import { Route as CailyxRouteImport } from './routes/cailyx'
 import { Route as CaseStudiesRouteImport } from './routes/case-studies'
@@ -45,11 +44,6 @@ const AeoVsSeoRoute = AeoVsSeoRouteImport.update({
 const AiVisibilityScoreRoute = AiVisibilityScoreRouteImport.update({
   id: '/ai-visibility-score',
   path: '/ai-visibility-score',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ApproachRoute = ApproachRouteImport.update({
-  id: '/approach',
-  path: '/approach',
   getParentRoute: () => rootRouteImport,
 } as any)
 const BlogsRoute = BlogsRouteImport.update({
@@ -118,7 +112,6 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/aeo-vs-seo': typeof AeoVsSeoRoute
   '/ai-visibility-score': typeof AiVisibilityScoreRoute
-  '/approach': typeof ApproachRoute
   '/blogs': typeof BlogsRoute
   '/cailyx': typeof CailyxRoute
   '/case-studies': typeof CaseStudiesRoute
@@ -137,7 +130,6 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/aeo-vs-seo': typeof AeoVsSeoRoute
   '/ai-visibility-score': typeof AiVisibilityScoreRoute
-  '/approach': typeof ApproachRoute
   '/blogs': typeof BlogsRoute
   '/cailyx': typeof CailyxRoute
   '/case-studies': typeof CaseStudiesRoute
@@ -157,7 +149,6 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/aeo-vs-seo': typeof AeoVsSeoRoute
   '/ai-visibility-score': typeof AiVisibilityScoreRoute
-  '/approach': typeof ApproachRoute
   '/blogs': typeof BlogsRoute
   '/cailyx': typeof CailyxRoute
   '/case-studies': typeof CaseStudiesRoute
@@ -178,7 +169,6 @@ export interface FileRouteTypes {
     | '/about'
     | '/aeo-vs-seo'
     | '/ai-visibility-score'
-    | '/approach'
     | '/blogs'
     | '/cailyx'
     | '/case-studies'
@@ -197,7 +187,6 @@ export interface FileRouteTypes {
     | '/about'
     | '/aeo-vs-seo'
     | '/ai-visibility-score'
-    | '/approach'
     | '/blogs'
     | '/cailyx'
     | '/case-studies'
@@ -216,7 +205,6 @@ export interface FileRouteTypes {
     | '/about'
     | '/aeo-vs-seo'
     | '/ai-visibility-score'
-    | '/approach'
     | '/blogs'
     | '/cailyx'
     | '/case-studies'
@@ -236,7 +224,6 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   AeoVsSeoRoute: typeof AeoVsSeoRoute
   AiVisibilityScoreRoute: typeof AiVisibilityScoreRoute
-  ApproachRoute: typeof ApproachRoute
   BlogsRoute: typeof BlogsRoute
   CailyxRoute: typeof CailyxRoute
   CaseStudiesRoute: typeof CaseStudiesRoute
@@ -279,13 +266,6 @@ declare module '@tanstack/react-router' {
       path: '/ai-visibility-score'
       fullPath: '/ai-visibility-score'
       preLoaderRoute: typeof AiVisibilityScoreRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/approach': {
-      id: '/approach'
-      path: '/approach'
-      fullPath: '/approach'
-      preLoaderRoute: typeof ApproachRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/blogs': {
@@ -380,7 +360,6 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   AeoVsSeoRoute: AeoVsSeoRoute,
   AiVisibilityScoreRoute: AiVisibilityScoreRoute,
-  ApproachRoute: ApproachRoute,
   BlogsRoute: BlogsRoute,
   CailyxRoute: CailyxRoute,
   CaseStudiesRoute: CaseStudiesRoute,

@@ -333,7 +333,7 @@ function AIVisibilityScore() {
               <Link to="/contact" className="btn btn-primary">
                 Request your diagnostic
               </Link>
-              <Link to="/approach" className="btn btn-ghost">
+              <Link to="/about" className="btn btn-ghost">
                 See how we work
               </Link>
             </div>

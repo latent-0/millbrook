@@ -165,7 +165,7 @@ function AeoVsSeo() {
             </h2>
             <div className="mt-8 flex flex-wrap justify-center gap-4">
               <Link to="/contact" className="btn btn-light">Start a conversation</Link>
-              <Link to="/approach" className="btn btn-ghost-light">See the model</Link>
+              <Link to="/about" className="btn btn-ghost-light">See the model</Link>
             </div>
           </Reveal>
         </Container>

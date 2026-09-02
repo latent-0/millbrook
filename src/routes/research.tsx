@@ -791,7 +791,7 @@ function Research() {
               <Link to="/contact" className="btn btn-light">
                 Request a diagnostic
               </Link>
-              <Link to="/approach" className="btn btn-ghost-light">
+              <Link to="/about" className="btn btn-ghost-light">
                 See how we work
               </Link>
             </div>
