@@ -2,6 +2,7 @@ import { createFileRoute, Link } from '@tanstack/react-router'
 import { useState } from 'react'
 import { Container, Eyebrow, Reveal } from '../components/site'
 import { seo, SITE } from '../lib/seo'
+import { startCheckout } from '../lib/razorpay'
 
 export const Route = createFileRoute('/pricing')({
   head: () =>
@@ -143,6 +144,37 @@ function priceOf(t: Tier, annual: boolean) {
 
 function Pricing() {
   const [annual, setAnnual] = useState(true)
+  const [busy, setBusy] = useState<string | null>(null)
+  const [notice, setNotice] = useState<{ type: 'success' | 'error'; text: string } | null>(null)
+
+  function pay(t: Tier) {
+    if (t.custom || t.annual == null || t.monthly == null) return
+    // Charged in INR against the Razorpay test account. Set real amounts and
+    // currency for production.
+    const price = annual ? t.annual * 12 : t.monthly
+    setNotice(null)
+    setBusy(t.name)
+    void startCheckout({
+      amount: price * 100, // paise
+      currency: 'INR',
+      receipt: `cailyx_${t.name.toLowerCase()}_${annual ? 'yr' : 'mo'}`,
+      notes: { plan: t.name, billing: annual ? 'annual' : 'monthly' },
+      name: 'Cailyx by Rothenhall',
+      description: `Cailyx ${t.name}, ${annual ? 'annual' : 'monthly'}`,
+      onSuccess: () => {
+        setBusy(null)
+        setNotice({
+          type: 'success',
+          text: `Payment received for Cailyx ${t.name}. This is Razorpay test mode.`,
+        })
+      },
+      onError: (message) => {
+        setBusy(null)
+        setNotice({ type: 'error', text: message })
+      },
+      onDismiss: () => setBusy(null),
+    })
+  }
 
   const schema = {
     '@context': 'https://schema.org',
@@ -303,14 +335,25 @@ function Pricing() {
                       )}
                     </div>
 
-                    <Link
-                      to="/contact"
-                      className={`btn mt-2 w-full justify-center ${
-                        highlight ? 'btn-light' : t.custom ? 'btn-ghost' : 'btn-primary'
-                      }`}
-                    >
-                      {t.cta}
-                    </Link>
+                    {t.custom ? (
+                      <Link
+                        to="/contact"
+                        className="btn mt-2 w-full justify-center btn-ghost"
+                      >
+                        {t.cta}
+                      </Link>
+                    ) : (
+                      <button
+                        type="button"
+                        onClick={() => pay(t)}
+                        disabled={busy === t.name}
+                        className={`btn mt-2 w-full justify-center disabled:opacity-60 ${
+                          highlight ? 'btn-light' : 'btn-primary'
+                        }`}
+                      >
+                        {busy === t.name ? 'Starting…' : t.cta}
+                      </button>
+                    )}
 
                     <ul className="mt-7 space-y-3">
                       {t.features.map((f) => (
@@ -489,6 +532,26 @@ function Pricing() {
           </Reveal>
         </Container>
       </section>
+
+      {notice && (
+        <button
+          type="button"
+          onClick={() => setNotice(null)}
+          role="status"
+          className="fixed inset-x-4 bottom-6 z-50 mx-auto block w-fit max-w-[92vw] rounded-full border px-5 py-3 text-center font-sans text-[0.9rem] shadow-[0_20px_50px_-20px_rgba(26,23,18,0.5)]"
+          style={
+            notice.type === 'success'
+              ? { background: 'var(--color-night)', color: '#f7f3ea', borderColor: 'transparent' }
+              : {
+                  background: 'var(--color-paper)',
+                  color: 'var(--color-cognac-deep)',
+                  borderColor: 'var(--color-line-strong)',
+                }
+          }
+        >
+          {notice.text}
+        </button>
+      )}
 
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
     </>
