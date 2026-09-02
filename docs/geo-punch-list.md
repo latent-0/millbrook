@@ -14,7 +14,7 @@ Baseline from our own audit (Sept 2026):
 ## Phase 0 — Instrument first, so we can prove movement (SOP-1, SOP-2)
 - [ ] Build our own defined query set: 100–300 buyer prompts for our ICP, tagged by persona and funnel stage. Include "Rothenhall" in the most-aware cluster and 3+ named competitor agencies in the product-aware cluster.
 - [ ] Run the baseline: n≥5 per prompt, ≥2 geographies (include India and US), across ChatGPT, Claude, Perplexity, Google AI Overviews. Record mention rate, citation rate, share of voice, characterization.
-- [ ] Add "How did you hear about us?" with AI-assistant options to the contact form. Without self-reported attribution we cannot prove our own value.
+- [x] Add "How did you hear about us?" with AI-assistant options (done Sept 2026): a source select is on every form (contact, Cailyx waitlist, Founders Circle, diagnostic), AI assistants broken out (ChatGPT, Claude, Perplexity, Google AI, Copilot). Flows through the shared webhook to the Sheet. Complement with branded-search + server-log signals below, since self-report is imperfect.
 - [ ] Turn on branded-search tracking (Google Search Console) and AI-crawler log monitoring by URL.
 
 ## Phase 1 — Entity (SOP-4). Highest leverage for a brand nobody knows yet
