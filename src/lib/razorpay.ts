@@ -50,10 +50,9 @@ export function loadRazorpay(): Promise<boolean> {
 }
 
 export type CheckoutArgs = {
-  amount: number // smallest unit (paise)
-  currency?: string
-  receipt?: string
-  notes?: Record<string, string>
+  planId: string
+  billing: 'monthly' | 'annual'
+  country?: string // optional client hint; server geo header is authoritative
   name?: string
   description?: string
   prefill?: { name?: string; email?: string; contact?: string }
@@ -73,10 +72,9 @@ export async function startCheckout(args: CheckoutArgs): Promise<void> {
   try {
     order = await createRazorpayOrder({
       data: {
-        amount: args.amount,
-        currency: args.currency,
-        receipt: args.receipt,
-        notes: args.notes,
+        planId: args.planId,
+        billing: args.billing,
+        country: args.country,
       },
     })
   } catch (err) {

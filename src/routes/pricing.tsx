@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Container, Eyebrow, Reveal } from '../components/site'
 import { seo, SITE } from '../lib/seo'
 import { startCheckout } from '../lib/razorpay'
@@ -16,6 +16,22 @@ export const Route = createFileRoute('/pricing')({
     }),
   component: Pricing,
 })
+
+// Display-side INR rate for India (the server enforces the actual charge with
+// the same rate; keep the two in sync).
+const INR_RATE = 95
+
+// Lightweight client hint for the buyer's country. On Vercel the server reads
+// the real geo header; this only helps in local dev and as a fallback.
+function guessCountry(): string | undefined {
+  try {
+    const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || ''
+    if (/Kolkata|Calcutta/i.test(tz)) return 'IN'
+  } catch {
+    /* ignore */
+  }
+  return undefined
+}
 
 type Tier = {
   name: string
@@ -146,19 +162,27 @@ function Pricing() {
   const [annual, setAnnual] = useState(true)
   const [busy, setBusy] = useState<string | null>(null)
   const [notice, setNotice] = useState<{ type: 'success' | 'error'; text: string } | null>(null)
+  const [region, setRegion] = useState<'IN' | 'INTL'>('INTL')
+
+  useEffect(() => {
+    if (guessCountry() === 'IN') setRegion('IN')
+  }, [])
+
+  // Display formatter. The server picks the real charge currency by geo; this
+  // only localises what the buyer sees on the page.
+  const money = (usd: number) =>
+    region === 'IN'
+      ? '₹' + Math.round(usd * INR_RATE).toLocaleString('en-IN')
+      : '$' + usd
 
   function pay(t: Tier) {
-    if (t.custom || t.annual == null || t.monthly == null) return
-    // Charged in INR against the Razorpay test account. Set real amounts and
-    // currency for production.
-    const price = annual ? t.annual * 12 : t.monthly
+    if (t.custom) return
     setNotice(null)
     setBusy(t.name)
     void startCheckout({
-      amount: price * 100, // paise
-      currency: 'INR',
-      receipt: `cailyx_${t.name.toLowerCase()}_${annual ? 'yr' : 'mo'}`,
-      notes: { plan: t.name, billing: annual ? 'annual' : 'monthly' },
+      planId: t.name.toLowerCase(),
+      billing: annual ? 'annual' : 'monthly',
+      country: guessCountry(), // hint only; server geo header is authoritative
       name: 'Cailyx by Rothenhall',
       description: `Cailyx ${t.name}, ${annual ? 'annual' : 'monthly'}`,
       onSuccess: () => {
@@ -312,7 +336,7 @@ function Pricing() {
                               }`}
                               style={{ fontSize: '2.9rem', lineHeight: 1 }}
                             >
-                              ${price}
+                              {money(price)}
                             </span>
                             <span
                               className={`font-sans text-[0.9rem] ${
@@ -328,7 +352,7 @@ function Pricing() {
                             }`}
                           >
                             {annual
-                              ? `billed annually ($${price * 12}/yr)`
+                              ? `billed annually (${money(price * 12)}/yr)`
                               : 'billed monthly'}
                           </p>
                         </>
@@ -390,7 +414,10 @@ function Pricing() {
 
           <Reveal>
             <p className="mt-8 text-center font-sans text-[0.85rem] text-ink-45">
-              Founding pricing, locked for early customers. Cancel any time. Prices in USD.
+              Founding pricing, locked for early customers. Cancel any time.{' '}
+              {region === 'IN'
+                ? 'Indian customers are billed in INR.'
+                : 'Prices in USD.'}
             </p>
           </Reveal>
         </Container>
@@ -455,7 +482,7 @@ function Pricing() {
                       const p = priceOf(t, annual)
                       return (
                         <td key={t.name} className="p-5 font-display text-ink" style={{ fontSize: '1.05rem' }}>
-                          {p === null ? 'Custom' : `$${p}/mo`}
+                          {p === null ? 'Custom' : `${money(p)}/mo`}
                         </td>
                       )
                     })}
