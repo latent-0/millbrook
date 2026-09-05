@@ -99,7 +99,7 @@ const GROUPS: Group[] = [
       },
       {
         q: 'Where are you based, and do you work outside India?',
-        a: 'We are based in Bengaluru, India, and work with founders and funds across the globe.',
+        a: 'We are based in Bengaluru, India, with an office in Edinburgh, UK, and work with founders and funds across the globe.',
       },
     ],
   },

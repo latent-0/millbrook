@@ -360,13 +360,28 @@ export function Footer() {
                 </a>
               </li>
             </ul>
-            <address className="mt-4 font-sans text-[0.9rem] not-italic leading-relaxed text-canvas/50">
-              2nd Floor, HAL 2nd Stage
-              <br />
-              Vimanapura S.O., Bengaluru 560017
-              <br />
-              Karnataka, India
-            </address>
+            <div className="mt-4 space-y-3">
+              <address className="font-sans text-[0.9rem] not-italic leading-relaxed text-canvas/50">
+                <span className="block text-[0.72rem] uppercase tracking-[0.14em] text-canvas/40">
+                  India
+                </span>
+                2nd Floor, HAL 2nd Stage
+                <br />
+                Vimanapura S.O., Bengaluru 560017
+                <br />
+                Karnataka, India
+              </address>
+              <address className="font-sans text-[0.9rem] not-italic leading-relaxed text-canvas/50">
+                <span className="block text-[0.72rem] uppercase tracking-[0.14em] text-canvas/40">
+                  United Kingdom
+                </span>
+                Office 657, 18 Young St, Unit LGE
+                <br />
+                Edinburgh EH2 4JB
+                <br />
+                Scotland
+              </address>
+            </div>
             <Link to="/contact" className="btn btn-light mt-6 !py-2.5 !px-5 text-[0.82rem]">
               Start a conversation
             </Link>

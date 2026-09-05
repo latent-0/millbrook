@@ -122,7 +122,7 @@ function Contact() {
                 </div>
                 <div>
                   <p className="eyebrow" style={{ letterSpacing: '0.16em' }}>
-                    Office
+                    Offices
                   </p>
                   <address className="mt-3 font-sans text-[0.98rem] not-italic leading-relaxed text-ink-60">
                     2nd Floor, HAL 2nd Stage
@@ -130,6 +130,13 @@ function Contact() {
                     Vimanapura S.O., Bengaluru 560017
                     <br />
                     Karnataka, India
+                  </address>
+                  <address className="mt-4 font-sans text-[0.98rem] not-italic leading-relaxed text-ink-60">
+                    Office 657, 18 Young St, Unit LGE
+                    <br />
+                    Edinburgh EH2 4JB
+                    <br />
+                    Scotland, United Kingdom
                   </address>
                 </div>
               </div>

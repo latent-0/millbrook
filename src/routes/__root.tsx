@@ -33,14 +33,24 @@ const orgSchema = {
   telephone: '+91-9398386765',
   slogan: 'Be the company the AI recommends.',
   founder: { '@id': `${SITE.url}/#founder` },
-  address: {
-    '@type': 'PostalAddress',
-    streetAddress: '2nd Floor, HAL 2nd Stage, Vimanapura S.O.',
-    addressLocality: 'Bengaluru',
-    addressRegion: 'Karnataka',
-    postalCode: '560017',
-    addressCountry: 'IN',
-  },
+  address: [
+    {
+      '@type': 'PostalAddress',
+      streetAddress: '2nd Floor, HAL 2nd Stage, Vimanapura S.O.',
+      addressLocality: 'Bengaluru',
+      addressRegion: 'Karnataka',
+      postalCode: '560017',
+      addressCountry: 'IN',
+    },
+    {
+      '@type': 'PostalAddress',
+      streetAddress: 'Office 657, 18 Young St, Unit LGE',
+      addressLocality: 'Edinburgh',
+      addressRegion: 'Scotland',
+      postalCode: 'EH2 4JB',
+      addressCountry: 'GB',
+    },
+  ],
   contactPoint: {
     '@type': 'ContactPoint',
     telephone: '+91-9398386765',
