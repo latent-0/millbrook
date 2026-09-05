@@ -36,19 +36,19 @@ const orgSchema = {
   address: [
     {
       '@type': 'PostalAddress',
-      streetAddress: '2nd Floor, HAL 2nd Stage, Vimanapura S.O.',
-      addressLocality: 'Bengaluru',
-      addressRegion: 'Karnataka',
-      postalCode: '560017',
-      addressCountry: 'IN',
-    },
-    {
-      '@type': 'PostalAddress',
       streetAddress: 'Office 657, 18 Young St, Unit LGE',
       addressLocality: 'Edinburgh',
       addressRegion: 'Scotland',
       postalCode: 'EH2 4JB',
       addressCountry: 'GB',
+    },
+    {
+      '@type': 'PostalAddress',
+      streetAddress: '2nd Floor, HAL 2nd Stage, Vimanapura S.O.',
+      addressLocality: 'Bengaluru',
+      addressRegion: 'Karnataka',
+      postalCode: '560017',
+      addressCountry: 'IN',
     },
   ],
   contactPoint: {
@@ -56,12 +56,12 @@ const orgSchema = {
     telephone: '+91-9398386765',
     email: 'office@rothenhall.com',
     contactType: 'sales',
-    areaServed: ['IN', 'GB', 'Worldwide'],
+    areaServed: ['GB', 'IN', 'Worldwide'],
     availableLanguage: ['en', 'hi'],
   },
   areaServed: [
-    { '@type': 'Country', name: 'India' },
     { '@type': 'Country', name: 'United Kingdom' },
+    { '@type': 'Country', name: 'India' },
     { '@type': 'Place', name: 'Worldwide' },
   ],
   knowsAbout: [
