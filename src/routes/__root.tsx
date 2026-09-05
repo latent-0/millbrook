@@ -56,11 +56,12 @@ const orgSchema = {
     telephone: '+91-9398386765',
     email: 'office@rothenhall.com',
     contactType: 'sales',
-    areaServed: ['IN', 'Worldwide'],
+    areaServed: ['IN', 'GB', 'Worldwide'],
     availableLanguage: ['en', 'hi'],
   },
   areaServed: [
     { '@type': 'Country', name: 'India' },
+    { '@type': 'Country', name: 'United Kingdom' },
     { '@type': 'Place', name: 'Worldwide' },
   ],
   knowsAbout: [
