@@ -15,6 +15,7 @@ import { Route as AeoVsSeoRouteImport } from './routes/aeo-vs-seo'
 import { Route as AiVisibilityScoreRouteImport } from './routes/ai-visibility-score'
 import { Route as BlogsRouteImport } from './routes/blogs'
 import { Route as CailyxRouteImport } from './routes/cailyx'
+import { Route as CareersRouteImport } from './routes/careers'
 import { Route as CaseStudiesRouteImport } from './routes/case-studies'
 import { Route as CommunityRouteImport } from './routes/community'
 import { Route as ContactRouteImport } from './routes/contact'
@@ -23,6 +24,7 @@ import { Route as FoundersRouteImport } from './routes/founders'
 import { Route as HowToShowUpInChatgptRouteImport } from './routes/how-to-show-up-in-chatgpt'
 import { Route as PricingRouteImport } from './routes/pricing'
 import { Route as ResearchRouteImport } from './routes/research'
+import { Route as ScoutsRouteImport } from './routes/scouts'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
 
@@ -54,6 +56,11 @@ const BlogsRoute = BlogsRouteImport.update({
 const CailyxRoute = CailyxRouteImport.update({
   id: '/cailyx',
   path: '/cailyx',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CareersRoute = CareersRouteImport.update({
+  id: '/careers',
+  path: '/careers',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CaseStudiesRoute = CaseStudiesRouteImport.update({
@@ -96,6 +103,11 @@ const ResearchRoute = ResearchRouteImport.update({
   path: '/research',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ScoutsRoute = ScoutsRouteImport.update({
+  id: '/scouts',
+  path: '/scouts',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TermsRoute = TermsRouteImport.update({
   id: '/terms',
   path: '/terms',
@@ -114,6 +126,7 @@ export interface FileRoutesByFullPath {
   '/ai-visibility-score': typeof AiVisibilityScoreRoute
   '/blogs': typeof BlogsRoute
   '/cailyx': typeof CailyxRoute
+  '/careers': typeof CareersRoute
   '/case-studies': typeof CaseStudiesRoute
   '/community': typeof CommunityRoute
   '/contact': typeof ContactRoute
@@ -122,6 +135,7 @@ export interface FileRoutesByFullPath {
   '/how-to-show-up-in-chatgpt': typeof HowToShowUpInChatgptRoute
   '/pricing': typeof PricingRoute
   '/research': typeof ResearchRoute
+  '/scouts': typeof ScoutsRoute
   '/terms': typeof TermsRoute
   '/blog/$slug': typeof BlogSlugRoute
 }
@@ -132,6 +146,7 @@ export interface FileRoutesByTo {
   '/ai-visibility-score': typeof AiVisibilityScoreRoute
   '/blogs': typeof BlogsRoute
   '/cailyx': typeof CailyxRoute
+  '/careers': typeof CareersRoute
   '/case-studies': typeof CaseStudiesRoute
   '/community': typeof CommunityRoute
   '/contact': typeof ContactRoute
@@ -140,6 +155,7 @@ export interface FileRoutesByTo {
   '/how-to-show-up-in-chatgpt': typeof HowToShowUpInChatgptRoute
   '/pricing': typeof PricingRoute
   '/research': typeof ResearchRoute
+  '/scouts': typeof ScoutsRoute
   '/terms': typeof TermsRoute
   '/blog/$slug': typeof BlogSlugRoute
 }
@@ -151,6 +167,7 @@ export interface FileRoutesById {
   '/ai-visibility-score': typeof AiVisibilityScoreRoute
   '/blogs': typeof BlogsRoute
   '/cailyx': typeof CailyxRoute
+  '/careers': typeof CareersRoute
   '/case-studies': typeof CaseStudiesRoute
   '/community': typeof CommunityRoute
   '/contact': typeof ContactRoute
@@ -159,6 +176,7 @@ export interface FileRoutesById {
   '/how-to-show-up-in-chatgpt': typeof HowToShowUpInChatgptRoute
   '/pricing': typeof PricingRoute
   '/research': typeof ResearchRoute
+  '/scouts': typeof ScoutsRoute
   '/terms': typeof TermsRoute
   '/blog/$slug': typeof BlogSlugRoute
 }
@@ -171,6 +189,7 @@ export interface FileRouteTypes {
     | '/ai-visibility-score'
     | '/blogs'
     | '/cailyx'
+    | '/careers'
     | '/case-studies'
     | '/community'
     | '/contact'
@@ -179,6 +198,7 @@ export interface FileRouteTypes {
     | '/how-to-show-up-in-chatgpt'
     | '/pricing'
     | '/research'
+    | '/scouts'
     | '/terms'
     | '/blog/$slug'
   fileRoutesByTo: FileRoutesByTo
@@ -189,6 +209,7 @@ export interface FileRouteTypes {
     | '/ai-visibility-score'
     | '/blogs'
     | '/cailyx'
+    | '/careers'
     | '/case-studies'
     | '/community'
     | '/contact'
@@ -197,6 +218,7 @@ export interface FileRouteTypes {
     | '/how-to-show-up-in-chatgpt'
     | '/pricing'
     | '/research'
+    | '/scouts'
     | '/terms'
     | '/blog/$slug'
   id:
@@ -207,6 +229,7 @@ export interface FileRouteTypes {
     | '/ai-visibility-score'
     | '/blogs'
     | '/cailyx'
+    | '/careers'
     | '/case-studies'
     | '/community'
     | '/contact'
@@ -215,6 +238,7 @@ export interface FileRouteTypes {
     | '/how-to-show-up-in-chatgpt'
     | '/pricing'
     | '/research'
+    | '/scouts'
     | '/terms'
     | '/blog/$slug'
   fileRoutesById: FileRoutesById
@@ -226,6 +250,7 @@ export interface RootRouteChildren {
   AiVisibilityScoreRoute: typeof AiVisibilityScoreRoute
   BlogsRoute: typeof BlogsRoute
   CailyxRoute: typeof CailyxRoute
+  CareersRoute: typeof CareersRoute
   CaseStudiesRoute: typeof CaseStudiesRoute
   CommunityRoute: typeof CommunityRoute
   ContactRoute: typeof ContactRoute
@@ -234,6 +259,7 @@ export interface RootRouteChildren {
   HowToShowUpInChatgptRoute: typeof HowToShowUpInChatgptRoute
   PricingRoute: typeof PricingRoute
   ResearchRoute: typeof ResearchRoute
+  ScoutsRoute: typeof ScoutsRoute
   TermsRoute: typeof TermsRoute
   BlogSlugRoute: typeof BlogSlugRoute
 }
@@ -280,6 +306,13 @@ declare module '@tanstack/react-router' {
       path: '/cailyx'
       fullPath: '/cailyx'
       preLoaderRoute: typeof CailyxRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/careers': {
+      id: '/careers'
+      path: '/careers'
+      fullPath: '/careers'
+      preLoaderRoute: typeof CareersRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/case-studies': {
@@ -338,6 +371,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ResearchRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/scouts': {
+      id: '/scouts'
+      path: '/scouts'
+      fullPath: '/scouts'
+      preLoaderRoute: typeof ScoutsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/terms': {
       id: '/terms'
       path: '/terms'
@@ -362,6 +402,7 @@ const rootRouteChildren: RootRouteChildren = {
   AiVisibilityScoreRoute: AiVisibilityScoreRoute,
   BlogsRoute: BlogsRoute,
   CailyxRoute: CailyxRoute,
+  CareersRoute: CareersRoute,
   CaseStudiesRoute: CaseStudiesRoute,
   CommunityRoute: CommunityRoute,
   ContactRoute: ContactRoute,
@@ -370,6 +411,7 @@ const rootRouteChildren: RootRouteChildren = {
   HowToShowUpInChatgptRoute: HowToShowUpInChatgptRoute,
   PricingRoute: PricingRoute,
   ResearchRoute: ResearchRoute,
+  ScoutsRoute: ScoutsRoute,
   TermsRoute: TermsRoute,
   BlogSlugRoute: BlogSlugRoute,
 }

@@ -128,6 +128,7 @@ const NAV = [
   { to: '/blogs', label: 'Journal' },
   { to: '/research', label: 'Research' },
   { to: '/case-studies', label: 'Case Studies' },
+  { to: '/careers', label: 'Careers' },
   { to: '/about', label: 'About' },
 ] as const
 
@@ -295,6 +296,11 @@ export function Footer() {
               <li>
                 <Link to="/community" className="link-line">
                   Founders Circle
+                </Link>
+              </li>
+              <li>
+                <Link to="/scouts" className="link-line">
+                  Campus Scouts
                 </Link>
               </li>
               <li>
