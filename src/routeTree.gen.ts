@@ -22,6 +22,7 @@ import { Route as ContactRouteImport } from './routes/contact'
 import { Route as FaqRouteImport } from './routes/faq'
 import { Route as FoundersRouteImport } from './routes/founders'
 import { Route as HowToShowUpInChatgptRouteImport } from './routes/how-to-show-up-in-chatgpt'
+import { Route as NapkinRothenhallRouteImport } from './routes/napkin-rothenhall'
 import { Route as PricingRouteImport } from './routes/pricing'
 import { Route as ResearchRouteImport } from './routes/research'
 import { Route as ScoutsRouteImport } from './routes/scouts'
@@ -93,6 +94,11 @@ const HowToShowUpInChatgptRoute = HowToShowUpInChatgptRouteImport.update({
   path: '/how-to-show-up-in-chatgpt',
   getParentRoute: () => rootRouteImport,
 } as any)
+const NapkinRothenhallRoute = NapkinRothenhallRouteImport.update({
+  id: '/napkin-rothenhall',
+  path: '/napkin-rothenhall',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PricingRoute = PricingRouteImport.update({
   id: '/pricing',
   path: '/pricing',
@@ -133,6 +139,7 @@ export interface FileRoutesByFullPath {
   '/faq': typeof FaqRoute
   '/founders': typeof FoundersRoute
   '/how-to-show-up-in-chatgpt': typeof HowToShowUpInChatgptRoute
+  '/napkin-rothenhall': typeof NapkinRothenhallRoute
   '/pricing': typeof PricingRoute
   '/research': typeof ResearchRoute
   '/scouts': typeof ScoutsRoute
@@ -153,6 +160,7 @@ export interface FileRoutesByTo {
   '/faq': typeof FaqRoute
   '/founders': typeof FoundersRoute
   '/how-to-show-up-in-chatgpt': typeof HowToShowUpInChatgptRoute
+  '/napkin-rothenhall': typeof NapkinRothenhallRoute
   '/pricing': typeof PricingRoute
   '/research': typeof ResearchRoute
   '/scouts': typeof ScoutsRoute
@@ -174,6 +182,7 @@ export interface FileRoutesById {
   '/faq': typeof FaqRoute
   '/founders': typeof FoundersRoute
   '/how-to-show-up-in-chatgpt': typeof HowToShowUpInChatgptRoute
+  '/napkin-rothenhall': typeof NapkinRothenhallRoute
   '/pricing': typeof PricingRoute
   '/research': typeof ResearchRoute
   '/scouts': typeof ScoutsRoute
@@ -196,6 +205,7 @@ export interface FileRouteTypes {
     | '/faq'
     | '/founders'
     | '/how-to-show-up-in-chatgpt'
+    | '/napkin-rothenhall'
     | '/pricing'
     | '/research'
     | '/scouts'
@@ -216,6 +226,7 @@ export interface FileRouteTypes {
     | '/faq'
     | '/founders'
     | '/how-to-show-up-in-chatgpt'
+    | '/napkin-rothenhall'
     | '/pricing'
     | '/research'
     | '/scouts'
@@ -236,6 +247,7 @@ export interface FileRouteTypes {
     | '/faq'
     | '/founders'
     | '/how-to-show-up-in-chatgpt'
+    | '/napkin-rothenhall'
     | '/pricing'
     | '/research'
     | '/scouts'
@@ -257,6 +269,7 @@ export interface RootRouteChildren {
   FaqRoute: typeof FaqRoute
   FoundersRoute: typeof FoundersRoute
   HowToShowUpInChatgptRoute: typeof HowToShowUpInChatgptRoute
+  NapkinRothenhallRoute: typeof NapkinRothenhallRoute
   PricingRoute: typeof PricingRoute
   ResearchRoute: typeof ResearchRoute
   ScoutsRoute: typeof ScoutsRoute
@@ -357,6 +370,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof HowToShowUpInChatgptRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/napkin-rothenhall': {
+      id: '/napkin-rothenhall'
+      path: '/napkin-rothenhall'
+      fullPath: '/napkin-rothenhall'
+      preLoaderRoute: typeof NapkinRothenhallRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/pricing': {
       id: '/pricing'
       path: '/pricing'
@@ -409,6 +429,7 @@ const rootRouteChildren: RootRouteChildren = {
   FaqRoute: FaqRoute,
   FoundersRoute: FoundersRoute,
   HowToShowUpInChatgptRoute: HowToShowUpInChatgptRoute,
+  NapkinRothenhallRoute: NapkinRothenhallRoute,
   PricingRoute: PricingRoute,
   ResearchRoute: ResearchRoute,
   ScoutsRoute: ScoutsRoute,
