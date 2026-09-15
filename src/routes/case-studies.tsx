@@ -84,6 +84,21 @@ const CASE_STUDIES = [
   },
 ]
 
+// Unsolicited competitive scan. These are NOT clients; scores measured from
+// public pages on 14 Sep 2026. Framed honestly as a market sample, not engagements.
+const AGENCY_SCAN = [
+  { slug: 'connelly-partners', name: 'Connelly Partners', tag: 'Global · Boston, Dublin', score: 76, band: 'Present', line: 'Strong globally, absent from the Dublin shortlist.' },
+  { slug: 'headcase', name: 'Headcase', tag: 'Strategy & creative · Dublin', score: 69, band: 'Present', line: 'The best schema of the seven, few citations yet.' },
+  { slug: 'pluto', name: 'Pluto', tag: 'Creative · Dublin', score: 63, band: 'Present', line: 'A strong agency AI keeps confusing with a planet.' },
+  { slug: 'ringers', name: 'Ringers', tag: 'Brand · Dublin', score: 58, band: 'Faint', line: 'Sharp positioning, almost nothing for AI to read.' },
+  { slug: 'javelin', name: 'Javelin', tag: 'Advertising · Dublin', score: 53, band: 'Faint', line: 'A homepage that does not describe itself.' },
+  { slug: 'boys-and-girls', name: 'Boys + Girls', tag: 'Most-awarded · Dublin', score: 50, band: 'Faint', line: 'Ireland’s most-awarded, yet invisible to a machine.' },
+  { slug: 'curious-orange', name: 'Curious Orange', tag: 'Design & brand', score: 35, band: 'Invisible', line: 'A beautiful site with almost nothing to read.' },
+]
+
+const scanBandColor = (b: string) =>
+  b === 'Present' ? 'var(--color-brass-deep)' : b === 'Faint' ? 'var(--color-cognac-deep)' : '#9d3b2f'
+
 const TESTIMONIALS = [
   {
     quote:
@@ -350,6 +365,85 @@ function CaseStudies() {
                 </figure>
               </Reveal>
             ))}
+          </div>
+        </Container>
+      </section>
+
+      {/* Competitive scan (non-clients, honest framing) */}
+      <section className="border-t border-line">
+        <Container className="py-24 sm:py-32">
+          <div className="max-w-3xl">
+            <Reveal>
+              <Eyebrow>A competitive scan</Eyebrow>
+              <h2 className="text-display-md mt-6">The same method, run across a market.</h2>
+              <p className="mt-6 font-sans text-[1.05rem] leading-relaxed text-ink-60">
+                To show the framework in the wild, we ran the AI Visibility
+                diagnostic, unprompted, across seven Irish and global creative
+                agencies on a single day. None is a client, and every score is
+                measured from public pages. The pattern held: not one was blocked
+                from AI, and not one appeared in the shortlist an assistant builds
+                for &ldquo;best agency in Dublin&rdquo;.
+              </p>
+            </Reveal>
+          </div>
+
+          <div className="mt-14 overflow-hidden rounded-2xl border border-line bg-canvas">
+            {AGENCY_SCAN.map((a, i) => (
+              <Reveal key={a.slug} delay={i * 40}>
+                <div
+                  className="grid grid-cols-1 gap-3 p-6 sm:grid-cols-12 sm:items-center sm:px-8"
+                  style={{ borderTop: i === 0 ? 'none' : '1px solid var(--color-line)' }}
+                >
+                  <div className="sm:col-span-4">
+                    <h3 className="font-display text-ink" style={{ fontSize: '1.35rem' }}>
+                      {a.name}
+                    </h3>
+                    <p className="font-sans text-[0.72rem] uppercase tracking-[0.14em] text-brass-deep">
+                      {a.tag}
+                    </p>
+                  </div>
+                  <div className="sm:col-span-5">
+                    <p className="font-sans text-[0.95rem] leading-snug text-ink-60">
+                      {a.line}
+                    </p>
+                  </div>
+                  <div className="flex items-baseline gap-2 sm:col-span-2">
+                    <span
+                      className="font-display tabular-nums text-brass-deep"
+                      style={{ fontSize: '2rem', lineHeight: 1 }}
+                    >
+                      {a.score}
+                    </span>
+                    <span
+                      className="font-sans text-[0.66rem] uppercase tracking-[0.12em]"
+                      style={{ color: scanBandColor(a.band) }}
+                    >
+                      {a.band}
+                    </span>
+                  </div>
+                  <div className="sm:col-span-1 sm:text-right">
+                    <a
+                      href={`/reports/${a.slug}`}
+                      target="_blank"
+                      rel="noopener"
+                      className="link-line whitespace-nowrap font-sans text-[0.82rem] font-medium text-ink"
+                    >
+                      Brief &rarr;
+                    </a>
+                  </div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+
+          <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-4">
+            <Link to="/napkin-rothenhall" className="btn btn-primary">
+              Explore the full comparison
+            </Link>
+            <p className="max-w-md font-sans text-[0.8rem] leading-relaxed text-ink-45">
+              An unsolicited scan of public websites, shown to demonstrate the
+              method. These seven are not client engagements.
+            </p>
           </div>
         </Container>
       </section>
