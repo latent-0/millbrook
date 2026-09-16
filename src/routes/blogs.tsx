@@ -200,8 +200,8 @@ function BlogIndex() {
                 Want this run for your company, not just read?
               </h2>
               <p className="mt-3 font-sans text-[1.02rem] leading-relaxed text-ink-60">
-                The Founders Circle gets the entire Rothenhall engine, GTM, AEO,
-                and growth, at no cost for our initial cohort.
+                The Founders Circle pairs a private network of founders with a free
+                AI Visibility Score and early access to Cailyx.
               </p>
             </div>
             <Link to="/community" className="btn btn-primary shrink-0">

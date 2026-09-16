@@ -12,7 +12,8 @@ Profile, Wikidata, directories, press). Use verbatim for consistency. No em dash
   (RevOps), Growth Operating, Fractional operating partner, B2B SaaS,
   PE and VC portfolio operations
 - **HQ:** 2nd Floor, HAL 2nd Stage, Vimanapura S.O., Bengaluru 560017, Karnataka, India
-- **Serves:** India and worldwide
+- **Other office:** Office 657, 18 Young St, Unit LGE, Edinburgh EH2 4JB, Scotland, United Kingdom
+- **Serves:** India, United Kingdom and worldwide
 - **Founded:** 2026 (adjust if different)
 - **Email:** office@rothenhall.com
 - **Phone:** +91 93983 86765

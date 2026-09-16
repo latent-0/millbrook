@@ -21,7 +21,7 @@ const CAPABILITIES = [
   {
     n: '01',
     title: 'Sees what AI sees',
-    body: 'Cailyx continuously maps how ChatGPT, Perplexity, and Google AI Overviews describe, cite, and rank you across the queries that matter.',
+    body: 'Cailyx continuously maps how ChatGPT, Perplexity, Google AI Overviews, Google AI Mode, Gemini, Google Search, and Copilot describe, cite, and rank you across the queries that matter.',
   },
   {
     n: '02',
@@ -48,7 +48,7 @@ function Cailyx() {
     applicationCategory: 'BusinessApplication',
     operatingSystem: 'Web',
     description:
-      'AI-native agentic engine for answer engine optimization (AEO) and SEO, built by Rothenhall Partners. In private development; MCP access on the roadmap.',
+      'AI-native agentic engine for answer engine optimization (AEO) and SEO, built by Rothenhall Partners. In use across every Rothenhall engagement; client access granted on onboarding, and MCP access on the roadmap.',
     creator: { '@id': `${SITE.url}/#organization` },
     publisher: { '@id': `${SITE.url}/#organization` },
     url: `${SITE.url}/cailyx`,
@@ -125,9 +125,11 @@ function Cailyx() {
           <Reveal>
             <Eyebrow className="justify-center inline-flex">Where Cailyx is today</Eyebrow>
             <p className="mt-8 font-display text-ink" style={{ fontSize: 'clamp(1.5rem,2.8vw,2.2rem)', lineHeight: 1.25 }}>
-              Cailyx powers Rothenhall engagements today. It is not yet offered as
-              a standalone B2B tool. A Cailyx MCP, so it can plug into your own AI
-              workflows, is on the roadmap.
+              Cailyx is Rothenhall&rsquo;s engine, and it runs inside every
+              engagement. Clients get their own Cailyx workspace, granted on
+              onboarding, to see the findings and act on them, while Rothenhall runs
+              the deeper work behind the scenes. A Cailyx MCP, so it can plug into
+              your own AI workflows, is on the roadmap.
             </p>
           </Reveal>
         </Container>

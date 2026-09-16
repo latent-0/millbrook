@@ -222,7 +222,7 @@ function Research() {
             ))}
           </Stagger>
           <p className="mt-8 max-w-2xl font-sans text-[0.8rem] leading-relaxed text-ink-45">
-            Based on approximately 90,000 sources across 15 or more industries.
+            Based on approximately 90,000 AI answers across 15 or more industries.
             Claude’s search behaviour is inferred from the network requests the app
             makes, observed through the interface rather than the API.
           </p>

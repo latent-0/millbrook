@@ -19,7 +19,7 @@ export const Route = createFileRoute('/terms')({
 const SECTIONS: { h: string; body: React.ReactNode }[] = [
   {
     h: '1. The diagnostic',
-    body: 'The AEO + GTM diagnostic is offered free to members of the Rothenhall Founders Circle, with no cost and no obligation. It is a senior review of where you stand in AI answers and where your go-to-market may be leaking. We may decline or delay a request at our discretion.',
+    body: 'The AEO + GTM diagnostic is offered free by Rothenhall, at no cost and no obligation. It is a senior review of where you stand in AI answers and where your go-to-market may be leaking. We may decline or delay a request at our discretion.',
   },
   {
     h: '2. Permission to crawl your website',

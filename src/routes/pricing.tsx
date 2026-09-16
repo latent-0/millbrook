@@ -2,7 +2,6 @@ import { createFileRoute, Link } from '@tanstack/react-router'
 import { useEffect, useState } from 'react'
 import { Container, Eyebrow, Reveal } from '../components/site'
 import { seo, SITE } from '../lib/seo'
-import { startCheckout } from '../lib/razorpay'
 
 export const Route = createFileRoute('/pricing')({
   head: () =>
@@ -10,7 +9,7 @@ export const Route = createFileRoute('/pricing')({
       path: '/pricing',
       title: 'Cailyx Pricing · AI Visibility Tracking That Also Fixes It · Rothenhall Partners',
       description:
-        'Cailyx pricing starts at $69/month. Track your AI visibility across ChatGPT, Claude, Perplexity, and Google, and let agentic workflows build the entities and citations that move it. Founding pricing available.',
+        'Track your AI visibility across ChatGPT, Perplexity, Google AI Overviews, Google AI Mode, Gemini, Google Search, and Copilot, and let agentic workflows build the entities and citations that move it. Founding pricing available.',
       keywords:
         'Cailyx pricing, AI visibility tool pricing, AEO software pricing, answer engine optimization platform, Profound alternative, AI search tracking cost',
     }),
@@ -50,7 +49,7 @@ const TIERS: Tier[] = [
     monthly: 89,
     annual: 69,
     tagline: 'For a founder tracking one brand.',
-    cta: 'Start with Starter',
+    cta: 'Request access',
     features: [
       '1 brand, 1 project',
       '100 tracked prompts',
@@ -67,11 +66,11 @@ const TIERS: Tier[] = [
     annual: 199,
     popular: true,
     tagline: 'For a team that owns AI visibility.',
-    cta: 'Start with Growth',
+    cta: 'Request access',
     features: [
       '3 brands or projects',
       '300 tracked prompts',
-      'All 5 engines: ChatGPT, Claude, Perplexity, Google AI, Gemini',
+      '5 engines: ChatGPT, Perplexity, Google AI Overviews, Google AI Mode, Gemini',
       '5 seats',
       'Daily refresh',
       'Competitor share of voice',
@@ -85,11 +84,11 @@ const TIERS: Tier[] = [
     monthly: 599,
     annual: 499,
     tagline: 'For agencies and multi-brand portfolios.',
-    cta: 'Start with Scale',
+    cta: 'Request access',
     features: [
       '10 brands or projects',
       '1,000 tracked prompts',
-      'All engines, plus multi-geography',
+      'All 7 engines, plus multi-geography',
       '15 seats',
       'API access and the Cailyx MCP',
       'Priority agentic runs',
@@ -115,7 +114,7 @@ const TIERS: Tier[] = [
 const COMPARE: { label: string; vals: string[] }[] = [
   { label: 'Brands / projects', vals: ['1', '3', '10', 'Unlimited'] },
   { label: 'Tracked prompts', vals: ['100', '300', '1,000', 'Unlimited'] },
-  { label: 'AI engines', vals: ['2', 'All 5', 'All 5', 'All 5'] },
+  { label: 'AI engines', vals: ['2', '5', 'All 7', 'All 7'] },
   { label: 'Seats', vals: ['1', '5', '15', 'Unlimited'] },
   { label: 'Refresh', vals: ['Weekly', 'Daily', 'Daily', 'Real time'] },
   { label: 'Competitor share of voice', vals: ['—', 'Yes', 'Yes', 'Yes'] },
@@ -137,7 +136,7 @@ const FAQ = [
   },
   {
     q: 'Which engines do you cover?',
-    a: 'ChatGPT and Google AI Overviews on Starter. Growth and above add Claude, Perplexity, Google AI Mode, and Gemini. Enterprise can add surfaces on request.',
+    a: 'ChatGPT and Google AI Overviews on Starter. Growth adds Perplexity, Google AI Mode, and Gemini. Scale and Enterprise add Google Search and Copilot, for all seven surfaces.',
   },
   {
     q: 'Is there a free way to start?',
@@ -160,8 +159,6 @@ function priceOf(t: Tier, annual: boolean) {
 
 function Pricing() {
   const [annual, setAnnual] = useState(true)
-  const [busy, setBusy] = useState<string | null>(null)
-  const [notice, setNotice] = useState<{ type: 'success' | 'error'; text: string } | null>(null)
   const [region, setRegion] = useState<'IN' | 'INTL'>('INTL')
 
   useEffect(() => {
@@ -175,31 +172,6 @@ function Pricing() {
       ? '₹' + Math.round(usd * INR_RATE).toLocaleString('en-IN')
       : '$' + usd
 
-  function pay(t: Tier) {
-    if (t.custom) return
-    setNotice(null)
-    setBusy(t.name)
-    void startCheckout({
-      planId: t.name.toLowerCase(),
-      billing: annual ? 'annual' : 'monthly',
-      country: guessCountry(), // hint only; server geo header is authoritative
-      name: 'Cailyx by Rothenhall',
-      description: `Cailyx ${t.name}, ${annual ? 'annual' : 'monthly'}`,
-      onSuccess: () => {
-        setBusy(null)
-        setNotice({
-          type: 'success',
-          text: `Payment received for Cailyx ${t.name}. This is Razorpay test mode.`,
-        })
-      },
-      onError: (message) => {
-        setBusy(null)
-        setNotice({ type: 'error', text: message })
-      },
-      onDismiss: () => setBusy(null),
-    })
-  }
-
   const schema = {
     '@context': 'https://schema.org',
     '@type': 'SoftwareApplication',
@@ -207,7 +179,7 @@ function Pricing() {
     applicationCategory: 'BusinessApplication',
     operatingSystem: 'Web',
     description:
-      'AI-native, agentic engine for answer-engine optimization (AEO) and SEO by Rothenhall Partners. Tracks AI visibility across ChatGPT, Claude, Perplexity and Google, and builds the entities and citations that move it.',
+      'AI-native, agentic engine for answer-engine optimization (AEO) and SEO by Rothenhall Partners. Tracks AI visibility across ChatGPT, Perplexity, Google AI Overviews, Google AI Mode, Gemini, Google Search, and Copilot, and builds the entities and citations that move it.',
     creator: { '@id': `${SITE.url}/#organization` },
     url: `${SITE.url}/pricing`,
     offers: {
@@ -215,7 +187,7 @@ function Pricing() {
       priceCurrency: 'USD',
       lowPrice: '69',
       highPrice: '499',
-      offerCount: '4',
+      offerCount: '3',
     },
   }
 
@@ -241,7 +213,7 @@ function Pricing() {
                 <p className="font-sans text-[1.05rem] leading-relaxed text-ink-60">
                   Track your AI visibility across every major answer engine, then
                   let agentic workflows build what the models reward. Founding
-                  pricing, from $69 a month.
+                  pricing available.
                 </p>
               </Reveal>
             </div>
@@ -359,25 +331,14 @@ function Pricing() {
                       )}
                     </div>
 
-                    {t.custom ? (
-                      <Link
-                        to="/contact"
-                        className="btn mt-2 w-full justify-center btn-ghost"
-                      >
-                        {t.cta}
-                      </Link>
-                    ) : (
-                      <button
-                        type="button"
-                        onClick={() => pay(t)}
-                        disabled={busy === t.name}
-                        className={`btn mt-2 w-full justify-center disabled:opacity-60 ${
-                          highlight ? 'btn-light' : 'btn-primary'
-                        }`}
-                      >
-                        {busy === t.name ? 'Starting…' : t.cta}
-                      </button>
-                    )}
+                    <Link
+                      to="/contact"
+                      className={`btn mt-2 w-full justify-center ${
+                        t.custom ? 'btn-ghost' : highlight ? 'btn-light' : 'btn-primary'
+                      }`}
+                    >
+                      {t.cta}
+                    </Link>
 
                     <ul className="mt-7 space-y-3">
                       {t.features.map((f) => (
@@ -559,26 +520,6 @@ function Pricing() {
           </Reveal>
         </Container>
       </section>
-
-      {notice && (
-        <button
-          type="button"
-          onClick={() => setNotice(null)}
-          role="status"
-          className="fixed inset-x-4 bottom-6 z-50 mx-auto block w-fit max-w-[92vw] rounded-full border px-5 py-3 text-center font-sans text-[0.9rem] shadow-[0_20px_50px_-20px_rgba(26,23,18,0.5)]"
-          style={
-            notice.type === 'success'
-              ? { background: 'var(--color-night)', color: '#f7f3ea', borderColor: 'transparent' }
-              : {
-                  background: 'var(--color-paper)',
-                  color: 'var(--color-cognac-deep)',
-                  borderColor: 'var(--color-line-strong)',
-                }
-          }
-        >
-          {notice.text}
-        </button>
-      )}
 
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
     </>

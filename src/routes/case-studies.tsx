@@ -39,7 +39,7 @@ const ANATOMY = [
 ]
 
 const METRICS = [
-  { v: 'AI citation share', d: 'Presence across ChatGPT, Perplexity, and AI Overviews for the queries that matter.' },
+  { v: 'AI citation share', d: 'Presence across ChatGPT, Perplexity, Google AI Overviews, Google AI Mode, Gemini, Google Search, and Copilot for the queries that matter.' },
   { v: 'Qualified pipeline', d: 'Sourced and influenced pipeline, attributable to the engine we build.' },
   { v: 'Conversion rate', d: 'Movement through a funnel that is finally measured end to end.' },
   { v: 'Reporting integrity', d: 'A single source of truth a fund can read and trust.' },
@@ -77,8 +77,8 @@ const CASE_STUDIES = [
     no: '03',
     engagement: 'Diagnostic, then remediation',
     metric: '55 → 62',
-    metricLabel: 'AI Visibility Score, +12%',
-    result: '+12% AI visibility and 3 new qualified leads from phase one.',
+    metricLabel: 'AI Visibility Score, +7 points',
+    result: 'AI visibility up 7 points and 3 new qualified leads from phase one.',
     body: 'A capable firm whose content sat behind JavaScript the AI crawler cannot run, and whose name was ambiguous. We declared the entity, fixed the structured data, and earned list placements. Phase one lifted AI visibility and sourced three new leads. The audit flags rendering as the next unlock.',
     report: '/reports/day1tech',
   },
@@ -452,19 +452,20 @@ function CaseStudies() {
       <section className="border-t border-line">
         <Container width="narrow" className="py-24 sm:py-32 text-center">
           <Reveal>
-            <Eyebrow className="justify-center inline-flex">Founding engagements</Eyebrow>
+            <Eyebrow className="justify-center inline-flex">Working with Rothenhall</Eyebrow>
             <h2 className="text-display-md mt-8">
               Your company could be the next brief.
             </h2>
             <p className="mx-auto mt-6 max-w-xl font-sans text-[1.05rem] leading-relaxed text-ink-60">
-              Rothenhall is taking on a small founding cohort of startups and
-              portfolio companies. Early clients get a senior operator’s full
-              attention, and become the documented proof this practice is built
-              on. If you want to be first, the seat is worth taking.
+              Rothenhall works with a small number of startups and portfolio
+              companies at a time, so each gets a senior operator’s full
+              attention, and every engagement is documented as proof. We are
+              taking on a few new briefs. If you want in, the capacity is worth
+              taking.
             </p>
             <div className="mt-9 flex flex-wrap justify-center gap-4">
               <Link to="/contact" className="btn btn-primary">
-                Become a founding client
+                Start an engagement
               </Link>
               <Link to="/about" className="btn btn-ghost">
                 See the model

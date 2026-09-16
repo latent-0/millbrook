@@ -410,7 +410,7 @@ const FAQ_ITEMS = [
   },
   {
     q: 'How does Rothenhall measure results?',
-    a: 'By AI citation share across ChatGPT, Perplexity, and Google AI Overviews, qualified pipeline, conversion rate, and reporting integrity, all traced through the CRM.',
+    a: 'By AI citation share across ChatGPT, Perplexity, Google AI Overviews, Google AI Mode, Gemini, Google Search, and Copilot, plus qualified pipeline, conversion rate, and reporting integrity, all traced through the CRM.',
   },
   {
     q: 'Does Rothenhall work with companies outside India?',
@@ -433,7 +433,8 @@ function CommunityTeaser() {
               <p className="mt-5 max-w-xl font-sans text-[1.05rem] leading-relaxed text-ink-60">
                 A private founders network, with our growth engine behind you.
                 Members span founders and operators across Europe, India, and the
-                USA, and our initial cohort gets GTM and AEO from Rothenhall, free.
+                USA. Start with a free AI Visibility Score and see exactly where you
+                stand in the answers.
               </p>
               <div className="mt-6 flex flex-wrap items-center gap-2.5">
                 {['Europe', 'India', 'USA'].map((r) => (

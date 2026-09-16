@@ -16,9 +16,9 @@ export const Route = createFileRoute('/community')({
       path: '/community',
       title: 'The Founders Circle · An Invite-Only Network · Rothenhall Partners',
       description:
-        'A private founders network from Rothenhall Partners. Founding members get GTM, AEO, and growth work from Rothenhall at no cost, early access to Cailyx, and an exclusive circle of founders. Request a free invite.',
+        'A private founders network from Rothenhall Partners. Members get an exclusive circle of founders, early access to Cailyx, and a free AI Visibility Score to start. Request an invite.',
       keywords:
-        'founders network, founders community India, startup community, free GTM AEO for founders, Rothenhall Founders Circle',
+        'founders network, founders community India, startup community, AI Visibility Score, Rothenhall Founders Circle',
     }),
   component: Community,
 })
@@ -38,7 +38,7 @@ const rise: Variants = {
 }
 
 const BENEFITS = [
-  { n: '01', title: 'The engine, on us', body: 'Our initial cohort of founders gets GTM, AEO, and growth work from Rothenhall, free.' },
+  { n: '01', title: 'A free AI Visibility Score', body: 'Every member starts with Rothenhall’s full AI Visibility Score, and the specific, reproducible reasons behind it.' },
   { n: '02', title: 'A private founders network', body: 'Exclusive access to a circle of founders. Warm intros, shared playbooks, candid rooms.' },
   { n: '03', title: 'Early access to Cailyx', body: 'First in line for our agentic AEO engine and the Cailyx MCP.' },
   { n: '04', title: 'Your name in the proof', body: 'Your before-and-after becomes the case studies this practice is known by.' },
@@ -74,8 +74,8 @@ function Community() {
               </div>
               <p className="mt-8 max-w-md font-sans text-[1.1rem] leading-relaxed text-ink-60">
                 A private network of founders across Europe, India, and the USA,
-                with our full growth engine behind you. Our initial cohort of
-                founders gets GTM and AEO from Rothenhall, free.
+                with our growth engine behind you. Every member starts with a free
+                AI Visibility Score and early access to Cailyx.
               </p>
               <div className="mt-6 flex flex-wrap items-center gap-2.5">
                 {['Europe', 'India', 'USA'].map((r) => (
@@ -104,10 +104,9 @@ function Community() {
                 className="mx-auto max-w-3xl font-display"
                 style={{ fontSize: 'clamp(1.4rem, 2.6vw, 2.1rem)', lineHeight: 1.3 }}
               >
-                For our initial cohort of founders, the entire Rothenhall engine,
-                GTM, AEO, and growth, for{' '}
-                <span style={{ color: 'var(--color-cognac)' }}>free</span>. In
-                return, you become the proof this practice is known by.
+                Start with a{' '}
+                <span style={{ color: 'var(--color-cognac)' }}>free</span> AI
+                Visibility Score, and see exactly where you stand in the answers.
               </p>
             </motion.div>
           </motion.div>

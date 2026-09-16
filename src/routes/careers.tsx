@@ -121,7 +121,7 @@ const PATHS = [
   {
     title: 'Founders Circle',
     tag: 'Founders',
-    body: 'Not a job, a network. Our initial cohort of founders gets the Rothenhall engine at no cost in exchange for becoming the proof this practice is known by.',
+    body: 'Not a job, a network. A private circle of founders, starting with a free AI Visibility Score and early access to Cailyx.',
     cta: 'Request an invite',
     href: '/community',
     internal: true,

@@ -57,7 +57,7 @@ const GROUPS: Group[] = [
       },
       {
         q: 'How do I show up in ChatGPT, Perplexity, and Google AI Overviews?',
-        a: 'Each engine weighs sources differently, so we track where you appear across all three and engineer the content and citations that each one rewards, then measure the change.',
+        a: 'Each engine weighs sources differently, so we track where you appear across ChatGPT, Perplexity, Google AI Overviews, Google AI Mode, Gemini, Google Search, and Copilot, then engineer the content and citations each one rewards and measure the change.',
       },
       {
         q: 'We are pre-revenue and lean. Is it too early for this?',
@@ -95,7 +95,7 @@ const GROUPS: Group[] = [
       },
       {
         q: 'How do you measure success?',
-        a: 'By AI citation share across ChatGPT, Perplexity, and Google AI Overviews, qualified pipeline, conversion rate, and reporting integrity, all traced through the CRM.',
+        a: 'By AI citation share across ChatGPT, Perplexity, Google AI Overviews, Google AI Mode, Gemini, Google Search, and Copilot, plus qualified pipeline, conversion rate, and reporting integrity, all traced through the CRM.',
       },
       {
         q: 'Where are you based, and do you work outside India?',

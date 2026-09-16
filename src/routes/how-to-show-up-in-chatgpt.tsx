@@ -34,7 +34,7 @@ const STEPS: { name: string; text: string }[] = [
   },
   {
     name: 'Track citation share and iterate',
-    text: 'Measure whether you are named, cited, and recommended across ChatGPT, Perplexity, Gemini, and Google AI Overviews for your target questions. Record position, description, source cited, and competitor mentions, then close the gaps.',
+    text: 'Measure whether you are named, cited, and recommended across ChatGPT, Perplexity, Google AI Overviews, Google AI Mode, Gemini, Google Search, and Copilot for your target questions. Record position, description, source cited, and competitor mentions, then close the gaps.',
   },
 ]
 
