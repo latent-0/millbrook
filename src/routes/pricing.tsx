@@ -36,6 +36,7 @@ type Tier = {
   name: string
   monthly?: number
   annual?: number
+  inr?: { monthly: number; annual: number }
   custom?: boolean
   tagline: string
   cta: string
@@ -48,6 +49,7 @@ const TIERS: Tier[] = [
     name: 'Starter',
     monthly: 89,
     annual: 69,
+    inr: { monthly: 10000, annual: 8000 },
     tagline: 'For a founder tracking one brand.',
     cta: 'Request access',
     features: [
@@ -152,11 +154,6 @@ const FAQ = [
   },
 ]
 
-function priceOf(t: Tier, annual: boolean) {
-  if (t.custom) return null
-  return annual ? t.annual! : t.monthly!
-}
-
 function Pricing() {
   const [annual, setAnnual] = useState(true)
   const [region, setRegion] = useState<'IN' | 'INTL'>('INTL')
@@ -165,12 +162,19 @@ function Pricing() {
     if (guessCountry() === 'IN') setRegion('IN')
   }, [])
 
-  // Display formatter. The server picks the real charge currency by geo; this
-  // only localises what the buyer sees on the page.
-  const money = (usd: number) =>
+  // Display price. India can carry explicit round INR pricing per tier; other
+  // regions (and India tiers with no explicit price) use the USD figure, with
+  // INR converted at INR_RATE. The server enforces the real charge; keep in sync.
+  const priceNum = (t: Tier, annual: boolean): number | null => {
+    if (t.custom) return null
+    const usd = annual ? t.annual! : t.monthly!
+    if (region === 'IN') return t.inr ? (annual ? t.inr.annual : t.inr.monthly) : usd * INR_RATE
+    return usd
+  }
+  const fmt = (n: number) =>
     region === 'IN'
-      ? '₹' + Math.round(usd * INR_RATE).toLocaleString('en-IN')
-      : '$' + usd
+      ? '₹' + Math.round(n).toLocaleString('en-IN')
+      : '$' + n
 
   const schema = {
     '@context': 'https://schema.org',
@@ -261,7 +265,7 @@ function Pricing() {
         <Container className="py-16 sm:py-20">
           <div className="grid gap-6 lg:grid-cols-4">
             {TIERS.map((t, i) => {
-              const price = priceOf(t, annual)
+              const price = priceNum(t, annual)
               const highlight = t.popular
               return (
                 <Reveal key={t.name} delay={i * 70}>
@@ -308,7 +312,7 @@ function Pricing() {
                               }`}
                               style={{ fontSize: '2.9rem', lineHeight: 1 }}
                             >
-                              {money(price)}
+                              {fmt(price)}
                             </span>
                             <span
                               className={`font-sans text-[0.9rem] ${
@@ -324,7 +328,7 @@ function Pricing() {
                             }`}
                           >
                             {annual
-                              ? `billed annually (${money(price * 12)}/yr)`
+                              ? `billed annually (${fmt(price * 12)}/yr)`
                               : 'billed monthly'}
                           </p>
                         </>
@@ -440,10 +444,10 @@ function Pricing() {
                   <tr className="border-t border-line">
                     <td className="p-5 font-sans text-[0.9rem] text-ink-60">Price</td>
                     {TIERS.map((t) => {
-                      const p = priceOf(t, annual)
+                      const p = priceNum(t, annual)
                       return (
                         <td key={t.name} className="p-5 font-display text-ink" style={{ fontSize: '1.05rem' }}>
-                          {p === null ? 'Custom' : `${money(p)}/mo`}
+                          {p === null ? 'Custom' : `${fmt(p)}/mo`}
                         </td>
                       )
                     })}

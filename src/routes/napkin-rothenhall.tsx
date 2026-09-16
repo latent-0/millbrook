@@ -337,7 +337,7 @@ function Radar({ dims, compare }: { dims: Dims; compare?: Dims }) {
         const anchor = Math.cos((-90 + (i * 360) / n) * (Math.PI / 180))
         const ta = anchor > 0.2 ? 'start' : anchor < -0.2 ? 'end' : 'middle'
         return (
-          <text key={ax.key} x={lx} y={ly} textAnchor={ta} dominantBaseline="middle" fontSize={11} fontWeight={500} fill="var(--color-ink-60)" style={{ fontFamily: 'var(--font-sans, Inter, sans-serif)' }}>
+          <text key={ax.key} x={lx} y={ly} textAnchor={ta} dominantBaseline="middle" fontSize={11} fontWeight={500} fill="var(--color-ink-60)" style={{ fontFamily: 'var(--font-sans, sans-serif)' }}>
             {ax.short}
           </text>
         )
@@ -364,7 +364,7 @@ function Gauge({ score }: { score: number }) {
         <text x="120" y="108" textAnchor="middle" fontSize={54} fontWeight={300} fill="var(--color-ink)" style={{ fontFamily: 'var(--font-display, Jost, sans-serif)' }}>
           {score}
         </text>
-        <text x="120" y="128" textAnchor="middle" fontSize={13} fill="var(--color-ink-45)" style={{ fontFamily: 'var(--font-sans, Inter, sans-serif)' }}>
+        <text x="120" y="128" textAnchor="middle" fontSize={13} fill="var(--color-ink-45)" style={{ fontFamily: 'var(--font-sans, sans-serif)' }}>
           out of 100
         </text>
       </svg>
