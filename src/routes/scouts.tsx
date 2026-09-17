@@ -2,6 +2,7 @@ import { createFileRoute, Link } from '@tanstack/react-router'
 import { motion, useReducedMotion, type Variants } from 'motion/react'
 import { Container, Eyebrow, Reveal } from '../components/site'
 import { seo } from '../lib/seo'
+import { gmailCompose } from '../lib/contact'
 
 export const Route = createFileRoute('/scouts')({
   head: () =>
@@ -30,7 +31,7 @@ const rise: Variants = {
   },
 }
 
-const APPLY = 'mailto:careers@rothenhall.com?subject=Campus%20Scouts%20application'
+const APPLY = gmailCompose('Campus Scouts application')
 
 const FACTS = [
   { n: '3', l: 'Month cohort' },
@@ -191,7 +192,7 @@ function Scouts() {
               engine visibility, and rank up as you go.
             </motion.p>
             <motion.div variants={rise} className="mt-9 flex flex-wrap gap-3">
-              <a href={APPLY} className="btn btn-light !px-6">Apply to join</a>
+              <a href={APPLY} target="_blank" rel="noopener noreferrer" className="btn btn-light !px-6">Apply to join</a>
               <a href="#journey" className="btn btn-ghost-light !px-6">See the journey</a>
             </motion.div>
           </motion.div>
@@ -491,7 +492,7 @@ function Scouts() {
               ))}
             </ol>
             <div className="mt-9 flex flex-wrap justify-center gap-3">
-              <a href={APPLY} className="btn btn-light !px-6">Apply now</a>
+              <a href={APPLY} target="_blank" rel="noopener noreferrer" className="btn btn-light !px-6">Apply now</a>
               <Link to="/careers" className="btn btn-ghost-light !px-6">See all the ways in</Link>
             </div>
           </Reveal>

@@ -2,6 +2,7 @@ import { createFileRoute, Link } from '@tanstack/react-router'
 import { motion, useReducedMotion, type Variants } from 'motion/react'
 import { Container, Eyebrow, Reveal } from '../components/site'
 import { seo } from '../lib/seo'
+import { gmailCompose } from '../lib/contact'
 
 export const Route = createFileRoute('/careers')({
   head: () =>
@@ -29,8 +30,6 @@ const rise: Variants = {
     transition: { type: 'spring', damping: 24, stiffness: 120 },
   },
 }
-
-const APPLY = 'mailto:office@rothenhall.com'
 
 type Role = {
   id: string
@@ -115,7 +114,7 @@ const PATHS = [
     tag: 'Early career',
     body: 'Project-based internships across engineering, AEO strategy, and content. Real ownership on live client work, not fetch-and-carry.',
     cta: 'Apply for an internship',
-    href: 'mailto:office@rothenhall.com?subject=Internship%20application',
+    href: gmailCompose('Internship application'),
     internal: false,
   },
   {
@@ -282,7 +281,9 @@ function Careers() {
             {ROLES.map((r) => (
               <motion.li key={r.id} variants={rise}>
                 <a
-                  href={`${APPLY}?subject=${encodeURIComponent('Application: ' + r.title)}`}
+                  href={gmailCompose('Application: ' + r.title)}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   aria-label={`Apply for ${r.title}`}
                   className="group block rounded-[1.5rem] border border-line bg-paper p-7 transition-colors hover:border-line-strong sm:p-9"
                 >
@@ -355,7 +356,7 @@ function Careers() {
                     {p.cta}
                   </Link>
                 ) : (
-                  <a href={p.href} className="link-line mt-6 self-start font-sans text-[0.95rem] text-ink">
+                  <a href={p.href} target="_blank" rel="noopener noreferrer" className="link-line mt-6 self-start font-sans text-[0.95rem] text-ink">
                     {p.cta}
                   </a>
                 )}
@@ -405,7 +406,7 @@ function Careers() {
               and why this problem is yours to solve.
             </p>
             <div className="mt-9 flex flex-wrap justify-center gap-3">
-              <a href={`${APPLY}?subject=${encodeURIComponent('Introduction')}`} className="btn btn-light !px-6">
+              <a href={gmailCompose('Introduction')} target="_blank" rel="noopener noreferrer" className="btn btn-light !px-6">
                 Write to us
               </a>
               <Link to="/about" className="btn btn-ghost-light !px-6">
