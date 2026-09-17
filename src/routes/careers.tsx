@@ -30,7 +30,7 @@ const rise: Variants = {
   },
 }
 
-const APPLY = 'mailto:careers@rothenhall.com'
+const APPLY = 'mailto:office@rothenhall.com'
 
 type Role = {
   id: string
@@ -115,7 +115,7 @@ const PATHS = [
     tag: 'Early career',
     body: 'Project-based internships across engineering, AEO strategy, and content. Real ownership on live client work, not fetch-and-carry.',
     cta: 'Apply for an internship',
-    href: 'mailto:careers@rothenhall.com?subject=Internship%20application',
+    href: 'mailto:office@rothenhall.com?subject=Internship%20application',
     internal: false,
   },
   {
