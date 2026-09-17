@@ -51,7 +51,7 @@ const TIERS: Tier[] = [
     annual: 69,
     inr: { monthly: 10000, annual: 8000 },
     tagline: 'For a founder tracking one brand.',
-    cta: 'Request access',
+    cta: 'Get Started',
     features: [
       '1 brand, 1 project',
       '100 tracked prompts',
@@ -68,7 +68,7 @@ const TIERS: Tier[] = [
     annual: 199,
     popular: true,
     tagline: 'For a team that owns AI visibility.',
-    cta: 'Request access',
+    cta: 'Get Started',
     features: [
       '3 brands or projects',
       '300 tracked prompts',
@@ -86,7 +86,7 @@ const TIERS: Tier[] = [
     monthly: 599,
     annual: 499,
     tagline: 'For agencies and multi-brand portfolios.',
-    cta: 'Request access',
+    cta: 'Get Started',
     features: [
       '10 brands or projects',
       '1,000 tracked prompts',
