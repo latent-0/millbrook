@@ -96,8 +96,8 @@ const AGENCY_SCAN = [
   { slug: 'curious-orange', name: 'Curious Orange', tag: 'Design & brand', score: 35, band: 'Invisible', line: 'A beautiful site with almost nothing to read.' },
 ]
 
-const scanBandColor = (b: string) =>
-  b === 'Present' ? 'var(--color-brass-deep)' : b === 'Faint' ? 'var(--color-cognac-deep)' : '#9d3b2f'
+const scanBandClass = (b: string) =>
+  b === 'Present' ? 'text-brass-deep' : b === 'Faint' ? 'text-cognac-deep' : 'text-alert'
 
 const TESTIMONIALS = [
   {
@@ -159,14 +159,14 @@ function CaseStudies() {
               <h2 className="text-display-md mt-6">
                 What every documented engagement captures.
               </h2>
-              <p className="mt-6 font-sans text-[1.05rem] leading-relaxed text-ink-60">
+              <p className="mt-6 font-sans text-body leading-relaxed text-ink-60">
                 A case study is only proof if it can be checked. Ours follow the
                 same structure every time, so the result speaks for itself.
               </p>
             </Reveal>
           </div>
 
-          <div className="mt-16 grid gap-px overflow-hidden rounded-2xl border border-line bg-line sm:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-16 grid items-stretch gap-px overflow-hidden rounded-2xl border border-line bg-line sm:grid-cols-2 lg:grid-cols-4">
             {ANATOMY.map((a, i) => (
               <Reveal key={a.n} delay={i * 70} className="bg-canvas">
                 <div className="h-full p-8">
@@ -174,7 +174,7 @@ function CaseStudies() {
                   <h3 className="mt-5 font-display" style={{ fontSize: '1.4rem' }}>
                     {a.title}
                   </h3>
-                  <p className="mt-3 font-sans text-[0.95rem] leading-relaxed text-ink-60">
+                  <p className="mt-3 font-sans text-body leading-relaxed text-ink-60">
                     {a.body}
                   </p>
                 </div>
@@ -194,21 +194,21 @@ function CaseStudies() {
                 <h2 className="text-display-md mt-6">
                   The dimensions each engagement is built to change.
                 </h2>
-                <p className="mt-6 font-sans text-[1rem] leading-relaxed text-ink-60">
+                <p className="mt-6 font-sans text-body leading-relaxed text-ink-60">
                   These are the measures we baseline on day one and report against
                   throughout: the axes a Rothenhall case study is written along.
                 </p>
               </Reveal>
             </div>
             <div className="md:col-span-7 md:col-start-6">
-              <div className="grid gap-px overflow-hidden rounded-2xl border border-line bg-line sm:grid-cols-2">
+              <div className="grid items-stretch gap-px overflow-hidden rounded-2xl border border-line bg-line sm:grid-cols-2">
                 {METRICS.map((m, i) => (
                   <Reveal key={m.v} delay={i * 70} className="bg-canvas">
-                    <div className="h-full p-7">
+                    <div className="h-full p-8">
                       <p className="font-display text-brass-deep" style={{ fontSize: '1.3rem' }}>
                         {m.v}
                       </p>
-                      <p className="mt-3 font-sans text-[0.95rem] leading-relaxed text-ink-60">
+                      <p className="mt-3 font-sans text-body leading-relaxed text-ink-60">
                         {m.d}
                       </p>
                     </div>
@@ -227,7 +227,7 @@ function CaseStudies() {
             <Reveal>
               <Eyebrow>Documented engagements</Eyebrow>
               <h2 className="text-display-md mt-6">The proof, client by client.</h2>
-              <p className="mt-6 font-sans text-[1.05rem] leading-relaxed text-ink-60">
+              <p className="mt-6 font-sans text-body leading-relaxed text-ink-60">
                 Every engagement opens with the same diagnostic: a measured AI
                 Visibility Score and the specific, reproducible reasons an
                 assistant does or does not recommend the company. Read the full
@@ -236,17 +236,12 @@ function CaseStudies() {
             </Reveal>
           </div>
 
-          <div className="mt-16 grid gap-6 lg:grid-cols-3">
+          <div className="mt-16 grid items-stretch gap-6 lg:grid-cols-3">
             {CASE_STUDIES.map((cs, i) => (
-              <Reveal key={cs.slug} delay={i * 80}>
-                <div className="flex h-full flex-col rounded-2xl border border-line bg-canvas p-8">
+              <Reveal key={cs.slug} delay={i * 80} className="h-full">
+                <div className="flex h-full flex-col rounded-2xl border border-line bg-paper p-8">
                   <div className="mb-5 flex items-center gap-3">
-                    <span
-                      className="font-display text-brass"
-                      style={{ fontSize: '1.4rem', lineHeight: 1 }}
-                    >
-                      {cs.no}
-                    </span>
+                    <span className="font-display text-3xl text-brass">{cs.no}</span>
                     <span aria-hidden="true" className="h-px flex-1 bg-line" />
                   </div>
                   <Eyebrow>{cs.tag}</Eyebrow>
@@ -254,24 +249,19 @@ function CaseStudies() {
                     {cs.client}
                   </h3>
                   <div className="mt-5 flex items-baseline gap-3">
-                    <span
-                      className="font-display text-brass-deep"
-                      style={{ fontSize: '2.3rem', lineHeight: 1 }}
-                    >
-                      {cs.metric}
-                    </span>
-                    <span className="font-sans text-[0.8rem] text-ink-45">
+                    <span className="font-display text-4xl text-brass">{cs.metric}</span>
+                    <span className="font-sans text-label text-ink-45">
                       {cs.metricLabel}
                     </span>
                   </div>
-                  <p className="mt-5 font-sans text-[0.98rem] font-medium leading-snug text-ink">
+                  <p className="mt-5 font-sans text-body font-medium leading-snug text-ink">
                     {cs.result}
                   </p>
-                  <p className="mt-3 font-sans text-[0.92rem] leading-relaxed text-ink-60">
+                  <p className="mt-3 font-sans text-caption leading-relaxed text-ink-60">
                     {cs.body}
                   </p>
                   <div className="mt-auto flex items-center justify-between gap-4 border-t border-line pt-5">
-                    <span className="font-sans text-[0.72rem] leading-tight text-ink-45">
+                    <span className="font-sans text-label leading-tight text-ink-45">
                       <span className="uppercase tracking-[0.16em] text-brass-deep">
                         Engagement
                       </span>
@@ -284,7 +274,7 @@ function CaseStudies() {
                       href={cs.report}
                       target="_blank"
                       rel="noopener"
-                      className="link-line whitespace-nowrap font-sans text-[0.85rem] font-medium text-ink"
+                      className="link-line whitespace-nowrap font-sans text-caption font-medium text-ink"
                     >
                       Read the brief <span aria-hidden="true">&rarr;</span>
                     </a>
@@ -294,7 +284,7 @@ function CaseStudies() {
             ))}
           </div>
 
-          <p className="mt-8 max-w-3xl font-sans text-[0.8rem] leading-relaxed text-ink-45">
+          <p className="mt-8 max-w-3xl font-sans text-label leading-relaxed text-ink-45">
             Napkin and BetterWaves engaged for the diagnostic. DayOne Technologies
             engaged for the diagnostic and the first phase of remediation; the
             movement shown reflects that engagement against the baseline captured
@@ -312,9 +302,9 @@ function CaseStudies() {
               <h2 className="text-display-md mt-6">What clients say.</h2>
             </Reveal>
           </div>
-          <div className="mt-14 grid gap-6 md:grid-cols-2">
+          <div className="mt-14 grid items-stretch gap-6 md:grid-cols-2">
             {TESTIMONIALS.map((t, i) => (
-              <Reveal key={t.name} delay={i * 90}>
+              <Reveal key={t.name} delay={i * 90} className="h-full">
                 <figure className="flex h-full flex-col rounded-2xl border border-line bg-paper p-8 sm:p-10">
                   <span
                     aria-hidden="true"
@@ -338,7 +328,7 @@ function CaseStudies() {
                         loading="lazy"
                       />
                     ) : (
-                      <span className="flex h-11 w-11 flex-none items-center justify-center rounded-full bg-brass font-display text-[0.95rem] text-canvas">
+                      <span className="flex h-11 w-11 flex-none items-center justify-center rounded-full bg-brass font-display text-body text-canvas">
                         {t.initials}
                       </span>
                     )}
@@ -352,12 +342,12 @@ function CaseStudies() {
                           target="_blank"
                           rel="noopener noreferrer"
                           aria-label={`${t.name} on LinkedIn`}
-                          className="text-ink-45 transition-colors hover:text-[#0a66c2]"
+                          className="text-ink-45 transition-colors hover:text-cognac-deep"
                         >
                           <LinkedInIcon />
                         </a>
                       </div>
-                      <span className="block font-sans text-[0.85rem] text-ink-45">
+                      <span className="block font-sans text-caption text-ink-45">
                         {t.role}
                       </span>
                     </div>
@@ -376,7 +366,7 @@ function CaseStudies() {
             <Reveal>
               <Eyebrow>A competitive scan</Eyebrow>
               <h2 className="text-display-md mt-6">The same method, run across a market.</h2>
-              <p className="mt-6 font-sans text-[1.05rem] leading-relaxed text-ink-60">
+              <p className="mt-6 font-sans text-body leading-relaxed text-ink-60">
                 To show the framework in the wild, we ran the AI Visibility
                 diagnostic, unprompted, across seven Irish and global creative
                 agencies on a single day. None is a client, and every score is
@@ -398,26 +388,18 @@ function CaseStudies() {
                     <h3 className="font-display text-ink" style={{ fontSize: '1.35rem' }}>
                       {a.name}
                     </h3>
-                    <p className="font-sans text-[0.72rem] uppercase tracking-[0.14em] text-brass-deep">
-                      {a.tag}
-                    </p>
+                    <p className="eyebrow mt-1">{a.tag}</p>
                   </div>
                   <div className="sm:col-span-5">
-                    <p className="font-sans text-[0.95rem] leading-snug text-ink-60">
+                    <p className="font-sans text-body leading-snug text-ink-60">
                       {a.line}
                     </p>
                   </div>
                   <div className="flex items-baseline gap-2 sm:col-span-2">
-                    <span
-                      className="font-display tabular-nums text-brass-deep"
-                      style={{ fontSize: '2rem', lineHeight: 1 }}
-                    >
+                    <span className="font-display tabular-nums text-4xl text-brass">
                       {a.score}
                     </span>
-                    <span
-                      className="font-sans text-[0.66rem] uppercase tracking-[0.12em]"
-                      style={{ color: scanBandColor(a.band) }}
-                    >
+                    <span className={`font-sans text-label uppercase tracking-[0.12em] ${scanBandClass(a.band)}`}>
                       {a.band}
                     </span>
                   </div>
@@ -426,7 +408,7 @@ function CaseStudies() {
                       href={`/reports/${a.slug}`}
                       target="_blank"
                       rel="noopener"
-                      className="link-line whitespace-nowrap font-sans text-[0.82rem] font-medium text-ink"
+                      className="link-line whitespace-nowrap font-sans text-caption font-medium text-ink"
                     >
                       Brief &rarr;
                     </a>
@@ -440,7 +422,7 @@ function CaseStudies() {
             <Link to="/napkin-rothenhall" className="btn btn-primary">
               Explore the full comparison
             </Link>
-            <p className="max-w-md font-sans text-[0.8rem] leading-relaxed text-ink-45">
+            <p className="max-w-md font-sans text-label leading-relaxed text-ink-45">
               An unsolicited scan of public websites, shown to demonstrate the
               method. These seven are not client engagements.
             </p>
@@ -456,7 +438,7 @@ function CaseStudies() {
             <h2 className="text-display-md mt-8">
               Your company could be the next brief.
             </h2>
-            <p className="mx-auto mt-6 max-w-xl font-sans text-[1.05rem] leading-relaxed text-ink-60">
+            <p className="mx-auto mt-6 max-w-xl font-sans text-body leading-relaxed text-ink-60">
               Rothenhall works with a small number of startups and portfolio
               companies at a time, so each gets a senior operator’s full
               attention, and every engagement is documented as proof. We are

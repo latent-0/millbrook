@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
-import { motion, useReducedMotion, type Variants } from 'motion/react'
+import { motion, MotionConfig, useReducedMotion, type Variants } from 'motion/react'
 import { Container, Eyebrow, Reveal } from '../components/site'
 import { seo } from '../lib/seo'
 import { gmailCompose } from '../lib/contact'
@@ -163,6 +163,7 @@ function Scouts() {
   const reduce = useReducedMotion()
 
   return (
+    <MotionConfig reducedMotion="user">
     <div className="bg-canvas text-ink">
       {/* Hero */}
       <section className="relative overflow-hidden bg-night text-canvas">
@@ -173,20 +174,16 @@ function Scouts() {
           className="pointer-events-none absolute -right-20 -top-10 hidden w-[34rem] select-none md:block"
           style={{ filter: 'brightness(0) invert(1)', opacity: 0.05 }}
         />
-        <Container width="wide" className="relative py-20 sm:py-28">
-          <motion.div variants={stagger} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0 }} className="max-w-3xl">
+        <Container width="wide" className="relative py-24 sm:py-32">
+          <motion.div variants={stagger} initial={reduce ? 'visible' : 'hidden'} whileInView="visible" viewport={{ once: true, amount: 0 }} className="max-w-3xl">
             <motion.div variants={rise}>
-              <Eyebrow className="text-brass-soft">Campus Ambassador Program · Cohort I</Eyebrow>
+              <Eyebrow className="eyebrow-light">Campus Ambassador Program · Cohort I</Eyebrow>
             </motion.div>
-            <motion.h1
-              variants={rise}
-              className="mt-7 font-display"
-              style={{ fontSize: 'clamp(2.6rem, 5.4vw, 5rem)', fontWeight: 300, letterSpacing: '-0.03em', lineHeight: 1.02 }}
-            >
+            <motion.h1 variants={rise} className="text-display-lg mt-7">
               Rothenhall{' '}
-              <span style={{ color: 'var(--color-cognac-soft)' }}>Campus Scouts.</span>
+              <span className="text-cognac-soft">Campus Scouts.</span>
             </motion.h1>
-            <motion.p variants={rise} className="mt-8 max-w-xl font-sans text-[1.12rem] leading-relaxed text-canvas/70">
+            <motion.p variants={rise} className="mt-8 max-w-xl font-sans text-body-lg leading-relaxed text-canvas/70">
               Learn how AI decides which companies to recommend, then build the
               proof in public. Write, host, and grow the movement around answer
               engine visibility, and rank up as you go.
@@ -199,7 +196,7 @@ function Scouts() {
 
           <motion.dl
             variants={stagger}
-            initial="hidden"
+            initial={reduce ? 'visible' : 'hidden'}
             whileInView="visible"
             viewport={{ once: true, amount: 0 }}
             className="mt-14 grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-night-line bg-night-line sm:grid-cols-4"
@@ -211,7 +208,7 @@ function Scouts() {
                   <span className="font-display text-cognac-soft" style={{ fontSize: '1.9rem', fontVariantNumeric: 'tabular-nums' }}>
                     {f.n}
                   </span>
-                  <p className="mt-1 font-sans text-canvas/60" style={{ fontSize: '0.72rem', letterSpacing: '0.14em', textTransform: 'uppercase' }}>
+                  <p className="mt-1 font-sans text-label uppercase tracking-[0.14em] text-canvas/60">
                     {f.l}
                   </p>
                 </dd>
@@ -223,7 +220,7 @@ function Scouts() {
 
       {/* Why join */}
       <section aria-labelledby="why-heading" className="border-t border-line">
-        <Container className="py-20 sm:py-28">
+        <Container className="py-24 sm:py-32">
           <div className="max-w-2xl">
             <Reveal>
               <Eyebrow>Why it is worth your semester</Eyebrow>
@@ -234,16 +231,16 @@ function Scouts() {
           </div>
           <motion.ul
             variants={stagger}
-            initial="hidden"
+            initial={reduce ? 'visible' : 'hidden'}
             whileInView="visible"
             viewport={{ once: true, amount: 0.15 }}
             className="mt-14 grid list-none gap-5 p-0 sm:grid-cols-2 lg:grid-cols-3"
           >
             {WHY.map((w) => (
-              <motion.li key={w.title} variants={rise} className="convex-light rounded-[1.75rem] p-8">
+              <motion.li key={w.title} variants={rise} className="convex-light rounded-2xl p-8">
                 <p className="eyebrow">{w.k}</p>
                 <h3 className="mt-4 font-display text-ink" style={{ fontSize: '1.5rem' }}>{w.title}</h3>
-                <p className="mt-3 font-sans text-[0.98rem] leading-relaxed text-ink-60">{w.body}</p>
+                <p className="mt-3 font-sans text-body leading-relaxed text-ink-60">{w.body}</p>
               </motion.li>
             ))}
           </motion.ul>
@@ -251,13 +248,13 @@ function Scouts() {
       </section>
 
       {/* The journey */}
-      <section aria-labelledby="journey-heading" id="journey" className="border-t border-line bg-canvas-2 scroll-mt-24">
-        <Container className="py-20 sm:py-28">
+      <section aria-labelledby="journey-heading" id="journey" className="border-t border-line bg-canvas-2">
+        <Container className="py-24 sm:py-32">
           <div className="max-w-2xl">
             <Reveal>
               <Eyebrow>The journey</Eyebrow>
               <h2 id="journey-heading" className="text-display-md mt-6">Four tiers over three months. You climb by shipping.</h2>
-              <p className="mt-5 font-sans text-[1.05rem] leading-relaxed text-ink-60">
+              <p className="mt-5 font-sans text-body leading-relaxed text-ink-60">
                 Everyone starts as a Scout. Keep the weekly rhythm and hit each
                 checkpoint to rank up. Higher tiers unlock better swag, deeper
                 access, and the internship track.
@@ -266,7 +263,7 @@ function Scouts() {
           </div>
           <motion.ol
             variants={stagger}
-            initial="hidden"
+            initial={reduce ? 'visible' : 'hidden'}
             whileInView="visible"
             viewport={{ once: true, amount: 0.1 }}
             className="mt-12 grid list-none gap-4 p-0 lg:grid-cols-4"
@@ -275,20 +272,20 @@ function Scouts() {
               <motion.li
                 key={t.name}
                 variants={rise}
-                className={`flex flex-col rounded-[1.5rem] p-7 ${
+                className={`flex flex-col rounded-2xl p-7 ${
                   t.peak ? 'bg-night text-canvas' : 'border border-line bg-paper'
                 }`}
               >
-                <span className={`font-sans ${t.peak ? 'text-cognac-soft' : 'text-ink-45'}`} style={{ fontSize: '0.72rem', letterSpacing: '0.16em', textTransform: 'uppercase' }}>
+                <span className={`font-sans text-label uppercase tracking-[0.16em] ${t.peak ? 'text-cognac-soft' : 'text-ink-45'}`}>
                   {t.step}
                 </span>
                 <h3 className="mt-2 font-display" style={{ fontSize: '1.7rem', lineHeight: 1.05 }}>{t.name}</h3>
-                <span className={`mt-1 font-sans text-[0.82rem] font-medium ${t.peak ? 'text-cognac-soft' : 'text-cognac-deep'}`}>{t.when}</span>
-                <p className={`mt-4 border-t pt-4 font-sans text-[0.9rem] leading-relaxed ${t.peak ? 'border-night-line text-canvas/65' : 'border-line text-ink-60'}`}>{t.req}</p>
+                <span className={`mt-1 font-sans text-caption font-medium ${t.peak ? 'text-cognac-soft' : 'text-cognac-deep'}`}>{t.when}</span>
+                <p className={`mt-4 border-t pt-4 font-sans text-caption leading-relaxed ${t.peak ? 'border-night-line text-canvas/65' : 'border-line text-ink-60'}`}>{t.req}</p>
                 <ul className="mt-4 flex list-none flex-col gap-2 p-0">
                   {t.rewards.map((r) => (
-                    <li key={r} className={`flex gap-2.5 font-sans text-[0.9rem] ${t.peak ? 'text-canvas/90' : 'text-ink-80'}`}>
-                      <span aria-hidden className={t.peak ? 'text-cognac-soft' : 'text-brass'}>◆</span>
+                    <li key={r} className={`flex items-start gap-2.5 font-sans text-caption ${t.peak ? 'text-canvas/90' : 'text-ink-80'}`}>
+                      <span aria-hidden className={`mt-[0.5em] h-1 w-1 shrink-0 rounded-full ${t.peak ? 'bg-cognac-soft' : 'bg-brass'}`} />
                       <span>{r}</span>
                     </li>
                   ))}
@@ -301,7 +298,7 @@ function Scouts() {
 
       {/* What you do */}
       <section aria-labelledby="rhythm-heading" className="border-t border-line">
-        <Container className="py-20 sm:py-28">
+        <Container className="py-24 sm:py-32">
           <div className="max-w-2xl">
             <Reveal>
               <Eyebrow>What you actually do</Eyebrow>
@@ -309,16 +306,20 @@ function Scouts() {
             </Reveal>
           </div>
           <div className="mt-14 grid gap-6 lg:grid-cols-[1.05fr_1fr] lg:gap-10">
-            <Reveal className="convex-light rounded-[1.75rem] p-8 sm:p-10">
+            <Reveal className="convex-light rounded-2xl p-8 sm:p-10">
               <ol className="flex list-none flex-col p-0">
                 {RHYTHM.map((r, i) => (
                   <li key={r.title} className={`flex items-start gap-4 py-5 ${i < RHYTHM.length - 1 ? 'border-b border-line' : ''} ${i === 0 ? 'pt-0' : ''}`}>
-                    <span className="flex h-10 w-10 flex-none items-center justify-center rounded-xl border border-line-strong bg-canvas-2 font-display text-[1.05rem] text-brass-deep" aria-hidden>
-                      {r.n}
-                    </span>
+                    {r.n === '✓' ? (
+                      <span aria-hidden className="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-brass" />
+                    ) : (
+                      <span className="flex h-10 w-10 flex-none items-center justify-center rounded-xl border border-line-strong bg-canvas-2 font-display text-body text-brass-deep" aria-hidden>
+                        {r.n}
+                      </span>
+                    )}
                     <div>
-                      <h3 className="font-sans text-[1rem] font-medium text-ink">{r.title}</h3>
-                      <p className="mt-1 font-sans text-[0.9rem] leading-relaxed text-ink-60">{r.body}</p>
+                      <h3 className="font-sans text-body font-medium text-ink">{r.title}</h3>
+                      <p className="mt-1 font-sans text-caption leading-relaxed text-ink-60">{r.body}</p>
                     </div>
                   </li>
                 ))}
@@ -328,10 +329,10 @@ function Scouts() {
               <ul className="flex list-none flex-col gap-6 p-0">
                 {TRACKS.map((t) => (
                   <li key={t.k} className="flex gap-4">
-                    <span className="font-display text-[1.1rem] text-cognac" aria-hidden style={{ width: '1.6rem' }}>{t.k}</span>
+                    <span className="font-display text-body-lg text-cognac" aria-hidden style={{ width: '1.6rem' }}>{t.k}</span>
                     <div>
-                      <h3 className="font-sans text-[1.05rem] font-medium text-ink">{t.title}</h3>
-                      <p className="mt-1 font-sans text-[0.92rem] leading-relaxed text-ink-60">{t.body}</p>
+                      <h3 className="font-sans text-body font-medium text-ink">{t.title}</h3>
+                      <p className="mt-1 font-sans text-caption leading-relaxed text-ink-60">{t.body}</p>
                     </div>
                   </li>
                 ))}
@@ -343,12 +344,12 @@ function Scouts() {
 
       {/* Concept menu */}
       <section aria-labelledby="concepts-heading" className="border-t border-line bg-canvas-2">
-        <Container className="py-20 sm:py-28">
+        <Container className="py-24 sm:py-32">
           <div className="max-w-2xl">
             <Reveal>
               <Eyebrow>The concept menu</Eyebrow>
               <h2 id="concepts-heading" className="text-display-md mt-6">Claim a topic, own the angle.</h2>
-              <p className="mt-5 font-sans text-[1.05rem] leading-relaxed text-ink-60">
+              <p className="mt-5 font-sans text-body leading-relaxed text-ink-60">
                 Every post teaches one idea and points back to Rothenhall. Pick the
                 level that fits where you are. More get added each month.
               </p>
@@ -356,7 +357,7 @@ function Scouts() {
           </div>
           <motion.div
             variants={stagger}
-            initial="hidden"
+            initial={reduce ? 'visible' : 'hidden'}
             whileInView="visible"
             viewport={{ once: true, amount: 0.12 }}
             className="mt-12 grid gap-8 md:grid-cols-3"
@@ -366,8 +367,8 @@ function Scouts() {
                 <h3 className="inline-block border-b-2 border-brass pb-2 font-display text-ink" style={{ fontSize: '1.2rem' }}>{c.group}</h3>
                 <ol className="mt-5 flex list-none flex-col gap-3 p-0">
                   {c.items.map((it, i) => (
-                    <li key={it} className="flex gap-3 font-sans text-[0.92rem] leading-snug text-ink-80">
-                      <span className="font-display text-[0.8rem] text-ink-45" aria-hidden style={{ fontVariantNumeric: 'tabular-nums' }}>
+                    <li key={it} className="flex gap-3 font-sans text-caption leading-snug text-ink-80">
+                      <span className="font-display text-label text-ink-45" aria-hidden style={{ fontVariantNumeric: 'tabular-nums' }}>
                         {String(i + 1).padStart(2, '0')}
                       </span>
                       <span>{it}</span>
@@ -382,12 +383,12 @@ function Scouts() {
 
       {/* Swag ladder */}
       <section aria-labelledby="swag-heading" className="relative overflow-hidden border-t border-night-line bg-night text-canvas">
-        <Container className="relative py-20 sm:py-28">
+        <Container className="relative py-24 sm:py-32">
           <div className="max-w-2xl">
             <Reveal>
-              <Eyebrow className="text-brass-soft">The swag ladder</Eyebrow>
-              <h2 id="swag-heading" className="text-display-md mt-6" style={{ color: 'var(--color-canvas)' }}>Gear you earn, not gear you are given.</h2>
-              <p className="mt-5 font-sans text-[1.05rem] leading-relaxed text-canvas/65">
+              <Eyebrow className="eyebrow-light">The swag ladder</Eyebrow>
+              <h2 id="swag-heading" className="text-display-md mt-6 text-canvas">Gear you earn, not gear you are given.</h2>
+              <p className="mt-5 font-sans text-body leading-relaxed text-canvas/65">
                 Each checkpoint unlocks the next drop. Wear it, and you carry the
                 brand across campus.
               </p>
@@ -395,7 +396,7 @@ function Scouts() {
           </div>
           <motion.ol
             variants={stagger}
-            initial="hidden"
+            initial={reduce ? 'visible' : 'hidden'}
             whileInView="visible"
             viewport={{ once: true, amount: 0.1 }}
             className="mt-12 grid list-none gap-4 p-0 sm:grid-cols-2 lg:grid-cols-4"
@@ -404,19 +405,19 @@ function Scouts() {
               <motion.li
                 key={r.stage}
                 variants={rise}
-                className={`flex flex-col gap-3 rounded-[1.5rem] border p-7 ${
+                className={`flex flex-col gap-3 rounded-2xl border p-7 ${
                   r.peak ? 'border-cognac-deep' : 'border-night-line bg-night-2'
                 }`}
                 style={r.peak ? { background: 'linear-gradient(160deg, rgba(198,124,72,0.16), rgba(32,28,21,0.5))' } : undefined}
               >
                 <div>
-                  <p className="font-sans font-semibold text-cognac-soft" style={{ fontSize: '0.72rem', letterSpacing: '0.16em', textTransform: 'uppercase' }}>{r.stage}</p>
-                  <p className="mt-1 font-sans text-canvas/55" style={{ fontSize: '0.72rem', letterSpacing: '0.04em', textTransform: 'uppercase' }}>{r.when}</p>
+                  <p className="font-sans text-label font-semibold uppercase tracking-[0.16em] text-cognac-soft">{r.stage}</p>
+                  <p className="mt-1 font-sans text-label uppercase tracking-[0.04em] text-canvas/55">{r.when}</p>
                 </div>
                 <ul className="flex list-none flex-col gap-2 p-0">
                   {r.items.map((it) => (
-                    <li key={it} className="flex items-baseline gap-2.5 font-sans text-[0.9rem] text-canvas/90">
-                      <span aria-hidden className="text-[0.6rem] text-brass-soft">◆</span>
+                    <li key={it} className="flex items-start gap-2.5 font-sans text-caption text-canvas/90">
+                      <span aria-hidden className="mt-[0.5em] h-1 w-1 shrink-0 rounded-full bg-brass-soft" />
                       <span>{it}</span>
                     </li>
                   ))}
@@ -426,10 +427,10 @@ function Scouts() {
           </motion.ol>
 
           <Reveal className="mt-14">
-            <p className="eyebrow text-brass-soft">Achievement drops, stacked on top</p>
+            <p className="eyebrow eyebrow-light">Achievement drops, stacked on top</p>
             <ul className="mt-5 flex list-none flex-wrap gap-3 p-0">
               {DROPS.map(([a, b]) => (
-                <li key={a} className="inline-flex items-center gap-2 rounded-full border border-night-line bg-night-2 px-4 py-2 font-sans text-[0.86rem] text-canvas/90">
+                <li key={a} className="inline-flex items-center gap-2 rounded-full border border-night-line bg-night-2 px-4 py-2 font-sans text-caption text-canvas/90">
                   <b className="font-semibold text-cognac-soft">{a}</b>
                   <span className="text-canvas/70">{b}</span>
                 </li>
@@ -441,7 +442,7 @@ function Scouts() {
 
       {/* Beyond the swag */}
       <section aria-labelledby="rewards-heading" className="border-t border-line">
-        <Container className="py-20 sm:py-28">
+        <Container className="py-24 sm:py-32">
           <div className="max-w-2xl">
             <Reveal>
               <Eyebrow>Beyond the swag</Eyebrow>
@@ -450,7 +451,7 @@ function Scouts() {
           </div>
           <motion.div
             variants={stagger}
-            initial="hidden"
+            initial={reduce ? 'visible' : 'hidden'}
             whileInView="visible"
             viewport={{ once: true, amount: 0.2 }}
             className="mt-14 grid gap-5 md:grid-cols-3"
@@ -461,10 +462,10 @@ function Scouts() {
                 variants={rise}
                 whileHover={reduce ? undefined : { y: -6 }}
                 transition={{ type: 'spring', stiffness: 300, damping: 22 }}
-                className="convex-light rounded-[1.75rem] p-8"
+                className="convex-light rounded-2xl p-8"
               >
                 <h3 className="font-display text-ink" style={{ fontSize: '1.5rem' }}>{r.title}</h3>
-                <p className="mt-3 font-sans text-[0.98rem] leading-relaxed text-ink-60">{r.body}</p>
+                <p className="mt-3 font-sans text-body leading-relaxed text-ink-60">{r.body}</p>
               </motion.article>
             ))}
           </motion.div>
@@ -473,17 +474,17 @@ function Scouts() {
 
       {/* Apply */}
       <section aria-labelledby="apply-heading" className="relative overflow-hidden border-t border-night-line bg-night text-canvas">
-        <Container className="relative py-20 text-center sm:py-28">
+        <Container className="relative py-24 text-center sm:py-32">
           <Reveal>
-            <Eyebrow className="text-brass-soft">Cohort I is open</Eyebrow>
-            <h2 id="apply-heading" className="text-display-md mt-6" style={{ color: 'var(--color-canvas)' }}>
+            <Eyebrow className="eyebrow-light">Cohort I is open</Eyebrow>
+            <h2 id="apply-heading" className="text-display-md mt-6 text-canvas">
               Ready to be the reason AI knows a company exists?
             </h2>
-            <p className="mx-auto mt-5 max-w-xl font-sans text-[1.05rem] leading-relaxed text-canvas/70">
+            <p className="mx-auto mt-5 max-w-xl font-sans text-body leading-relaxed text-canvas/70">
               We are taking up to 40 Scouts this cohort, across a handful of
               campuses. Applications are reviewed on a rolling basis.
             </p>
-            <ol className="mx-auto mt-8 flex max-w-2xl list-none flex-wrap justify-center gap-x-3 gap-y-2 p-0 font-sans text-[0.86rem] text-canvas/60">
+            <ol className="mx-auto mt-8 flex max-w-2xl list-none flex-wrap justify-center gap-x-3 gap-y-2 p-0 font-sans text-caption text-canvas/60">
               {STEPS.map((s, i) => (
                 <li key={s} className="inline-flex items-center gap-3">
                   <span><b className="font-display font-medium text-cognac-soft">{String(i + 1).padStart(2, '0')}</b> {s}</span>
@@ -499,5 +500,6 @@ function Scouts() {
         </Container>
       </section>
     </div>
+    </MotionConfig>
   )
 }

@@ -180,7 +180,7 @@ function SectionHead({
         <Eyebrow>{kicker}</Eyebrow>
         <h2 className="text-display-md mt-6">{title}</h2>
         {lead ? (
-          <p className="mt-6 font-sans text-[1.05rem] leading-relaxed text-ink-60">
+          <p className="mt-6 font-sans text-body leading-relaxed text-ink-60">
             {lead}
           </p>
         ) : null}
@@ -200,9 +200,9 @@ function Research() {
       <ResearchHero />
 
       {/* Headline stats */}
-      <section id="findings" className="scroll-mt-24 border-b border-line bg-canvas">
-        <Container width="wide" className="py-20 sm:py-28">
-          <Stagger className="grid gap-px overflow-hidden rounded-2xl border border-line bg-line md:grid-cols-3">
+      <section id="findings" className="border-b border-line bg-canvas">
+        <Container width="wide" className="py-24 sm:py-32">
+          <Stagger className="grid items-stretch gap-px overflow-hidden rounded-2xl border border-line bg-line md:grid-cols-3">
             {HEADLINE_STATS.map((s) => (
               <StaggerItem key={s.static ?? s.to} className="bg-canvas">
                 <div className="h-full p-9">
@@ -214,14 +214,14 @@ function Research() {
                       <CountUp to={s.to!} decimals={s.decimals ?? 0} suffix={s.suffix ?? ''} />
                     )}
                   </div>
-                  <p className="mt-5 font-sans text-[1rem] leading-relaxed text-ink-60">
+                  <p className="mt-5 font-sans text-body leading-relaxed text-ink-60">
                     {s.l}
                   </p>
                 </div>
               </StaggerItem>
             ))}
           </Stagger>
-          <p className="mt-8 max-w-2xl font-sans text-[0.8rem] leading-relaxed text-ink-45">
+          <p className="mt-8 max-w-2xl font-sans text-label leading-relaxed text-ink-60">
             Based on approximately 90,000 AI answers across 15 or more industries.
             Claude’s search behaviour is inferred from the network requests the app
             makes, observed through the interface rather than the API.
@@ -231,16 +231,16 @@ function Research() {
 
       {/* Lead essay */}
       <section className="border-b border-line">
-        <Container width="narrow" className="py-20 sm:py-28">
+        <Container width="narrow" className="py-24 sm:py-32">
           <Reveal>
-            <p className="dropcap font-sans text-[1.15rem] leading-relaxed text-ink-80">
+            <p className="dropcap font-sans text-body-lg leading-relaxed text-ink-80">
               A Claude recommendation is a short list. Ask it for the best option in
               your category and it will name three or four brands, prescribed to the
               reader, not offered as ten blue links to browse. That scarcity is the
               whole game. And more than half the time, the names in that list were
               chosen before Claude read a single web page.
             </p>
-            <p className="mt-6 font-sans text-[1.08rem] leading-relaxed text-ink-80">
+            <p className="mt-6 font-sans text-body-lg leading-relaxed text-ink-80">
               This is what makes Claude different from Google, and from ChatGPT. It
               leans on what it already knows, its parametric memory, and treats a web
               search as a way to confirm a view it already holds. For considered,
@@ -249,7 +249,7 @@ function Research() {
               actually searches. For the other half, the work is reputational, and it
               moves on training-cycle time, not publish-this-week time.
             </p>
-            <p className="mt-6 font-sans text-[1.08rem] leading-relaxed text-ink-80">
+            <p className="mt-6 font-sans text-body-lg leading-relaxed text-ink-80">
               The rest of this study lays out the mechanics: how the balance shifts by
               industry and by question, what shapes the memory, where Claude looks when
               it does search, and how to measure whether it knows you at all.
@@ -270,11 +270,7 @@ function Research() {
             <div className="min-w-[44rem]">
               <div className="grid grid-cols-[1.4fr_0.7fr_0.7fr_1.6fr] gap-4 border-b border-line-strong pb-4">
                 {['', 'ChatGPT', 'Claude', ''].map((h, i) => (
-                  <div
-                    key={i}
-                    className="eyebrow"
-                    style={{ letterSpacing: '0.16em' }}
-                  >
+                  <div key={i} className="eyebrow">
                     {h}
                   </div>
                 ))}
@@ -282,14 +278,14 @@ function Research() {
               {VS.map((r) => (
                 <Reveal key={r.metric}>
                   <div className="grid grid-cols-[1.4fr_0.7fr_0.7fr_1.6fr] items-baseline gap-4 border-b border-line py-5">
-                    <div className="font-sans text-[1rem] text-ink-80">{r.metric}</div>
+                    <div className="font-sans text-body text-ink-80">{r.metric}</div>
                     <div className="font-display text-ink-45" style={{ fontSize: '1.5rem' }}>
                       {r.chatgpt}
                     </div>
                     <div className="font-display text-cognac" style={{ fontSize: '1.7rem' }}>
                       {r.claude}
                     </div>
-                    <div className="font-sans text-[0.92rem] leading-relaxed text-ink-60">
+                    <div className="font-sans text-caption leading-relaxed text-ink-60">
                       {r.note}
                     </div>
                   </div>
@@ -312,7 +308,7 @@ function Research() {
             {INDUSTRY_MEMORY.map((row, i) => (
               <StaggerItem key={row.name}>
                 <div className="flex items-center gap-6">
-                  <div className="w-40 shrink-0 font-sans text-[0.98rem] text-ink-80">
+                  <div className="w-40 shrink-0 font-sans text-body text-ink-80">
                     {row.name}
                   </div>
                   <div className="flex-1">
@@ -325,7 +321,7 @@ function Research() {
               </StaggerItem>
             ))}
           </Stagger>
-          <p className="mt-8 font-sans text-[0.85rem] text-ink-45">
+          <p className="mt-8 font-sans text-label leading-relaxed text-ink-60">
             Share of answers drawn from memory, with no web search, by category.
           </p>
         </Container>
@@ -347,7 +343,7 @@ function Research() {
                     {r.q}
                   </div>
                   <div className="flex items-baseline gap-5">
-                    <span className="eyebrow" style={{ letterSpacing: '0.14em' }}>
+                    <span className="eyebrow">
                       {r.tag}
                     </span>
                     <span className="font-display text-cognac" style={{ fontSize: '2rem' }}>
@@ -358,7 +354,7 @@ function Research() {
               </Reveal>
             ))}
           </div>
-          <p className="mt-8 font-sans text-[0.95rem] leading-relaxed text-ink-60">
+          <p className="mt-8 font-sans text-label leading-relaxed text-ink-60">
             A head-to-head comparison is answered from memory almost nine times in ten.
             The shortlist forms from reputation, not from the comparison pages you built.
           </p>
@@ -377,7 +373,7 @@ function Research() {
             <div className="min-w-[36rem]">
               <div className="grid grid-cols-[1.6fr_0.8fr_0.8fr_0.9fr] gap-4 border-b border-line-strong pb-4">
                 {['Industry', 'Reads', 'Quotes', 'Quote rate'].map((h) => (
-                  <div key={h} className="eyebrow" style={{ letterSpacing: '0.14em' }}>
+                  <div key={h} className="eyebrow">
                     {h}
                   </div>
                 ))}
@@ -389,7 +385,7 @@ function Research() {
                       i === 0 ? 'border-b border-line-strong' : 'border-b border-line'
                     }`}
                   >
-                    <div className={`font-sans text-[1rem] ${i === 0 ? 'text-ink font-medium' : 'text-ink-80'}`}>
+                    <div className={`font-sans text-body ${i === 0 ? 'text-ink font-medium' : 'text-ink-80'}`}>
                       {r.industry}
                     </div>
                     <div className="font-display text-ink-60" style={{ fontSize: '1.2rem' }}>{r.reads}</div>
@@ -411,7 +407,7 @@ function Research() {
             <h2 className="text-display-md mt-6 text-canvas">
               The shortlist forms before the search starts.
             </h2>
-            <p className="mt-8 font-sans text-[1.08rem] leading-relaxed text-canvas/75">
+            <p className="mt-8 font-sans text-body-lg leading-relaxed text-canvas/75">
               Take a thousand unbranded buying questions and read the internal queries
               the model writes for itself before it reads a single page. One in six
               already name a specific brand that nobody put in the question. Those
@@ -424,7 +420,7 @@ function Research() {
                 <div className="font-display text-canvas" style={{ fontSize: 'clamp(3rem,6vw,4.5rem)', lineHeight: 0.9 }}>
                   <CountUp to={74.7} decimals={1} suffix="%" />
                 </div>
-                <p className="mt-5 font-sans text-[0.98rem] leading-relaxed text-canvas/70">
+                <p className="mt-5 font-sans text-body leading-relaxed text-canvas/70">
                   of those internally named brands sat in the model’s own top-ten
                   recalled list for the category, against a 2.6% random baseline.
                 </p>
@@ -435,7 +431,7 @@ function Research() {
                 <div className="font-display text-canvas" style={{ fontSize: 'clamp(3rem,6vw,4.5rem)', lineHeight: 0.9 }}>
                   1 in 6
                 </div>
-                <p className="mt-5 font-sans text-[0.98rem] leading-relaxed text-canvas/70">
+                <p className="mt-5 font-sans text-body leading-relaxed text-canvas/70">
                   internal searches named a brand on their own, unprompted. The
                   category leader was chosen in memory, then confirmed by search.
                 </p>
@@ -464,7 +460,7 @@ function Research() {
                   ].map(([k, v]) => (
                     <li key={k} className="py-5">
                       <p className="font-display text-ink" style={{ fontSize: '1.2rem' }}>{k}</p>
-                      <p className="mt-2 font-sans text-[0.95rem] leading-relaxed text-ink-60">{v}</p>
+                      <p className="mt-2 font-sans text-body leading-relaxed text-ink-60">{v}</p>
                     </li>
                   ))}
                 </ul>
@@ -480,7 +476,7 @@ function Research() {
                 <div className="mt-8 space-y-6">
                   <div className="rounded-xl border border-line bg-canvas-2 p-6">
                     <p className="eyebrow">Be described the same way everywhere</p>
-                    <p className="mt-3 font-sans text-[1rem] leading-relaxed text-ink-80">
+                    <p className="mt-3 font-sans text-body leading-relaxed text-ink-80">
                       A “platform” here and a “tool” there blurs the picture. One clear
                       category claim, repeated across trusted sources, settles into the
                       model as a fact about you.
@@ -488,7 +484,7 @@ function Research() {
                   </div>
                   <div className="rounded-xl border border-line bg-canvas-2 p-6">
                     <p className="eyebrow">Be a custodian of your own brand</p>
-                    <p className="mt-3 font-sans text-[1rem] leading-relaxed text-ink-80">
+                    <p className="mt-3 font-sans text-body leading-relaxed text-ink-80">
                       Earned media is downstream of what you say about yourself. Surface
                       your positioning, your features and your proof so publications can
                       learn it and repeat it. That is the citation loop.
@@ -496,7 +492,7 @@ function Research() {
                   </div>
                   <div className="rounded-xl border border-line bg-canvas-2 p-6">
                     <p className="eyebrow">A result that moved</p>
-                    <p className="mt-3 font-sans text-[1rem] leading-relaxed text-ink-80">
+                    <p className="mt-3 font-sans text-body leading-relaxed text-ink-80">
                       In one controlled test, restructuring a section into
                       question-shaped pages produced the first AI citations within{' '}
                       <span className="font-medium text-ink">four days</span>, and about{' '}
@@ -527,12 +523,12 @@ function Research() {
                     <p className="font-display text-ink" style={{ fontSize: '1.25rem' }}>{s.cat}</p>
                   </div>
                   <div className="md:col-span-4">
-                    <p className="eyebrow mb-2" style={{ letterSpacing: '0.14em' }}>Get into</p>
-                    <p className="font-sans text-[0.98rem] leading-relaxed text-ink-80">{s.get}</p>
+                    <p className="eyebrow mb-2">Get into</p>
+                    <p className="font-sans text-body leading-relaxed text-ink-80">{s.get}</p>
                   </div>
                   <div className="md:col-span-5">
-                    <p className="eyebrow mb-2" style={{ letterSpacing: '0.14em' }}>The move</p>
-                    <p className="font-sans text-[0.98rem] leading-relaxed text-ink-60">{s.move}</p>
+                    <p className="eyebrow mb-2">The move</p>
+                    <p className="font-sans text-body leading-relaxed text-ink-60">{s.move}</p>
                   </div>
                 </div>
               </Reveal>
@@ -557,16 +553,16 @@ function Research() {
                     <div className="font-display text-cognac" style={{ fontSize: 'clamp(3rem,6vw,4.6rem)', lineHeight: 0.9 }}>
                       <CountUp to={63} suffix="%" />
                     </div>
-                    <p className="mt-3 font-sans text-[0.95rem] text-ink-60">in Brave’s top ten</p>
+                    <p className="mt-3 font-sans text-label text-ink-60">in Brave’s top ten</p>
                   </div>
                   <div className="text-right">
                     <div className="font-display text-ink-45" style={{ fontSize: 'clamp(2rem,4vw,3rem)', lineHeight: 0.9 }}>
                       <CountUp to={34} suffix="%" />
                     </div>
-                    <p className="mt-3 font-sans text-[0.95rem] text-ink-45">in Google’s top ten</p>
+                    <p className="mt-3 font-sans text-label text-ink-60">in Google’s top ten</p>
                   </div>
                 </div>
-                <p className="mt-7 font-sans text-[0.98rem] leading-relaxed text-ink-80">
+                <p className="mt-7 font-sans text-body leading-relaxed text-ink-80">
                   Share of the pages Claude fetched that sit in each index’s top ten for
                   the same query. When the two lists differ, Claude follows Brave by
                   roughly six to one.
@@ -576,7 +572,7 @@ function Research() {
             <Reveal delay={80}>
               <div className="rounded-2xl border border-line bg-canvas p-9">
                 <p className="eyebrow">Inside the top ten, position does not matter</p>
-                <p className="mt-4 font-sans text-[1rem] leading-relaxed text-ink-80">
+                <p className="mt-4 font-sans text-body leading-relaxed text-ink-80">
                   Claude grabs Brave’s top ten as a set, then reorders by relevance to
                   the prompt. Quote rate is roughly flat whether a page sat at rank one
                   or rank ten. The target is not “rank number one”. It is “be anywhere
@@ -593,10 +589,10 @@ function Research() {
 
       {/* Own site vs earned media */}
       <section className="border-b border-line bg-canvas">
-        <Container width="narrow" className="py-20 sm:py-28 text-center">
+        <Container width="narrow" className="py-24 sm:py-32 text-center">
           <Reveal>
             <Eyebrow className="justify-center inline-flex">Owned versus earned</Eyebrow>
-            <p className="mx-auto mt-8 max-w-xl font-sans text-[1.08rem] leading-relaxed text-ink-80">
+            <p className="mx-auto mt-8 max-w-xl font-sans text-body-lg leading-relaxed text-ink-80">
               On Claude, a page on your own domain is worth about half what a mention on
               a site it trusts is worth. That reweights the whole plan: less polish our
               pages, more get onto theirs.
@@ -606,16 +602,16 @@ function Research() {
                 <div className="font-display text-ink-45" style={{ fontSize: '2.4rem', lineHeight: 1 }}>
                   <CountUp to={61} suffix="%" />
                 </div>
-                <p className="mt-2 font-sans text-[0.85rem] text-ink-60">ChatGPT uses your own site</p>
+                <p className="mt-2 font-sans text-label text-ink-60">ChatGPT uses your own site</p>
               </div>
               <div className="flex-1 rounded-xl border border-line bg-canvas-2 p-6">
                 <div className="font-display text-cognac" style={{ fontSize: '2.4rem', lineHeight: 1 }}>
                   <CountUp to={32} suffix="%" />
                 </div>
-                <p className="mt-2 font-sans text-[0.85rem] text-ink-60">Claude uses your own site</p>
+                <p className="mt-2 font-sans text-label text-ink-60">Claude uses your own site</p>
               </div>
             </div>
-            <p className="mx-auto mt-8 max-w-xl font-sans text-[0.95rem] text-ink-45">
+            <p className="mx-auto mt-8 max-w-xl font-sans text-label text-ink-60">
               It is an earned-media engine, not an owned-media one.
             </p>
           </Reveal>
@@ -639,7 +635,7 @@ function Research() {
               <Reveal key={t} delay={i * 70}>
                 <div className="h-full rounded-2xl border border-line bg-canvas-2 p-8">
                   <p className="font-display text-ink" style={{ fontSize: '1.35rem' }}>{t}</p>
-                  <p className="mt-4 font-sans text-[0.96rem] leading-relaxed text-ink-60">{b}</p>
+                  <p className="mt-4 font-sans text-body leading-relaxed text-ink-60">{b}</p>
                 </div>
               </Reveal>
             ))}
@@ -662,10 +658,10 @@ function Research() {
                   <div className="md:col-span-3 font-display text-ink" style={{ fontSize: '1.25rem' }}>
                     {r.habit}
                   </div>
-                  <div className="md:col-span-4 font-sans text-[0.95rem] leading-relaxed text-ink-45">
+                  <div className="md:col-span-4 font-sans text-body leading-relaxed text-ink-45">
                     {r.why}
                   </div>
-                  <div className="md:col-span-5 font-sans text-[0.98rem] leading-relaxed text-ink-80">
+                  <div className="md:col-span-5 font-sans text-body leading-relaxed text-ink-80">
                     {r.claude}
                   </div>
                 </div>
@@ -690,7 +686,7 @@ function Research() {
                   <p className="font-display text-brass-deep" style={{ fontSize: '1.3rem', lineHeight: 1.2 }}>
                     {n.t}
                   </p>
-                  <p className="mt-4 font-sans text-[0.98rem] leading-relaxed text-ink-60">
+                  <p className="mt-4 font-sans text-body leading-relaxed text-ink-60">
                     {n.b}
                   </p>
                 </div>
@@ -726,7 +722,7 @@ function Research() {
                       </span>
                       <div>
                         <p className="font-display text-ink" style={{ fontSize: '1.25rem' }}>{t}</p>
-                        <p className="mt-2 font-sans text-[0.98rem] leading-relaxed text-ink-60">{b}</p>
+                        <p className="mt-2 font-sans text-body leading-relaxed text-ink-60">{b}</p>
                       </div>
                     </li>
                   ))}
@@ -750,7 +746,7 @@ function Research() {
                 <p className="eyebrow text-brass-deep">What we can say</p>
                 <ul className="mt-6 space-y-4">
                   {CAN.map((c) => (
-                    <li key={c} className="flex gap-3 font-sans text-[1rem] leading-relaxed text-ink-80">
+                    <li key={c} className="flex gap-3 font-sans text-body leading-relaxed text-ink-80">
                       <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-brass" />
                       <span>{c}</span>
                     </li>
@@ -763,7 +759,7 @@ function Research() {
                 <p className="eyebrow" style={{ color: 'var(--color-ink-45)' }}>What we can’t</p>
                 <ul className="mt-6 space-y-4">
                   {CANT.map((c) => (
-                    <li key={c} className="flex gap-3 font-sans text-[1rem] leading-relaxed text-ink-60">
+                    <li key={c} className="flex gap-3 font-sans text-body leading-relaxed text-ink-60">
                       <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-ink-45" />
                       <span>{c}</span>
                     </li>
@@ -782,7 +778,7 @@ function Research() {
             <h2 className="text-display-md mx-auto max-w-3xl text-canvas">
               On Google you earn a ranking. On Claude you earn a reputation.
             </h2>
-            <p className="mx-auto mt-6 max-w-xl font-sans text-[1.05rem] leading-relaxed text-canvas/70">
+            <p className="mx-auto mt-6 max-w-xl font-sans text-body leading-relaxed text-canvas/70">
               We run the diagnostic on your brand and tell you exactly where you stand
               in the model’s memory, then build the plan to move it. That plan is the
               engagement, not a download.

@@ -97,10 +97,10 @@ function NetworkStrip() {
       <Container width="wide" className="py-7 sm:py-8">
         <Reveal>
           <div className="flex flex-col items-center gap-4 text-center sm:flex-row sm:justify-between sm:gap-6 sm:text-left">
-            <p className="eyebrow" style={{ letterSpacing: '0.2em' }}>
+            <p className="eyebrow">
               A private founder &amp; strategy network
             </p>
-            <div className="flex items-center gap-4 font-display text-ink" style={{ fontSize: '1.05rem' }}>
+            <div className="flex items-center gap-4 font-display text-body text-ink">
               <span>Europe</span>
               <span className="text-line-strong">·</span>
               <span>India</span>
@@ -139,7 +139,7 @@ function TheShift() {
                 worth naming. Most venture- and PE-backed companies have no
                 strategy for being found or cited there.
               </p>
-              <p className="mt-6 font-sans text-[1.05rem] leading-relaxed text-ink-60">
+              <p className="mt-6 font-sans text-body leading-relaxed text-ink-60">
                 And even when demand does arrive, the revenue infrastructure
                 behind it is fragmented and manual. These companies are lean by
                 design, rarely carrying in-house marketing or RevOps depth. So
@@ -159,10 +159,10 @@ function TheShift() {
                   { k: 'One hire', v: 'A single lead who can’t cover AEO, GTM, and RevOps at once.' },
                 ].map((c) => (
                   <div key={c.k} className="bg-canvas p-6">
-                    <p className="eyebrow" style={{ letterSpacing: '0.16em' }}>
+                    <p className="eyebrow">
                       {c.k}
                     </p>
-                    <p className="mt-3 font-sans text-[0.92rem] leading-relaxed text-ink-60">
+                    <p className="mt-3 font-sans text-caption leading-relaxed text-ink-60">
                       {c.v}
                     </p>
                   </div>
@@ -204,11 +204,11 @@ function TheModel() {
               <div className="group h-full p-8 sm:p-10 transition-colors hover:bg-canvas-2">
                 <div className="flex items-baseline justify-between">
                   <span className="font-display text-4xl text-cognac">{p.n}</span>
-                  <span className="eyebrow" style={{ letterSpacing: '0.16em' }}>
+                  <span className="eyebrow">
                     {p.tag}
                   </span>
                 </div>
-                <h3 className="text-display-md mt-6" style={{ fontSize: 'clamp(1.5rem,2.4vw,2rem)' }}>
+                <h3 className="text-display-md mt-6">
                   {p.title}
                 </h3>
                 <p className="mt-4 font-sans text-[1rem] leading-relaxed text-ink-60">
@@ -221,7 +221,7 @@ function TheModel() {
 
         <Reveal>
           <div className="mt-12 text-center">
-            <Link to="/about" className="link-line font-sans text-[0.95rem]">
+            <Link to="/about" className="link-line font-sans text-body">
               Read the full approach →
             </Link>
           </div>
@@ -246,7 +246,7 @@ function Engagements() {
               <h2 className="text-display-md mt-6">
                 Priced to the stage you’re at.
               </h2>
-              <p className="mt-6 font-sans text-[1.05rem] leading-relaxed text-ink-60">
+              <p className="mt-6 font-sans text-body leading-relaxed text-ink-60">
                 Three ways to work together, from a single defined push to a
                 standard applied across an entire portfolio.
               </p>
@@ -259,7 +259,7 @@ function Engagements() {
                 <Reveal key={e.title} delay={i * 80}>
                   <div className="group flex flex-col gap-4 py-8 sm:flex-row sm:items-baseline sm:gap-10">
                     <div className="sm:w-40 shrink-0">
-                      <p className="eyebrow" style={{ letterSpacing: '0.14em' }}>
+                      <p className="eyebrow">
                         {e.kicker}
                       </p>
                     </div>
@@ -322,7 +322,7 @@ function TheMoat() {
           </blockquote>
         </Reveal>
         <Reveal delay={160}>
-          <p className="mx-auto mt-8 max-w-xl font-sans text-[1.02rem] leading-relaxed text-ink-60">
+          <p className="mx-auto mt-8 max-w-xl font-sans text-body leading-relaxed text-ink-60">
             Full-stack ownership is not just cleaner to buy. It compounds. What we
             learn making one company the answer makes the next one faster, and
             that library cannot be replicated by reading a blog post or hiring a
@@ -330,7 +330,7 @@ function TheMoat() {
           </p>
         </Reveal>
         <Reveal delay={220}>
-          <Link to="/about" className="link-line mt-8 inline-block font-sans text-[0.95rem]">
+          <Link to="/about" className="link-line mt-8 inline-block font-sans text-body">
             The thesis behind Rothenhall →
           </Link>
         </Reveal>
@@ -354,7 +354,7 @@ function ProofBand() {
               <h2 className="text-display-lg mt-6 text-canvas">
                 Credibility here is earned in before-and-after, not bought in ads.
               </h2>
-              <p className="mt-6 max-w-xl font-sans text-[1.05rem] leading-relaxed text-canvas/60">
+              <p className="mt-6 max-w-xl font-sans text-body leading-relaxed text-canvas/60">
                 Funds and founders trust demonstrated results. Our marketing is
                 the work itself: documented engagements showing what changed, and
                 what it was worth.
@@ -367,7 +367,7 @@ function ProofBand() {
                 <Link to="/case-studies" className="btn btn-light w-full sm:w-auto">
                   View case studies
                 </Link>
-                <Link to="/contact" className="link-line font-sans text-[0.95rem] text-canvas/80">
+                <Link to="/contact" className="link-line font-sans text-body text-canvas/80">
                   Or start a conversation →
                 </Link>
               </div>
@@ -421,7 +421,7 @@ const FAQ_ITEMS = [
 function CommunityTeaser() {
   return (
     <section className="border-t border-line bg-canvas-2">
-      <Container className="py-20 sm:py-28">
+      <Container className="py-24 sm:py-32">
         <div className="grid gap-10 md:grid-cols-12 md:items-center">
           <div className="md:col-span-8">
             <Reveal>
@@ -430,7 +430,7 @@ function CommunityTeaser() {
                 Join the{' '}
                 <span style={{ color: 'var(--color-cognac)' }}>Founders Circle</span>.
               </h2>
-              <p className="mt-5 max-w-xl font-sans text-[1.05rem] leading-relaxed text-ink-60">
+              <p className="mt-5 max-w-xl font-sans text-body leading-relaxed text-ink-60">
                 A private founders network, with our growth engine behind you.
                 Members span founders and operators across Europe, India, and the
                 USA. Start with a free AI Visibility Score and see exactly where you
@@ -440,8 +440,7 @@ function CommunityTeaser() {
                 {['Europe', 'India', 'USA'].map((r) => (
                   <span
                     key={r}
-                    className="inline-flex items-center rounded-full border border-line-strong px-3.5 py-1.5 font-sans text-ink-80"
-                    style={{ fontSize: '0.72rem', letterSpacing: '0.14em', textTransform: 'uppercase' }}
+                    className="inline-flex items-center rounded-full border border-line-strong px-3.5 py-1.5 font-sans text-label uppercase tracking-[0.14em] text-ink-80"
                   >
                     {r}
                   </span>
@@ -457,7 +456,7 @@ function CommunityTeaser() {
                 </Link>
                 <Link
                   to="/community"
-                  className="link-line font-sans text-[0.95rem] text-ink-80"
+                  className="link-line font-sans text-body text-ink-80"
                 >
                   See what members get →
                 </Link>
@@ -473,7 +472,7 @@ function CommunityTeaser() {
 function CailyxTeaser() {
   return (
     <section className="border-t border-line">
-      <Container className="py-20 sm:py-28">
+      <Container className="py-24 sm:py-32">
         <Reveal>
           <div className="relative overflow-hidden rounded-3xl bg-night px-8 py-14 text-canvas sm:px-14 sm:py-20">
             <div className="grid gap-10 md:grid-cols-12 md:items-center">
@@ -482,7 +481,7 @@ function CailyxTeaser() {
                 <h2 className="text-display-md mt-6 text-canvas">
                   Cailyx, our agentic AEO engine.
                 </h2>
-                <p className="mt-5 max-w-xl font-sans text-[1.05rem] leading-relaxed text-canvas/65">
+                <p className="mt-5 max-w-xl font-sans text-body leading-relaxed text-canvas/65">
                   The AI-native engine that powers our work: it maps how AI sees
                   you, builds the entities and citations that move visibility, and
                   tracks citation share across engines. A Cailyx MCP is on the
@@ -497,7 +496,7 @@ function CailyxTeaser() {
                   <Link
                     to="/cailyx"
                     hash="waitlist"
-                    className="link-line font-sans text-[0.95rem] text-canvas/80"
+                    className="link-line font-sans text-body text-canvas/80"
                   >
                     Join the waitlist →
                   </Link>
@@ -522,7 +521,7 @@ function Faq() {
               <h2 className="text-display-md mt-6">The answers, plainly.</h2>
               <Link
                 to="/faq"
-                className="link-line mt-6 inline-block font-sans text-[0.95rem] text-ink-80"
+                className="link-line mt-6 inline-block font-sans text-body text-ink-80"
               >
                 See all questions →
               </Link>

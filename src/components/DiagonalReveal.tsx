@@ -8,7 +8,7 @@ import {
 import { useRef } from 'react'
 import { Container } from './site'
 
-const IMAGE = 'https://picsum.photos/seed/rothenhall-reveal/1600/1000'
+const IMAGE = '/images/reveal-hall.jpg'
 const SLANT = 14 // % horizontal offset top-to-bottom → the diagonal
 
 export function DiagonalReveal() {
@@ -137,10 +137,7 @@ function IntroLayer({
     <div className="flex h-full items-center">
       <Container width="wide">
         <div className="max-w-xl">
-          <p
-            className="font-sans uppercase"
-            style={{ color: eyebrowColor, letterSpacing: '0.2em', fontSize: '0.72rem', fontWeight: 500 }}
-          >
+          <p className="eyebrow" style={{ color: eyebrowColor }}>
             The old way
           </p>
           <h2 className="text-display-lg mt-5" style={{ color }}>
@@ -163,10 +160,7 @@ function SolutionLayer({
     <div className="flex h-full items-end">
       <Container width="wide" className="pb-14 sm:pb-20">
         <div className="ml-auto max-w-md text-right">
-          <p
-            className="font-sans uppercase"
-            style={{ color: eyebrowColor, letterSpacing: '0.2em', fontSize: '0.72rem', fontWeight: 500 }}
-          >
+          <p className="eyebrow" style={{ color: eyebrowColor }}>
             The Rothenhall way
           </p>
           <h3
@@ -195,7 +189,7 @@ function ReducedFallback() {
         }}
       />
       <Container className="relative py-32 text-center">
-        <p className="eyebrow" style={{ color: 'var(--color-brass-soft)', letterSpacing: '0.2em' }}>
+        <p className="eyebrow eyebrow-light">
           The Rothenhall way
         </p>
         <h3 className="mt-5 font-display" style={{ fontSize: 'clamp(1.8rem,3.6vw,3rem)', fontWeight: 400 }}>

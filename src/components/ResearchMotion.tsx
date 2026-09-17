@@ -43,6 +43,12 @@ export function Stagger({
   className?: string
   amount?: number
 }) {
+  // The CSS prefers-reduced-motion override does not reach JS-driven
+  // variants, so the guard has to live here. Without a variant parent the
+  // children render in their natural, visible state.
+  const reduce = useReducedMotion()
+  if (reduce) return <div className={className}>{children}</div>
+
   return (
     <motion.div
       variants={staggerParent}
@@ -134,12 +140,16 @@ export function GrowBar({
   className?: string
   delay?: number
 }) {
+  const reduce = useReducedMotion()
+  // A width animation reflows the bar list every frame. Scaling a
+  // full-width bar is composited, and it settles at the same place.
   return (
     <div className="relative h-9 w-full overflow-hidden rounded-sm bg-canvas-2">
       <motion.div
-        className={`absolute inset-y-0 left-0 rounded-sm ${className}`}
-        initial={{ width: '0%' }}
-        whileInView={{ width: `${pct}%` }}
+        className={`absolute inset-y-0 left-0 origin-left rounded-sm ${className}`}
+        style={{ width: `${pct}%` }}
+        initial={reduce ? false : { scaleX: 0 }}
+        whileInView={reduce ? undefined : { scaleX: 1 }}
         viewport={{ once: true, amount: 0.6 }}
         transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1], delay }}
       />
@@ -327,12 +337,11 @@ export function ResearchHero() {
                 >
                   <Link
                     to="/contact"
-                    className="btn !py-3 !px-6 text-[0.85rem]"
-                    style={{ background: 'var(--color-cognac)', color: '#fff', border: '1px solid var(--color-cognac)' }}
+                    className="btn btn-cognac !py-3 !px-6 text-label"
                   >
                     Request a diagnostic
                   </Link>
-                  <a href="#findings" className="btn btn-ghost-light !py-3 !px-6 text-[0.85rem]">
+                  <a href="#findings" className="btn btn-ghost-light !py-3 !px-6 text-label">
                     See the findings
                   </a>
                 </motion.div>
@@ -340,7 +349,7 @@ export function ResearchHero() {
                 {/* proof, inline on mobile */}
                 <div className="mt-8 flex items-center gap-3 md:hidden">
                   <AvatarStack size={28} />
-                  <p className="font-sans text-canvas/60" style={{ fontSize: '0.8rem' }}>
+                  <p className="font-sans text-label text-canvas/60">
                     ≈90,000 answers analysed · 15+ industries
                   </p>
                 </div>
@@ -378,13 +387,12 @@ export function SlitReveal() {
 
   const lineOpacity = useTransform(scrollYProgress, [0.42, 0.6], [1, 0])
   const setupOpacity = useTransform(scrollYProgress, [0.5, 0.64], [1, 0])
-  const payoffOpacity = useTransform(scrollYProgress, [0.34, 0.5], [0, 1])
 
   if (reduce) {
     return (
       <section className="relative overflow-hidden bg-night text-canvas">
         <Container width="narrow" className="py-28 text-center">
-          <p className="eyebrow" style={{ color: 'var(--color-brass-soft)', letterSpacing: '0.22em' }}>
+          <p className="eyebrow eyebrow-light">
             If you only did one thing
           </p>
           <h2 className="text-display-lg mt-7 text-canvas">
@@ -440,30 +448,64 @@ export function SlitReveal() {
           </motion.div>
         </motion.div>
 
-        {/* payoff line: fades in over the dark panel, bottom-right */}
-        <motion.div style={{ opacity: payoffOpacity }} className="absolute inset-0">
-          <div className="flex h-full items-end">
-            <Container width="wide" className="pb-16 sm:pb-24">
-              <div className="ml-auto max-w-2xl text-right">
-                <p className="font-sans uppercase" style={{ color: 'var(--color-brass-soft)', letterSpacing: '0.2em', fontSize: '0.72rem', fontWeight: 500 }}>
-                  If you only did one thing
-                </p>
-                <h2
-                  className="mt-5 font-display text-canvas"
-                  style={{ fontSize: 'clamp(2rem, 5vw, 4.4rem)', fontWeight: 300, lineHeight: 1.06, letterSpacing: '-0.02em' }}
-                >
-                  Write less about yourself.<br />Get more written about you.
-                </h2>
-                <p className="ml-auto mt-6 max-w-md font-sans text-[1.02rem] leading-relaxed text-canvas/70">
-                  Memory is built from what others say about you. And when Claude does
-                  search, it trusts other people’s pages over yours by two to one.
-                </p>
-              </div>
-            </Container>
-          </div>
-        </motion.div>
+        {/* payoff line: ink base plus the canvas copy clipped to the band, the
+            same dual-layer trick as the setup line. It used to ride a
+            scroll-linked opacity from 0 to 1, which left the headline
+            permanently invisible to anything that renders the page without
+            scrolling through it. */}
+        <div className="absolute inset-0">
+          <PayoffLayer color="var(--color-ink)" eyebrowColor="var(--color-cognac)" bodyColor="var(--color-ink-60)" />
+          <motion.div style={{ clipPath }} className="absolute inset-0">
+            <PayoffLayer color="var(--color-canvas)" eyebrowColor="var(--color-brass-soft)" bodyColor="var(--color-canvas)" bodyOpacity="text-canvas/70" />
+          </motion.div>
+        </div>
       </div>
     </section>
+  )
+}
+
+function PayoffLayer({
+  color,
+  eyebrowColor,
+  bodyColor,
+  bodyOpacity = '',
+}: {
+  color: string
+  eyebrowColor: string
+  bodyColor: string
+  bodyOpacity?: string
+}) {
+  return (
+    <div className="flex h-full items-end">
+      <Container width="wide" className="pb-16 sm:pb-24">
+        <div className="ml-auto max-w-2xl text-right">
+          <p className="eyebrow" style={{ color: eyebrowColor }}>
+            If you only did one thing
+          </p>
+          <h2
+            className="mt-5 font-display"
+            style={{
+              color,
+              fontSize: 'clamp(2rem, 5vw, 4.4rem)',
+              fontWeight: 300,
+              lineHeight: 1.06,
+              letterSpacing: '-0.02em',
+            }}
+          >
+            Write less about yourself.
+            <br />
+            Get more written about you.
+          </h2>
+          <p
+            className={`ml-auto mt-6 max-w-md font-sans text-body leading-relaxed ${bodyOpacity}`}
+            style={bodyOpacity ? undefined : { color: bodyColor }}
+          >
+            Memory is built from what others say about you. And when Claude does
+            search, it trusts other people’s pages over yours by two to one.
+          </p>
+        </div>
+      </Container>
+    </div>
   )
 }
 
@@ -484,7 +526,7 @@ function SlitLayer({
     <div className="flex h-full items-center">
       <Container width="wide">
         <div className={align === 'end' ? 'ml-auto max-w-xl text-right' : 'max-w-xl'}>
-          <p className="font-sans uppercase" style={{ color: eyebrowColor, letterSpacing: '0.2em', fontSize: '0.72rem', fontWeight: 500 }}>
+          <p className="eyebrow" style={{ color: eyebrowColor }}>
             {eyebrow}
           </p>
           <h2 className="text-display-lg mt-5" style={{ color, fontWeight: 300 }}>

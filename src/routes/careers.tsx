@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
-import { motion, useReducedMotion, type Variants } from 'motion/react'
+import { motion, MotionConfig, useReducedMotion, type Variants } from 'motion/react'
 import { Container, Eyebrow, Reveal } from '../components/site'
 import { seo } from '../lib/seo'
 import { gmailCompose } from '../lib/contact'
@@ -139,6 +139,7 @@ function Careers() {
   const reduce = useReducedMotion()
 
   return (
+    <MotionConfig reducedMotion="user">
     <div className="bg-canvas text-ink">
       {/* Hero */}
       <section className="relative overflow-hidden bg-night text-canvas">
@@ -149,8 +150,8 @@ function Careers() {
           className="pointer-events-none absolute -right-20 -top-10 hidden w-[34rem] select-none md:block"
           style={{ filter: 'brightness(0) invert(1)', opacity: 0.05 }}
         />
-        <Container width="wide" className="relative py-20 sm:py-28">
-          <motion.div variants={stagger} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0 }} className="max-w-3xl">
+        <Container width="wide" className="relative py-24 sm:py-32">
+          <motion.div variants={stagger} initial={reduce ? 'visible' : 'hidden'} whileInView="visible" viewport={{ once: true, amount: 0 }} className="max-w-3xl">
             <motion.div variants={rise}>
               <Eyebrow className="text-brass-soft">Careers</Eyebrow>
             </motion.div>
@@ -169,7 +170,7 @@ function Careers() {
             </motion.h1>
             <motion.p
               variants={rise}
-              className="mt-8 max-w-xl font-sans text-[1.12rem] leading-relaxed text-canvas/70"
+              className="mt-8 max-w-xl font-sans text-body-lg leading-relaxed text-canvas/70"
             >
               Discovery is moving from search engines to answer engines, and most
               companies have no idea whether they show up. We are building the
@@ -190,7 +191,7 @@ function Careers() {
 
       {/* What we are building */}
       <section aria-labelledby="building-heading" className="border-t border-line">
-        <Container className="py-20 sm:py-28">
+        <Container className="py-24 sm:py-32">
           <div className="grid gap-12 md:grid-cols-[1fr_1.1fr] md:gap-16">
             <Reveal>
               <Eyebrow>What we are building</Eyebrow>
@@ -199,7 +200,7 @@ function Careers() {
               </h2>
             </Reveal>
             <Reveal>
-              <div className="max-w-xl font-sans text-[1.05rem] leading-relaxed text-ink-60">
+              <div className="max-w-xl font-sans text-body leading-relaxed text-ink-60">
                 <p>
                   Rothenhall is the fractional operating partner for
                   venture-backed and PE-backed companies. AI visibility, go-to-market,
@@ -220,7 +221,7 @@ function Careers() {
 
       {/* How we work */}
       <section aria-labelledby="values-heading" className="border-t border-line bg-canvas-2">
-        <Container className="py-20 sm:py-28">
+        <Container className="py-24 sm:py-32">
           <div className="max-w-2xl">
             <Reveal>
               <Eyebrow>How we work</Eyebrow>
@@ -231,7 +232,7 @@ function Careers() {
           </div>
           <motion.ul
             variants={stagger}
-            initial="hidden"
+            initial={reduce ? 'visible' : 'hidden'}
             whileInView="visible"
             viewport={{ once: true, amount: 0.2 }}
             className="mt-14 grid list-none gap-5 p-0 sm:grid-cols-2"
@@ -239,8 +240,7 @@ function Careers() {
             {VALUES.map((v) => (
               <motion.li key={v.n} variants={rise} className="convex-light rounded-[1.75rem] p-8 sm:p-10">
                 <span
-                  className="flex h-12 w-12 items-center justify-center rounded-2xl font-display text-2xl text-cognac"
-                  style={{ background: 'rgba(168,92,48,0.10)' }}
+                  className="flex h-12 w-12 items-center justify-center rounded-2xl bg-cognac/10 font-display text-2xl text-cognac"
                   aria-hidden
                 >
                   {v.n}
@@ -248,7 +248,7 @@ function Careers() {
                 <h3 className="mt-6 font-display text-ink" style={{ fontSize: '1.5rem' }}>
                   {v.title}
                 </h3>
-                <p className="mt-3 font-sans text-[1rem] leading-relaxed text-ink-60">{v.body}</p>
+                <p className="mt-3 font-sans text-body leading-relaxed text-ink-60">{v.body}</p>
               </motion.li>
             ))}
           </motion.ul>
@@ -256,15 +256,15 @@ function Careers() {
       </section>
 
       {/* Open roles */}
-      <section aria-labelledby="open-roles-heading" id="open-roles" className="border-t border-line scroll-mt-24">
-        <Container className="py-20 sm:py-28">
+      <section aria-labelledby="open-roles-heading" id="open-roles" className="border-t border-line">
+        <Container className="py-24 sm:py-32">
           <div className="max-w-2xl">
             <Reveal>
               <Eyebrow>Open roles</Eyebrow>
               <h2 id="open-roles-heading" className="text-display-md mt-6">
                 Where you would own something real.
               </h2>
-              <p className="mt-5 font-sans text-[1.05rem] leading-relaxed text-ink-60">
+              <p className="mt-5 font-sans text-body leading-relaxed text-ink-60">
                 We are early, so every role is a founding one. If you are close but
                 not exact, write to us anyway.
               </p>
@@ -273,7 +273,7 @@ function Careers() {
 
           <motion.ul
             variants={stagger}
-            initial="hidden"
+            initial={reduce ? 'visible' : 'hidden'}
             whileInView="visible"
             viewport={{ once: true, amount: 0.12 }}
             className="mt-12 grid list-none gap-4 p-0"
@@ -285,7 +285,7 @@ function Careers() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={`Apply for ${r.title}`}
-                  className="group block rounded-[1.5rem] border border-line bg-paper p-7 transition-colors hover:border-line-strong sm:p-9"
+                  className="group block rounded-[1.5rem] border border-line bg-paper p-7 transition-all duration-300 hover:border-cognac hover:shadow-[0_24px_48px_-32px_rgba(26,23,18,0.35)] focus-visible:ring-2 focus-visible:ring-cognac/40 sm:p-9"
                 >
                   <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
                     <div className="max-w-2xl">
@@ -295,20 +295,20 @@ function Careers() {
                         </h3>
                       </div>
                       <div className="mt-2.5 flex flex-wrap gap-2">
-                        <span className="inline-flex items-center rounded-full border border-line-strong px-3 py-1 font-sans text-ink-80" style={{ fontSize: '0.68rem', letterSpacing: '0.14em', textTransform: 'uppercase' }}>
+                        <span className="inline-flex items-center rounded-full border border-line-strong px-3 py-1 font-sans text-label uppercase tracking-[0.14em] text-ink-80">
                           {r.type}
                         </span>
-                        <span className="inline-flex items-center rounded-full border border-line-strong px-3 py-1 font-sans text-ink-80" style={{ fontSize: '0.68rem', letterSpacing: '0.14em', textTransform: 'uppercase' }}>
+                        <span className="inline-flex items-center rounded-full border border-line-strong px-3 py-1 font-sans text-label uppercase tracking-[0.14em] text-ink-80">
                           {r.place}
                         </span>
                       </div>
-                      <p className="mt-4 font-sans text-[1rem] leading-relaxed text-ink-60">{r.body}</p>
+                      <p className="mt-4 font-sans text-body leading-relaxed text-ink-60">{r.body}</p>
                     </div>
                     <span
                       className="flex h-12 w-12 flex-none items-center justify-center rounded-full bg-ink text-canvas transition-colors group-hover:bg-cognac"
                       aria-hidden
                     >
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="transition-transform duration-300 group-hover:translate-x-0.5">
                         <path d="M5 12h14M13 6l6 6-6 6" />
                       </svg>
                     </span>
@@ -321,8 +321,8 @@ function Careers() {
       </section>
 
       {/* Other ways in */}
-      <section aria-labelledby="ways-in-heading" id="ways-in" className="border-t border-line bg-canvas-2 scroll-mt-24">
-        <Container className="py-20 sm:py-28">
+      <section aria-labelledby="ways-in-heading" id="ways-in" className="border-t border-line bg-canvas-2">
+        <Container className="py-24 sm:py-32">
           <div className="max-w-2xl">
             <Reveal>
               <Eyebrow>Other ways in</Eyebrow>
@@ -333,7 +333,7 @@ function Careers() {
           </div>
           <motion.div
             variants={stagger}
-            initial="hidden"
+            initial={reduce ? 'visible' : 'hidden'}
             whileInView="visible"
             viewport={{ once: true, amount: 0.2 }}
             className="mt-14 grid gap-5 md:grid-cols-3"
@@ -350,13 +350,13 @@ function Careers() {
                 <h3 className="mt-4 font-display text-ink" style={{ fontSize: '1.6rem' }}>
                   {p.title}
                 </h3>
-                <p className="mt-3 flex-1 font-sans text-[0.98rem] leading-relaxed text-ink-60">{p.body}</p>
+                <p className="mt-3 flex-1 font-sans text-body leading-relaxed text-ink-60">{p.body}</p>
                 {p.internal ? (
-                  <Link to={p.href} className="link-line mt-6 self-start font-sans text-[0.95rem] text-ink">
+                  <Link to={p.href} className="link-line mt-6 self-start font-sans text-body text-ink">
                     {p.cta}
                   </Link>
                 ) : (
-                  <a href={p.href} target="_blank" rel="noopener noreferrer" className="link-line mt-6 self-start font-sans text-[0.95rem] text-ink">
+                  <a href={p.href} target="_blank" rel="noopener noreferrer" className="link-line mt-6 self-start font-sans text-body text-ink">
                     {p.cta}
                   </a>
                 )}
@@ -368,7 +368,7 @@ function Careers() {
 
       {/* Hiring process */}
       <section aria-labelledby="process-heading" className="border-t border-line">
-        <Container className="py-20 sm:py-28">
+        <Container className="py-24 sm:py-32">
           <div className="max-w-2xl">
             <Reveal>
               <Eyebrow>How hiring works</Eyebrow>
@@ -386,7 +386,7 @@ function Careers() {
                 <h3 className="mt-4 font-display text-ink" style={{ fontSize: '1.2rem' }}>
                   {s.title}
                 </h3>
-                <p className="mt-2 font-sans text-[0.92rem] leading-relaxed text-ink-60">{s.body}</p>
+                <p className="mt-2 font-sans text-caption leading-relaxed text-ink-60">{s.body}</p>
               </li>
             ))}
           </ol>
@@ -395,13 +395,13 @@ function Careers() {
 
       {/* CTA */}
       <section aria-labelledby="cta-heading" className="relative overflow-hidden border-t border-night-line bg-night text-canvas">
-        <Container className="relative py-20 text-center sm:py-28">
+        <Container className="relative py-24 text-center sm:py-32">
           <Reveal>
             <Eyebrow className="text-brass-soft">Introduce yourself</Eyebrow>
-            <h2 id="cta-heading" className="text-display-md mt-6" style={{ color: 'var(--color-canvas)' }}>
+            <h2 id="cta-heading" className="text-display-md mt-6 text-canvas">
               Don’t see your exact role?
             </h2>
-            <p className="mx-auto mt-5 max-w-xl font-sans text-[1.05rem] leading-relaxed text-canvas/70">
+            <p className="mx-auto mt-5 max-w-xl font-sans text-body leading-relaxed text-canvas/70">
               We are always meeting sharp people early. Tell us what you would own
               and why this problem is yours to solve.
             </p>
@@ -417,5 +417,6 @@ function Careers() {
         </Container>
       </section>
     </div>
+    </MotionConfig>
   )
 }

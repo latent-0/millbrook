@@ -153,7 +153,7 @@ function Faq() {
                         <h3 className="font-display text-ink" style={{ fontSize: '1.3rem' }}>
                           {item.q}
                         </h3>
-                        <p className="mt-3 font-sans text-[1rem] leading-relaxed text-ink-60">
+                        <p className="mt-3 font-sans text-body leading-relaxed text-ink-60">
                           {item.a}
                         </p>
                       </div>
@@ -167,7 +167,7 @@ function Faq() {
       ))}
 
       <section className="bg-night text-canvas">
-        <Container className="py-20 sm:py-28 text-center">
+        <Container className="py-24 sm:py-32 text-center">
           <Reveal>
             <h2 className="text-display-md mx-auto max-w-2xl text-canvas">
               Still deciding where you stand in the answers?

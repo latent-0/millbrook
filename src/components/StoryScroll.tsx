@@ -14,6 +14,7 @@ type Beat = {
   rot: number
   side: 'left' | 'right'
   accent?: boolean
+  alt: string
 }
 
 const TEXTURE = '/fabric-texture.jpg'
@@ -21,31 +22,36 @@ const TEXTURE = '/fabric-texture.jpg'
 const STORY: Beat[] = [
   {
     text: 'Every unicorn once started in a studio.',
-    img: 'https://picsum.photos/seed/rothenhall-a/560/720',
+    img: '/images/story-studio.jpg',
+    alt: 'A drafting table and brass lamp in an empty studio, morning light',
     rot: -7,
     side: 'right',
   },
   {
     text: 'A few people, and one relentless idea.',
-    img: 'https://picsum.photos/seed/rothenhall-b/560/720',
+    img: '/images/story-team.jpg',
+    alt: 'Four people standing around a table in a bare neoclassical room',
     rot: 6,
     side: 'left',
   },
   {
     text: 'But buyers no longer search. They ask.',
-    img: 'https://picsum.photos/seed/rothenhall-c/560/720',
+    img: '/images/story-ask.jpg',
+    alt: 'A hand resting beside a vintage brass microphone on a dark desk',
     rot: -11,
     side: 'right',
   },
   {
     text: 'And if the answer never names you, you do not exist.',
-    img: 'https://picsum.photos/seed/rothenhall-d/560/720',
+    img: '/images/story-absent.jpg',
+    alt: 'An empty leather chair beside a bare desk with a blank brass nameplate',
     rot: 9,
     side: 'left',
   },
   {
     text: 'Let us make you the one it recommends.',
-    img: 'https://picsum.photos/seed/rothenhall-e/560/720',
+    img: '/images/story-recommend.jpg',
+    alt: 'An open bronze door in a neoclassical facade, light spilling onto the steps',
     rot: -5,
     side: 'right',
     accent: true,
@@ -93,7 +99,7 @@ export function StoryScroll() {
     <section
       ref={ref}
       className="relative"
-      style={{ height: `${STORY.length * 100}vh` }}
+      style={{ height: `${STORY.length * 100}svh` }}
     >
       <div
         className="sticky top-0 flex h-[100svh] items-center justify-center overflow-hidden text-canvas"
@@ -191,10 +197,13 @@ function Beat({
         >
           <img
             src={beat.img}
-            alt=""
-            className="h-full w-full object-cover"
+            alt={beat.alt}
+            width={640}
+            height={853}
+            className="h-full w-full bg-night object-cover"
             style={{ filter: 'grayscale(1) contrast(1.05) brightness(0.95)' }}
             loading="lazy"
+            decoding="async"
           />
         </div>
       </motion.div>

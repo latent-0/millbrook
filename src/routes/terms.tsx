@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
-import { Container, Eyebrow } from '../components/site'
+import { Container, Eyebrow, Reveal } from '../components/site'
 
 export const Route = createFileRoute('/terms')({
   head: () => ({
@@ -54,38 +54,48 @@ const SECTIONS: { h: string; body: React.ReactNode }[] = [
 
 function Terms() {
   return (
-    <section className="bg-canvas">
-      <Container width="narrow" className="pt-24 pb-28 sm:pt-32">
-        <Eyebrow>Founders Circle</Eyebrow>
-        <h1 className="text-display-lg mt-8">Terms and Conditions</h1>
-        <p className="mt-6 font-sans text-[1.05rem] leading-relaxed text-ink-60">
-          These terms cover the free AEO + GTM diagnostic offered to members of the
-          Rothenhall Founders Circle.
-        </p>
+    <div className="bg-canvas text-ink">
+      <section className="border-b border-line">
+        <Container width="narrow" className="pt-20 pb-16 sm:pt-28 sm:pb-20">
+          <Reveal>
+            <Eyebrow>Founders Circle</Eyebrow>
+            <h1 className="text-display-lg mt-8">Terms and Conditions</h1>
+            <p className="mt-6 font-sans text-body leading-relaxed text-ink-60">
+              These terms cover the free AEO + GTM diagnostic offered to members of the
+              Rothenhall Founders Circle.
+            </p>
+          </Reveal>
+        </Container>
+      </section>
 
-        <div className="mt-14 divide-y divide-line border-y border-line">
-          {SECTIONS.map((s) => (
-            <div key={s.h} className="py-8">
-              <h2 className="font-display text-ink" style={{ fontSize: '1.35rem' }}>
-                {s.h}
-              </h2>
-              <p className="mt-3 font-sans text-[1rem] leading-relaxed text-ink-80">
-                {s.body}
-              </p>
-            </div>
-          ))}
-        </div>
+      <section>
+        <Container width="narrow" className="py-16 sm:py-20">
+          <div className="divide-y divide-line border-y border-line">
+            {SECTIONS.map((s, i) => (
+              <Reveal key={s.h} delay={i * 40}>
+                <div className="py-8">
+                  <h2 className="font-display text-ink text-lead">
+                    {s.h}
+                  </h2>
+                  <p className="mt-3 font-sans text-body leading-relaxed text-ink-80">
+                    {s.body}
+                  </p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
 
-        <p className="mt-10 font-sans text-[0.85rem] text-ink-45">
-          Last updated 25 August 2026. Questions? Email office@rothenhall.com.
-        </p>
+          <p className="mt-10 font-sans text-caption text-ink-45">
+            Last updated 25 August 2026. Questions? Email office@rothenhall.com.
+          </p>
 
-        <div className="mt-10">
-          <Link to="/founders" className="link-line font-sans text-[0.95rem]">
-            ← Back to the diagnostic
-          </Link>
-        </div>
-      </Container>
-    </section>
+          <div className="mt-10">
+            <Link to="/founders" className="link-line font-sans text-body">
+              ← Back to the diagnostic
+            </Link>
+          </div>
+        </Container>
+      </section>
+    </div>
   )
 }

@@ -3,19 +3,6 @@ import { useEffect, useState } from 'react'
 import { Container, Eyebrow, Reveal } from '../components/site'
 import { seo, SITE } from '../lib/seo'
 
-export const Route = createFileRoute('/pricing')({
-  head: () =>
-    seo({
-      path: '/pricing',
-      title: 'Cailyx Pricing · AI Visibility Tracking That Also Fixes It · Rothenhall Partners',
-      description:
-        'Track your AI visibility across ChatGPT, Perplexity, Google AI Overviews, Google AI Mode, Gemini, Google Search, and Copilot, and let agentic workflows build the entities and citations that move it. Founding pricing available.',
-      keywords:
-        'Cailyx pricing, AI visibility tool pricing, AEO software pricing, answer engine optimization platform, Profound alternative, AI search tracking cost',
-    }),
-  component: Pricing,
-})
-
 // Display-side INR rate for India (the server enforces the actual charge with
 // the same rate; keep the two in sync).
 const INR_RATE = 95
@@ -66,6 +53,7 @@ const TIERS: Tier[] = [
     name: 'Growth',
     monthly: 249,
     annual: 199,
+    inr: { monthly: 25000, annual: 20000 },
     popular: true,
     tagline: 'For a team that owns AI visibility.',
     cta: 'Get Started',
@@ -85,6 +73,7 @@ const TIERS: Tier[] = [
     name: 'Scale',
     monthly: 599,
     annual: 499,
+    inr: { monthly: 60000, annual: 50000 },
     tagline: 'For agencies and multi-brand portfolios.',
     cta: 'Get Started',
     features: [
@@ -154,6 +143,40 @@ const FAQ = [
   },
 ]
 
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: 'Cailyx',
+  applicationCategory: 'BusinessApplication',
+  operatingSystem: 'Web',
+  description:
+    'AI-native, agentic engine for answer-engine optimization (AEO) and SEO by Rothenhall Partners. Tracks AI visibility across ChatGPT, Perplexity, Google AI Overviews, Google AI Mode, Gemini, Google Search, and Copilot, and builds the entities and citations that move it.',
+  creator: { '@id': `${SITE.url}/#organization` },
+  url: `${SITE.url}/pricing`,
+  offers: {
+    '@type': 'AggregateOffer',
+    priceCurrency: 'USD',
+    lowPrice: '69',
+    highPrice: '499',
+    offerCount: '3',
+  },
+}
+
+export const Route = createFileRoute('/pricing')({
+  head: () => ({
+    ...seo({
+      path: '/pricing',
+      title: 'Cailyx Pricing · AI Visibility Tracking That Also Fixes It · Rothenhall Partners',
+      description:
+        'Track your AI visibility across ChatGPT, Perplexity, Google AI Overviews, Google AI Mode, Gemini, Google Search, and Copilot, and let agentic workflows build the entities and citations that move it. Founding pricing available.',
+      keywords:
+        'Cailyx pricing, AI visibility tool pricing, AEO software pricing, answer engine optimization platform, Profound alternative, AI search tracking cost',
+    }),
+    scripts: [{ type: 'application/ld+json', children: JSON.stringify(schema) }],
+  }),
+  component: Pricing,
+})
+
 function Pricing() {
   const [annual, setAnnual] = useState(true)
   const [region, setRegion] = useState<'IN' | 'INTL'>('INTL')
@@ -162,44 +185,27 @@ function Pricing() {
     if (guessCountry() === 'IN') setRegion('IN')
   }, [])
 
-  // Display price. India can carry explicit round INR pricing per tier; other
-  // regions (and India tiers with no explicit price) use the USD figure, with
-  // INR converted at INR_RATE. The server enforces the real charge; keep in sync.
+  // Display price. India carries explicit round INR pricing per tier; other
+  // regions (and any India tier with no explicit price) use the USD figure,
+  // with INR converted at INR_RATE. The server enforces the real charge.
   const priceNum = (t: Tier, annual: boolean): number | null => {
     if (t.custom) return null
     const usd = annual ? t.annual! : t.monthly!
     if (region === 'IN') return t.inr ? (annual ? t.inr.annual : t.inr.monthly) : usd * INR_RATE
     return usd
   }
+  // Route both currencies through locale grouping so annual figures read as
+  // $5,988 / ₹10,000 rather than $5988.
   const fmt = (n: number) =>
     region === 'IN'
       ? '₹' + Math.round(n).toLocaleString('en-IN')
-      : '$' + n
-
-  const schema = {
-    '@context': 'https://schema.org',
-    '@type': 'SoftwareApplication',
-    name: 'Cailyx',
-    applicationCategory: 'BusinessApplication',
-    operatingSystem: 'Web',
-    description:
-      'AI-native, agentic engine for answer-engine optimization (AEO) and SEO by Rothenhall Partners. Tracks AI visibility across ChatGPT, Perplexity, Google AI Overviews, Google AI Mode, Gemini, Google Search, and Copilot, and builds the entities and citations that move it.',
-    creator: { '@id': `${SITE.url}/#organization` },
-    url: `${SITE.url}/pricing`,
-    offers: {
-      '@type': 'AggregateOffer',
-      priceCurrency: 'USD',
-      lowPrice: '69',
-      highPrice: '499',
-      offerCount: '3',
-    },
-  }
+      : '$' + Math.round(n).toLocaleString('en-US')
 
   return (
     <>
       {/* Hero */}
       <section className="border-b border-line">
-        <Container className="pt-20 pb-14 sm:pt-28 sm:pb-16">
+        <Container className="pt-24 pb-14 sm:pt-32 sm:pb-16">
           <div className="grid gap-12 md:grid-cols-12 md:items-end">
             <div className="md:col-span-8">
               <Reveal>
@@ -214,7 +220,7 @@ function Pricing() {
             </div>
             <div className="md:col-span-4">
               <Reveal delay={100}>
-                <p className="font-sans text-[1.05rem] leading-relaxed text-ink-60">
+                <p className="font-sans text-body leading-relaxed text-ink-60">
                   Track your AI visibility across every major answer engine, then
                   let agentic workflows build what the models reward. Founding
                   pricing available.
@@ -235,7 +241,7 @@ function Pricing() {
                   type="button"
                   onClick={() => setAnnual(true)}
                   aria-pressed={annual}
-                  className={`rounded-full px-4 py-2 font-sans text-[0.85rem] font-medium transition-colors ${
+                  className={`rounded-full px-4 py-2 font-sans text-caption font-medium transition-colors ${
                     annual ? 'bg-ink text-canvas' : 'text-ink-60 hover:text-ink'
                   }`}
                 >
@@ -245,14 +251,14 @@ function Pricing() {
                   type="button"
                   onClick={() => setAnnual(false)}
                   aria-pressed={!annual}
-                  className={`rounded-full px-4 py-2 font-sans text-[0.85rem] font-medium transition-colors ${
+                  className={`rounded-full px-4 py-2 font-sans text-caption font-medium transition-colors ${
                     !annual ? 'bg-ink text-canvas' : 'text-ink-60 hover:text-ink'
                   }`}
                 >
                   Monthly
                 </button>
               </div>
-              <span className="font-sans text-[0.82rem] text-cognac-deep">
+              <span className="font-sans text-caption text-cognac-deep">
                 Save ~20% with annual billing
               </span>
             </div>
@@ -288,7 +294,7 @@ function Pricing() {
                       {t.name}
                     </h2>
                     <p
-                      className={`mt-2 font-sans text-[0.9rem] leading-snug ${
+                      className={`mt-2 font-sans text-caption leading-snug ${
                         highlight ? 'text-canvas/70' : 'text-ink-60'
                       }`}
                     >
@@ -315,7 +321,7 @@ function Pricing() {
                               {fmt(price)}
                             </span>
                             <span
-                              className={`font-sans text-[0.9rem] ${
+                              className={`font-sans text-caption ${
                                 highlight ? 'text-canvas/60' : 'text-ink-45'
                               }`}
                             >
@@ -323,7 +329,7 @@ function Pricing() {
                             </span>
                           </p>
                           <p
-                            className={`mt-2 font-sans text-[0.78rem] ${
+                            className={`mt-2 font-sans text-label ${
                               highlight ? 'text-canvas/55' : 'text-ink-45'
                             }`}
                           >
@@ -362,7 +368,7 @@ function Pricing() {
                             </svg>
                           </span>
                           <span
-                            className={`font-sans text-[0.88rem] leading-snug ${
+                            className={`font-sans text-caption leading-snug ${
                               highlight ? 'text-canvas/85' : 'text-ink-80'
                             }`}
                           >
@@ -378,7 +384,7 @@ function Pricing() {
           </div>
 
           <Reveal>
-            <p className="mt-8 text-center font-sans text-[0.85rem] text-ink-45">
+            <p className="mt-8 text-center font-sans text-caption text-ink-45">
               Founding pricing, locked for early customers. Cancel any time.{' '}
               {region === 'IN'
                 ? 'Indian customers are billed in INR.'
@@ -395,7 +401,7 @@ function Pricing() {
             <p className="font-display text-ink" style={{ fontSize: 'clamp(1.4rem,2.6vw,2rem)', lineHeight: 1.25 }}>
               Not sure where you stand yet?
             </p>
-            <p className="mx-auto mt-4 max-w-lg font-sans text-[1.02rem] leading-relaxed text-ink-60">
+            <p className="mx-auto mt-4 max-w-lg font-sans text-body leading-relaxed text-ink-60">
               Start with a free AI Visibility Score. We run the diagnostic on your
               public footprint and hand you the number and the reasons behind it, no
               card required.
@@ -426,7 +432,7 @@ function Pricing() {
               <table className="w-full border-collapse text-left" style={{ minWidth: '46rem' }}>
                 <thead>
                   <tr className="bg-canvas-2">
-                    <th className="p-5 font-sans text-[0.72rem] uppercase tracking-[0.14em] text-ink-45">
+                    <th className="p-5 font-sans text-label uppercase tracking-[0.14em] text-ink-45">
                       Feature
                     </th>
                     {TIERS.map((t) => (
@@ -442,7 +448,7 @@ function Pricing() {
                 </thead>
                 <tbody>
                   <tr className="border-t border-line">
-                    <td className="p-5 font-sans text-[0.9rem] text-ink-60">Price</td>
+                    <td className="p-5 font-sans text-caption text-ink-60">Price</td>
                     {TIERS.map((t) => {
                       const p = priceNum(t, annual)
                       return (
@@ -454,11 +460,11 @@ function Pricing() {
                   </tr>
                   {COMPARE.map((row) => (
                     <tr key={row.label} className="border-t border-line">
-                      <td className="p-5 font-sans text-[0.9rem] text-ink-60">{row.label}</td>
+                      <td className="p-5 font-sans text-caption text-ink-60">{row.label}</td>
                       {row.vals.map((v, i) => (
                         <td
                           key={i}
-                          className={`p-5 font-sans text-[0.92rem] ${
+                          className={`p-5 font-sans text-caption ${
                             v === '—' ? 'text-ink-45' : 'text-ink-80'
                           }`}
                         >
@@ -488,7 +494,7 @@ function Pricing() {
                   <h3 className="font-display text-ink" style={{ fontSize: '1.2rem' }}>
                     {f.q}
                   </h3>
-                  <p className="mt-3 font-sans text-[1rem] leading-relaxed text-ink-60">
+                  <p className="mt-3 font-sans text-body leading-relaxed text-ink-60">
                     {f.a}
                   </p>
                 </div>
@@ -508,7 +514,7 @@ function Pricing() {
             <h2 className="mt-8 font-display text-canvas" style={{ fontSize: 'clamp(2rem,4vw,3rem)', lineHeight: 1.08, fontWeight: 300 }}>
               Lock founding pricing before the seats fill.
             </h2>
-            <p className="mx-auto mt-6 max-w-xl font-sans text-[1.05rem] leading-relaxed text-canvas/70">
+            <p className="mx-auto mt-6 max-w-xl font-sans text-body leading-relaxed text-canvas/70">
               Early customers keep their rate for the life of the account and shape
               what we build next. Start with the free score, or talk to us about the
               plan that fits.
@@ -524,8 +530,6 @@ function Pricing() {
           </Reveal>
         </Container>
       </section>
-
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
     </>
   )
 }

@@ -30,6 +30,18 @@ const EXPECT = [
 
 type Status = 'idle' | 'submitting' | 'success' | 'error'
 
+/* The server throws user-facing messages naming the field that failed. Map
+   them back to the input so the error can sit on the offending field. */
+const ERROR_KEYS: Array<[RegExp, keyof InquiryInput]> = [
+  [/\bname\b/i, 'name'],
+  [/email/i, 'email'],
+  [/tell us|message/i, 'message'],
+]
+function fieldForError(msg: string): keyof InquiryInput | null {
+  for (const [re, key] of ERROR_KEYS) if (re.test(msg)) return key
+  return null
+}
+
 const empty: InquiryInput = {
   name: '',
   email: '',
@@ -43,6 +55,13 @@ function Contact() {
   const [form, setForm] = useState<InquiryInput>(empty)
   const [status, setStatus] = useState<Status>('idle')
   const [error, setError] = useState('')
+
+  const errorField = status === 'error' ? fieldForError(error) : null
+  const cls = (k: keyof InquiryInput, extra = '') =>
+    `${inputCls}${errorField === k ? ' border-alert' : ''}${extra ? ` ${extra}` : ''}`
+  const invalid = (k: keyof InquiryInput) => (errorField === k ? true : undefined)
+  const describedBy = (k: keyof InquiryInput) =>
+    errorField === k ? `${k}-error` : undefined
 
   const set =
     (key: keyof InquiryInput) =>
@@ -84,14 +103,14 @@ function Contact() {
 
             <Reveal delay={120}>
               <div className="mt-12">
-                <p className="eyebrow" style={{ letterSpacing: '0.16em' }}>
+                <p className="eyebrow">
                   What to expect
                 </p>
                 <ul className="mt-5 space-y-4">
                   {EXPECT.map((t) => (
                     <li
                       key={t}
-                      className="flex gap-3 font-sans text-[1rem] leading-relaxed text-ink-80"
+                      className="flex gap-3 font-sans text-body leading-relaxed text-ink-80"
                     >
                       <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-brass" />
                       <span>{t}</span>
@@ -104,7 +123,7 @@ function Contact() {
             <Reveal delay={200}>
               <div className="mt-12 grid grid-cols-1 gap-8 border-t border-line pt-8 sm:grid-cols-2">
                 <div>
-                  <p className="eyebrow" style={{ letterSpacing: '0.16em' }}>
+                  <p className="eyebrow">
                     Prefer email
                   </p>
                   <a
@@ -115,23 +134,23 @@ function Contact() {
                   </a>
                   <a
                     href="tel:+919398386765"
-                    className="link-line mt-2 block font-sans text-[1rem] text-ink-80"
+                    className="link-line mt-2 block font-sans text-body text-ink-80"
                   >
                     +91 93983 86765
                   </a>
                 </div>
                 <div>
-                  <p className="eyebrow" style={{ letterSpacing: '0.16em' }}>
+                  <p className="eyebrow">
                     Offices
                   </p>
-                  <address className="mt-3 font-sans text-[0.98rem] not-italic leading-relaxed text-ink-60">
+                  <address className="mt-3 font-sans text-body not-italic leading-relaxed text-ink-60">
                     2nd Floor, HAL 2nd Stage
                     <br />
                     Vimanapura S.O., Bengaluru 560017
                     <br />
                     Karnataka, India
                   </address>
-                  <address className="mt-4 font-sans text-[0.98rem] not-italic leading-relaxed text-ink-60">
+                  <address className="mt-4 font-sans text-body not-italic leading-relaxed text-ink-60">
                     Office 657, 18 Young St, Unit LGE
                     <br />
                     Edinburgh EH2 4JB
@@ -151,31 +170,43 @@ function Contact() {
                   <SuccessState onReset={() => setStatus('idle')} />
                 ) : (
                   <form onSubmit={onSubmit} className="space-y-6" noValidate>
-                    <Field label="Name" htmlFor="name">
+                    <Field
+                      label="Name"
+                      htmlFor="name"
+                      error={errorField === 'name' ? error : undefined}
+                    >
                       <input
                         id="name"
                         name="name"
                         type="text"
                         autoComplete="name"
                         required
+                        aria-invalid={invalid('name')}
+                        aria-describedby={describedBy('name')}
                         value={form.name}
                         onChange={set('name')}
-                        className={inputCls}
+                        className={cls('name')}
                         placeholder="Your name"
                       />
                     </Field>
 
                     <div className="grid gap-6 sm:grid-cols-2">
-                      <Field label="Email" htmlFor="email">
+                      <Field
+                        label="Email"
+                        htmlFor="email"
+                        error={errorField === 'email' ? error : undefined}
+                      >
                         <input
                           id="email"
                           name="email"
                           type="email"
                           autoComplete="email"
                           required
+                          aria-invalid={invalid('email')}
+                          aria-describedby={describedBy('email')}
                           value={form.email}
                           onChange={set('email')}
-                          className={inputCls}
+                          className={cls('email')}
                           placeholder="you@company.com"
                         />
                       </Field>
@@ -208,21 +239,25 @@ function Contact() {
                             </option>
                           ))}
                         </select>
-                        <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-ink-45">
-                          ▾
-                        </span>
+                        <ChevronDown />
                       </div>
                     </Field>
 
-                    <Field label="What are you trying to move" htmlFor="message">
+                    <Field
+                      label="What are you trying to move"
+                      htmlFor="message"
+                      error={errorField === 'message' ? error : undefined}
+                    >
                       <textarea
                         id="message"
                         name="message"
                         required
                         rows={5}
+                        aria-invalid={invalid('message')}
+                        aria-describedby={describedBy('message')}
                         value={form.message}
                         onChange={set('message')}
-                        className={`${inputCls} resize-none`}
+                        className={cls('message', 'resize-none')}
                         placeholder="A sentence or two on where you are and what a win looks like."
                       />
                     </Field>
@@ -243,14 +278,12 @@ function Contact() {
                             </option>
                           ))}
                         </select>
-                        <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-ink-45">
-                          ▾
-                        </span>
+                        <ChevronDown />
                       </div>
                     </Field>
 
-                    {status === 'error' && (
-                      <p className="font-sans text-[0.9rem] text-[#8a3a2f]">
+                    {status === 'error' && !errorField && (
+                      <p role="alert" className="font-sans text-caption text-alert">
                         {error}
                       </p>
                     )}
@@ -263,7 +296,7 @@ function Contact() {
                       {status === 'submitting' ? 'Sending…' : 'Send inquiry'}
                     </button>
 
-                    <p className="text-center font-sans text-[0.78rem] leading-relaxed text-ink-45">
+                    <p className="text-center font-sans text-label leading-relaxed text-ink-45">
                       Your note goes straight to a senior operator. We never share
                       your details.
                     </p>
@@ -279,24 +312,43 @@ function Contact() {
 }
 
 const inputCls =
-  'w-full rounded-lg border border-line bg-canvas px-4 py-3 font-sans text-[1rem] text-ink placeholder:text-ink-45 outline-none transition-colors focus:border-brass focus:bg-paper'
+  'w-full rounded-lg border border-line bg-canvas px-4 py-3 font-sans text-body text-ink placeholder:text-ink-45 transition-colors focus:border-cognac focus:bg-paper'
+
+function ChevronDown() {
+  return (
+    <svg
+      aria-hidden
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className="pointer-events-none absolute right-4 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-ink-45"
+    >
+      <path d="m6 9 6 6 6-6" />
+    </svg>
+  )
+}
 
 function Field({
   label,
   htmlFor,
   optional,
+  error,
   children,
 }: {
   label: string
   htmlFor: string
   optional?: boolean
+  error?: string
   children: React.ReactNode
 }) {
   return (
     <div>
       <label
         htmlFor={htmlFor}
-        className="mb-2 flex items-baseline justify-between font-sans text-[0.82rem] font-medium tracking-wide text-ink-80"
+        className="mb-2 flex items-baseline justify-between font-sans text-caption font-medium tracking-wide text-ink-80"
       >
         <span>{label}</span>
         {optional && (
@@ -304,6 +356,11 @@ function Field({
         )}
       </label>
       {children}
+      {error && (
+        <p id={`${htmlFor}-error`} role="alert" className="mt-2 font-sans text-caption text-alert">
+          {error}
+        </p>
+      )}
     </div>
   )
 }
@@ -325,11 +382,11 @@ function SuccessState({ onReset }: { onReset: () => void }) {
       <h2 className="mt-6 font-display" style={{ fontSize: '1.9rem' }}>
         Thank you. It’s in.
       </h2>
-      <p className="mx-auto mt-3 max-w-sm font-sans text-[1rem] leading-relaxed text-ink-60">
+      <p className="mx-auto mt-3 max-w-sm font-sans text-body leading-relaxed text-ink-60">
         Your note has reached us. Expect a reply from a senior operator, not an
         autoresponder.
       </p>
-      <button onClick={onReset} className="link-line mt-6 font-sans text-[0.9rem]">
+      <button onClick={onReset} className="link-line mt-6 font-sans text-caption">
         Send another →
       </button>
     </div>

@@ -81,7 +81,7 @@ function HowTo() {
           </Reveal>
           <Reveal delay={100}>
             <div className="mt-8 rounded-2xl border border-line bg-paper p-6 sm:p-7">
-              <p className="eyebrow" style={{ letterSpacing: '0.16em' }}>
+              <p className="eyebrow">
                 Short answer
               </p>
               <p className="mt-3 font-display text-ink" style={{ fontSize: 'clamp(1.15rem,1.8vw,1.5rem)', lineHeight: 1.4 }}>
@@ -100,7 +100,7 @@ function HowTo() {
       <section>
         <Container width="narrow" className="py-16 sm:py-20">
           <Reveal>
-            <p className="font-sans text-[1.05rem] leading-relaxed text-ink-60">
+            <p className="font-sans text-body leading-relaxed text-ink-60">
               A hard truth first: capability is not the same as discoverability.
               A firm can be excellent at something and still never surface,
               because the model could not confidently connect the brand to the
@@ -109,7 +109,7 @@ function HowTo() {
             </p>
           </Reveal>
 
-          <ol className="mt-12 space-y-10">
+          <ol className="mt-12 list-none space-y-10">
             {STEPS.map((s, i) => (
               <Reveal key={s.name} delay={i * 50}>
                 <li className="flex gap-6">
@@ -120,7 +120,7 @@ function HowTo() {
                     <h2 className="font-display text-ink" style={{ fontSize: 'clamp(1.35rem,2.2vw,1.8rem)' }}>
                       {s.name}
                     </h2>
-                    <p className="mt-3 font-sans text-[1.05rem] leading-relaxed text-ink-60">
+                    <p className="mt-3 font-sans text-body leading-relaxed text-ink-60">
                       {s.text}
                     </p>
                   </div>
@@ -130,7 +130,7 @@ function HowTo() {
           </ol>
 
           <Reveal>
-            <p className="mt-12 font-sans text-[1.05rem] leading-relaxed text-ink-60">
+            <p className="mt-12 font-sans text-body leading-relaxed text-ink-60">
               Not sure how AEO differs from classic search? Read{' '}
               <Link to="/aeo-vs-seo" className="link-line text-cognac">
                 AEO vs SEO
@@ -148,7 +148,7 @@ function HowTo() {
       <section className="bg-night text-canvas">
         <Container width="narrow" className="py-16 sm:py-20 text-center">
           <Reveal>
-            <p className="eyebrow" style={{ color: 'var(--color-brass-soft)', letterSpacing: '0.2em' }}>
+            <p className="eyebrow eyebrow-light">
               This is what we do
             </p>
             <h2 className="text-display-md mt-5 text-canvas" style={{ fontSize: 'clamp(1.6rem,3vw,2.4rem)' }}>

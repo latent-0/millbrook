@@ -127,7 +127,7 @@ export const Route = createRootRoute({
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { title: 'Rothenhall Partners · The Operating Partner for AI-Era Growth' },
       { name: 'description', content: SITE.description },
-      { name: 'theme-color', content: '#14120d' },
+      { name: 'theme-color', content: '#f7f3ea' },
       {
         name: 'robots',
         content:
@@ -160,7 +160,7 @@ export const Route = createRootRoute({
       },
       {
         rel: 'stylesheet',
-        href: 'https://fonts.googleapis.com/css2?family=Jost:wght@300..600&family=Poppins:wght@400;500;600;700&display=swap',
+        href: 'https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,300..600;1,300..600&family=Instrument+Sans:ital,wght@0,400..700;1,400..700&display=swap',
       },
     ],
   }),
@@ -171,9 +171,9 @@ export const Route = createRootRoute({
 function NotFound() {
   return (
     <Container className="py-32 text-center sm:py-44">
-      <p className="eyebrow justify-center inline-flex">Error 404</p>
+      <p className="eyebrow">Error 404</p>
       <h1 className="text-display-lg mt-8">This page has moved on.</h1>
-      <p className="mx-auto mt-6 max-w-md font-sans text-[1.05rem] leading-relaxed text-ink-60">
+      <p className="mx-auto mt-6 max-w-md font-sans text-body leading-relaxed text-ink-60">
         The page you were looking for is not here. Everything worth finding is a
         click away.
       </p>
@@ -190,6 +190,14 @@ function RootDocument({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <head>
+        {/* Runs before first paint. The reveal animations hide their content
+            only under html.js, so no-JS crawlers and prerender snapshots
+            never see a blank band. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: "document.documentElement.classList.add('js')",
+          }}
+        />
         <HeadContent />
         {/* Google Analytics (gtag.js) */}
         <script

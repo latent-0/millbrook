@@ -1,6 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useState } from 'react'
-import { motion, useReducedMotion } from 'motion/react'
+import { motion, useReducedMotion, MotionConfig } from 'motion/react'
+import { Container, Eyebrow } from '../components/site'
 import { claimDiagnostic, type DiagnosticInput, SOURCE_OPTIONS } from '../server/inquiry'
 
 const HEADER = '4.75rem'
@@ -111,114 +112,101 @@ function LineArt() {
 function Founders() {
   const reduce = useReducedMotion()
   return (
-    <div className="relative overflow-hidden bg-canvas">
-      {/* slightly darker warm panel under the left (line-art) side */}
-      <div
-        aria-hidden
-        className="absolute inset-y-0 left-0 hidden w-1/2 md:block"
-        style={{
-          background:
-            'linear-gradient(120deg, rgba(198,124,72,0.10), rgba(198,124,72,0) 70%), var(--color-canvas-2)',
-        }}
-      />
-      {/* drifting cognac light, refracted through the glass card */}
-      <motion.div
-        aria-hidden
-        className="pointer-events-none absolute h-[42rem] w-[42rem] rounded-full"
-        style={{
-          right: '2%',
-          top: '-6%',
-          background: 'radial-gradient(circle, rgba(198,124,72,0.20), rgba(247,243,234,0) 66%)',
-          filter: 'blur(20px)',
-        }}
-        animate={reduce ? undefined : { x: [0, -46, 0], y: [0, 34, 0] }}
-        transition={{ duration: 15, repeat: Infinity, ease: 'easeInOut' }}
-      />
-      <motion.div
-        aria-hidden
-        className="pointer-events-none absolute h-[34rem] w-[34rem] rounded-full"
-        style={{
-          right: '12%',
-          bottom: '-12%',
-          background: 'radial-gradient(circle, rgba(168,92,48,0.16), rgba(247,243,234,0) 68%)',
-          filter: 'blur(24px)',
-        }}
-        animate={reduce ? undefined : { x: [0, 40, 0], y: [0, -28, 0] }}
-        transition={{ duration: 19, repeat: Infinity, ease: 'easeInOut' }}
-      />
-      <Container>
+    <MotionConfig reducedMotion="user">
+      <div className="relative overflow-hidden bg-canvas">
+        {/* slightly darker warm panel under the left (line-art) side */}
         <div
-          className="grid items-stretch md:grid-cols-2"
-          style={{ minHeight: `calc(100svh - ${HEADER})` }}
-        >
-          {/* LEFT: line art + two or three huge words */}
-          <div className="relative flex flex-col justify-center py-16 md:pr-12">
-            <LineArt />
-            <div className="relative">
-              <motion.p
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-                className="font-sans uppercase text-ink-45"
-                style={{ letterSpacing: '0.24em', fontSize: '0.68rem' }}
-              >
-                Founders Circle · AEO + GTM · By invitation
-              </motion.p>
+          aria-hidden
+          className="absolute inset-y-0 left-0 hidden w-1/2 md:block"
+          style={{
+            background:
+              'linear-gradient(120deg, rgba(198,124,72,0.10), rgba(198,124,72,0) 70%), var(--color-canvas-2)',
+          }}
+        />
+        {/* drifting cognac light, refracted through the glass card */}
+        <motion.div
+          aria-hidden
+          className="pointer-events-none absolute h-[42rem] w-[42rem] rounded-full"
+          style={{
+            right: '2%',
+            top: '-6%',
+            background: 'radial-gradient(circle, rgba(198,124,72,0.20), rgba(247,243,234,0) 66%)',
+            filter: 'blur(20px)',
+          }}
+          animate={reduce ? undefined : { x: [0, -46, 0], y: [0, 34, 0] }}
+          transition={{ duration: 15, repeat: Infinity, ease: 'easeInOut' }}
+        />
+        <motion.div
+          aria-hidden
+          className="pointer-events-none absolute h-[34rem] w-[34rem] rounded-full"
+          style={{
+            right: '12%',
+            bottom: '-12%',
+            background: 'radial-gradient(circle, rgba(168,92,48,0.16), rgba(247,243,234,0) 68%)',
+            filter: 'blur(24px)',
+          }}
+          animate={reduce ? undefined : { x: [0, 40, 0], y: [0, -28, 0] }}
+          transition={{ duration: 19, repeat: Infinity, ease: 'easeInOut' }}
+        />
+        <Container width="wide" className="relative z-10">
+          <div
+            className="grid items-stretch md:grid-cols-2"
+            style={{ minHeight: `calc(100svh - ${HEADER})` }}
+          >
+            {/* LEFT: line art + two or three huge words */}
+            <div className="relative flex flex-col justify-center py-16 md:pr-12">
+              <LineArt />
+              <div className="relative">
+                <Eyebrow className="text-ink-45">
+                  Founders Circle · AEO + GTM · By invitation
+                </Eyebrow>
 
-              <h1
-                className="mt-8 font-display text-ink"
-                style={{
-                  fontSize: 'clamp(3.2rem, 9vw, 8rem)',
-                  fontWeight: 300,
-                  letterSpacing: '-0.03em',
-                  lineHeight: 0.92,
-                }}
+                <h1
+                  className="mt-8 font-display text-ink"
+                  style={{
+                    fontSize: 'clamp(3.2rem, 9vw, 8rem)',
+                    fontWeight: 300,
+                    letterSpacing: '-0.03em',
+                    lineHeight: 0.92,
+                  }}
+                >
+                  {['Your', 'free', 'diagnostic.'].map((w, i) => (
+                    <motion.span
+                      key={w}
+                      className="block"
+                      style={i === 1 ? { color: 'var(--color-cognac)' } : undefined}
+                      initial={{ opacity: 0, y: 24, filter: 'blur(8px)' }}
+                      animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                      transition={{
+                        type: 'spring',
+                        damping: 26,
+                        stiffness: 90,
+                        mass: 1.05,
+                        delay: 0.15 + i * 0.12,
+                      }}
+                    >
+                      {w}
+                    </motion.span>
+                  ))}
+                </h1>
+              </div>
+            </div>
+
+            {/* RIGHT: the glare card */}
+            <div className="flex items-center py-10 md:border-l md:border-line md:py-16 md:pl-12 lg:pl-16">
+              <motion.div
+                initial={{ opacity: 0, y: 26, filter: 'blur(7px)' }}
+                animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                transition={{ duration: 0.75, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
+                className="w-full"
               >
-                {['Your', 'free', 'diagnostic.'].map((w, i) => (
-                  <motion.span
-                    key={w}
-                    className="block"
-                    style={i === 1 ? { color: 'var(--color-cognac)' } : undefined}
-                    initial={{ opacity: 0, y: 24, filter: 'blur(8px)' }}
-                    animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-                    transition={{
-                      type: 'spring',
-                      damping: 26,
-                      stiffness: 90,
-                      mass: 1.05,
-                      delay: 0.15 + i * 0.12,
-                    }}
-                  >
-                    {w}
-                  </motion.span>
-                ))}
-              </h1>
+                <ClaimForm />
+              </motion.div>
             </div>
           </div>
-
-          {/* RIGHT: the glare card */}
-          <div className="flex items-center py-10 md:border-l md:border-line md:py-16 md:pl-12 lg:pl-16">
-            <motion.div
-              initial={{ opacity: 0, y: 26, filter: 'blur(7px)' }}
-              animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-              transition={{ duration: 0.75, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
-              className="w-full"
-            >
-              <ClaimForm />
-            </motion.div>
-          </div>
-        </div>
-      </Container>
-    </div>
-  )
-}
-
-/* small local Container so the file stays self-contained */
-function Container({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="relative z-10 mx-auto w-full max-w-[88rem] px-6 sm:px-8 lg:px-12">
-      {children}
-    </div>
+        </Container>
+      </div>
+    </MotionConfig>
   )
 }
 
@@ -233,9 +221,9 @@ const empty: DiagnosticInput = {
   source: '',
 }
 
-const labelCls = 'block font-sans text-[0.8rem] tracking-wide text-ink-60'
+const labelCls = 'block font-sans text-label tracking-wide text-ink-60'
 const inputCls =
-  'w-full rounded-xl border border-white/60 bg-white/45 px-4 py-3.5 font-sans text-[0.98rem] text-ink placeholder:text-ink-45 outline-none backdrop-blur-sm transition-colors duration-300 focus:border-cognac focus:bg-white/65'
+  'w-full rounded-xl border border-white/60 bg-white/45 px-4 py-3.5 font-sans text-body text-ink placeholder:text-ink-45 backdrop-blur-sm transition-colors duration-300 focus:border-cognac focus:bg-white/65'
 
 // Liquid glass: translucent, blurred, with a light top edge and specular sheen.
 const cardBg: React.CSSProperties = {
@@ -291,7 +279,7 @@ function ClaimForm() {
         <p className="font-display text-ink" style={{ fontSize: '2rem', lineHeight: 1.1 }}>
           Your diagnostic is claimed.
         </p>
-        <p className="mt-4 max-w-sm font-sans text-[1rem] leading-relaxed text-ink-60">
+        <p className="mt-4 max-w-sm font-sans text-body leading-relaxed text-ink-60">
           We read every request ourselves. We will reach out on the number you
           shared to book it in.
         </p>
@@ -321,9 +309,7 @@ function ClaimForm() {
 
       <div className="relative z-10">
         <div className="flex items-center justify-between">
-          <p className="eyebrow" style={{ letterSpacing: '0.18em' }}>
-            Claim your diagnostic
-          </p>
+          <Eyebrow>Claim your diagnostic</Eyebrow>
           <span className="h-2 w-2 rounded-full bg-cognac" aria-hidden />
         </div>
 
@@ -424,9 +410,22 @@ function ClaimForm() {
                   </option>
                 ))}
               </select>
-              <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-ink-45">
-                ▾
-              </span>
+              <svg
+                aria-hidden
+                className="pointer-events-none absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 text-ink-45"
+                width="16"
+                height="16"
+                viewBox="0 0 16 16"
+                fill="none"
+              >
+                <path
+                  d="M4 6l4 4 4-4"
+                  stroke="currentColor"
+                  strokeWidth="1.6"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
             </div>
           </Field>
         </div>
@@ -442,7 +441,7 @@ function ClaimForm() {
               className="mt-0.5 h-4 w-4 shrink-0"
               style={{ accentColor: 'var(--color-cognac)' }}
             />
-            <p className="font-sans text-[0.82rem] leading-relaxed text-ink-60">
+            <p className="font-sans text-caption leading-relaxed text-ink-60">
               <label htmlFor="f-terms" className="cursor-pointer">
                 I accept the{' '}
               </label>
@@ -454,9 +453,7 @@ function ClaimForm() {
               >
                 Terms and Conditions
               </a>
-              <label htmlFor="f-terms" className="cursor-pointer">
-                .
-              </label>
+              .
             </p>
           </div>
 
@@ -469,14 +466,16 @@ function ClaimForm() {
               className="mt-0.5 h-4 w-4 shrink-0"
               style={{ accentColor: 'var(--color-cognac)' }}
             />
-            <span className="font-sans text-[0.82rem] leading-relaxed text-ink-60">
+            <span className="font-sans text-caption leading-relaxed text-ink-60">
               Send me GTM + AI news. Unsubscribe anytime.
             </span>
           </label>
         </div>
 
         {status === 'error' && (
-          <p className="mt-4 font-sans text-[0.9rem] text-cognac-deep">{error}</p>
+          <p role="alert" className="mt-4 font-sans text-caption text-alert">
+            {error}
+          </p>
         )}
 
         <button
@@ -494,7 +493,7 @@ function ClaimForm() {
           />
         </button>
 
-        <p className="mt-4 text-center font-sans text-[0.78rem] text-ink-45">
+        <p className="mt-4 text-center font-sans text-label text-ink-45">
           Invite-only. We reply to founders, not forms.
         </p>
       </div>

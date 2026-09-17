@@ -1,4 +1,4 @@
-import { motion, type Variants } from 'motion/react'
+import { motion, MotionConfig, type Variants } from 'motion/react'
 import { Container } from './site'
 
 const container: Variants = {
@@ -41,8 +41,9 @@ const SECONDARY = [
 
 export function StatBlock() {
   return (
+      <MotionConfig reducedMotion="user">
     <section className="border-t border-line bg-canvas">
-      <Container width="wide" className="py-28 sm:py-40">
+      <Container width="wide" className="py-24 sm:py-32">
         <motion.div
           variants={container}
           initial="hidden"
@@ -52,16 +53,13 @@ export function StatBlock() {
         >
           {/* Left — the dominant number */}
           <motion.div variants={item} className="md:col-span-7">
-            <p
-              className="mb-6 font-sans uppercase text-cognac"
-              style={{ letterSpacing: '0.22em', fontSize: '0.78rem', fontWeight: 500 }}
-            >
+            <p className="eyebrow mb-6 text-cognac">
               Every month, globally
             </p>
             <div className="font-display text-ink" style={bigNumber}>
               900K–1.4M
             </div>
-            <p className="mt-8 max-w-md font-sans text-[1.15rem] leading-relaxed text-ink-60">
+            <p className="mt-8 max-w-md font-sans text-body-lg leading-relaxed text-ink-60">
               new companies launch with no effective go-to-market plan.
             </p>
           </motion.div>
@@ -74,7 +72,7 @@ export function StatBlock() {
                   <div className="font-display text-cognac" style={midNumber}>
                     {s.value}
                   </div>
-                  <p className="mt-3 font-sans text-[0.98rem] leading-relaxed text-ink-60">
+                  <p className="mt-3 font-sans text-body leading-relaxed text-ink-60">
                     {s.line}
                   </p>
                 </motion.div>
@@ -83,11 +81,12 @@ export function StatBlock() {
           </div>
         </motion.div>
 
-        <p className="mt-16 max-w-xl font-sans text-[0.78rem] leading-relaxed text-ink-45">
+        <p className="mt-16 max-w-xl font-sans text-label leading-relaxed text-ink-45">
           Estimates derived from DPIIT registration data and published startup
           failure-cause statistics.
         </p>
       </Container>
     </section>
+      </MotionConfig>
   )
 }

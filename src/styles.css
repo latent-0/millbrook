@@ -5,7 +5,13 @@
 /*  Neo-classical editorial: warm paper, ink, brass. High whitespace. */
 /* ------------------------------------------------------------------ */
 @theme {
-  --font-sans: "Poppins", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  /* Display: Jost, a geometric sans in the Futura lineage, which is the
+     neoclassical-modernist register the brand lives in. Body: Instrument
+     Sans, a humanist grotesque, chosen for contrast against Jost rather
+     than for agreement with it. Poppins was retired because it is geometric
+     too, so display and body rhymed instead of contrasting. */
+  --font-sans: "Instrument Sans", ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", sans-serif;
   --font-display: "Jost", ui-sans-serif, system-ui, -apple-system, sans-serif;
 
   /* Paper & ink */
@@ -29,10 +35,26 @@
   --color-cognac-deep: #8a4a26;
   --color-cognac-soft: #c67c48;
 
+  /* Alert: the one red the palette needs for failing scores and errors.
+     Sits in the cognac family so it never reads as a stock UI danger. */
+  --color-alert: #9d3b2f;
+
   /* Night (dramatic dark bands) */
   --color-night: #14120d;
   --color-night-2: #201c15;
   --color-night-line: #35301f;
+
+  /* Body type ramp. Four named steps replace the arbitrary text-[N rem]
+     values: label for meta and tags, caption for secondary body, body for
+     default prose, body-lg for ledes. Nothing meaningful sits below label. */
+  --text-label: 0.8rem;
+  --text-label--line-height: 1.45;
+  --text-caption: 0.9rem;
+  --text-caption--line-height: 1.6;
+  --text-body: 1.02rem;
+  --text-body--line-height: 1.6;
+  --text-body-lg: 1.12rem;
+  --text-body-lg--line-height: 1.55;
 
   /* Editorial rhythm */
   --tracking-eyebrow: 0.24em;
@@ -53,6 +75,38 @@
   html {
     -webkit-text-size-adjust: 100%;
     scroll-behavior: smooth;
+    /* The header is sticky and 4.75rem tall. Without this, every in-page
+       anchor jump lands its heading underneath it. One value here replaces
+       the per-section scroll-mt patches scattered across the routes. */
+    scroll-padding-top: 5.5rem;
+  }
+
+  /* Keyboard focus. The site defined no :focus-visible rule at all, and five
+     inputs set outline-none, so the tab order was effectively invisible.
+     One ring everywhere, in the cognac accent rather than a browser blue. */
+  :focus-visible {
+    outline: 2px solid var(--color-cognac-soft);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+  /* On dark bands the cognac ring is too low-contrast to track. */
+  .bg-night :focus-visible,
+  .convex-dark :focus-visible,
+  [data-surface="dark"] :focus-visible {
+    outline-color: var(--color-brass-soft);
+  }
+
+  /* Chrome paints autofilled fields in its own yellow or blue, which breaks
+     the warm paper surface the whole system is built on. */
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  textarea:-webkit-autofill,
+  select:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 100px var(--color-paper) inset;
+    -webkit-text-fill-color: var(--color-ink);
+    caret-color: var(--color-ink);
+    transition: background-color 9999s ease-in-out 0s;
   }
 
   body {
@@ -71,7 +125,7 @@
 
   ::selection {
     background: var(--color-brass);
-    color: #fff;
+    color: var(--color-canvas);
   }
 
   h1,
@@ -124,11 +178,6 @@
     color: var(--color-brass-deep);
   }
 
-  /* Eyebrow labels are plain tracked type now — no leading rule. */
-  .eyebrow-line {
-    display: inline-block;
-  }
-
   /* Hairline rule */
   .rule {
     border: 0;
@@ -153,6 +202,9 @@
       border-color 0.3s ease, transform 0.3s ease;
     cursor: pointer;
     line-height: 1;
+    /* 44px floor so the tight !py overrides used in the header still clear
+       the touch-target minimum on phones. */
+    min-height: 2.75rem;
   }
   .btn-primary {
     background: var(--color-ink);
@@ -162,7 +214,7 @@
   .btn-primary:hover {
     background: var(--color-brass-deep);
     border-color: var(--color-brass-deep);
-    color: #fff;
+    color: var(--color-canvas);
   }
   .btn-ghost {
     background: transparent;
@@ -186,9 +238,36 @@
     color: var(--color-canvas);
     border: 1px solid rgba(247, 243, 234, 0.28);
   }
+  /* The spotlight button. Only for the single most important action on a
+     dark surface, never alongside btn-primary in the same view. */
+  .btn-cognac {
+    background: var(--color-cognac);
+    color: var(--color-canvas);
+    border: 1px solid var(--color-cognac);
+  }
+  .btn-cognac:hover {
+    background: var(--color-cognac-deep);
+    border-color: var(--color-cognac-deep);
+  }
   .btn-ghost-light:hover {
     border-color: var(--color-canvas);
     background: rgba(247, 243, 234, 0.06);
+  }
+
+  /* The lift and press BRANDING.md documents but .btn never had. Guarded so
+     a disabled button stays still. */
+  .btn:not(:disabled):not([aria-disabled="true"]):hover {
+    transform: translateY(-1px);
+  }
+  .btn:not(:disabled):not([aria-disabled="true"]):active {
+    transform: translateY(0) scale(0.985);
+    transition-duration: 0.08s;
+  }
+  .btn:disabled,
+  .btn[aria-disabled="true"] {
+    opacity: 0.45;
+    cursor: not-allowed;
+    transform: none;
   }
 
   /* Eyebrow tuned for dark surfaces */
@@ -227,15 +306,19 @@
     line-height: 0.72;
     padding: 0.06em 0.12em 0 0;
     color: var(--color-brass-deep);
-    font-variation-settings: "opsz" 144;
   }
 
-  /* Gentle reveal on scroll */
+  /* Gentle reveal on scroll. Progressive enhancement, not a content gate:
+     the hidden state is scoped to html.js, so server-rendered HTML, no-JS
+     crawlers, prerender snapshots, and screenshotting models all get fully
+     visible copy. The class is set by a one-line script in the document head. */
   .reveal {
-    opacity: 0;
-    transform: translateY(20px);
     transition: opacity 1s cubic-bezier(0.22, 1, 0.36, 1),
       transform 1s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  html.js .reveal:not(.is-in) {
+    opacity: 0;
+    transform: translateY(20px);
     will-change: opacity, transform;
   }
   .reveal.is-in {
@@ -346,10 +429,21 @@
 .blog-prose > * + * {
   margin-top: 1.35em;
 }
+/* marked can emit any level from the markdown. Every one of them is styled so
+   no heading inside an article ever falls back to a browser default. */
+.blog-prose h1 {
+  font-family: var(--font-display);
+  font-size: clamp(2.1rem, 4vw, 3rem);
+  font-weight: 400;
+  color: var(--color-ink);
+  letter-spacing: -0.018em;
+  line-height: 1.06;
+  margin-top: 2.8rem;
+}
 .blog-prose h2 {
   font-family: var(--font-display);
   font-size: clamp(1.7rem, 3vw, 2.3rem);
-  font-weight: 500;
+  font-weight: 400;
   color: var(--color-ink);
   letter-spacing: -0.015em;
   margin-top: 2.6rem;
@@ -358,9 +452,25 @@
 .blog-prose h3 {
   font-family: var(--font-display);
   font-size: clamp(1.35rem, 2.2vw, 1.7rem);
-  font-weight: 500;
+  font-weight: 400;
   color: var(--color-ink);
   margin-top: 2rem;
+}
+.blog-prose h5 {
+  font-family: var(--font-sans);
+  font-size: 0.98rem;
+  font-weight: 600;
+  color: var(--color-ink-80);
+  margin-top: 1.5rem;
+}
+.blog-prose h6 {
+  font-family: var(--font-sans);
+  font-size: var(--text-label);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-ink-60);
+  margin-top: 1.5rem;
 }
 .blog-prose h4 {
   font-family: var(--font-sans);
@@ -408,6 +518,13 @@
   border-radius: 999px;
   background: var(--color-cognac);
 }
+/* GFM task lists emit a real checkbox. The painted bullet would double up. */
+.blog-prose li:has(input[type="checkbox"]) {
+  padding-left: 0.2em;
+}
+.blog-prose li:has(input[type="checkbox"])::before {
+  content: none;
+}
 .blog-prose ol {
   list-style: decimal;
 }
@@ -451,6 +568,7 @@
   max-width: 100%;
   height: auto;
   border-radius: 16px;
+  background: var(--color-canvas-2);
 }
 .blog-prose hr {
   border: 0;
@@ -495,16 +613,19 @@
   color: var(--color-ink);
 }
 
-/* Scroll blur-reveal for article blocks. Progressive enhancement only:
-   the class is added by JS, so no-JS crawlers get fully visible content. */
+/* Scroll blur-reveal for article blocks. Same progressive-enhancement rule as
+   .reveal: the hidden state is scoped to html.js so nothing can strand a
+   block invisible for a non-scrolling renderer. */
 .reveal-blur {
-  opacity: 0;
-  filter: blur(9px);
-  transform: translateY(16px);
   transition:
     opacity 0.75s cubic-bezier(0.22, 1, 0.36, 1),
     filter 0.75s cubic-bezier(0.22, 1, 0.36, 1),
     transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+}
+html.js .reveal-blur:not(.is-in) {
+  opacity: 0;
+  filter: blur(9px);
+  transform: translateY(16px);
   will-change: opacity, filter, transform;
 }
 .reveal-blur.is-in {

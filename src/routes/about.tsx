@@ -185,14 +185,14 @@ function About() {
 
       {/* The model: four disciplines */}
       <section>
-        <Container className="pt-20 sm:pt-28">
+        <Container className="pt-24 sm:pt-32">
           <div className="max-w-3xl">
             <Reveal>
               <Eyebrow>The model</Eyebrow>
               <h2 className="text-display-md mt-6">
                 Four disciplines. One operator. A single accountable engine.
               </h2>
-              <p className="mt-6 font-sans text-[1.05rem] leading-relaxed text-ink-60">
+              <p className="mt-6 font-sans text-body leading-relaxed text-ink-60">
                 Most companies buy these separately and hope they add up.
                 Rothenhall runs them as one system, because AI visibility without
                 RevOps is unmeasurable, and RevOps without a growth engine has
@@ -207,22 +207,18 @@ function About() {
               <div className="grid gap-8 border-t border-line py-16 sm:py-20 md:grid-cols-12">
                 <div className="md:col-span-5">
                   <div className="flex items-baseline gap-5">
-                    <span className="font-display text-5xl text-brass">{d.n}</span>
-                    <span className="eyebrow" style={{ letterSpacing: '0.16em' }}>
-                      {d.tag}
-                    </span>
+                    <span className="font-display text-3xl text-brass">{d.n}</span>
+                    <span className="eyebrow">{d.tag}</span>
                   </div>
                   <h3 className="text-display-md mt-6">{d.title}</h3>
-                  <p className="mt-4 font-display text-ink-60" style={{ fontSize: '1.3rem', lineHeight: 1.35 }}>
-                    {d.lead}
-                  </p>
+                  <p className="text-lead mt-4 font-display text-ink-60">{d.lead}</p>
                 </div>
                 <div className="md:col-span-6 md:col-start-7 flex items-center">
                   <ul className="w-full divide-y divide-line border-y border-line">
                     {d.points.map((pt) => (
                       <li
                         key={pt}
-                        className="flex gap-4 py-5 font-sans text-[1.02rem] leading-relaxed text-ink-80"
+                        className="flex gap-4 py-5 font-sans text-body leading-relaxed text-ink-80"
                       >
                         <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-brass" />
                         <span>{pt}</span>
@@ -247,7 +243,7 @@ function About() {
               </h2>
             </Reveal>
           </div>
-          <div className="mt-16 grid gap-px overflow-hidden rounded-2xl border border-line bg-line md:grid-cols-4">
+          <div className="mt-16 grid items-stretch gap-px overflow-hidden rounded-2xl border border-line bg-line md:grid-cols-4">
             {STEPS.map((s, i) => (
               <Reveal key={s.n} delay={i * 70} className="bg-canvas">
                 <div className="h-full p-8">
@@ -255,7 +251,7 @@ function About() {
                   <h3 className="mt-5 font-display" style={{ fontSize: '1.5rem' }}>
                     {s.title}
                   </h3>
-                  <p className="mt-3 font-sans text-[0.95rem] leading-relaxed text-ink-60">
+                  <p className="mt-3 font-sans text-body leading-relaxed text-ink-60">
                     {s.body}
                   </p>
                 </div>
@@ -275,7 +271,7 @@ function About() {
                 <h2 className="text-display-md mt-6">
                   The specialists do one thing. We own how they add up.
                 </h2>
-                <p className="mt-6 font-sans text-[1.05rem] leading-relaxed text-ink-60">
+                <p className="mt-6 font-sans text-body leading-relaxed text-ink-60">
                   There are excellent point solutions in the market. What none of
                   them do is combine AI-visibility work with RevOps and GTM
                   execution under a single owner accountable for the result.
@@ -304,16 +300,14 @@ function About() {
                     },
                   ].map((r) => (
                     <div key={r.k} className="py-6">
-                      <p className="font-display text-ink" style={{ fontSize: '1.25rem' }}>
-                        {r.k}
-                      </p>
-                      <p className="mt-2 font-sans text-[0.98rem] leading-relaxed text-ink-60">
+                      <p className="text-lead font-display text-ink">{r.k}</p>
+                      <p className="mt-2 font-sans text-body leading-relaxed text-ink-60">
                         {r.v}
                       </p>
                     </div>
                   ))}
                 </div>
-                <p className="mt-8 font-sans text-[1.05rem] leading-relaxed text-ink-80">
+                <p className="mt-8 font-sans text-body leading-relaxed text-ink-80">
                   Rothenhall is the one seat that holds all of it, so there is no
                   gap between being found, being measured, and being sold.
                 </p>
@@ -332,15 +326,15 @@ function About() {
               <h2 className="text-display-lg mt-6">How Rothenhall works.</h2>
             </Reveal>
           </div>
-          <div className="mt-16 grid gap-px overflow-hidden rounded-2xl border border-line bg-line sm:grid-cols-2">
+          <div className="mt-16 grid items-stretch gap-px overflow-hidden rounded-2xl border border-line bg-line sm:grid-cols-2">
             {PRINCIPLES.map((p, i) => (
               <Reveal key={p.n} delay={i * 70} className="bg-canvas">
                 <div className="h-full p-8 sm:p-10">
-                  <span className="font-display text-4xl text-brass">{p.n}</span>
+                  <span className="font-display text-3xl text-brass">{p.n}</span>
                   <h3 className="mt-5 font-display" style={{ fontSize: '1.6rem' }}>
                     {p.title}
                   </h3>
-                  <p className="mt-3 font-sans text-[1rem] leading-relaxed text-ink-60">
+                  <p className="mt-3 font-sans text-body leading-relaxed text-ink-60">
                     {p.body}
                   </p>
                 </div>
@@ -367,10 +361,8 @@ function About() {
                 {FOR.map((f, i) => (
                   <Reveal key={f.k} delay={i * 80}>
                     <div className="py-7">
-                      <p className="font-display text-ink" style={{ fontSize: '1.4rem' }}>
-                        {f.k}
-                      </p>
-                      <p className="mt-2 font-sans text-[1rem] leading-relaxed text-ink-60">
+                      <p className="text-lead font-display text-ink">{f.k}</p>
+                      <p className="mt-2 font-sans text-body leading-relaxed text-ink-60">
                         {f.v}
                       </p>
                     </div>
@@ -383,7 +375,7 @@ function About() {
       </section>
 
       {/* Founder */}
-      <section id="founder" className="scroll-mt-28 border-t border-line">
+      <section id="founder" className="border-t border-line">
         <Container className="py-24 sm:py-32">
           <div className="grid gap-14 md:grid-cols-12 md:items-center">
             <div className="md:col-span-5">
@@ -410,7 +402,7 @@ function About() {
               <Reveal delay={100}>
                 <Eyebrow>Founder</Eyebrow>
                 <h2 className="text-display-md mt-6">Kunal Achintya Reddy</h2>
-                <p className="mt-3 font-sans text-[0.82rem] uppercase tracking-[0.16em] text-cognac-deep">
+                <p className="mt-3 font-sans text-caption uppercase tracking-[0.16em] text-cognac-deep">
                   Founder, Rothenhall Partners
                 </p>
                 <p className="mt-7 text-lead text-ink-80">
@@ -418,7 +410,7 @@ function About() {
                   new front page made of AI answers, and lean teams with no way to
                   appear in it.
                 </p>
-                <p className="mt-5 font-sans text-[1.05rem] leading-relaxed text-ink-60">
+                <p className="mt-5 font-sans text-body leading-relaxed text-ink-60">
                   He is the operating partner behind AEO, GTM, and RevOps for
                   founders and funds, and researches how answer engines decide who
                   gets recommended. The practice is that research turned into a
@@ -451,7 +443,7 @@ function About() {
           <div className="grid gap-14 md:grid-cols-12">
             <div className="md:col-span-4">
               <Reveal>
-                <Eyebrow className="text-brass-soft">The compounding library</Eyebrow>
+                <Eyebrow className="eyebrow-light">The compounding library</Eyebrow>
                 <h2 className="text-display-md mt-6 text-canvas">
                   The closest thing to intellectual property this work can have.
                 </h2>
@@ -466,7 +458,7 @@ function About() {
                   engines actually behave, RevOps diagnostics from real revenue
                   systems, and portfolio playbooks refined against outcomes.
                 </p>
-                <p className="mt-6 font-sans text-[1.05rem] leading-relaxed text-canvas/60">
+                <p className="mt-6 font-sans text-body leading-relaxed text-canvas/60">
                   It is not patentable. It functions like it is. You cannot
                   reproduce it by reading a blog post or hiring a single
                   specialist, and it is why the second engagement is sharper than
@@ -483,7 +475,7 @@ function About() {
         <Container width="narrow" className="py-24 sm:py-32 text-center">
           <Reveal>
             <h2 className="text-display-md">If the gap is yours, let’s close it.</h2>
-            <p className="mx-auto mt-6 max-w-xl font-sans text-[1.05rem] leading-relaxed text-ink-60">
+            <p className="mx-auto mt-6 max-w-xl font-sans text-body leading-relaxed text-ink-60">
               See where you stand across the stack. We run the diagnostic and hand
               you the number, the reasons, and the sequence to move it.
             </p>

@@ -4,19 +4,6 @@ import { Container, Eyebrow, Reveal } from '../components/site'
 import { seo, SITE } from '../lib/seo'
 import { joinWaitlist, type WaitlistInput, SOURCE_OPTIONS } from '../server/inquiry'
 
-export const Route = createFileRoute('/cailyx')({
-  head: () =>
-    seo({
-      path: '/cailyx',
-      title: 'Cailyx · AI Visibility & AEO/SEO Engine · Rothenhall Partners',
-      description:
-        'Cailyx, Rothenhall’s agentic AEO and SEO engine, measures how AI sees you and builds the fixes that move your AI Visibility Score. Rates, not ranks.',
-      keywords:
-        'Cailyx, AI visibility engine, agentic AEO, agentic SEO, answer engine optimization software, AI Visibility Score, AI search tracking, Rothenhall',
-    }),
-  component: Cailyx,
-})
-
 const CAPABILITIES = [
   {
     n: '01',
@@ -90,22 +77,37 @@ const GUARDRAILS = [
   },
 ]
 
-function Cailyx() {
-  const schema = {
-    '@context': 'https://schema.org',
-    '@type': 'SoftwareApplication',
-    name: 'Cailyx',
-    applicationCategory: 'BusinessApplication',
-    operatingSystem: 'Web',
-    image: `${SITE.url}/og-image.jpg`,
-    description:
-      'AI-native, agentic engine for answer engine optimization (AEO) and SEO, built by Rothenhall Partners. Measures how AI answer engines describe and cite a company, builds the entities, content, and citations that move that view, and tracks the result as a rate. In use across every Rothenhall engagement; client access is granted on onboarding, and a Cailyx MCP is on the roadmap.',
-    featureList: CAPABILITIES.map((c) => c.title),
-    creator: { '@id': `${SITE.url}/#organization` },
-    publisher: { '@id': `${SITE.url}/#organization` },
-    url: `${SITE.url}/cailyx`,
-  }
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: 'Cailyx',
+  applicationCategory: 'BusinessApplication',
+  operatingSystem: 'Web',
+  image: `${SITE.url}/og-image.jpg`,
+  description:
+    'AI-native, agentic engine for answer engine optimization (AEO) and SEO, built by Rothenhall Partners. Measures how AI answer engines describe and cite a company, builds the entities, content, and citations that move that view, and tracks the result as a rate. In use across every Rothenhall engagement; client access is granted on onboarding, and a Cailyx MCP is on the roadmap.',
+  featureList: CAPABILITIES.map((c) => c.title),
+  creator: { '@id': `${SITE.url}/#organization` },
+  publisher: { '@id': `${SITE.url}/#organization` },
+  url: `${SITE.url}/cailyx`,
+}
 
+export const Route = createFileRoute('/cailyx')({
+  head: () => ({
+    ...seo({
+      path: '/cailyx',
+      title: 'Cailyx · AI Visibility & AEO/SEO Engine · Rothenhall Partners',
+      description:
+        'Cailyx, Rothenhall’s agentic AEO and SEO engine, measures how AI sees you and builds the fixes that move your AI Visibility Score. Rates, not ranks.',
+      keywords:
+        'Cailyx, AI visibility engine, agentic AEO, agentic SEO, answer engine optimization software, AI Visibility Score, AI search tracking, Rothenhall',
+    }),
+    scripts: [{ type: 'application/ld+json', children: JSON.stringify(schema) }],
+  }),
+  component: Cailyx,
+})
+
+function Cailyx() {
   return (
     <>
       {/* Hero */}
@@ -145,7 +147,7 @@ function Cailyx() {
                 See pricing
               </Link>
             </div>
-            <p className="mt-4 font-sans text-[0.82rem] text-canvas/45">
+            <p className="mt-4 font-sans text-caption text-canvas/45">
               Access is set up by Rothenhall with your workspace, on onboarding. No
               card on this page.
             </p>
@@ -171,7 +173,7 @@ function Cailyx() {
                   A buyer asks an AI who to consider, and the answer names a handful
                   of companies. That list forms before anyone opens your site.
                 </p>
-                <p className="mt-6 font-sans text-[1.05rem] leading-relaxed text-ink-60">
+                <p className="mt-6 font-sans text-body leading-relaxed text-ink-60">
                   You cannot manage what you cannot see, and AI visibility is almost
                   impossible to see. Teams fall back on a single screenshot of one
                   chat, a gut feel, or a dashboard that reports a score and stops
@@ -204,7 +206,7 @@ function Cailyx() {
                   <h3 className="font-display text-ink sm:col-span-4" style={{ fontSize: '1.35rem', lineHeight: 1.15 }}>
                     {c.title}
                   </h3>
-                  <p className="font-sans text-[1rem] leading-relaxed text-ink-60 sm:col-span-7">
+                  <p className="font-sans text-body leading-relaxed text-ink-60 sm:col-span-7">
                     {c.body}
                   </p>
                 </div>
@@ -229,7 +231,7 @@ function Cailyx() {
                 <div className="h-full p-6 sm:p-7">
                   <span className="font-display text-brass" style={{ fontSize: '2rem', lineHeight: 1 }}>{s.n}</span>
                   <h3 className="mt-4 font-display text-ink" style={{ fontSize: '1.2rem' }}>{s.title}</h3>
-                  <p className="mt-2 font-sans text-[0.9rem] leading-relaxed text-ink-60">{s.body}</p>
+                  <p className="mt-2 font-sans text-caption leading-relaxed text-ink-60">{s.body}</p>
                 </div>
               </Reveal>
             ))}
@@ -250,14 +252,14 @@ function Cailyx() {
             {STANDARDS.map(([t, b], i) => (
               <Reveal key={t} delay={i * 50}>
                 <li className="flex flex-col gap-1 bg-night-2 p-6 sm:flex-row sm:items-baseline sm:gap-6 sm:p-7">
-                  <span className="font-sans text-[1rem] font-medium text-canvas sm:w-1/2">{t}</span>
-                  <span className="font-sans text-[0.95rem] leading-relaxed text-canvas/55 sm:w-1/2">{b}</span>
+                  <span className="font-sans text-body font-medium text-canvas sm:w-1/2">{t}</span>
+                  <span className="font-sans text-body leading-relaxed text-canvas/55 sm:w-1/2">{b}</span>
                 </li>
               </Reveal>
             ))}
           </ul>
           <Reveal delay={120}>
-            <p className="mt-10 text-center font-sans text-[1.02rem] leading-relaxed text-canvas/70">
+            <p className="mt-10 text-center font-sans text-body leading-relaxed text-canvas/70">
               A visibility tool you cannot reproduce is a mood. Cailyx ships the method
               to reproduce every claim.
             </p>
@@ -281,7 +283,7 @@ function Cailyx() {
                   <Reveal key={g.q} delay={i * 40}>
                     <div className="py-7">
                       <h3 className="font-display text-ink" style={{ fontSize: '1.25rem' }}>{g.q}</h3>
-                      <p className="mt-3 font-sans text-[1.02rem] leading-relaxed text-ink-60">{g.a}</p>
+                      <p className="mt-3 font-sans text-body leading-relaxed text-ink-60">{g.a}</p>
                     </div>
                   </Reveal>
                 ))}
@@ -304,7 +306,7 @@ function Cailyx() {
             <Reveal delay={0}>
               <div className="convex-light flex h-full flex-col rounded-2xl p-8">
                 <p className="font-display text-brass-deep" style={{ fontSize: '3rem', lineHeight: 1 }}>55 → 62</p>
-                <p className="mt-3 font-sans text-[0.95rem] leading-relaxed text-ink-60">
+                <p className="mt-3 font-sans text-body leading-relaxed text-ink-60">
                   DayOne Technologies, +7 points on the AI Visibility Score in the first
                   remediation phase, with 3 new qualified leads.
                 </p>
@@ -312,8 +314,8 @@ function Cailyx() {
             </Reveal>
             <Reveal delay={80}>
               <div className="convex-light flex h-full flex-col rounded-2xl p-8">
-                <p className="font-display text-brass-deep" style={{ fontSize: '3rem', lineHeight: 1 }}>43<span className="text-[1.2rem] text-ink-45"> / 100</span></p>
-                <p className="mt-3 font-sans text-[0.95rem] leading-relaxed text-ink-60">
+                <p className="font-display text-brass-deep" style={{ fontSize: '3rem', lineHeight: 1 }}>43<span className="text-body-lg text-ink-45"> / 100</span></p>
+                <p className="mt-3 font-sans text-body leading-relaxed text-ink-60">
                   Napkin, a baseline the owner could not have seen alone, after the
                   engine surfaced a silent CDN block on AI crawlers.
                 </p>
@@ -322,7 +324,7 @@ function Cailyx() {
             <Reveal delay={160}>
               <div className="convex-light flex h-full flex-col rounded-2xl p-8">
                 <p className="font-display text-brass-deep" style={{ fontSize: '3rem', lineHeight: 1 }}>90k</p>
-                <p className="mt-3 font-sans text-[0.95rem] leading-relaxed text-ink-60">
+                <p className="mt-3 font-sans text-body leading-relaxed text-ink-60">
                   AI answers across 15+ industries in Rothenhall’s field study, the
                   ground under the rubric and the method.
                 </p>
@@ -330,7 +332,7 @@ function Cailyx() {
             </Reveal>
           </div>
           <Reveal delay={120}>
-            <div className="mt-10 flex flex-wrap gap-x-8 gap-y-3 font-sans text-[0.95rem]">
+            <div className="mt-10 flex flex-wrap gap-x-8 gap-y-3 font-sans text-body">
               <Link to="/research" className="link-line">Read the research →</Link>
               <Link to="/ai-visibility-score" className="link-line">The AI Visibility Score →</Link>
               <Link to="/case-studies" className="link-line">All case studies →</Link>
@@ -346,7 +348,7 @@ function Cailyx() {
             <h2 className="mx-auto max-w-3xl font-display text-canvas" style={{ fontSize: 'clamp(1.9rem,4vw,3rem)', lineHeight: 1.08, fontWeight: 300 }}>
               Your buyers are asking AI who to trust. See exactly what it says about you.
             </h2>
-            <p className="mx-auto mt-6 max-w-xl font-sans text-[1.05rem] leading-relaxed text-canvas/70">
+            <p className="mx-auto mt-6 max-w-xl font-sans text-body leading-relaxed text-canvas/70">
               Request access and Rothenhall sets up your Cailyx workspace with your
               first measured score.
             </p>
@@ -365,7 +367,7 @@ function Cailyx() {
             <Reveal>
               <Eyebrow className="justify-center inline-flex">Cailyx MCP</Eyebrow>
               <h2 className="text-display-md mt-6">Be first to the Cailyx MCP.</h2>
-              <p className="mt-5 font-sans text-[1.05rem] leading-relaxed text-ink-60">
+              <p className="mt-5 font-sans text-body leading-relaxed text-ink-60">
                 A Cailyx MCP, so it can plug into your own AI workflows, is on the
                 roadmap. Join the list and we will reach out when early access opens.
               </p>
@@ -378,15 +380,14 @@ function Cailyx() {
           </div>
         </Container>
       </section>
-
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
     </>
   )
 }
 
 const empty: WaitlistInput = { name: '', email: '', company: '', source: '' }
+const labelCls = 'block font-sans text-label tracking-wide text-ink-60'
 const inputCls =
-  'w-full rounded-lg border border-line bg-canvas px-4 py-3 font-sans text-[1rem] text-ink placeholder:text-ink-45 outline-none transition-colors focus:border-brass focus:bg-paper'
+  'w-full rounded-lg border border-line bg-canvas px-4 py-3 font-sans text-body text-ink placeholder:text-ink-45 transition-colors focus:border-cognac focus:bg-paper'
 
 function WaitlistForm() {
   const [form, setForm] = useState<WaitlistInput>(empty)
@@ -415,7 +416,7 @@ function WaitlistForm() {
     return (
       <div className="rounded-2xl border border-line bg-paper p-8 text-center">
         <p className="font-display text-2xl text-ink">You’re on the list.</p>
-        <p className="mt-3 font-sans text-[1rem] leading-relaxed text-ink-60">
+        <p className="mt-3 font-sans text-body leading-relaxed text-ink-60">
           We will email you when Cailyx early access opens.
         </p>
       </div>
@@ -425,62 +426,94 @@ function WaitlistForm() {
   return (
     <form onSubmit={onSubmit} className="space-y-4 text-left" noValidate>
       <div className="grid gap-4 sm:grid-cols-2">
+        <div className="space-y-2">
+          <label htmlFor="w-name" className={labelCls}>Name</label>
+          <input
+            id="w-name"
+            type="text"
+            required
+            value={form.name}
+            onChange={set('name')}
+            className={inputCls}
+            placeholder="Jane Doe"
+            autoComplete="name"
+          />
+        </div>
+        <div className="space-y-2">
+          <label htmlFor="w-company" className={labelCls}>
+            Company <span className="text-ink-45">(optional)</span>
+          </label>
+          <input
+            id="w-company"
+            type="text"
+            value={form.company}
+            onChange={set('company')}
+            className={inputCls}
+            placeholder="Acme Inc."
+            autoComplete="organization"
+          />
+        </div>
+      </div>
+      <div className="space-y-2">
+        <label htmlFor="w-email" className={labelCls}>Work email</label>
         <input
-          type="text"
+          id="w-email"
+          type="email"
           required
-          value={form.name}
-          onChange={set('name')}
+          value={form.email}
+          onChange={set('email')}
           className={inputCls}
-          placeholder="Name"
-          autoComplete="name"
-        />
-        <input
-          type="text"
-          value={form.company}
-          onChange={set('company')}
-          className={inputCls}
-          placeholder="Company (optional)"
-          autoComplete="organization"
+          placeholder="you@acme.com"
+          autoComplete="email"
         />
       </div>
-      <input
-        type="email"
-        required
-        value={form.email}
-        onChange={set('email')}
-        className={inputCls}
-        placeholder="Work email"
-        autoComplete="email"
-      />
-      <div className="relative">
-        <select
-          value={form.source}
-          onChange={(e) => setForm((f) => ({ ...f, source: e.target.value }))}
-          aria-label="How did you hear about us?"
-          className={`${inputCls} appearance-none pr-10`}
-        >
-          <option value="">How did you hear about us?</option>
-          {SOURCE_OPTIONS.map((s) => (
-            <option key={s} value={s}>
-              {s}
-            </option>
-          ))}
-        </select>
-        <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-ink-45">
-          ▾
-        </span>
+      <div className="space-y-2">
+        <label htmlFor="w-source" className={labelCls}>How did you hear about us?</label>
+        <div className="relative">
+          <select
+            id="w-source"
+            value={form.source}
+            onChange={(e) => setForm((f) => ({ ...f, source: e.target.value }))}
+            className={`${inputCls} appearance-none pr-10`}
+          >
+            <option value="">Select one</option>
+            {SOURCE_OPTIONS.map((s) => (
+              <option key={s} value={s}>
+                {s}
+              </option>
+            ))}
+          </select>
+          <svg
+            aria-hidden
+            className="pointer-events-none absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 text-ink-45"
+            width="16"
+            height="16"
+            viewBox="0 0 16 16"
+            fill="none"
+          >
+            <path
+              d="M4 6l4 4 4-4"
+              stroke="currentColor"
+              strokeWidth="1.6"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </div>
       </div>
       {status === 'error' && (
-        <p className="font-sans text-[0.9rem] text-[#8a3a2f]">{error}</p>
+        <p role="alert" className="font-sans text-caption text-alert">
+          {error}
+        </p>
       )}
       <button
         type="submit"
         disabled={status === 'submitting'}
-        className="btn btn-primary w-full disabled:opacity-60"
+        className="btn btn-primary mt-2 w-full disabled:opacity-60"
       >
         {status === 'submitting' ? 'Joining…' : 'Join the MCP waitlist'}
       </button>
-      <p className="text-center font-sans text-[0.78rem] text-ink-45">
+      <p className="text-center font-sans text-label text-ink-45">
         We will only email you about Cailyx early access.
       </p>
     </form>

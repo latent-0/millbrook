@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from 'react'
 import {
   motion,
   AnimatePresence,
+  MotionConfig,
   useReducedMotion,
   type Variants,
 } from 'motion/react'
@@ -47,114 +48,112 @@ const BENEFITS = [
 function Community() {
   const reduce = useReducedMotion()
   return (
-    <div className="bg-canvas text-ink">
-      {/* Hero, a bento of interlocking tiles */}
-      <section>
-        <Container width="wide" className="pt-16 pb-16 sm:pt-20 sm:pb-24">
-          <motion.div
-            variants={stagger}
-            initial="hidden"
-            animate="visible"
-            className="grid gap-4 md:grid-cols-12"
-          >
-            {/* Pitch tile */}
+    <MotionConfig reducedMotion="user">
+      <div className="bg-canvas text-ink">
+        {/* Hero, a bento of interlocking tiles */}
+        <section>
+          <Container width="wide" className="pt-16 pb-16 sm:pt-20 sm:pb-24">
             <motion.div
-              variants={rise}
-              className="convex-light flex flex-col justify-between rounded-[2rem] rounded-br-[5rem] p-8 sm:p-12 md:col-span-7"
+              variants={stagger}
+              initial={reduce ? 'visible' : 'hidden'}
+              animate="visible"
+              className="grid gap-4 md:grid-cols-12"
             >
-              <div>
-                <Eyebrow>By invitation</Eyebrow>
-                <h1
-                  className="mt-7 font-display"
-                  style={{ fontSize: 'clamp(2.6rem, 5.2vw, 4.8rem)', fontWeight: 500, letterSpacing: '-0.03em', lineHeight: 1.02 }}
-                >
-                  The Rothenhall{' '}
-                  <span style={{ color: 'var(--color-cognac)' }}>Founders Circle.</span>
-                </h1>
-              </div>
-              <p className="mt-8 max-w-md font-sans text-[1.1rem] leading-relaxed text-ink-60">
-                A private network of founders across Europe, India, and the USA,
-                with our growth engine behind you. Every member starts with a free
-                AI Visibility Score and early access to Cailyx.
-              </p>
-              <div className="mt-6 flex flex-wrap items-center gap-2.5">
-                {['Europe', 'India', 'USA'].map((r) => (
-                  <span
-                    key={r}
-                    className="inline-flex items-center rounded-full border border-line-strong px-3.5 py-1.5 font-sans text-ink-80"
-                    style={{ fontSize: '0.68rem', letterSpacing: '0.16em', textTransform: 'uppercase' }}
-                  >
-                    {r}
-                  </span>
-                ))}
-              </div>
-            </motion.div>
-
-            {/* Form tile */}
-            <motion.div variants={rise} className="md:col-span-5">
-              <InviteFlow />
-            </motion.div>
-
-            {/* Offer strip */}
-            <motion.div
-              variants={rise}
-              className="convex-light rounded-[2rem] rounded-tl-[4rem] p-8 text-center sm:p-10 md:col-span-12"
-            >
-              <p
-                className="mx-auto max-w-3xl font-display"
-                style={{ fontSize: 'clamp(1.4rem, 2.6vw, 2.1rem)', lineHeight: 1.3 }}
-              >
-                Start with a{' '}
-                <span style={{ color: 'var(--color-cognac)' }}>free</span> AI
-                Visibility Score, and see exactly where you stand in the answers.
-              </p>
-            </motion.div>
-          </motion.div>
-        </Container>
-      </section>
-
-      {/* Benefits */}
-      <section className="border-t border-line bg-canvas-2">
-        <Container className="py-20 sm:py-28">
-          <div className="max-w-2xl">
-            <Reveal>
-              <Eyebrow>What members get</Eyebrow>
-              <h2 className="text-display-md mt-6">More than an invite.</h2>
-            </Reveal>
-          </div>
-          <motion.div
-            variants={stagger}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.25 }}
-            className="mt-14 grid gap-5 sm:grid-cols-2"
-          >
-            {BENEFITS.map((b) => (
+              {/* Pitch tile */}
               <motion.div
-                key={b.n}
                 variants={rise}
-                whileHover={reduce ? undefined : { y: -6 }}
-                transition={{ type: 'spring', stiffness: 300, damping: 22 }}
-                className="convex-light rounded-[1.75rem] p-8 sm:p-10"
+                className="convex-light flex flex-col justify-between rounded-[2rem] rounded-br-[5rem] p-8 sm:p-12 md:col-span-7"
               >
-                <span
-                  className="flex h-12 w-12 items-center justify-center rounded-2xl font-display text-2xl text-cognac"
-                  style={{ background: 'rgba(168,92,48,0.10)' }}
+                <div>
+                  <Eyebrow>By invitation</Eyebrow>
+                  <h1
+                    className="mt-7 font-display"
+                    style={{ fontSize: 'clamp(2.6rem, 5.2vw, 4.8rem)', fontWeight: 500, letterSpacing: '-0.03em', lineHeight: 1.02 }}
+                  >
+                    The Rothenhall{' '}
+                    <span style={{ color: 'var(--color-cognac)' }}>Founders Circle.</span>
+                  </h1>
+                </div>
+                <p className="mt-8 max-w-md font-sans text-body-lg leading-relaxed text-ink-60">
+                  A private network of founders across Europe, India, and the USA,
+                  with our growth engine behind you. Every member starts with a free
+                  AI Visibility Score and early access to Cailyx.
+                </p>
+                <div className="mt-6 flex flex-wrap items-center gap-2.5">
+                  {['Europe', 'India', 'USA'].map((r) => (
+                    <span
+                      key={r}
+                      className="inline-flex items-center rounded-full border border-line-strong px-3.5 py-1.5 font-sans text-label uppercase tracking-[0.16em] text-ink-80"
+                    >
+                      {r}
+                    </span>
+                  ))}
+                </div>
+              </motion.div>
+
+              {/* Form tile */}
+              <motion.div variants={rise} className="md:col-span-5">
+                <InviteFlow />
+              </motion.div>
+
+              {/* Offer strip */}
+              <motion.div
+                variants={rise}
+                className="convex-light rounded-[2rem] rounded-tl-[4rem] p-8 text-center sm:p-10 md:col-span-12"
+              >
+                <p
+                  className="mx-auto max-w-3xl font-display"
+                  style={{ fontSize: 'clamp(1.4rem, 2.6vw, 2.1rem)', lineHeight: 1.3 }}
                 >
-                  {b.n}
-                </span>
-                <h3 className="mt-6 font-display text-ink" style={{ fontSize: '1.6rem' }}>
-                  {b.title}
-                </h3>
-                <p className="mt-3 font-sans text-[1rem] leading-relaxed text-ink-60">
-                  {b.body}
+                  Start with a{' '}
+                  <span style={{ color: 'var(--color-cognac)' }}>free</span> AI
+                  Visibility Score, and see exactly where you stand in the answers.
                 </p>
               </motion.div>
-            ))}
-          </motion.div>
-        </Container>
-      </section>
-    </div>
+            </motion.div>
+          </Container>
+        </section>
+
+        {/* Benefits */}
+        <section className="border-t border-line bg-canvas-2">
+          <Container className="py-24 sm:py-32">
+            <div className="max-w-2xl">
+              <Reveal>
+                <Eyebrow>What members get</Eyebrow>
+                <h2 className="text-display-md mt-6">More than an invite.</h2>
+              </Reveal>
+            </div>
+            <motion.div
+              variants={stagger}
+              initial={reduce ? 'visible' : 'hidden'}
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.25 }}
+              className="mt-14 grid gap-5 sm:grid-cols-2"
+            >
+              {BENEFITS.map((b) => (
+                <motion.div
+                  key={b.n}
+                  variants={rise}
+                  whileHover={reduce ? undefined : { y: -6 }}
+                  transition={{ type: 'spring', stiffness: 300, damping: 22 }}
+                  className="convex-light rounded-[1.75rem] p-8 sm:p-10"
+                >
+                  <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-cognac/10 font-display text-2xl text-cognac">
+                    {b.n}
+                  </span>
+                  <h3 className="mt-6 font-display text-ink" style={{ fontSize: '1.6rem' }}>
+                    {b.title}
+                  </h3>
+                  <p className="mt-3 font-sans text-body leading-relaxed text-ink-60">
+                    {b.body}
+                  </p>
+                </motion.div>
+              ))}
+            </motion.div>
+          </Container>
+        </section>
+      </div>
+    </MotionConfig>
   )
 }
 
@@ -183,7 +182,7 @@ function InviteFlow() {
   const [step, setStep] = useState(0)
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle')
   const [error, setError] = useState('')
-  const inputRef = useRef<HTMLInputElement>(null)
+  const inputRef = useRef<HTMLInputElement | HTMLTextAreaElement>(null)
 
   useEffect(() => {
     if (step > 0) inputRef.current?.focus()
@@ -204,8 +203,8 @@ function InviteFlow() {
     }
   }
 
-  function onSubmit(e: React.FormEvent) {
-    e.preventDefault()
+  function advance() {
+    if (status === 'submitting') return
     const v = value.trim()
     if (current.key === 'name' && v.length < 2) return setError('A name, please.')
     if (current.key === 'email' && !emailRe.test(v)) return setError('A valid email, please.')
@@ -217,6 +216,11 @@ function InviteFlow() {
     }
   }
 
+  function onSubmit(e: React.FormEvent) {
+    e.preventDefault()
+    advance()
+  }
+
   const shell =
     'convex-light relative overflow-hidden rounded-[2rem] rounded-tr-[5rem] p-8 sm:p-10'
   // Soft cognac duotone wash so the form tile reads as the focal surface.
@@ -224,6 +228,10 @@ function InviteFlow() {
     background:
       'linear-gradient(155deg, rgba(198,124,72,0.24), rgba(240,225,205,0.35) 45%, rgba(247,243,234,0.2) 100%), var(--color-paper)',
   }
+  const fieldCls =
+    'w-full border-0 border-b border-line bg-transparent pb-3 font-display text-[1.25rem] text-ink transition-colors placeholder:text-ink-45 focus:border-cognac disabled:opacity-60 sm:text-[2rem]'
+  const questionCls =
+    'mb-3 block font-sans text-caption font-medium tracking-wide text-ink-80'
 
   if (status === 'success') {
     return (
@@ -233,7 +241,7 @@ function InviteFlow() {
           <p className="font-display text-ink" style={{ fontSize: '1.9rem' }}>
             You’re in the queue.
           </p>
-          <p className="mt-3 font-sans text-[1rem] leading-relaxed text-ink-60">
+          <p className="mt-3 font-sans text-body leading-relaxed text-ink-60">
             We read every request ourselves. If it is a fit, your invite to the
             Founder’s Circle lands in your inbox.
           </p>
@@ -247,7 +255,7 @@ function InviteFlow() {
       <Watermark />
       <div className="relative flex items-center justify-between">
         <p className="eyebrow">Request a free invite</p>
-        <p className="font-sans text-[0.75rem] tracking-wide text-ink-45">
+        <p className="font-sans text-label tracking-wide text-ink-45">
           {String(step + 1).padStart(2, '0')} / {String(QUESTIONS.length).padStart(2, '0')}
         </p>
       </div>
@@ -261,42 +269,68 @@ function InviteFlow() {
             exit={{ opacity: 0, y: -14 }}
             transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
           >
+            <label htmlFor={`invite-${current.key}`} className={questionCls}>
+              {current.q}
+            </label>
             {current.type === 'select' ? (
               <select
+                id={`invite-${current.key}`}
                 value={value}
+                disabled={status === 'submitting'}
                 onChange={(e) => setForm((f) => ({ ...f, [current.key]: e.target.value }))}
-                className="w-full border-0 border-b border-line bg-transparent pb-3 font-display text-[1.25rem] text-ink outline-none transition-colors focus:border-cognac sm:text-[2rem]"
+                className={fieldCls}
               >
-                <option value="">How did you hear about us?</option>
+                <option value="">{current.q}</option>
                 {SOURCE_OPTIONS.map((s) => (
                   <option key={s} value={s}>
                     {s}
                   </option>
                 ))}
               </select>
+            ) : current.key === 'building' ? (
+              <textarea
+                id={`invite-${current.key}`}
+                ref={inputRef}
+                rows={4}
+                value={value}
+                disabled={status === 'submitting'}
+                onChange={(e) => setForm((f) => ({ ...f, [current.key]: e.target.value }))}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault()
+                    advance()
+                  }
+                }}
+                placeholder={current.q}
+                autoComplete="off"
+                autoFocus={step > 0}
+                className={`${fieldCls} resize-none leading-snug`}
+              />
             ) : (
               <input
+                id={`invite-${current.key}`}
                 ref={inputRef}
                 type={current.type}
                 value={value}
+                disabled={status === 'submitting'}
                 onChange={(e) => setForm((f) => ({ ...f, [current.key]: e.target.value }))}
                 placeholder={current.q}
                 autoComplete={
                   current.key === 'name' ? 'name' : current.key === 'email' ? 'email' : current.key === 'company' ? 'organization' : 'off'
                 }
                 autoFocus={step > 0}
-                className="w-full border-0 border-b border-line bg-transparent pb-3 font-display text-[1.25rem] text-ink outline-none transition-colors placeholder:text-ink-45 focus:border-cognac sm:text-[2rem]"
+                className={fieldCls}
               />
             )}
           </motion.div>
         </AnimatePresence>
 
         {error && (
-          <p className="mt-3 font-sans text-[0.85rem] text-cognac-deep">{error}</p>
+          <p role="alert" className="mt-3 font-sans text-caption text-alert">{error}</p>
         )}
 
         <div className="mt-7 flex items-center justify-between">
-          <span className="font-sans text-[0.8rem] text-ink-45">
+          <span className="font-sans text-label text-ink-45">
             {current.optional ? 'Optional · press enter to skip' : 'Press enter'}
           </span>
           <button
@@ -306,7 +340,17 @@ function InviteFlow() {
             className="flex h-12 w-12 items-center justify-center rounded-full bg-ink text-canvas transition-colors hover:bg-cognac disabled:opacity-60"
           >
             {status === 'submitting' ? (
-              <span className="text-[0.7rem]">···</span>
+              <svg
+                className="animate-spin"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                aria-hidden
+              >
+                <circle cx="12" cy="12" r="9" stroke="currentColor" strokeOpacity="0.3" strokeWidth="2.5" />
+                <path d="M21 12a9 9 0 0 0-9-9" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
+              </svg>
             ) : step < QUESTIONS.length - 1 ? (
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
                 <path d="M5 12h14M13 6l6 6-6 6" />

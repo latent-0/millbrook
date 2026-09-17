@@ -316,7 +316,7 @@ function Radar({ dims, compare }: { dims: Dims; compare?: Dims }) {
     }).join(' ') + ' Z'
 
   return (
-    <svg viewBox="0 0 340 300" role="img" aria-label="Five-dimension radar chart" style={{ width: '100%', height: 'auto' }}>
+    <svg viewBox="-24 0 388 300" role="img" aria-label="Five-dimension radar chart" style={{ width: '100%', height: 'auto' }}>
       {rings.map((f) => (
         <path key={f} d={ringPath(f)} fill="none" stroke="var(--color-line)" strokeWidth={1} />
       ))}
@@ -368,7 +368,7 @@ function Gauge({ score }: { score: number }) {
           out of 100
         </text>
       </svg>
-      <p className="mt-2 font-sans text-[0.72rem] uppercase tracking-[0.2em] text-cognac-deep">{band.name}</p>
+      <p className="mt-2 font-sans text-label uppercase tracking-[0.2em] text-cognac-deep">{band.name}</p>
     </div>
   )
 }
@@ -377,10 +377,10 @@ function DimBar({ label, q, value, weight }: { label: string; q: string; value: 
   return (
     <div className="grid grid-cols-1 gap-2 sm:grid-cols-12 sm:items-center">
       <div className="sm:col-span-4">
-        <p className="font-sans text-[0.9rem] font-medium text-ink-80">
+        <p className="font-sans text-caption font-medium text-ink-80">
           {label} <span className="text-ink-45">· {weight} pts</span>
         </p>
-        <p className="font-sans text-[0.78rem] leading-snug text-ink-45">{q}</p>
+        <p className="font-sans text-label leading-snug text-ink-45">{q}</p>
       </div>
       <div className="sm:col-span-6">
         <div className="h-2.5 overflow-hidden rounded-full border border-line bg-canvas-2">
@@ -392,21 +392,21 @@ function DimBar({ label, q, value, weight }: { label: string; q: string; value: 
       </div>
       <div className="sm:col-span-2">
         <span className="font-display tabular-nums text-ink" style={{ fontSize: '1.15rem' }}>{value}</span>
-        <span className="font-sans text-[0.72rem] text-ink-45"> / 100</span>
+        <span className="font-sans text-label text-ink-45"> / 100</span>
       </div>
     </div>
   )
 }
 
 const toneCls: Record<NonNullable<Signal['tone']>, string> = {
-  ok: 'text-[color:var(--color-brass-deep)]',
+  ok: 'text-brass-deep',
   warn: 'text-cognac-deep',
-  bad: 'text-[#9d3b2f]',
+  bad: 'text-alert',
 }
 const toneDot: Record<NonNullable<Signal['tone']>, string> = {
   ok: 'var(--color-brass)',
   warn: 'var(--color-cognac)',
-  bad: '#9d3b2f',
+  bad: 'var(--color-alert)',
 }
 
 /* ------------------------------------------------------------------ */
@@ -420,24 +420,37 @@ function Report({ a }: { a: Agency }) {
       {/* header */}
       <div className="grid gap-8 md:grid-cols-12 md:items-center">
         <div className="md:col-span-7">
-          <p className="font-sans text-[0.72rem] uppercase tracking-[0.18em] text-brass-deep">{a.region}</p>
+          <Eyebrow>{a.region}</Eyebrow>
           <h2 className="mt-3 font-display text-ink" style={{ fontSize: 'clamp(1.7rem,3.2vw,2.5rem)', lineHeight: 1.08 }}>
             {a.verdict}
           </h2>
-          <p className="mt-4 max-w-xl font-sans text-[1.02rem] leading-relaxed text-ink-60">{a.sub}</p>
+          <p className="mt-4 max-w-xl font-sans text-body leading-relaxed text-ink-60">{a.sub}</p>
           <a
             href={`https://www.${a.domain}/`}
             target="_blank"
             rel="noopener noreferrer"
-            className="link-line mt-5 inline-block font-sans text-[0.9rem]"
+            className="link-line mt-5 inline-flex items-center gap-1.5 font-sans text-caption"
           >
-            {a.domain} ↗
+            {a.domain}
+            <svg
+              viewBox="0 0 12 12"
+              width="11"
+              height="11"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.4"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M3.5 8.5 8.5 3.5M4.5 3.5h4v4" />
+            </svg>
           </a>
         </div>
         <div className="md:col-span-5">
           <div className="rounded-2xl border border-line bg-paper p-6">
             <Gauge score={a.score} />
-            <p className="mt-3 text-center font-sans text-[0.85rem] leading-relaxed text-ink-60">{band.body}</p>
+            <p className="mt-3 text-center font-sans text-caption leading-relaxed text-ink-60">{band.body}</p>
           </div>
         </div>
       </div>
@@ -445,7 +458,7 @@ function Report({ a }: { a: Agency }) {
       {/* radar + dimension breakdown */}
       <div className="mt-12 grid gap-10 lg:grid-cols-12 lg:items-center">
         <div className="lg:col-span-5">
-          <p className="font-sans text-[0.7rem] uppercase tracking-[0.2em] text-brass-deep">The five dimensions</p>
+          <Eyebrow>The five dimensions</Eyebrow>
           <div className="mt-4 rounded-2xl border border-line bg-paper p-4">
             <Radar dims={a.dims} />
           </div>
@@ -461,16 +474,16 @@ function Report({ a }: { a: Agency }) {
 
       {/* findings */}
       <div className="mt-14">
-        <p className="font-sans text-[0.7rem] uppercase tracking-[0.2em] text-brass-deep">Three findings</p>
+        <Eyebrow>Three findings</Eyebrow>
         <div className="mt-5 grid gap-4 md:grid-cols-3">
           {a.findings.map((f, i) => (
             <div key={i} className="flex h-full flex-col rounded-2xl border border-line bg-paper p-6">
               <span className="font-display text-brass" style={{ fontSize: '1.5rem', lineHeight: 1 }}>{String(i + 1).padStart(2, '0')}</span>
               <h3 className="mt-3 font-display text-ink" style={{ fontSize: '1.15rem', lineHeight: 1.2 }}>{f.title}</h3>
-              <p className="mt-2 font-sans text-[0.92rem] leading-relaxed text-ink-60">{f.detail}</p>
+              <p className="mt-2 font-sans text-caption leading-relaxed text-ink-60">{f.detail}</p>
               <div className="mt-auto pt-4">
-                <p className="font-sans text-[0.62rem] uppercase tracking-[0.16em] text-cognac-deep">What it costs</p>
-                <p className="mt-1 font-sans text-[0.86rem] text-ink-80">{f.cost}</p>
+                <p className="font-sans text-label uppercase tracking-[0.16em] text-cognac-deep">What it costs</p>
+                <p className="mt-1 font-sans text-caption text-ink-80">{f.cost}</p>
               </div>
             </div>
           ))}
@@ -479,7 +492,7 @@ function Report({ a }: { a: Agency }) {
 
       {/* fixes */}
       <div className="mt-14">
-        <p className="font-sans text-[0.7rem] uppercase tracking-[0.2em] text-brass-deep">Possible fixes, in priority order</p>
+        <Eyebrow>Possible fixes, in priority order</Eyebrow>
         <div className="mt-5 overflow-hidden rounded-2xl border border-line">
           {a.fixes.map((fx, i) => (
             <div
@@ -492,13 +505,13 @@ function Report({ a }: { a: Agency }) {
               </div>
               <div className="sm:col-span-7">
                 <h3 className="font-display text-ink" style={{ fontSize: '1.12rem' }}>{fx.action}</h3>
-                <p className="mt-1 font-sans text-[0.9rem] leading-relaxed text-ink-60">{fx.detail}</p>
+                <p className="mt-1 font-sans text-caption leading-relaxed text-ink-60">{fx.detail}</p>
               </div>
               <div className="sm:col-span-4 flex gap-2 sm:justify-end">
-                <span className="rounded-full border border-line px-3 py-1 font-sans text-[0.72rem] text-ink-60">
+                <span className="rounded-full border border-line px-3 py-1 font-sans text-label text-ink-60">
                   Effort: <b className="font-semibold text-ink">{fx.effort}</b>
                 </span>
-                <span className="rounded-full border border-line px-3 py-1 font-sans text-[0.72rem] text-ink-60">
+                <span className="rounded-full border border-line px-3 py-1 font-sans text-label text-ink-60">
                   Impact: <b className="font-semibold text-cognac-deep">{fx.impact}</b>
                 </span>
               </div>
@@ -508,10 +521,10 @@ function Report({ a }: { a: Agency }) {
       </div>
 
       {/* measured signals + research */}
-      <div className="mt-14 grid gap-6 lg:grid-cols-12">
-        <div className="lg:col-span-6">
-          <p className="font-sans text-[0.7rem] uppercase tracking-[0.2em] text-brass-deep">Measured signals</p>
-          <div className="mt-5 overflow-hidden rounded-2xl border border-line bg-paper">
+      <div className="mt-14 grid items-stretch gap-6 lg:grid-cols-12">
+        <div className="flex flex-col lg:col-span-6">
+          <Eyebrow>Measured signals</Eyebrow>
+          <div className="mt-5 flex-1 overflow-hidden rounded-2xl border border-line bg-paper">
             {a.signals.map((s, i) => (
               <div
                 key={i}
@@ -520,17 +533,17 @@ function Report({ a }: { a: Agency }) {
               >
                 <span className="mt-1.5 h-2 w-2 shrink-0 rounded-full" style={{ background: toneDot[s.tone ?? 'ok'] }} />
                 <div className="flex-1">
-                  <p className="font-sans text-[0.78rem] uppercase tracking-[0.1em] text-ink-45">{s.k}</p>
-                  <p className={`font-sans text-[0.92rem] ${toneCls[s.tone ?? 'ok']}`}>{s.v}</p>
+                  <p className="font-sans text-label uppercase tracking-[0.1em] text-ink-45">{s.k}</p>
+                  <p className={`font-sans text-caption ${toneCls[s.tone ?? 'ok']}`}>{s.v}</p>
                 </div>
               </div>
             ))}
           </div>
         </div>
-        <div className="lg:col-span-6">
-          <p className="font-sans text-[0.7rem] uppercase tracking-[0.2em] text-brass-deep">Research &amp; method</p>
-          <div className="mt-5 h-[calc(100%-2.25rem)] rounded-2xl border border-line border-l-2 border-l-brass bg-paper p-6">
-            <p className="font-sans text-[0.95rem] leading-relaxed text-ink-60">{a.research}</p>
+        <div className="flex flex-col lg:col-span-6">
+          <Eyebrow>Research &amp; method</Eyebrow>
+          <div className="mt-5 flex-1 rounded-2xl border border-line border-l-2 border-l-brass bg-paper p-6">
+            <p className="font-sans text-body leading-relaxed text-ink-60">{a.research}</p>
           </div>
         </div>
       </div>
@@ -549,7 +562,7 @@ function Overview({ onPick }: { onPick: (slug: string) => void }) {
       ? 'linear-gradient(90deg, var(--color-brass), var(--color-brass-soft))'
       : s >= 41
         ? 'linear-gradient(90deg, var(--color-cognac-soft), var(--color-cognac))'
-        : 'linear-gradient(90deg, #c47a5f, #9d3b2f)'
+        : 'linear-gradient(90deg, var(--color-cognac-soft), var(--color-alert))'
   return (
     <div>
       <div className="grid gap-8 md:grid-cols-12 md:items-end">
@@ -557,7 +570,7 @@ function Overview({ onPick }: { onPick: (slug: string) => void }) {
           <h2 className="font-display text-ink" style={{ fontSize: 'clamp(1.7rem,3.2vw,2.4rem)' }}>
             Seven agencies, one measure.
           </h2>
-          <p className="mt-4 max-w-2xl font-sans text-[1.05rem] leading-relaxed text-ink-60">
+          <p className="mt-4 max-w-2xl font-sans text-body leading-relaxed text-ink-60">
             Every agency was scanned the same way on the same day and scored on the
             Rothenhall AI Visibility framework. The headline finding: none is blocked
             from AI, and none appears in the shortlist an assistant builds for
@@ -568,7 +581,7 @@ function Overview({ onPick }: { onPick: (slug: string) => void }) {
         <div className="md:col-span-4">
           <div className="rounded-2xl border border-line bg-paper p-6">
             <p className="font-display text-brass-deep" style={{ fontSize: '2.6rem', lineHeight: 1 }}>0 / 7</p>
-            <p className="mt-2 font-sans text-[0.9rem] leading-relaxed text-ink-60">
+            <p className="mt-2 font-sans text-caption leading-relaxed text-ink-60">
               named in the six Dublin agency lists AI assistants cite for that query.
             </p>
           </div>
@@ -589,7 +602,7 @@ function Overview({ onPick }: { onPick: (slug: string) => void }) {
               <span className="font-display text-brass tabular-nums" style={{ fontSize: '1.4rem' }}>{i + 1}</span>
               <span className="font-display text-ink" style={{ fontSize: '1.15rem' }}>
                 {a.name}
-                <span className="block font-sans text-[0.72rem] text-ink-45">{a.domain}</span>
+                <span className="block font-sans text-label text-ink-45">{a.domain}</span>
               </span>
               <span className="col-span-3 mt-2 sm:col-span-1 sm:mt-0">
                 <span className="block h-2 overflow-hidden rounded-full border border-line bg-canvas-2">
@@ -597,7 +610,7 @@ function Overview({ onPick }: { onPick: (slug: string) => void }) {
                 </span>
               </span>
               <span className="hidden text-right font-display tabular-nums text-ink sm:block" style={{ fontSize: '1.4rem' }}>{a.score}</span>
-              <span className="hidden text-right font-sans text-[0.68rem] uppercase tracking-[0.1em] text-ink-45 sm:block">{band.name}</span>
+              <span className="hidden text-right font-sans text-label uppercase tracking-[0.1em] text-ink-45 sm:block">{band.name}</span>
             </button>
           )
         })}
@@ -605,16 +618,16 @@ function Overview({ onPick }: { onPick: (slug: string) => void }) {
 
       {/* framework */}
       <div className="mt-16">
-        <p className="font-sans text-[0.7rem] uppercase tracking-[0.2em] text-brass-deep">The framework</p>
+        <Eyebrow>The framework</Eyebrow>
         <h3 className="mt-3 font-display text-ink" style={{ fontSize: '1.6rem' }}>Five weighted dimensions.</h3>
         <div className="mt-6 grid gap-px overflow-hidden rounded-2xl border border-line bg-line sm:grid-cols-2 lg:grid-cols-5">
           {AXES.map((d) => (
             <div key={d.key} className="bg-paper p-6">
               <p className="font-display text-brass" style={{ fontSize: '2rem', lineHeight: 1 }}>
-                {d.w}<span className="ml-1 font-sans text-[0.7rem] text-ink-45">pts</span>
+                {d.w}<span className="ml-1 font-sans text-label text-ink-45">pts</span>
               </p>
-              <h4 className="mt-3 font-sans text-[0.95rem] font-semibold text-ink">{d.label}</h4>
-              <p className="mt-2 font-sans text-[0.85rem] leading-relaxed text-ink-60">{d.q}</p>
+              <h4 className="mt-3 font-sans text-body font-semibold text-ink">{d.label}</h4>
+              <p className="mt-2 font-sans text-caption leading-relaxed text-ink-60">{d.q}</p>
             </div>
           ))}
         </div>
@@ -622,11 +635,11 @@ function Overview({ onPick }: { onPick: (slug: string) => void }) {
           {BANDS.slice().reverse().map((b) => (
             <div key={b.name} className="rounded-xl border border-line bg-paper p-5">
               <p className="font-display text-ink" style={{ fontSize: '1.15rem' }}>{b.name}</p>
-              <p className="mt-1 font-sans text-[0.82rem] leading-relaxed text-ink-60">{b.body}</p>
+              <p className="mt-1 font-sans text-caption leading-relaxed text-ink-60">{b.body}</p>
             </div>
           ))}
         </div>
-        <p className="mt-8 max-w-3xl font-sans text-[0.85rem] leading-relaxed text-ink-45">
+        <p className="mt-8 max-w-3xl font-sans text-caption leading-relaxed text-ink-45">
           Machine access, entity clarity, on-page extractability and heading hygiene
           are measured directly from each homepage and robots.txt on 14 September 2026.
           Shortlist presence and authority are assessed from the directory and press
@@ -656,11 +669,11 @@ function Diagnostics() {
       {/* Hero */}
       <section className="border-b border-line bg-night text-canvas">
         <Container className="pt-20 pb-16 sm:pt-24 sm:pb-20">
-          <Eyebrow className="text-brass-soft">Rothenhall × Napkin · Competitive diagnostic</Eyebrow>
+          <Eyebrow className="eyebrow-light">Rothenhall × Napkin · Competitive diagnostic</Eyebrow>
           <h1 className="mt-8 font-display text-canvas" style={{ fontSize: 'clamp(2.2rem,5vw,3.8rem)', fontWeight: 300, lineHeight: 1.02, letterSpacing: '-0.02em', maxWidth: '20ch' }}>
             Where seven creative agencies stand in the answer.
           </h1>
-          <p className="mt-6 max-w-2xl font-sans text-[1.08rem] leading-relaxed" style={{ color: '#d8cfbd' }}>
+          <p className="mt-6 max-w-2xl font-sans text-body-lg leading-relaxed text-canvas/75">
             A comprehensive AI-visibility diagnostic, one score and five sub-scores per
             agency, on the Rothenhall framework. Switch between agencies to see each
             radar, its findings, the prioritised fixes, and the research behind the
@@ -679,9 +692,12 @@ function Diagnostics() {
                 <button
                   key={t.slug}
                   role="tab"
+                  id={`tab-${t.slug}`}
+                  aria-controls={`panel-${t.slug}`}
                   aria-selected={on}
+                  tabIndex={on ? 0 : -1}
                   onClick={() => setActive(t.slug)}
-                  className={`shrink-0 rounded-full px-4 py-2 font-sans text-[0.85rem] transition-colors ${
+                  className={`shrink-0 rounded-full px-4 py-2 font-sans text-caption transition-colors ${
                     on ? 'bg-ink text-canvas' : 'text-ink-60 hover:bg-canvas-2 hover:text-ink'
                   }`}
                 >
@@ -696,7 +712,14 @@ function Diagnostics() {
       {/* Panel */}
       <section>
         <Container className="py-16 sm:py-20">
-          {current ? <Report a={current} /> : <Overview onPick={setActive} />}
+          <div
+            role="tabpanel"
+            id={`panel-${active}`}
+            aria-labelledby={`tab-${active}`}
+            tabIndex={0}
+          >
+            {current ? <Report a={current} /> : <Overview onPick={setActive} />}
+          </div>
         </Container>
       </section>
 
@@ -706,7 +729,7 @@ function Diagnostics() {
           <h2 className="mx-auto font-display text-canvas" style={{ fontSize: 'clamp(1.8rem,3.6vw,2.6rem)', fontWeight: 300, maxWidth: '22ch' }}>
             Great work is not the gap. Being readable is.
           </h2>
-          <p className="mx-auto mt-5 max-w-xl font-sans text-[1.02rem] leading-relaxed" style={{ color: '#d8cfbd' }}>
+          <p className="mx-auto mt-5 max-w-xl font-sans text-body leading-relaxed text-canvas/75">
             Every engagement opens with a diagnostic like this one: the score, the five
             sub-scores, and the specific, reproducible reasons behind each. The findings
             are yours to keep.

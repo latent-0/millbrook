@@ -89,7 +89,7 @@ function BlogPost() {
           }
         })
       },
-      { threshold: 0.12, rootMargin: '0px 0px -8% 0px' },
+      { threshold: 0, rootMargin: '0px 0px -8% 0px' },
     )
 
     const vh = window.innerHeight || 800
@@ -100,7 +100,20 @@ function BlogPost() {
       el.classList.add('reveal-blur')
       io.observe(el)
     })
-    return () => io.disconnect()
+
+    // Safety net: with threshold 0 a block still hidden a second after mount is
+    // one the observer can never reach, so force it visible rather than risk
+    // stranding content invisible.
+    const t = window.setTimeout(() => {
+      root
+        .querySelectorAll('.reveal-blur:not(.is-in)')
+        .forEach((el) => el.classList.add('is-in'))
+    }, 1000)
+
+    return () => {
+      window.clearTimeout(t)
+      io.disconnect()
+    }
   }, [post.slug])
 
   return (
@@ -111,29 +124,23 @@ function BlogPost() {
           <Container width="default" className="pt-14 pb-12 sm:pt-20 sm:pb-14">
             <Link
               to="/blogs"
-              className="font-sans text-[0.82rem] text-ink-45 transition-colors hover:text-cognac-deep"
+              className="font-sans text-caption text-ink-45 transition-colors hover:text-cognac-deep"
             >
               ← The Journal
             </Link>
             <div className="mt-8 flex flex-wrap items-center gap-2.5">
-              <span
-                className="inline-flex items-center rounded-full border border-line-strong px-3 py-1 font-sans text-ink-80"
-                style={{ fontSize: '0.62rem', letterSpacing: '0.16em', textTransform: 'uppercase' }}
-              >
+              <span className="inline-flex items-center rounded-full border border-line-strong px-3 py-1 font-sans text-label uppercase tracking-eyebrow text-ink-80">
                 {post.category || 'Field note'}
               </span>
             </div>
-            <h1
-              className="mt-6 max-w-4xl font-display"
-              style={{ fontSize: 'clamp(2.2rem, 4.6vw, 4rem)', fontWeight: 500, letterSpacing: '-0.025em', lineHeight: 1.04 }}
-            >
+            <h1 className="text-display-lg mt-6 max-w-4xl">
               {post.title}
             </h1>
-            <p className="mt-6 max-w-2xl font-sans text-[1.2rem] leading-relaxed text-ink-60">
+            <p className="mt-6 max-w-2xl font-sans text-body-lg leading-relaxed text-ink-60">
               {post.excerpt}
             </p>
             {(post.author?.name || rest.length > 0) && (
-              <p className="mt-8 font-sans text-[0.85rem] tracking-wide text-ink-45">
+              <p className="mt-8 font-sans text-caption tracking-wide text-ink-45">
                 {post.author?.name && (
                   <span>
                     By{' '}
@@ -142,12 +149,12 @@ function BlogPost() {
                         href={authorUrl}
                         rel={authorExternal ? 'author noopener noreferrer' : 'author'}
                         target={authorExternal ? '_blank' : undefined}
-                        className="text-ink-70 underline decoration-line-strong underline-offset-2 transition-colors hover:text-cognac-deep hover:decoration-cognac"
+                        className="text-ink-80 underline decoration-line-strong underline-offset-2 transition-colors hover:text-cognac-deep hover:decoration-cognac"
                       >
                         {post.author.name}
                       </a>
                     ) : (
-                      <span className="text-ink-70">{post.author.name}</span>
+                      <span className="text-ink-80">{post.author.name}</span>
                     )}
                     {rest.length > 0 && '  ·  '}
                   </span>
@@ -169,10 +176,10 @@ function BlogPost() {
               />
               <div
                 className="pointer-events-none absolute inset-0"
-                style={{ background: 'linear-gradient(180deg, rgba(20,18,13,0) 55%, rgba(20,18,13,0.32))' }}
+                style={{ background: 'linear-gradient(180deg, color-mix(in oklab, var(--color-night) 0%, transparent) 55%, color-mix(in oklab, var(--color-night) 32%, transparent))' }}
               />
               {post.coverImage.caption && (
-                <figcaption className="absolute bottom-5 left-6 right-6 font-sans text-[0.82rem] text-canvas/85">
+                <figcaption className="absolute bottom-5 left-6 right-6 font-sans text-caption text-canvas/85">
                   {post.coverImage.caption}
                 </figcaption>
               )}
@@ -194,7 +201,7 @@ function BlogPost() {
               {post.tags.map((t) => (
                 <span
                   key={t}
-                  className="inline-flex items-center rounded-full bg-canvas-2 px-3.5 py-1.5 font-sans text-[0.78rem] text-ink-60"
+                  className="inline-flex items-center rounded-full bg-canvas-2 px-3.5 py-1.5 font-sans text-label text-ink-60"
                 >
                   #{t}
                 </span>
@@ -211,7 +218,7 @@ function BlogPost() {
           <h2 className="text-display-md mx-auto mt-6 max-w-2xl">
             Be the company the AI recommends.
           </h2>
-          <p className="mx-auto mt-5 max-w-lg font-sans text-[1.05rem] leading-relaxed text-ink-60">
+          <p className="mx-auto mt-5 max-w-lg font-sans text-body leading-relaxed text-ink-60">
             We own AEO, GTM, and RevOps as one accountable engine. See what that
             looks like for your company.
           </p>

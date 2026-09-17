@@ -29,18 +29,12 @@ export function Container({
 
 export function Eyebrow({
   children,
-  line = true,
   className = '',
 }: {
   children: ReactNode
-  line?: boolean
   className?: string
 }) {
-  return (
-    <p className={`eyebrow ${line ? 'eyebrow-line' : ''} ${className}`}>
-      {children}
-    </p>
-  )
+  return <p className={`eyebrow ${className}`}>{children}</p>
 }
 
 /* Fades child in on first scroll into view. Text is always in the DOM. */
@@ -77,7 +71,7 @@ export function Reveal({
           }
         })
       },
-      { threshold: 0.12, rootMargin: '0px 0px -8% 0px' },
+      { threshold: 0, rootMargin: '0px 0px -8% 0px' },
     )
     io.observe(el)
     return () => io.disconnect()
@@ -109,6 +103,8 @@ export function Wordmark({
     <img
       src="/brand/wordmark.png"
       alt="Rothenhall Partners"
+      width={1029}
+      height={180}
       className={`block w-auto ${className}`}
       style={{
         height: '1.7rem',
@@ -132,6 +128,31 @@ const NAV = [
   { to: '/about', label: 'About' },
 ] as const
 
+/* Footer groups. Three short labelled columns rather than one long list, and
+   no route appears twice. Every file in src/routes stays reachable here. */
+const FOOTER_LINKS = {
+  product: [
+    { to: '/cailyx', label: 'Cailyx' },
+    { to: '/ai-visibility-score', label: 'AI Visibility Score' },
+    { to: '/pricing', label: 'Pricing' },
+    { to: '/research', label: 'Research' },
+    { to: '/case-studies', label: 'Case Studies' },
+  ],
+  firm: [
+    { to: '/about', label: 'About' },
+    { to: '/community', label: 'Founders Circle' },
+    { to: '/careers', label: 'Careers' },
+    { to: '/scouts', label: 'Campus Scouts' },
+    { to: '/contact', label: 'Contact' },
+  ],
+  learn: [
+    { to: '/blogs', label: 'Journal' },
+    { to: '/faq', label: 'FAQ' },
+    { to: '/aeo-vs-seo', label: 'AEO vs SEO' },
+    { to: '/how-to-show-up-in-chatgpt', label: 'Show up in ChatGPT' },
+  ],
+} as const
+
 export function Header() {
   const [open, setOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
@@ -146,51 +167,71 @@ export function Header() {
 
   // Light nav (over a dark hero), only at the top of the home page.
   const light = pathname === '/' && !scrolled && !open
+  // The bar must go opaque as soon as the copy turns dark, which includes the
+  // menu-open state. Reacting to `scrolled` alone left dark bars on the dark
+  // home hero whenever the menu was open at the top of the page.
+  const solid = scrolled || open
   const barBg = light ? 'bg-canvas' : 'bg-ink'
 
   return (
     <header
       className={`sticky top-0 z-50 transition-colors duration-300 ${
-        scrolled
+        solid
           ? 'bg-canvas/85 backdrop-blur-md border-b border-line'
           : 'bg-transparent border-b border-transparent'
       }`}
     >
       <Container width="wide">
-        <div className="flex h-[4.75rem] items-center justify-between">
+        <div className="flex h-[4.75rem] items-center justify-between gap-6">
           <Link to="/" aria-label="Rothenhall Partners, home" onClick={() => setOpen(false)}>
             <Wordmark tone={light ? 'light' : 'ink'} />
           </Link>
 
-          <nav className="hidden items-center gap-9 md:flex">
+          {/* Turns on at lg, not md. At 768px the seven labels, the gaps and
+              the CTA need roughly 980px of the 704px available, and flex
+              items will not shrink below their own text. */}
+          <nav className="hidden items-center gap-7 lg:flex">
             {NAV.map((item) => (
               <Link
                 key={item.to}
                 to={item.to}
-                className={`font-sans text-[0.82rem] tracking-wide transition-colors ${
+                activeProps={{ 'aria-current': 'page' }}
+                activeOptions={{ exact: false }}
+                className={`relative font-sans text-label tracking-wide transition-colors ${
                   light
                     ? 'text-canvas/80 hover:text-canvas'
                     : 'text-ink-80 hover:text-ink'
                 }`}
-                activeProps={{ className: light ? 'text-canvas' : 'text-ink' }}
-                activeOptions={{ exact: false }}
               >
-                {item.label}
+                {({ isActive }) => (
+                  <>
+                    {item.label}
+                    {/* Active is a mark, not an opacity delta: activeProps
+                        merges its class with the base one, so a colour swap
+                        alone could be cancelled out by stylesheet order. */}
+                    <span
+                      aria-hidden
+                      className={`absolute -bottom-2 left-0 h-px w-full origin-left bg-brass transition-transform duration-300 ${
+                        isActive ? 'scale-x-100' : 'scale-x-0'
+                      }`}
+                    />
+                  </>
+                )}
               </Link>
             ))}
             <Link
               to="/contact"
-              className={`btn !px-5 !py-2.5 text-[0.82rem] ${
+              className={`btn !px-5 !py-2.5 text-label ${
                 light ? 'btn-light' : 'btn-primary'
               }`}
             >
-              Start a conversation
+              Talk to us
             </Link>
           </nav>
 
           <button
             type="button"
-            className="flex h-10 w-10 items-center justify-center md:hidden"
+            className="flex h-10 w-10 items-center justify-center lg:hidden"
             aria-label="Toggle menu"
             aria-expanded={open}
             onClick={() => setOpen((v) => !v)}
@@ -216,35 +257,38 @@ export function Header() {
         </div>
       </Container>
 
-      {/* Mobile menu */}
+      {/* Mobile menu. A 0fr to 1fr grid row animates to intrinsic height, so
+          the panel can never clip the list the way a fixed max-height did. */}
       <div
-        className={`overflow-hidden border-t border-line bg-canvas md:hidden transition-[max-height] duration-400 ease-out ${
-          open ? 'max-h-96' : 'max-h-0 border-transparent'
+        className={`grid bg-canvas transition-[grid-template-rows] duration-400 ease-out lg:hidden ${
+          open ? 'grid-rows-[1fr] border-t border-line' : 'grid-rows-[0fr] border-t border-transparent'
         }`}
       >
-        <Container>
-          <nav className="flex flex-col py-4">
-            {NAV.map((item) => (
+        <div className="overflow-hidden">
+          <Container>
+            <nav className="flex flex-col py-4">
+              {NAV.map((item) => (
+                <Link
+                  key={item.to}
+                  to={item.to}
+                  onClick={() => setOpen(false)}
+                  className="font-display text-2xl py-3 text-ink-80"
+                  activeProps={{ className: 'text-ink', 'aria-current': 'page' }}
+                  activeOptions={{ exact: false }}
+                >
+                  {item.label}
+                </Link>
+              ))}
               <Link
-                key={item.to}
-                to={item.to}
+                to="/contact"
                 onClick={() => setOpen(false)}
-                className="font-display text-2xl py-3 text-ink-80"
-                activeProps={{ className: 'text-ink' }}
-                activeOptions={{ exact: false }}
+                className="btn btn-primary mt-4 w-full"
               >
-                {item.label}
+                Talk to us
               </Link>
-            ))}
-            <Link
-              to="/contact"
-              onClick={() => setOpen(false)}
-              className="btn btn-primary mt-4 w-full"
-            >
-              Start a conversation
-            </Link>
-          </nav>
-        </Container>
+            </nav>
+          </Container>
+        </div>
       </div>
     </header>
   )
@@ -266,8 +310,8 @@ export function Footer() {
         style={{ filter: 'brightness(0) invert(1)', opacity: 0.05 }}
       />
       <Container width="wide" className="relative py-16 sm:py-20">
-        <div className="grid gap-12 md:grid-cols-[1.5fr_1fr_1fr]">
-          <div>
+        <div className="grid gap-12 sm:grid-cols-2 lg:grid-cols-[1.6fr_1fr_1fr_1fr_1.25fr]">
+          <div className="sm:col-span-2 lg:col-span-1">
             <img
               src="/brand/griffin.png"
               alt=""
@@ -276,7 +320,7 @@ export function Footer() {
               style={{ filter: 'brightness(0) invert(1)', opacity: 0.92 }}
             />
             <Wordmark tone="light" />
-            <p className="mt-5 max-w-sm font-sans text-[0.95rem] leading-relaxed text-canvas/60">
+            <p className="mt-5 max-w-sm font-sans text-caption leading-relaxed text-canvas/60">
               The fractional operating partner for AI-era growth. AI visibility,
               go-to-market, and revenue operations, owned as one accountable
               engine.
@@ -284,61 +328,47 @@ export function Footer() {
           </div>
 
           <div>
-            <p className="eyebrow text-brass-soft">Navigate</p>
-            <ul className="mt-5 space-y-3 font-sans text-[0.95rem] text-canvas/70">
-              {NAV.map((item) => (
+            <p className="eyebrow eyebrow-light">Product</p>
+            <ul className="mt-5 space-y-3 font-sans text-caption text-canvas/70">
+              {FOOTER_LINKS.product.map((item) => (
                 <li key={item.to}>
-                  <Link to={item.to} className="link-line" activeOptions={{ exact: false }}>
+                  <Link to={item.to} className="link-line">
                     {item.label}
                   </Link>
                 </li>
               ))}
-              <li>
-                <Link to="/community" className="link-line">
-                  Founders Circle
-                </Link>
-              </li>
-              <li>
-                <Link to="/scouts" className="link-line">
-                  Campus Scouts
-                </Link>
-              </li>
-              <li>
-                <Link to="/faq" className="link-line">
-                  FAQ
-                </Link>
-              </li>
-              <li>
-                <Link to="/aeo-vs-seo" className="link-line">
-                  AEO vs SEO
-                </Link>
-              </li>
-              <li>
-                <Link to="/how-to-show-up-in-chatgpt" className="link-line">
-                  Show up in ChatGPT
-                </Link>
-              </li>
-              <li>
-                <Link to="/ai-visibility-score" className="link-line">
-                  AI Visibility Score
-                </Link>
-              </li>
-              <li>
-                <Link to="/pricing" className="link-line">
-                  Pricing
-                </Link>
-              </li>
-              <li>
-                <Link to="/contact" className="link-line">
-                  Contact
-                </Link>
-              </li>
             </ul>
           </div>
 
           <div>
-            <p className="eyebrow text-brass-soft">Enquiries</p>
-            <ul className="mt-5 space-y-3 font-sans text-[0.95rem] text-canvas/70">
+            <p className="eyebrow eyebrow-light">Firm</p>
+            <ul className="mt-5 space-y-3 font-sans text-caption text-canvas/70">
+              {FOOTER_LINKS.firm.map((item) => (
+                <li key={item.to}>
+                  <Link to={item.to} className="link-line">
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
+            <p className="eyebrow eyebrow-light">Learn</p>
+            <ul className="mt-5 space-y-3 font-sans text-caption text-canvas/70">
+              {FOOTER_LINKS.learn.map((item) => (
+                <li key={item.to}>
+                  <Link to={item.to} className="link-line">
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
+            <p className="eyebrow eyebrow-light">Enquiries</p>
+            <ul className="mt-5 space-y-3 font-sans text-caption text-canvas/70">
               <li>
                 <a href="mailto:office@rothenhall.com" className="link-line">
                   office@rothenhall.com
@@ -361,8 +391,8 @@ export function Footer() {
               </li>
             </ul>
             <div className="mt-4 space-y-3">
-              <address className="font-sans text-[0.9rem] not-italic leading-relaxed text-canvas/50">
-                <span className="block text-[0.72rem] uppercase tracking-[0.14em] text-canvas/40">
+              <address className="font-sans text-caption not-italic leading-relaxed text-canvas/50">
+                <span className="block text-label uppercase tracking-[0.14em] text-canvas/40">
                   India
                 </span>
                 2nd Floor, HAL 2nd Stage
@@ -371,8 +401,8 @@ export function Footer() {
                 <br />
                 Karnataka, India
               </address>
-              <address className="font-sans text-[0.9rem] not-italic leading-relaxed text-canvas/50">
-                <span className="block text-[0.72rem] uppercase tracking-[0.14em] text-canvas/40">
+              <address className="font-sans text-caption not-italic leading-relaxed text-canvas/50">
+                <span className="block text-label uppercase tracking-[0.14em] text-canvas/40">
                   United Kingdom
                 </span>
                 Office 657, 18 Young St, Unit LGE
@@ -382,15 +412,20 @@ export function Footer() {
                 Scotland
               </address>
             </div>
-            <Link to="/contact" className="btn btn-light mt-6 !py-2.5 !px-5 text-[0.82rem]">
+            <Link to="/contact" className="btn btn-light mt-6 !py-2.5 !px-5 text-label">
               Start a conversation
             </Link>
           </div>
         </div>
 
         <hr className="mt-14 border-0 border-t border-night-line" />
-        <div className="mt-6 flex flex-col justify-between gap-3 font-sans text-[0.78rem] text-canvas/45 sm:flex-row">
-          <p>© {new Date().getFullYear()} Rothenhall Partners. All rights reserved.</p>
+        <div className="mt-6 flex flex-col justify-between gap-3 font-sans text-label text-canvas/45 sm:flex-row">
+          <p className="flex flex-wrap items-center gap-x-4 gap-y-2">
+            <span>© {new Date().getFullYear()} Rothenhall Partners. All rights reserved.</span>
+            <Link to="/terms" className="link-line text-canvas/60 hover:text-canvas">
+              Terms
+            </Link>
+          </p>
           <p className="tracking-wide">AEO · GEO · GTM · RevOps · Growth Operating</p>
         </div>
       </Container>

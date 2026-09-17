@@ -65,7 +65,7 @@ function AeoVsSeo() {
           </Reveal>
           <Reveal delay={100}>
             <div className="mt-8 rounded-2xl border border-line bg-paper p-6 sm:p-7">
-              <p className="eyebrow" style={{ letterSpacing: '0.16em' }}>
+              <p className="eyebrow">
                 Short answer
               </p>
               <p className="mt-3 font-display text-ink" style={{ fontSize: 'clamp(1.15rem,1.8vw,1.5rem)', lineHeight: 1.4 }}>
@@ -89,7 +89,7 @@ function AeoVsSeo() {
                   The difference at a glance
                 </h2>
                 <div className="mt-6 overflow-x-auto rounded-xl border border-line">
-                  <table className="w-full border-collapse text-left font-sans text-[0.95rem]">
+                  <table className="w-full border-collapse text-left font-sans text-body">
                     <thead>
                       <tr className="bg-canvas-2">
                         <th className="p-4 font-medium text-ink-45"></th>
@@ -157,7 +157,7 @@ function AeoVsSeo() {
       <section className="bg-night text-canvas">
         <Container width="narrow" className="py-16 sm:py-20 text-center">
           <Reveal>
-            <p className="eyebrow" style={{ color: 'var(--color-brass-soft)', letterSpacing: '0.2em' }}>
+            <p className="eyebrow eyebrow-light">
               One accountable owner
             </p>
             <h2 className="text-display-md mt-5 text-canvas" style={{ fontSize: 'clamp(1.6rem,3vw,2.4rem)' }}>
@@ -184,7 +184,7 @@ function GuideBlock({ title, children }: { title: string; children: React.ReactN
         <h2 className="text-display-md" style={{ fontSize: 'clamp(1.4rem,2.2vw,1.9rem)' }}>
           {title}
         </h2>
-        <p className="mt-4 font-sans text-[1.05rem] leading-relaxed text-ink-60">
+        <p className="mt-4 font-sans text-body leading-relaxed text-ink-60">
           {children}
         </p>
       </div>
