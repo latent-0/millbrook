@@ -124,7 +124,6 @@ const NAV = [
   { to: '/blogs', label: 'Journal' },
   { to: '/research', label: 'Research' },
   { to: '/case-studies', label: 'Case Studies' },
-  { to: '/careers', label: 'Careers' },
   { to: '/about', label: 'About' },
 ] as const
 
