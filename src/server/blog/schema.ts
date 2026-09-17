@@ -16,6 +16,27 @@ const imageAsset = z.object({
   caption: z.string().max(300).optional(),
 })
 
+/* Covers are shown cropped-to-fill in the Journal bento and on the article hero
+   (a 16:10 base, widening to 21:9 on large screens), so any landscape source
+   already fills with no letterboxing. The point of this check is quality, not an
+   exact ratio: reject square / portrait / ultra-wide covers that would crop badly,
+   and steer posters toward 16:10. Enforced only when width + height are both
+   provided, so an omitted-dimension payload is still accepted. */
+const MIN_COVER_RATIO = 1.3 // just under 4:3, so common landscape crops pass
+const MAX_COVER_RATIO = 2.4 // a touch wider than 21:9
+
+const coverImageAsset = imageAsset.superRefine((img, ctx) => {
+  if (img.width == null || img.height == null) return
+  const ratio = img.width / img.height
+  if (ratio < MIN_COVER_RATIO || ratio > MAX_COVER_RATIO) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      path: ['width'],
+      message: `coverImage should be landscape (aim for 16:10, e.g. 1600×1000). Got ${img.width}×${img.height} (${ratio.toFixed(2)}:1).`,
+    })
+  }
+})
+
 const authorSchema = z.object({
   name: z.string().min(1).max(100),
   title: z.string().max(100).optional(),
@@ -58,7 +79,7 @@ export const createBlogSchema = z
       .optional(),
     markdown: z.string().min(200).max(60_000),
     excerpt: z.string().min(40).max(600),
-    coverImage: imageAsset,
+    coverImage: coverImageAsset,
     ogImage: imageAsset,
     metaDescription: z.string().min(50).max(400),
     seoTitle: z.string().min(10).max(200).optional(),

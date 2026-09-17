@@ -60,7 +60,7 @@ curl -X POST https://www.rothenhall.com/api/v1/blog/upload \
     "markdown": "# How to show up in ChatGPT answers\n\nIntro...\n\n## Why AEO is different\n\n...",
     "excerpt": "AI answer engines cite a small set of sources. Here are the levers that get you named.",
     "metaDescription": "A practical guide to AEO for B2B SaaS: entity clarity, off-site corpus, answer-shaped pages.",
-    "coverImage": { "url": "https://cdn.example.com/card-800x600.webp", "alt": "Diagram of the three AEO levers" },
+    "coverImage": { "url": "https://cdn.example.com/cover-1600x1000.webp", "alt": "Diagram of the three AEO levers", "width": 1600, "height": 1000 },
     "ogImage":    { "url": "https://cdn.example.com/og-1200x630.webp", "alt": "AEO for B2B SaaS, social card" },
     "author": {
       "name": "Kunal Achintya Reddy",
@@ -251,7 +251,11 @@ curl -X PATCH https://www.rothenhall.com/api/v1/blog/BLOG_ID/author \
 
 ## 5. Image + JSON-LD notes
 
-- **coverImage** = the card image on `/blogs` (aim 800x600, WebP, < 75KB).
+- **coverImage** = the card image on `/blogs` and the article hero. Aim for
+  **16:10 (e.g. 1600x1000)**, WebP, < 100KB. Tiles crop to fill (`object-cover`),
+  so any landscape source displays cleanly. If you send `width` + `height`, the
+  API rejects a non-landscape cover (ratio must sit between ~4:3 and 21:9) with
+  a 400; omit the dimensions and it is accepted unchecked.
 - **ogImage** = the social/share card (1200x630, < 300KB). If you only have one
   image, send the same URL in both.
 - **alt** is required on both (5-250 chars), and should differ.

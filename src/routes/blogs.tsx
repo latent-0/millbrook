@@ -32,14 +32,16 @@ function fmtDate(iso: string | null): string {
   }
 }
 
-/* Bento rhythm: tiles tile into 6-wide rows (4+2 / 2+2+2 / 3+3), repeating.
-   grid-flow-dense backfills any gaps so the wall always looks intentional. */
+/* Refined bento: every lg row of six columns tiles perfectly and every sm row
+   of two columns tiles perfectly, so there are never stranded gaps. One card is
+   the feature (wide + tall), the rest support it. grid-flow-dense is a safety
+   net for the final partial row. */
 const LAYOUT: Array<{ span: string; variant: 'feature' | 'wide' | 'small' }> = [
   { span: 'sm:col-span-2 lg:col-span-4', variant: 'feature' },
+  { span: 'sm:col-span-2 lg:col-span-2', variant: 'wide' },
   { span: 'sm:col-span-1 lg:col-span-2', variant: 'small' },
   { span: 'sm:col-span-1 lg:col-span-2', variant: 'small' },
-  { span: 'sm:col-span-2 lg:col-span-2', variant: 'small' },
-  { span: 'sm:col-span-1 lg:col-span-2', variant: 'small' },
+  { span: 'sm:col-span-2 lg:col-span-2', variant: 'wide' },
   { span: 'sm:col-span-2 lg:col-span-3', variant: 'wide' },
   { span: 'sm:col-span-2 lg:col-span-3', variant: 'wide' },
 ]
@@ -59,7 +61,7 @@ function Meta({ post }: { post: PublicBlogCard }) {
 
 function CategoryTag({ label }: { label: string }) {
   return (
-    <span className="inline-flex items-center rounded-full border border-line-strong bg-canvas/60 px-3 py-1 font-sans text-label uppercase tracking-eyebrow text-ink-80 backdrop-blur">
+    <span className="inline-flex items-center rounded-full border border-line-strong bg-paper/90 px-3 py-1 font-sans text-label uppercase tracking-eyebrow text-ink-80 shadow-sm backdrop-blur-sm">
       {label}
     </span>
   )
@@ -74,61 +76,76 @@ function BentoTile({
   span: string
   variant: 'feature' | 'wide' | 'small'
 }) {
+  const isFeature = variant === 'feature'
+  const isSmall = variant === 'small'
+  const pad = isFeature ? 'p-7 lg:p-8' : 'p-6'
   const minH =
     variant === 'feature'
-      ? 'min-h-[16rem]'
+      ? 'min-h-[15rem] lg:min-h-[20rem]'
       : variant === 'wide'
         ? 'min-h-[11rem]'
         : 'min-h-[9rem]'
-  const titleSize =
-    variant === 'feature' ? '2rem' : variant === 'wide' ? '1.45rem' : '1.25rem'
-  const showExcerpt = variant !== 'small'
+  const titleSize = isFeature
+    ? 'clamp(1.5rem, 2.1vw, 2rem)'
+    : variant === 'wide'
+      ? '1.35rem'
+      : '1.15rem'
 
   return (
     <Link
       to="/blog/$slug"
       params={{ slug: post.slug }}
-      className={`group convex-light flex h-full flex-col overflow-hidden rounded-[1.6rem] ${span}`}
+      className={`group flex h-full flex-col overflow-hidden rounded-[1.5rem] border border-line bg-paper transition-[transform,border-color,box-shadow] duration-300 ease-out hover:-translate-y-1 hover:border-line-strong hover:shadow-[0_34px_64px_-44px_rgba(26,23,18,0.5)] ${span}`}
     >
-      <div className={`relative ${minH} flex-1 overflow-hidden bg-canvas-2`}>
+      {/* Cover fills the frame (object-cover) and flex-grows to absorb any slack
+          so there is never empty space between image and copy. */}
+      <div className={`relative w-full flex-1 overflow-hidden bg-canvas-2 ${minH}`}>
         {post.coverImageUrl ? (
           <img
             src={post.coverImageUrl}
             alt={post.title}
-            width={1200}
-            height={800}
+            width={1600}
+            height={1000}
             decoding="async"
-            loading={variant === 'feature' ? 'eager' : 'lazy'}
-            className="absolute inset-0 h-full w-full object-contain p-2 transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+            loading={isFeature ? 'eager' : 'lazy'}
+            className="absolute inset-0 h-full w-full object-cover transition-transform duration-[900ms] ease-out group-hover:scale-[1.06]"
           />
         ) : (
-          <div aria-hidden className="absolute inset-0 flex items-center justify-center bg-canvas-2">
-            <span className="block h-px w-16 bg-brass/40" />
-          </div>
+          <div
+            aria-hidden
+            className="absolute inset-0"
+            style={{
+              backgroundImage:
+                'radial-gradient(120% 120% at 15% 0%, rgba(168,92,48,0.16), transparent 55%), radial-gradient(120% 120% at 100% 100%, rgba(184,146,64,0.18), transparent 50%)',
+            }}
+          />
         )}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-x-0 top-0 h-20 bg-gradient-to-b from-black/25 to-transparent"
+        />
         <div className="absolute left-4 top-4">
           <CategoryTag label={post.category || 'Field note'} />
         </div>
       </div>
-      <div className={`flex flex-col ${variant === 'feature' ? 'p-8' : 'p-6'}`}>
+
+      <div className={`flex flex-col ${pad}`}>
         <h2
-          className="font-display text-ink"
-          style={{ fontSize: titleSize, fontWeight: 500, lineHeight: 1.1, letterSpacing: '-0.015em' }}
+          className="font-display text-ink line-clamp-3"
+          style={{ fontSize: titleSize, fontWeight: 500, lineHeight: 1.12, letterSpacing: '-0.015em' }}
         >
           {post.title}
         </h2>
-        {showExcerpt && (
-          <p className="mt-3 font-sans text-body leading-relaxed text-ink-60">
-            {post.excerpt.length > (variant === 'feature' ? 200 : 120)
-              ? `${post.excerpt.slice(0, variant === 'feature' ? 200 : 120).trim()}…`
-              : post.excerpt}
+        {!isSmall && (
+          <p className="mt-3 font-sans text-body leading-relaxed text-ink-60 line-clamp-2">
+            {post.excerpt}
           </p>
         )}
-        <div className="mt-5 flex items-center justify-between gap-3">
+        <div className="mt-5 flex items-center justify-between gap-3 border-t border-line/80 pt-4">
           <Meta post={post} />
           <span
             aria-hidden
-            className="font-sans text-caption text-cognac-deep opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+            className="inline-flex shrink-0 items-center gap-1 font-sans text-caption text-cognac-deep opacity-70 transition-all duration-300 group-hover:translate-x-0.5 group-hover:opacity-100"
           >
             Read →
           </span>
@@ -168,15 +185,21 @@ function BlogIndexPending() {
       </section>
       <section>
         <Container width="wide" className="py-14 sm:py-20">
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-6">
-            {Array.from({ length: 6 }).map((_, i) => (
-              <div
-                key={i}
-                className={`min-h-[9rem] animate-pulse rounded-[1.6rem] bg-canvas-2 ${
-                  i === 0 ? 'sm:col-span-2 lg:col-span-4' : 'lg:col-span-2'
-                }`}
-              />
-            ))}
+          <div className="grid grid-flow-dense grid-cols-1 items-stretch gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-6">
+            {LAYOUT.map((l, i) => {
+              const h =
+                l.variant === 'feature'
+                  ? 'min-h-[15rem] lg:min-h-[20rem]'
+                  : l.variant === 'wide'
+                    ? 'min-h-[11rem]'
+                    : 'min-h-[9rem]'
+              return (
+                <div
+                  key={i}
+                  className={`animate-pulse rounded-[1.5rem] border border-line bg-canvas-2 ${h} ${l.span}`}
+                />
+              )
+            })}
           </div>
         </Container>
       </section>
@@ -212,7 +235,7 @@ function BlogIndex() {
           {posts.length === 0 ? (
             <EmptyState />
           ) : (
-            <div className="grid grid-flow-dense auto-rows-auto grid-cols-1 items-stretch gap-4 sm:grid-cols-2 lg:grid-cols-6">
+            <div className="grid grid-flow-dense auto-rows-auto grid-cols-1 items-stretch gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-6">
               {posts.map((post, i) => {
                 const l = LAYOUT[i % LAYOUT.length]
                 return (
