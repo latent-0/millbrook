@@ -1,9 +1,11 @@
+import { useEffect, useRef } from 'react'
 import {
   HeadContent,
   Scripts,
   createRootRoute,
   Outlet,
   Link,
+  useRouterState,
 } from '@tanstack/react-router'
 
 import appCss from '../styles.css?url'
@@ -189,6 +191,30 @@ function RootDocument({ children }: { children: React.ReactNode }) {
     <html lang="en">
       <head>
         <HeadContent />
+        {/* Google Analytics (gtag.js) */}
+        <script
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=G-Q683L79VWT"
+        />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-Q683L79VWT');`,
+          }}
+        />
+        {/* Microsoft Clarity */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "yjros0h93e");`,
+          }}
+        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(orgSchema) }}
@@ -208,8 +234,34 @@ function RootDocument({ children }: { children: React.ReactNode }) {
           <main className="flex-1">{children ?? <Outlet />}</main>
           <Footer />
         </div>
+        <SpaPageViewTracker />
         <Scripts />
       </body>
     </html>
   )
+}
+
+function SpaPageViewTracker() {
+  const location = useRouterState({ select: (s) => s.location })
+  const isFirstRender = useRef(true)
+
+  useEffect(() => {
+    // gtag's initial config already fired the first page_view, so skip mount.
+    if (isFirstRender.current) {
+      isFirstRender.current = false
+      return
+    }
+    const pagePath = `${location.pathname}${location.searchStr ?? ''}`
+    ;(window as unknown as { gtag?: (...args: unknown[]) => void }).gtag?.(
+      'event',
+      'page_view',
+      {
+        page_path: pagePath,
+        page_location: window.location.origin + pagePath,
+        page_title: document.title,
+      },
+    )
+  }, [location])
+
+  return null
 }
