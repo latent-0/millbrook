@@ -5,7 +5,10 @@ import { seo, SITE } from '../lib/seo'
 
 // Display-side INR rate for India (the server enforces the actual charge with
 // the same rate; keep the two in sync).
-const INR_RATE = 95
+// USD→INR for display. Market rate ~95.94; rounded up to 97 to absorb
+// currency spread and payment-gateway transaction fees. Keep in sync with
+// USD_TO_INR in src/server/razorpay.ts (the real charge).
+const INR_RATE = 97
 
 // Lightweight client hint for the buyer's country. On Vercel the server reads
 // the real geo header; this only helps in local dev and as a fallback.
@@ -23,7 +26,6 @@ type Tier = {
   name: string
   monthly?: number
   annual?: number
-  inr?: { monthly: number; annual: number }
   custom?: boolean
   tagline: string
   cta: string
@@ -36,7 +38,6 @@ const TIERS: Tier[] = [
     name: 'Starter',
     monthly: 89,
     annual: 69,
-    inr: { monthly: 10000, annual: 8000 },
     tagline: 'For a founder tracking one brand.',
     cta: 'Get Started',
     features: [
@@ -53,7 +54,6 @@ const TIERS: Tier[] = [
     name: 'Growth',
     monthly: 249,
     annual: 199,
-    inr: { monthly: 25000, annual: 20000 },
     popular: true,
     tagline: 'For a team that owns AI visibility.',
     cta: 'Get Started',
@@ -73,7 +73,6 @@ const TIERS: Tier[] = [
     name: 'Scale',
     monthly: 599,
     annual: 499,
-    inr: { monthly: 60000, annual: 50000 },
     tagline: 'For agencies and multi-brand portfolios.',
     cta: 'Get Started',
     features: [
@@ -185,14 +184,13 @@ function Pricing() {
     if (guessCountry() === 'IN') setRegion('IN')
   }, [])
 
-  // Display price. India carries explicit round INR pricing per tier; other
-  // regions (and any India tier with no explicit price) use the USD figure,
-  // with INR converted at INR_RATE. The server enforces the real charge.
+  // Display price. Prices are set in USD; India sees the same figure converted
+  // at INR_RATE. The server picks the real charge currency by geo and applies
+  // the same rate, so display and charge stay in sync.
   const priceNum = (t: Tier, annual: boolean): number | null => {
     if (t.custom) return null
     const usd = annual ? t.annual! : t.monthly!
-    if (region === 'IN') return t.inr ? (annual ? t.inr.annual : t.inr.monthly) : usd * INR_RATE
-    return usd
+    return region === 'IN' ? usd * INR_RATE : usd
   }
   // Route both currencies through locale grouping so annual figures read as
   // $5,988 / ₹10,000 rather than $5988.

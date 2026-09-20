@@ -19,8 +19,10 @@ import { createHmac, timingSafeEqual } from 'node:crypto'
 const RAZORPAY_API = 'https://api.razorpay.com/v1'
 
 // Fixed INR conversion for India. Prices are authored in USD; Indian buyers pay
-// USD x this rate, in whole rupees. Update in one place.
-const USD_TO_INR = 95
+// USD x this rate, in whole rupees. Market rate ~95.94; rounded up to 97 to
+// absorb currency spread and payment-gateway transaction fees. Keep in sync
+// with INR_RATE in src/routes/pricing.tsx (the displayed price).
+const USD_TO_INR = 97
 
 // The charged amount per plan, in USD. `annual` is the full yearly total.
 // This is the source of truth for pricing.
