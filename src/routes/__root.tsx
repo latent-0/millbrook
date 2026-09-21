@@ -4,12 +4,12 @@ import {
   Scripts,
   createRootRoute,
   Outlet,
-  Link,
   useRouterState,
 } from '@tanstack/react-router'
 
 import appCss from '../styles.css?url'
-import { Header, Footer, Container } from '../components/site'
+import { Header, Footer } from '../components/site'
+import { NotFound } from '../components/NotFound'
 
 const SITE = {
   name: 'Rothenhall Partners',
@@ -167,24 +167,6 @@ export const Route = createRootRoute({
   shellComponent: RootDocument,
   notFoundComponent: NotFound,
 })
-
-function NotFound() {
-  return (
-    <Container className="py-32 text-center sm:py-44">
-      <p className="eyebrow">Error 404</p>
-      <h1 className="text-display-lg mt-8">This page has moved on.</h1>
-      <p className="mx-auto mt-6 max-w-md font-sans text-body leading-relaxed text-ink-60">
-        The page you were looking for is not here. Everything worth finding is a
-        click away.
-      </p>
-      <div className="mt-9 flex justify-center">
-        <Link to="/" className="btn btn-primary">
-          Back to home
-        </Link>
-      </div>
-    </Container>
-  )
-}
 
 function RootDocument({ children }: { children: React.ReactNode }) {
   return (
