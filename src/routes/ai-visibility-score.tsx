@@ -9,8 +9,6 @@ export const Route = createFileRoute('/ai-visibility-score')({
       title: 'The AI Visibility Score · Rothenhall Partners',
       description:
         'The AI Visibility Score is Rothenhall Partners’ 0 to 100 measure of how likely an AI assistant is to recommend a company. Five weighted dimensions, measured across ChatGPT, Perplexity, Google AI Overviews, Google AI Mode, Gemini, Google Search, and Copilot.',
-      keywords:
-        'AI Visibility Score, AEO score, GEO measurement, AI search visibility metric, ChatGPT visibility, Rothenhall framework',
     }),
   component: AIVisibilityScore,
 })

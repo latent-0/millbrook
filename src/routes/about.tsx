@@ -9,8 +9,6 @@ export const Route = createFileRoute('/about')({
       title: 'About & Approach · The AI-Era Operating Partner · Rothenhall Partners',
       description:
         'Rothenhall Partners is an India-first fractional operating partner for the AI era, running AI answer-engine visibility (AEO/GEO), go-to-market, and revenue operations as one accountable engine. The firm, the operating model, and the operator behind it.',
-      keywords:
-        'fractional operating partner, AI era growth, AEO, GEO, answer engine optimization, generative engine optimization, RevOps, go-to-market, AI visibility, India, operating model',
     }),
   component: About,
 })

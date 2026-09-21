@@ -17,8 +17,6 @@ export const Route = createFileRoute('/research')({
       title: 'How Claude Decides Who to Recommend · Research · Rothenhall Partners',
       description:
         'A Rothenhall field study of how Claude recommends brands: more than half of answers come from memory, not web search. Built on ~90,000 AI answers across 15+ industries, and how to earn a place on the shortlist.',
-      keywords:
-        'AI visibility research, how Claude recommends, answer engine optimization study, AEO, GEO, LLM brand memory, ChatGPT Perplexity citations',
     }),
   component: Research,
 })

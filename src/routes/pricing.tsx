@@ -168,8 +168,6 @@ export const Route = createFileRoute('/pricing')({
       title: 'Cailyx Pricing · AI Visibility Tracking That Also Fixes It · Rothenhall Partners',
       description:
         'Track your AI visibility across ChatGPT, Perplexity, Google AI Overviews, Google AI Mode, Gemini, Google Search, and Copilot, and let agentic workflows build the entities and citations that move it. Founding pricing available.',
-      keywords:
-        'Cailyx pricing, AI visibility tool pricing, AEO software pricing, answer engine optimization platform, Profound alternative, AI search tracking cost',
     }),
     scripts: [{ type: 'application/ld+json', children: JSON.stringify(schema) }],
   }),

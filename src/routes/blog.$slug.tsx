@@ -24,7 +24,6 @@ export const Route = createFileRoute('/blog/$slug')({
       title: post.seoTitle || post.title,
       description: post.metaDescription,
       image: post.ogImage?.url || SITE.ogImage,
-      keywords: post.keywords?.join(', ') || post.tags?.join(', '),
     })
 
     // Honor an author-supplied canonical, and mark this as an article.

@@ -18,8 +18,6 @@ export const Route = createFileRoute('/community')({
       title: 'The Founders Circle · An Invite-Only Network · Rothenhall Partners',
       description:
         'A private founders network from Rothenhall Partners. Members get an exclusive circle of founders, early access to Cailyx, and a free AI Visibility Score to start. Request an invite.',
-      keywords:
-        'founders network, founders community India, startup community, AI Visibility Score, Rothenhall Founders Circle',
     }),
   component: Community,
 })

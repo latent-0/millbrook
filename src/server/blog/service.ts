@@ -34,11 +34,15 @@ import {
   toIssues,
 } from './schema'
 import type { z } from 'zod'
+import { submitToIndexNow } from '../indexnow'
 
 export const SITE_URL = (process.env.SITE_URL || 'https://www.rothenhall.com').replace(
   /\/+$/,
   '',
 )
+
+/** Public URL for a post — the same shape the sitemap and canonical use. */
+const blogUrl = (slug: string) => `${SITE_URL}/blog/${slug}`
 
 export class ApiError extends Error {
   status: number
@@ -109,6 +113,9 @@ export async function createBlog(raw: unknown) {
   }
 
   await putBlog(record)
+  if (status === 'published' && !record.noIndex) {
+    await submitToIndexNow([blogUrl(slug)])
+  }
   return {
     ...toApiRecord(record),
     nextActions: [
@@ -218,6 +225,9 @@ export async function patchBlog(id: string, raw: unknown) {
   const record = await resolve(id)
   const next = await applyChanges(record, parsed.data)
   await putBlog(next)
+  if (next.status === 'published' && !next.noIndex) {
+    await submitToIndexNow([blogUrl(next.slug)])
+  }
   return toApiRecord(next)
 }
 
@@ -231,6 +241,9 @@ export async function replaceBlog(id: string, raw: unknown) {
     parsed.data,
   )
   await putBlog(next)
+  if (next.status === 'published' && !next.noIndex) {
+    await submitToIndexNow([blogUrl(next.slug)])
+  }
   return toApiRecord(next)
 }
 
@@ -264,6 +277,8 @@ export async function removeBlog(idOrSlug: string, hard: boolean) {
     })
   }
   const res = await deleteBlog(record.id, hard)
+  // Tell IndexNow so engines re-crawl and de-index the now-gone/archived URL.
+  await submitToIndexNow([blogUrl(record.slug)])
   if (hard) return { deleted: true }
   return { id: record.id, status: res.record?.status ?? 'archived' }
 }
@@ -318,6 +333,7 @@ export async function transitionStatus(id: string, raw: unknown) {
 
   if (target === 'archived') {
     await putBlog(next)
+    await submitToIndexNow([blogUrl(next.slug)])
     return { id: next.id, status: next.status }
   }
 
@@ -330,6 +346,9 @@ export async function transitionStatus(id: string, raw: unknown) {
 
 async function afterPublish(next: StoredBlog) {
   await putBlog(next)
+  if (!next.noIndex) {
+    await submitToIndexNow([blogUrl(next.slug)])
+  }
   return {
     id: next.id,
     status: next.status,

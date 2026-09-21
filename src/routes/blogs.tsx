@@ -10,8 +10,6 @@ export const Route = createFileRoute('/blogs')({
       title: 'The Journal · AEO, GTM & RevOps Field Notes · Rothenhall Partners',
       description:
         'Field notes from Rothenhall Partners on Answer Engine Optimization (AEO/GEO), go-to-market, and revenue operations. Practical playbooks for becoming the company the AI recommends.',
-      keywords:
-        'AEO blog, GEO blog, answer engine optimization guide, GTM playbook, RevOps blog, AI search visibility, Rothenhall journal',
     }),
   loader: async () => ({ posts: await getPublishedBlogs() }),
   pendingMs: 150,

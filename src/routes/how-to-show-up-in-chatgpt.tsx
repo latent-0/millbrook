@@ -9,8 +9,6 @@ export const Route = createFileRoute('/how-to-show-up-in-chatgpt')({
       title: 'How to Show Up in ChatGPT, Perplexity & Google AI Overviews',
       description:
         'A step-by-step guide to getting your company named and cited by AI answer engines: make your entity unambiguous, publish quotable content, earn third-party citations, stay crawlable, and track citation share.',
-      keywords:
-        'how to show up in ChatGPT, get cited by ChatGPT, rank in Perplexity, Google AI Overviews, AEO guide, GEO, AI search visibility, entity SEO',
     }),
   component: HowTo,
 })

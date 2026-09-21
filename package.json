@@ -8,7 +8,9 @@
   "scripts": {
     "dev": "vite dev --port 3000",
     "generate-routes": "tsr generate",
-    "build": "vite build && node scripts/patch-vercel-output.mjs",
+    "gen:sitemap": "node scripts/generate-sitemap.mjs",
+    "typecheck": "tsc --noEmit",
+    "build": "npm run gen:sitemap && vite build && node scripts/patch-vercel-output.mjs",
     "preview": "vite preview"
   },
   "dependencies": {

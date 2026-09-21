@@ -9,8 +9,6 @@ export const Route = createFileRoute('/case-studies')({
       title: 'Case Studies · Proof of AI-Era Growth · Rothenhall Partners',
       description:
         'How Rothenhall documents before-and-after proof across AI answer-engine visibility, go-to-market, and revenue operations. Credibility earned in results, not claims.',
-      keywords:
-        'AEO case study, AI visibility results, RevOps outcomes, go-to-market proof, fractional operating partner',
     }),
   component: CaseStudies,
 })

@@ -9,8 +9,6 @@ export const Route = createFileRoute('/faq')({
       title: 'FAQ · AEO, GEO & AI Visibility, Answered · Rothenhall Partners',
       description:
         'Plain answers on getting your company cited by ChatGPT, Perplexity, and Google AI Overviews: what AEO and GEO are, how they differ from SEO, why AI may not mention you, and how Rothenhall works with founders and funds in India and worldwide.',
-      keywords:
-        'what is AEO, what is GEO, AEO vs SEO, how to show up in ChatGPT, get cited by Perplexity, Google AI Overviews, fractional operating partner, AI visibility India',
     }),
   component: Faq,
 })

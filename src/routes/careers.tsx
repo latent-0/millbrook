@@ -11,8 +11,6 @@ export const Route = createFileRoute('/careers')({
       title: 'Careers · Build the Company AI Recommends · Rothenhall Partners',
       description:
         'Join Rothenhall Partners and Cailyx. We are building an AI-native growth engine for the answer-engine era: AEO and GEO, go-to-market, and RevOps as one accountable practice. Open roles, internships, and the Campus Scouts program.',
-      keywords:
-        'Rothenhall careers, Cailyx jobs, AEO SEO jobs India, AI startup careers Bengaluru, growth operator role, founding engineer AI',
     }),
   component: Careers,
 })

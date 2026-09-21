@@ -11,8 +11,6 @@ export const Route = createFileRoute('/scouts')({
       title: 'Campus Scouts · The Ambassador Program · Rothenhall Partners',
       description:
         'Rothenhall Campus Scouts is a three-month campus ambassador program. Learn AEO and GEO, publish in public, and rank up through four tiers with real swag, credentials, Cailyx access, and an internship path.',
-      keywords:
-        'campus ambassador program India, Rothenhall Campus Scouts, AEO GEO ambassador, student ambassador AI, marketing internship India, write about AEO SEO',
     }),
   component: Scouts,
 })

@@ -9,8 +9,6 @@ export const Route = createFileRoute('/aeo-vs-seo')({
       title: 'AEO vs SEO: What Is the Difference, and Do You Need Both?',
       description:
         'AEO (Answer Engine Optimization) is being named and cited inside AI answers from ChatGPT, Perplexity, and Google AI Overviews. SEO is ranking in a list of links. A plain comparison, and how they work together, from Rothenhall Partners.',
-      keywords:
-        'AEO vs SEO, answer engine optimization vs search engine optimization, GEO vs SEO, AI search optimization, ChatGPT SEO, Perplexity SEO, Google AI Overviews',
     }),
   component: AeoVsSeo,
 })

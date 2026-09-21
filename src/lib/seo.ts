@@ -12,7 +12,6 @@ type SeoInput = {
   path?: string
   /** absolute or site-relative image path */
   image?: string
-  keywords?: string
 }
 
 /**
@@ -20,7 +19,7 @@ type SeoInput = {
  * canonical, Open Graph, and Twitter tags. TanStack dedupes by name/property,
  * so per-route values override the defaults set in __root.
  */
-export function seo({ title, description, path = '/', image, keywords }: SeoInput) {
+export function seo({ title, description, path = '/', image }: SeoInput) {
   const url = SITE.url + (path === '/' ? '' : path)
   const img = (image ?? SITE.ogImage).startsWith('http')
     ? (image ?? SITE.ogImage)
@@ -34,7 +33,6 @@ export function seo({ title, description, path = '/', image, keywords }: SeoInpu
       content:
         'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1',
     },
-    keywords ? { name: 'keywords', content: keywords } : undefined,
     { property: 'og:type', content: 'website' },
     { property: 'og:site_name', content: SITE.name },
     { property: 'og:title', content: title },

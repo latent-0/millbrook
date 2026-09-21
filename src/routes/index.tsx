@@ -13,8 +13,6 @@ export const Route = createFileRoute('/')({
       title: 'Rothenhall Partners · AEO, GEO, GTM & RevOps for AI-Era Growth',
       description:
         'India-first fractional operating partner for venture- and PE-backed companies worldwide. We make you the company AI answer engines (ChatGPT, Perplexity, Google AI Overviews) recommend, and own the go-to-market and RevOps behind the demand.',
-      keywords:
-        'answer engine optimization, AEO, GEO, generative engine optimization, AI search visibility, fractional operating partner, RevOps, go-to-market, ChatGPT visibility, Perplexity, Google AI Overviews, India',
     }),
   component: Home,
 })

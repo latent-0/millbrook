@@ -99,8 +99,6 @@ export const Route = createFileRoute('/cailyx')({
       title: 'Cailyx · AI Visibility & AEO/SEO Engine · Rothenhall Partners',
       description:
         'Cailyx, Rothenhall’s agentic AEO and SEO engine, measures how AI sees you and builds the fixes that move your AI Visibility Score. Rates, not ranks.',
-      keywords:
-        'Cailyx, AI visibility engine, agentic AEO, agentic SEO, answer engine optimization software, AI Visibility Score, AI search tracking, Rothenhall',
     }),
     scripts: [{ type: 'application/ld+json', children: JSON.stringify(schema) }],
   }),
