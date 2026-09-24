@@ -11,9 +11,14 @@ marked.setOptions({ gfm: true, breaks: false })
 
 export function markdownToHtml(markdown: string): string {
   const html = marked.parse(markdown, { async: false }) as string
+  // The article page renders its own <h1> from the post's `title` field, so a
+  // leading H1 in the markdown (the natural way to start an article) would
+  // otherwise duplicate the title on the page. Drop only a *leading* h1 —
+  // one that opens the document — never one appearing later in the body.
+  const withoutLeadingH1 = html.replace(/^\s*<h1[^>]*>.*?<\/h1>\s*/is, '')
   // Wrap tables so they can scroll horizontally on narrow screens without
   // pushing the page body sideways.
-  return html
+  return withoutLeadingH1
     .replace(/<table>/g, '<div class="table-scroll"><table>')
     .replace(/<\/table>/g, '</table></div>')
 }
