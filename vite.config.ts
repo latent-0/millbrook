@@ -24,6 +24,7 @@ const blogApiHandlers = [
   { route: '/api/v1/blog/:id/author', method: 'patch', handler: h('./api/v1/blog/[id]/author.patch.ts') },
   { route: '/api/v1/blog/:id/status', method: 'post', handler: h('./api/v1/blog/[id]/status.post.ts') },
   { route: '/blog-sitemap.xml', method: 'get', handler: h('./api/blog-sitemap.get.ts') },
+  { route: '/api/cron/publish-scheduled', method: 'get', handler: h('./api/cron/publish-scheduled.get.ts') },
 ]
 
 const config = defineConfig({

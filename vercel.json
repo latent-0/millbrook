@@ -3,5 +3,8 @@
   "installCommand": "npm ci",
   "redirects": [
     { "source": "/approach", "destination": "/about", "permanent": true }
+  ],
+  "crons": [
+    { "path": "/api/cron/publish-scheduled", "schedule": "0 9 * * *" }
   ]
 }
