@@ -8,7 +8,7 @@ export const Route = createFileRoute('/faq')({
       path: '/faq',
       title: 'FAQ · AEO, GEO & AI Visibility, Answered · Rothenhall Partners',
       description:
-        'Plain answers on getting your company cited by ChatGPT, Perplexity, and Google AI Overviews: what AEO and GEO are, how they differ from SEO, why AI may not mention you, and how Rothenhall works with founders and funds in India and worldwide.',
+        'Plain answers on getting your company cited by ChatGPT, Perplexity, and Google AI Overviews: what AEO and GEO are, how they differ from SEO, why AI may not mention you, and how Cailyx gets your company found, understood and recommended.',
     }),
   component: Faq,
 })
@@ -30,7 +30,7 @@ const GROUPS: Group[] = [
       },
       {
         q: 'What is Generative Engine Optimization (GEO)?',
-        a: 'GEO is optimising content and entities so generative AI models surface and cite your brand in the responses they write. Rothenhall runs AEO and GEO as one AI-visibility discipline.',
+        a: 'GEO is optimising content and entities so generative AI models surface and cite your brand in the responses they write. Cailyx treats AEO and GEO as one AI-visibility discipline.',
       },
       {
         q: 'Is SEO dead? Do I still need it?',
@@ -38,7 +38,7 @@ const GROUPS: Group[] = [
       },
       {
         q: 'Why doesn’t ChatGPT or Perplexity mention my company?',
-        a: 'Usually because the model has little or conflicting information about you, few credible third-party citations, and content that is hard to quote. We diagnose which of these is holding you back and fix the ones that move citations.',
+        a: 'Usually because the model has little or conflicting information about you, few credible third-party citations, and content that is hard to quote. Cailyx diagnoses which of these is holding you back and fixes the ones that move citations.',
       },
     ],
   },
@@ -47,57 +47,57 @@ const GROUPS: Group[] = [
     items: [
       {
         q: 'How do I get my startup discovered when buyers ask AI?',
-        a: 'By building the entities, content, and citations that answer engines trust, then wiring the go-to-market and RevOps so the demand you create is captured and measured. We do both as one engagement.',
+        a: 'By building the entities, content and citations that answer engines trust. Cailyx finds what is missing, tells you what to fix first, and builds it, so the demand you create is actually found.',
       },
       {
-        q: 'I have no marketing team. Can you run growth for us?',
-        a: 'Yes. That is the point of a fractional operating partner. We act as the senior operator you cannot yet hire full time, owning the work end to end.',
+        q: 'I have no marketing team. Can Cailyx run this for us?',
+        a: 'Yes. Cailyx does the work, not just the reporting. On managed plans our team runs the agentic execution alongside you, so you do not need in-house depth to move the number.',
       },
       {
         q: 'How do I show up in ChatGPT, Perplexity, and Google AI Overviews?',
-        a: 'Each engine weighs sources differently, so we track where you appear across ChatGPT, Perplexity, Google AI Overviews, Google AI Mode, Gemini, Google Search, and Copilot, then engineer the content and citations each one rewards and measure the change.',
+        a: 'Each engine weighs sources differently, so Cailyx tracks where you appear across ChatGPT, Perplexity, Google AI Overviews, Google AI Mode, Gemini, Google Search, and Copilot, then builds the content and citations each one rewards and measures the change.',
       },
       {
         q: 'We are pre-revenue and lean. Is it too early for this?',
-        a: 'A fixed-fee sprint is designed for exactly this: a defined, time-boxed push that builds the foundation without the cost or risk of a full hire.',
+        a: 'No. Start free with an AI Visibility Score to see exactly where you stand, then move only when it is worth it. The earlier your entity is clean, the sooner it compounds.',
       },
     ],
   },
   {
-    title: 'For funds and portfolio companies',
+    title: 'Product and plans',
     items: [
       {
-        q: 'How does this work across a whole portfolio?',
-        a: 'We start with one or two portfolio companies, prove the model with documented before-and-after results, then apply one operating standard across the portfolio through a portfolio-wide retainer.',
+        q: 'What is Cailyx?',
+        a: 'Cailyx is an AI-visibility platform. It tracks how AI assistants see you, diagnoses why you are missing, and runs the agentic work to fix it, across every major answer engine.',
       },
       {
-        q: 'What is a fractional operating partner?',
-        a: 'A senior operator who owns a company’s growth part-time, embedded and accountable for the outcome, without the cost or permanence of a full-time executive.',
+        q: 'Is Cailyx just another tracker?',
+        a: 'No. Trackers stop at the score and hand the work back to you. Cailyx closes the loop: it diagnoses the causes and builds the fixes, so the number actually moves.',
       },
       {
-        q: 'How is Rothenhall different from an SEO agency, a RevOps consultant, or a fractional CMO?',
-        a: 'Each of those owns one slice. Rothenhall owns AI visibility, go-to-market, and revenue operations as one system, under a single accountable owner, so nothing falls between the seams.',
+        q: 'How do plans work?',
+        a: 'Start free with an AI Visibility Score, subscribe to Cailyx for continuous tracking and prioritised fixes, or add managed execution where our team runs the work with you. Pricing scales to the stage you are at.',
       },
     ],
   },
   {
-    title: 'Working with Rothenhall',
+    title: 'Getting started',
     items: [
       {
-        q: 'How do engagements and pricing work?',
-        a: 'Three models: fixed-fee sprints for a defined push, monthly operating retainers where we own the full revenue stack, and portfolio-wide retainers for funds. Scope and fee are set to the stage you are at.',
+        q: 'How do I get started?',
+        a: 'Start with a free AI Visibility Score. It runs on your public footprint and returns the number and the specific reasons behind it, with no card and no call.',
       },
       {
         q: 'How fast will we see results?',
-        a: 'Infrastructure and early visibility gains show in weeks; compounding citation share and pipeline build over the engagement. We baseline on day one so every change is measured.',
+        a: 'Early visibility gains show in weeks; citation share and pipeline compound from there. Cailyx baselines on day one so every change is measured.',
       },
       {
-        q: 'How do you measure success?',
-        a: 'By AI citation share across ChatGPT, Perplexity, Google AI Overviews, Google AI Mode, Gemini, Google Search, and Copilot, plus qualified pipeline, conversion rate, and reporting integrity, all traced through the CRM.',
+        q: 'How does Cailyx measure success?',
+        a: 'By AI citation share across ChatGPT, Perplexity, Google AI Overviews, Google AI Mode, Gemini, Google Search, and Copilot, plus the qualified pipeline and conversion that visibility drives.',
       },
       {
-        q: 'Where are you based, and do you work outside India?',
-        a: 'We are based in Bengaluru, India, with an office in Edinburgh, UK, and work with founders and funds across the globe.',
+        q: 'Where are you based, and is Cailyx available worldwide?',
+        a: 'Rothenhall is based in Bengaluru, India, with a presence in Edinburgh, UK. Cailyx works for companies worldwide.',
       },
     ],
   },
@@ -126,7 +126,7 @@ function Faq() {
             </h1>
             <p className="text-lead mt-8 max-w-2xl text-ink-60">
               What AEO and GEO are, why an AI might not mention you yet, and how
-              Rothenhall works with founders and funds in India and worldwide.
+              Cailyx gets you found, understood and recommended by AI assistants.
             </p>
           </Reveal>
         </Container>

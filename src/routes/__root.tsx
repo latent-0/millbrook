@@ -15,18 +15,18 @@ const SITE = {
   name: 'Rothenhall Partners',
   url: 'https://www.rothenhall.com',
   description:
-    'Rothenhall Partners is India-first fractional operating partner practice for venture- and PE-backed companies worldwide, owning AI answer-engine visibility (AEO/GEO), go-to-market, and revenue operations as one accountable engine.',
+    'Rothenhall is a startup building Cailyx, the AI-visibility platform that makes your company the one AI assistants recommend. Cailyx tracks how ChatGPT, Perplexity, Google AI Overviews, Gemini and Copilot see you, diagnoses the gaps, and does the work to fix them.',
 }
 
 const orgSchema = {
   '@context': 'https://schema.org',
-  '@type': ['Organization', 'ProfessionalService'],
+  '@type': 'Organization',
   '@id': `${SITE.url}/#organization`,
   name: SITE.name,
-  alternateName: 'Rothenhall',
+  alternateName: ['Rothenhall', 'Cailyx'],
   description: SITE.description,
   disambiguatingDescription:
-    'Rothenhall Partners is a B2B fractional operating partner and AI-visibility (AEO/GEO), go-to-market, and RevOps firm based in Bengaluru, India, founded by Kunal Achintya Reddy. It is distinct from any similarly named financial, capital, or investment firm, and from the historical place of the same name.',
+    'Rothenhall is a B2B software startup based in Bengaluru, India, founded by Kunal Achintya Reddy, building Cailyx, an AI-visibility (AEO and GEO) platform. It is distinct from any similarly named financial, capital, or investment firm, and from the historical place of the same name.',
   url: SITE.url,
   logo: `${SITE.url}/brand/wordmark.png`,
   image: `${SITE.url}/og-image.jpg`,
@@ -120,12 +120,30 @@ const founderSchema = {
   ],
 }
 
+const cailyxSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  '@id': `${SITE.url}/#cailyx`,
+  name: 'Cailyx',
+  applicationCategory: 'BusinessApplication',
+  operatingSystem: 'Web',
+  url: `${SITE.url}/cailyx`,
+  description:
+    'Cailyx is an AI-visibility platform that tracks how AI assistants like ChatGPT, Perplexity, Google AI Overviews, Gemini and Copilot see your company, diagnoses why you are missing, and runs the agentic work to fix it.',
+  publisher: { '@id': `${SITE.url}/#organization` },
+  offers: {
+    '@type': 'Offer',
+    category: 'SaaS',
+    availability: 'https://schema.org/PreOrder',
+  },
+}
+
 export const Route = createRootRoute({
   head: () => ({
     meta: [
       { charSet: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { title: 'Rothenhall Partners · The Operating Partner for AI-Era Growth' },
+      { title: 'Rothenhall · Cailyx, the AI Visibility Platform' },
       { name: 'description', content: SITE.description },
       { name: 'theme-color', content: '#f7f3ea' },
       {
@@ -216,6 +234,10 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(founderSchema) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(cailyxSchema) }}
         />
       </head>
       <body>

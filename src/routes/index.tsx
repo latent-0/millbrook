@@ -10,9 +10,9 @@ export const Route = createFileRoute('/')({
   head: () =>
     seo({
       path: '/',
-      title: 'Rothenhall Partners · AEO, GEO, GTM & RevOps for AI-Era Growth',
+      title: 'Rothenhall · Cailyx, the AI Visibility Platform',
       description:
-        'India-first fractional operating partner for venture- and PE-backed companies worldwide. We make you the company AI answer engines (ChatGPT, Perplexity, Google AI Overviews) recommend, and own the go-to-market and RevOps behind the demand.',
+        'Rothenhall is a startup building Cailyx, the AI-visibility platform that makes your company the one AI assistants recommend. Cailyx tracks how ChatGPT, Perplexity and Google AI Overviews see you, diagnoses the gaps, and does the work to fix them.',
     }),
   component: Home,
 })
@@ -22,45 +22,45 @@ export const Route = createFileRoute('/')({
 const PILLARS = [
   {
     n: '01',
-    title: 'AI Visibility',
-    tag: 'AEO · GEO',
-    body: 'We make you the company ChatGPT, Perplexity, and Google AI Overviews name. We engineer the content, entities, and citations that answer engines actually surface.',
+    title: 'Track',
+    tag: 'Visibility',
+    body: 'See exactly how ChatGPT, Perplexity, Gemini and Google AI Overviews describe and rank you, scored and tracked over time across the prompts your buyers actually ask.',
   },
   {
     n: '02',
-    title: 'Go-to-Market',
-    tag: 'GTM Operations',
-    body: 'Positioning, messaging, and launch: the sharp story and the operating cadence that turn a category insight into pipeline the market understands.',
+    title: 'Diagnose',
+    tag: 'Diagnosis',
+    body: 'Cailyx finds why you are missing: entity gaps, thin or unreadable content, and missing citations, then tells you what to fix first.',
   },
   {
     n: '03',
-    title: 'Revenue Operations',
-    tag: 'RevOps',
-    body: 'The CRM, attribution, and reporting plumbing that makes growth measurable, so every dollar and every citation ties back to revenue.',
+    title: 'Fix',
+    tag: 'Agentic execution',
+    body: 'Agentic workflows build the entities, content and citations that move the score. Cailyx does the work, not just the report.',
   },
   {
     n: '04',
-    title: 'Growth Operating',
-    tag: 'Acquisition & Conversion',
-    body: 'The running engine: the acquisition and conversion work that compounds demand into booked revenue, owned and iterated week over week.',
+    title: 'Prove',
+    tag: 'Outcomes',
+    body: 'Every change ties back to citation share, pipeline and revenue, so you can see what visibility is actually worth.',
   },
 ]
 
 const ENGAGEMENTS = [
   {
-    kicker: 'For early-stage startups',
-    title: 'Fixed-fee Sprints',
-    body: 'A defined, time-boxed push with a clear scope and a clear outcome. The momentum of a senior operator without the cost or commitment of a full hire.',
+    kicker: 'Start free',
+    title: 'AI Visibility Score',
+    body: 'Run the diagnostic on your public footprint and get your score, and the specific reasons behind it, in minutes. No card, no call.',
   },
   {
-    kicker: 'For portfolio companies',
-    title: 'Operating Retainers',
-    body: 'An ongoing operating partner embedded in a single portfolio company, owning the full revenue stack and accountable for the number, month after month.',
+    kicker: 'Self-serve',
+    title: 'Cailyx subscription',
+    body: 'Continuous tracking, diagnosis and prioritised fixes across every major answer engine. Software that moves the number, week over week.',
   },
   {
-    kicker: 'For funds',
-    title: 'Portfolio-wide Retainers',
-    body: 'One operating standard applied across a fund’s portfolio, backed by playbooks proven inside it. Consistent growth infrastructure, centrally accountable.',
+    kicker: 'Done with you',
+    title: 'Managed by Cailyx',
+    body: 'Our team runs the agentic execution alongside you, building the entities, content and citations. The service, delivered as part of the product.',
   },
 ]
 
@@ -96,7 +96,7 @@ function NetworkStrip() {
         <Reveal>
           <div className="flex flex-col items-center gap-4 text-center sm:flex-row sm:justify-between sm:gap-6 sm:text-left">
             <p className="eyebrow">
-              A private founder &amp; strategy network
+              Built with founders across
             </p>
             <div className="flex items-center gap-4 font-display text-body text-ink">
               <span>Europe</span>
@@ -125,7 +125,7 @@ function TheShift() {
             <Reveal>
               <Eyebrow>The shift</Eyebrow>
               <h2 className="text-display-md mt-6">
-                The AI boom created this bottleneck. It didn’t solve it.
+                The AI boom created this problem. It has not solved it.
               </h2>
             </Reveal>
           </div>
@@ -138,14 +138,12 @@ function TheShift() {
                 strategy for being found or cited there.
               </p>
               <p className="mt-6 font-sans text-body leading-relaxed text-ink-60">
-                And even when demand does arrive, the revenue infrastructure
-                behind it is fragmented and manual. These companies are lean by
-                design, rarely carrying in-house marketing or RevOps depth. So
-                they do nothing and lose visibility to competitors already in the
-                answers, or they bolt together disconnected point solutions that
-                never coordinate: a legacy SEO agency with no grasp of citation
-                mechanics, a separate RevOps consultant, a fractional CMO. The
-                result is duplicated spend, and no single owner of the outcome.
+                And the tools that exist stop at the score. A tracker tells you
+                that you are invisible, then hands the work back to you. Most
+                companies do nothing and lose ground to competitors already in
+                the answers, or bolt together a dashboard, an SEO agency and a
+                freelancer that never coordinate. The result is a number that
+                never moves.
               </p>
             </Reveal>
 
@@ -154,7 +152,7 @@ function TheShift() {
                 {[
                   { k: 'Do nothing', v: 'Visibility erodes to competitors already cited by AI.' },
                   { k: 'Point solutions', v: 'Three vendors, three roadmaps, no shared accountability.' },
-                  { k: 'One hire', v: 'A single lead who can’t cover AEO, GTM, and RevOps at once.' },
+                  { k: 'One tracker', v: 'A dashboard shows the score but leaves the work to you.' },
                 ].map((c) => (
                   <div key={c.k} className="bg-canvas p-6">
                     <p className="eyebrow">
@@ -186,12 +184,11 @@ function TheModel() {
           <Reveal>
             <Eyebrow>The model</Eyebrow>
             <h2 className="text-display-lg mt-6">
-              One operator owns the entire revenue stack.
+              One platform runs the whole visibility loop.
             </h2>
             <p className="text-lead mt-6 text-ink-60">
-              Not a coordinator of vendors. The operator. Four disciplines most
-              companies buy separately, run by one accountable partner as a
-              single, compounding engine.
+              Not a dashboard that stops at the score. Cailyx measures, diagnoses,
+              fixes and proves, as one system, so the number actually moves.
             </p>
           </Reveal>
         </div>
@@ -220,7 +217,7 @@ function TheModel() {
         <Reveal>
           <div className="mt-12 text-center">
             <Link to="/about" className="link-line font-sans text-body">
-              Read the full approach →
+              See how Cailyx works →
             </Link>
           </div>
         </Reveal>
@@ -240,13 +237,13 @@ function Engagements() {
         <div className="grid gap-14 md:grid-cols-12">
           <div className="md:col-span-4">
             <Reveal>
-              <Eyebrow>Engagements</Eyebrow>
+              <Eyebrow>Plans</Eyebrow>
               <h2 className="text-display-md mt-6">
-                Priced to the stage you’re at.
+                Start free. Scale as you grow.
               </h2>
               <p className="mt-6 font-sans text-body leading-relaxed text-ink-60">
-                Three ways to work together, from a single defined push to a
-                standard applied across an entire portfolio.
+                Three ways in: get your score for free, subscribe to track and
+                fix, or have our team run it with you.
               </p>
             </Reveal>
           </div>
@@ -313,18 +310,17 @@ function TheMoat() {
         <Reveal delay={90}>
           <blockquote className="mt-8">
             <p className="font-display text-ink" style={{ fontSize: 'clamp(1.7rem,3.4vw,2.75rem)', lineHeight: 1.16 }}>
-              “Every engagement adds to a proprietary library: citation-tracking
-              data, RevOps diagnostics, and portfolio playbooks built from real
-              work. It isn’t patentable. It functions like it is.”
+              “Every company Cailyx works on adds to a proprietary library: what
+              AI sees, what we changed, and what moved. It is not patentable. It
+              compounds like it is.”
             </p>
           </blockquote>
         </Reveal>
         <Reveal delay={160}>
           <p className="mx-auto mt-8 max-w-xl font-sans text-body leading-relaxed text-ink-60">
-            Full-stack ownership is not just cleaner to buy. It compounds. What we
-            learn making one company the answer makes the next one faster, and
-            that library cannot be replicated by reading a blog post or hiring a
-            single specialist.
+            Owning the whole loop is not just cleaner to buy. It compounds. What
+            Cailyx learns making one company the answer makes the next one faster,
+            and that library cannot be replicated by a dashboard or a blog post.
           </p>
         </Reveal>
         <Reveal delay={220}>
@@ -353,9 +349,9 @@ function ProofBand() {
                 Credibility here is earned in before-and-after, not bought in ads.
               </h2>
               <p className="mt-6 max-w-xl font-sans text-body leading-relaxed text-canvas/60">
-                Funds and founders trust demonstrated results. Our marketing is
-                the work itself: documented engagements showing what changed, and
-                what it was worth.
+                Founders trust demonstrated results. Our marketing is the work
+                itself: documented before-and-after showing what changed in the
+                answers, and what it was worth.
               </p>
             </Reveal>
           </div>
@@ -366,7 +362,7 @@ function ProofBand() {
                   View case studies
                 </Link>
                 <Link to="/contact" className="link-line font-sans text-body text-canvas/80">
-                  Or start a conversation →
+                  Or get your free score →
                 </Link>
               </div>
             </Reveal>
@@ -383,8 +379,8 @@ function ProofBand() {
 
 const FAQ_ITEMS = [
   {
-    q: 'What is Rothenhall Partners?',
-    a: 'Rothenhall Partners is an India-first fractional operating partner practice for venture- and PE-backed companies worldwide. One accountable operator owns AI answer-engine visibility (AEO and GEO), go-to-market, and revenue operations as a single engine.',
+    q: 'What is Rothenhall?',
+    a: 'Rothenhall is a startup building Cailyx, an AI-visibility platform. Cailyx tracks how AI assistants like ChatGPT, Perplexity and Google AI Overviews see your company, diagnoses why you are missing, and does the work to fix it.',
   },
   {
     q: 'What is Answer Engine Optimization (AEO)?',
@@ -396,23 +392,23 @@ const FAQ_ITEMS = [
   },
   {
     q: 'What is Generative Engine Optimization (GEO)?',
-    a: 'GEO is optimizing content and entities so generative AI models surface and cite your brand in their generated answers. Rothenhall treats AEO and GEO as one AI-visibility discipline.',
+    a: 'GEO is optimizing content and entities so generative AI models surface and cite your brand in their generated answers. Cailyx treats AEO and GEO as one AI-visibility discipline.',
   },
   {
-    q: 'Who does Rothenhall Partners work with?',
-    a: 'Early-stage startups through fixed-fee sprints, PE and VC portfolio companies through operating retainers, and funds through portfolio-wide retainers, in India and across the globe.',
+    q: 'Who is Cailyx for?',
+    a: 'Founders and teams who need to be found and recommended by AI assistants: startups, scale-ups and the agencies that serve them, in India and worldwide.',
   },
   {
-    q: 'How do engagements work?',
-    a: 'Three models: fixed-fee sprints for a defined push, monthly operating retainers where Rothenhall owns the full revenue stack, and portfolio-wide retainers that apply one operating standard across a fund.',
+    q: 'How do plans work?',
+    a: 'Start free with an AI Visibility Score, subscribe to Cailyx for continuous tracking and prioritised fixes, or add managed execution where our team runs the work with you.',
   },
   {
-    q: 'How does Rothenhall measure results?',
-    a: 'By AI citation share across ChatGPT, Perplexity, Google AI Overviews, Google AI Mode, Gemini, Google Search, and Copilot, plus qualified pipeline, conversion rate, and reporting integrity, all traced through the CRM.',
+    q: 'How does Cailyx measure results?',
+    a: 'By AI citation share across ChatGPT, Perplexity, Google AI Overviews, Google AI Mode, Gemini, Google Search, and Copilot, plus the pipeline and conversion that visibility drives.',
   },
   {
-    q: 'Does Rothenhall work with companies outside India?',
-    a: 'Yes. Rothenhall is India-first and works with founders and funds worldwide.',
+    q: 'Is Cailyx available outside India?',
+    a: 'Yes. Rothenhall is India-first and Cailyx works for companies worldwide.',
   },
 ]
 
@@ -475,15 +471,14 @@ function CailyxTeaser() {
           <div className="relative overflow-hidden rounded-3xl bg-night px-8 py-14 text-canvas sm:px-14 sm:py-20">
             <div className="grid gap-10 md:grid-cols-12 md:items-center">
               <div className="md:col-span-8">
-                <Eyebrow className="eyebrow-light">Our product</Eyebrow>
+                <Eyebrow className="eyebrow-light">The product</Eyebrow>
                 <h2 className="text-display-md mt-6 text-canvas">
-                  Cailyx, our agentic AEO engine.
+                  Cailyx, our agentic AI-visibility platform.
                 </h2>
                 <p className="mt-5 max-w-xl font-sans text-body leading-relaxed text-canvas/65">
-                  The AI-native engine that powers our work: it maps how AI sees
-                  you, builds the entities and citations that move visibility, and
-                  tracks citation share across engines. A Cailyx MCP is on the
-                  roadmap.
+                  The product we are building: it maps how AI sees you, builds the
+                  entities and citations that move visibility, and tracks citation
+                  share across engines. A Cailyx MCP is on the roadmap.
                 </p>
               </div>
               <div className="md:col-span-4">

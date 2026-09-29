@@ -320,9 +320,9 @@ export function Footer() {
             />
             <Wordmark tone="light" />
             <p className="mt-5 max-w-sm font-sans text-caption leading-relaxed text-canvas/60">
-              The fractional operating partner for AI-era growth. AI visibility,
-              go-to-market, and revenue operations, owned as one accountable
-              engine.
+              The startup building Cailyx, the AI-visibility platform that gets
+              your company found, understood and recommended by AI assistants.
+              Track, diagnose and fix, in one product.
             </p>
           </div>
 
@@ -412,7 +412,7 @@ export function Footer() {
               </address>
             </div>
             <Link to="/contact" className="btn btn-light mt-6 !py-2.5 !px-5 text-label">
-              Start a conversation
+              Get started
             </Link>
           </div>
         </div>

@@ -167,7 +167,7 @@ function SolutionLayer({
             className="mt-4 font-display"
             style={{ color, fontSize: 'clamp(1.7rem,3.4vw,2.9rem)', fontWeight: 400, lineHeight: 1.12 }}
           >
-            One operator owns the entire stack.
+            One platform runs the whole loop.
           </h3>
         </div>
       </Container>
@@ -193,7 +193,7 @@ function ReducedFallback() {
           The Rothenhall way
         </p>
         <h3 className="mt-5 font-display" style={{ fontSize: 'clamp(1.8rem,3.6vw,3rem)', fontWeight: 400 }}>
-          One operator owns the entire stack.
+          One platform runs the whole loop.
         </h3>
       </Container>
     </section>
