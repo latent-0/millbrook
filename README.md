@@ -4,6 +4,7 @@ Marketing website for Rothenhall Partners, a fractional operating partner practi
 owning AI answer-engine visibility (AEO/GEO), go-to-market, and revenue operations
 as one accountable engine.
 
+
 Built with **TanStack Start** (React 19, SSR + file-based routing), **Tailwind CSS v4**,
 and the **Fraunces** + **Inter** type pairing. Server-rendered on purpose: a firm that
 sells AI-citation visibility should be crawlable and citable itself.
