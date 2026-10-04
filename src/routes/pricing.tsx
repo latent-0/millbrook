@@ -5,10 +5,9 @@ import { seo, SITE } from '../lib/seo'
 
 // Display-side INR rate for India (the server enforces the actual charge with
 // the same rate; keep the two in sync).
-// USD→INR for display. Market rate ~95.94; rounded up to 97 to absorb
-// currency spread and payment-gateway transaction fees. Keep in sync with
-// USD_TO_INR in src/server/razorpay.ts (the real charge).
-const INR_RATE = 97
+// USD→INR for display at the market rate (96.33 on 2026-10-04). Keep in sync
+// with USD_TO_INR in src/server/razorpay.ts (the real charge).
+const INR_RATE = 96.33
 // Flat rupee surcharge per month on every India price. Keep in sync with
 // INR_MONTHLY_SURCHARGE in src/server/razorpay.ts (the real charge).
 const INR_MONTHLY_SURCHARGE = 2000
