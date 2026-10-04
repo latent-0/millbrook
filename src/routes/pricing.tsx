@@ -34,9 +34,9 @@ type Tier = {
 const TIERS: Tier[] = [
   {
     name: 'Starter',
-    monthly: 89,
-    annual: 69,
-    inr: { monthly: 10000, annual: 8000 },
+    monthly: 109,
+    annual: 89,
+    inr: { monthly: 11900, annual: 9900 },
     tagline: 'For a founder tracking one brand.',
     cta: 'Get Started',
     features: [
@@ -51,9 +51,9 @@ const TIERS: Tier[] = [
   },
   {
     name: 'Growth',
-    monthly: 249,
-    annual: 199,
-    inr: { monthly: 25000, annual: 20000 },
+    monthly: 269,
+    annual: 219,
+    inr: { monthly: 26900, annual: 21900 },
     popular: true,
     tagline: 'For a team that owns AI visibility.',
     cta: 'Get Started',
@@ -71,9 +71,9 @@ const TIERS: Tier[] = [
   },
   {
     name: 'Scale',
-    monthly: 599,
-    annual: 499,
-    inr: { monthly: 60000, annual: 50000 },
+    monthly: 619,
+    annual: 519,
+    inr: { monthly: 61900, annual: 51900 },
     tagline: 'For agencies and multi-brand portfolios.',
     cta: 'Get Started',
     features: [
@@ -156,8 +156,8 @@ const schema = {
   offers: {
     '@type': 'AggregateOffer',
     priceCurrency: 'USD',
-    lowPrice: '69',
-    highPrice: '499',
+    lowPrice: '89',
+    highPrice: '519',
     offerCount: '3',
   },
 }
