@@ -9,6 +9,9 @@ import { seo, SITE } from '../lib/seo'
 // currency spread and payment-gateway transaction fees. Keep in sync with
 // USD_TO_INR in src/server/razorpay.ts (the real charge).
 const INR_RATE = 97
+// Flat rupee surcharge per month on every India price. Keep in sync with
+// INR_MONTHLY_SURCHARGE in src/server/razorpay.ts (the real charge).
+const INR_MONTHLY_SURCHARGE = 2000
 
 // Lightweight client hint for the buyer's country. On Vercel the server reads
 // the real geo header; this only helps in local dev and as a fallback.
@@ -188,7 +191,7 @@ function Pricing() {
   const priceNum = (t: Tier, annual: boolean): number | null => {
     if (t.custom) return null
     const usd = annual ? t.annual! : t.monthly!
-    return region === 'IN' ? usd * INR_RATE : usd
+    return region === 'IN' ? usd * INR_RATE + INR_MONTHLY_SURCHARGE : usd
   }
   // Route both currencies through locale grouping so annual figures read as
   // $5,988 / ₹10,000 rather than $5988.

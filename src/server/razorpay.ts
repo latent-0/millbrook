@@ -23,6 +23,9 @@ const RAZORPAY_API = 'https://api.razorpay.com/v1'
 // absorb currency spread and payment-gateway transaction fees. Keep in sync
 // with INR_RATE in src/routes/pricing.tsx (the displayed price).
 const USD_TO_INR = 97
+// Flat rupee surcharge per month on every India price (annual plans carry it
+// x12). Keep in sync with INR_MONTHLY_SURCHARGE in src/routes/pricing.tsx.
+const INR_MONTHLY_SURCHARGE = 2000
 
 // The charged amount per plan, in USD. `annual` is the full yearly total.
 // This is the source of truth for pricing.
@@ -94,8 +97,11 @@ export const createRazorpayOrder = createServerFn({ method: 'POST' })
     const country = await detectCountry(data.country)
     const isIndia = country === 'IN'
     const currency = isIndia ? 'INR' : 'USD'
-    // INR charged in paise (USD x rate x 100); USD charged in cents (USD x 100).
-    const amount = isIndia ? Math.round(usd * USD_TO_INR) * 100 : usd * 100
+    // INR charged in paise ((USD x rate + surcharge) x 100); USD charged in cents (USD x 100).
+    const months = data.billing === 'annual' ? 12 : 1
+    const amount = isIndia
+      ? (Math.round(usd * USD_TO_INR) + INR_MONTHLY_SURCHARGE * months) * 100
+      : usd * 100
 
     if (amount < 100) throw new Error('Amount must be at least 100.')
 
