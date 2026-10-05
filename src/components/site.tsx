@@ -121,6 +121,7 @@ export function Wordmark({
 const NAV = [
   { to: '/community', label: 'Community' },
   { to: '/cailyx', label: 'Cailyx' },
+  { to: '/tools', label: 'Free tools' },
   { to: '/blogs', label: 'Journal' },
   { to: '/research', label: 'Research' },
   { to: '/case-studies', label: 'Case Studies' },
@@ -133,6 +134,7 @@ const FOOTER_LINKS = {
   product: [
     { to: '/cailyx', label: 'Cailyx' },
     { to: '/ai-visibility-score', label: 'AI Visibility Score' },
+    { to: '/tools', label: 'Free tools' },
     { to: '/pricing', label: 'Pricing' },
     { to: '/research', label: 'Research' },
     { to: '/case-studies', label: 'Case Studies' },

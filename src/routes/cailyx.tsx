@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { useState } from 'react'
 import { Container, Eyebrow, Reveal } from '../components/site'
+import { FreeToolsBlock } from '../components/FreeTools'
 import { seo, SITE } from '../lib/seo'
 import { joinWaitlist, type WaitlistInput, SOURCE_OPTIONS } from '../server/inquiry'
 
@@ -338,6 +339,9 @@ function Cailyx() {
           </Reveal>
         </Container>
       </section>
+
+      {/* Free tools from Rothenhall (hub: /tools) */}
+      <FreeToolsBlock placement="cailyx" tone="sand" />
 
       {/* Final CTA */}
       <section className="border-t border-line bg-night text-canvas">
