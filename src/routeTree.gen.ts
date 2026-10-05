@@ -23,10 +23,13 @@ import { Route as FaqRouteImport } from './routes/faq'
 import { Route as FoundersRouteImport } from './routes/founders'
 import { Route as HowToShowUpInChatgptRouteImport } from './routes/how-to-show-up-in-chatgpt'
 import { Route as NapkinRothenhallRouteImport } from './routes/napkin-rothenhall'
+import { Route as OpenkitRouteImport } from './routes/openkit'
 import { Route as PricingRouteImport } from './routes/pricing'
 import { Route as ResearchRouteImport } from './routes/research'
 import { Route as ScoutsRouteImport } from './routes/scouts'
 import { Route as TermsRouteImport } from './routes/terms'
+import { Route as ThingsRouteImport } from './routes/things'
+import { Route as ToolsRouteImport } from './routes/tools'
 import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
 
 const IndexRoute = IndexRouteImport.update({
@@ -99,6 +102,11 @@ const NapkinRothenhallRoute = NapkinRothenhallRouteImport.update({
   path: '/napkin-rothenhall',
   getParentRoute: () => rootRouteImport,
 } as any)
+const OpenkitRoute = OpenkitRouteImport.update({
+  id: '/openkit',
+  path: '/openkit',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PricingRoute = PricingRouteImport.update({
   id: '/pricing',
   path: '/pricing',
@@ -117,6 +125,16 @@ const ScoutsRoute = ScoutsRouteImport.update({
 const TermsRoute = TermsRouteImport.update({
   id: '/terms',
   path: '/terms',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ThingsRoute = ThingsRouteImport.update({
+  id: '/things',
+  path: '/things',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ToolsRoute = ToolsRouteImport.update({
+  id: '/tools',
+  path: '/tools',
   getParentRoute: () => rootRouteImport,
 } as any)
 const BlogSlugRoute = BlogSlugRouteImport.update({
@@ -140,10 +158,13 @@ export interface FileRoutesByFullPath {
   '/founders': typeof FoundersRoute
   '/how-to-show-up-in-chatgpt': typeof HowToShowUpInChatgptRoute
   '/napkin-rothenhall': typeof NapkinRothenhallRoute
+  '/openkit': typeof OpenkitRoute
   '/pricing': typeof PricingRoute
   '/research': typeof ResearchRoute
   '/scouts': typeof ScoutsRoute
   '/terms': typeof TermsRoute
+  '/things': typeof ThingsRoute
+  '/tools': typeof ToolsRoute
   '/blog/$slug': typeof BlogSlugRoute
 }
 export interface FileRoutesByTo {
@@ -161,10 +182,13 @@ export interface FileRoutesByTo {
   '/founders': typeof FoundersRoute
   '/how-to-show-up-in-chatgpt': typeof HowToShowUpInChatgptRoute
   '/napkin-rothenhall': typeof NapkinRothenhallRoute
+  '/openkit': typeof OpenkitRoute
   '/pricing': typeof PricingRoute
   '/research': typeof ResearchRoute
   '/scouts': typeof ScoutsRoute
   '/terms': typeof TermsRoute
+  '/things': typeof ThingsRoute
+  '/tools': typeof ToolsRoute
   '/blog/$slug': typeof BlogSlugRoute
 }
 export interface FileRoutesById {
@@ -183,10 +207,13 @@ export interface FileRoutesById {
   '/founders': typeof FoundersRoute
   '/how-to-show-up-in-chatgpt': typeof HowToShowUpInChatgptRoute
   '/napkin-rothenhall': typeof NapkinRothenhallRoute
+  '/openkit': typeof OpenkitRoute
   '/pricing': typeof PricingRoute
   '/research': typeof ResearchRoute
   '/scouts': typeof ScoutsRoute
   '/terms': typeof TermsRoute
+  '/things': typeof ThingsRoute
+  '/tools': typeof ToolsRoute
   '/blog/$slug': typeof BlogSlugRoute
 }
 export interface FileRouteTypes {
@@ -206,10 +233,13 @@ export interface FileRouteTypes {
     | '/founders'
     | '/how-to-show-up-in-chatgpt'
     | '/napkin-rothenhall'
+    | '/openkit'
     | '/pricing'
     | '/research'
     | '/scouts'
     | '/terms'
+    | '/things'
+    | '/tools'
     | '/blog/$slug'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -227,10 +257,13 @@ export interface FileRouteTypes {
     | '/founders'
     | '/how-to-show-up-in-chatgpt'
     | '/napkin-rothenhall'
+    | '/openkit'
     | '/pricing'
     | '/research'
     | '/scouts'
     | '/terms'
+    | '/things'
+    | '/tools'
     | '/blog/$slug'
   id:
     | '__root__'
@@ -248,10 +281,13 @@ export interface FileRouteTypes {
     | '/founders'
     | '/how-to-show-up-in-chatgpt'
     | '/napkin-rothenhall'
+    | '/openkit'
     | '/pricing'
     | '/research'
     | '/scouts'
     | '/terms'
+    | '/things'
+    | '/tools'
     | '/blog/$slug'
   fileRoutesById: FileRoutesById
 }
@@ -270,10 +306,13 @@ export interface RootRouteChildren {
   FoundersRoute: typeof FoundersRoute
   HowToShowUpInChatgptRoute: typeof HowToShowUpInChatgptRoute
   NapkinRothenhallRoute: typeof NapkinRothenhallRoute
+  OpenkitRoute: typeof OpenkitRoute
   PricingRoute: typeof PricingRoute
   ResearchRoute: typeof ResearchRoute
   ScoutsRoute: typeof ScoutsRoute
   TermsRoute: typeof TermsRoute
+  ThingsRoute: typeof ThingsRoute
+  ToolsRoute: typeof ToolsRoute
   BlogSlugRoute: typeof BlogSlugRoute
 }
 
@@ -377,6 +416,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof NapkinRothenhallRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/openkit': {
+      id: '/openkit'
+      path: '/openkit'
+      fullPath: '/openkit'
+      preLoaderRoute: typeof OpenkitRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/pricing': {
       id: '/pricing'
       path: '/pricing'
@@ -405,6 +451,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TermsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/things': {
+      id: '/things'
+      path: '/things'
+      fullPath: '/things'
+      preLoaderRoute: typeof ThingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tools': {
+      id: '/tools'
+      path: '/tools'
+      fullPath: '/tools'
+      preLoaderRoute: typeof ToolsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/blog/$slug': {
       id: '/blog/$slug'
       path: '/blog/$slug'
@@ -430,10 +490,13 @@ const rootRouteChildren: RootRouteChildren = {
   FoundersRoute: FoundersRoute,
   HowToShowUpInChatgptRoute: HowToShowUpInChatgptRoute,
   NapkinRothenhallRoute: NapkinRothenhallRoute,
+  OpenkitRoute: OpenkitRoute,
   PricingRoute: PricingRoute,
   ResearchRoute: ResearchRoute,
   ScoutsRoute: ScoutsRoute,
   TermsRoute: TermsRoute,
+  ThingsRoute: ThingsRoute,
+  ToolsRoute: ToolsRoute,
   BlogSlugRoute: BlogSlugRoute,
 }
 export const routeTree = rootRouteImport

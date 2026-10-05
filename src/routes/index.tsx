@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { Container, Eyebrow, Reveal } from '../components/site'
+import { FreeToolsBlock } from '../components/FreeTools'
 import { seo } from '../lib/seo'
 import { HomeHero } from '../components/HomeHero'
 import { StoryScroll } from '../components/StoryScroll'
@@ -78,6 +79,7 @@ function Home() {
       <CommunityTeaser />
       <TheMoat />
       <CailyxTeaser />
+      <FreeToolsBlock placement="home" />
       <Faq />
       <ProofBand />
     </>
