@@ -29,9 +29,9 @@ const INR_MONTHLY_SURCHARGE = 2000
 // The charged amount per plan, in USD. `annual` is the full yearly total.
 // This is the source of truth for pricing.
 const PLANS: Record<string, { monthly: number; annual: number }> = {
-  starter: { monthly: 109, annual: 1068 }, // $89/mo billed annually
-  growth: { monthly: 269, annual: 2628 }, // $219/mo billed annually
-  scale: { monthly: 619, annual: 6228 }, // $519/mo billed annually
+  starter: { monthly: 159, annual: 1668 }, // $139/mo billed annually
+  growth: { monthly: 319, annual: 3228 }, // $269/mo billed annually
+  scale: { monthly: 669, annual: 6828 }, // $569/mo billed annually
 }
 
 function creds() {

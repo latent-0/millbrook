@@ -38,8 +38,8 @@ type Tier = {
 const TIERS: Tier[] = [
   {
     name: 'Starter',
-    monthly: 109,
-    annual: 89,
+    monthly: 159,
+    annual: 139,
     tagline: 'For a founder tracking one brand.',
     cta: 'Get Started',
     features: [
@@ -54,8 +54,8 @@ const TIERS: Tier[] = [
   },
   {
     name: 'Growth',
-    monthly: 269,
-    annual: 219,
+    monthly: 319,
+    annual: 269,
     popular: true,
     tagline: 'For a team that owns AI visibility.',
     cta: 'Get Started',
@@ -73,8 +73,8 @@ const TIERS: Tier[] = [
   },
   {
     name: 'Scale',
-    monthly: 619,
-    annual: 519,
+    monthly: 669,
+    annual: 569,
     tagline: 'For agencies and multi-brand portfolios.',
     cta: 'Get Started',
     features: [
@@ -257,7 +257,7 @@ function Pricing() {
                 </button>
               </div>
               <span className="font-sans text-caption text-cognac-deep">
-                Save ~20% with annual billing
+                Save $20 a month with annual billing
               </span>
             </div>
           </Reveal>
