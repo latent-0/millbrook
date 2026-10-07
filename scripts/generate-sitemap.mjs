@@ -34,6 +34,7 @@ const SITE_URL = 'https://www.rothenhall.com'
 const OVERRIDES = {
   '/': { priority: '1.0', changefreq: 'weekly' },
   '/cailyx': { priority: '0.9' },
+  '/motion': { priority: '0.8' },
   '/pricing': { priority: '0.9' },
   '/research': { priority: '0.9' },
   '/ai-visibility-score': { priority: '0.9' },

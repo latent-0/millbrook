@@ -103,6 +103,14 @@ export const joinWaitlist = createServerFn({ method: 'POST' })
     return { ok: true as const }
   })
 
+/** Motion early-access signup. Reuses the waitlist shape: `source` carries where they post. */
+export const joinMotionWaitlist = createServerFn({ method: 'POST' })
+  .validator(validateWaitlist)
+  .handler(async ({ data }) => {
+    await forward('motion-waitlist', data)
+    return { ok: true as const }
+  })
+
 export type CommunityInput = {
   name: string
   email: string

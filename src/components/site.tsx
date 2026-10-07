@@ -1,5 +1,7 @@
 import { Link, useLocation } from '@tanstack/react-router'
 import { useEffect, useRef, useState, type ReactNode } from 'react'
+import { Glyph } from './ProductVisuals'
+import { PRODUCTS } from '../lib/products'
 
 /* ------------------------------------------------------------------ */
 /*  Layout primitives                                                  */
@@ -120,8 +122,7 @@ export function Wordmark({
 
 const NAV = [
   { to: '/community', label: 'Community' },
-  { to: '/cailyx', label: 'Cailyx' },
-  { to: '/tools', label: 'Free tools' },
+  { to: '/cailyx', label: 'Products' },
   { to: '/blogs', label: 'Journal' },
   { to: '/research', label: 'Research' },
   { to: '/case-studies', label: 'Case Studies' },
@@ -133,8 +134,8 @@ const NAV = [
 const FOOTER_LINKS = {
   product: [
     { to: '/cailyx', label: 'Cailyx' },
+    { to: '/motion', label: 'Motion' },
     { to: '/ai-visibility-score', label: 'AI Visibility Score' },
-    { to: '/tools', label: 'Free tools' },
     { to: '/pricing', label: 'Pricing' },
     { to: '/research', label: 'Research' },
     { to: '/case-studies', label: 'Case Studies' },
@@ -154,9 +155,156 @@ const FOOTER_LINKS = {
   ],
 } as const
 
+
+/* ------------------------------------------------------------------ */
+/*  Products menu                                                      */
+/* ------------------------------------------------------------------ */
+
+const PRODUCT_PATHS = ['/cailyx', '/motion', '/tools']
+
+function MiniWeek() {
+  return (
+    <span aria-hidden className="flex gap-1">
+      {[1, 1, 0, 1, 1, 0, 1].map((on, i) => (
+        <i key={i} className="h-5 w-2.5 rounded-[3px]" style={{ background: on ? 'rgba(251,249,243,.85)' : 'rgba(251,249,243,.16)' }} />
+      ))}
+    </span>
+  )
+}
+
+function MiniBars() {
+  return (
+    <span aria-hidden className="flex w-24 flex-col gap-1.5">
+      {[78, 52, 36].map((w, i) => (
+        <i key={i} className="h-1 rounded-full" style={{ width: `${w}%`, background: i === 0 ? 'rgba(251,249,243,.85)' : 'rgba(251,249,243,.3)' }} />
+      ))}
+    </span>
+  )
+}
+
+function FeaturedProduct({ p, onGo }: { p: (typeof PRODUCTS)[number]; onGo: () => void }) {
+  const cls =
+    'group/card relative flex h-full min-h-[10.5rem] flex-col rounded-xl border border-night-line bg-night p-4 text-canvas transition-all duration-200 hover:-translate-y-0.5 hover:border-brass-soft/70 hover:shadow-[0_18px_40px_-18px_rgba(26,23,18,0.6)] focus-visible:outline-brass-soft'
+  const body = (
+    <>
+      <span className="flex items-start justify-between">
+        <Glyph k={p.key} size={40} />
+        {p.soon && (
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-cognac-soft/50 px-2 py-0.5 font-sans text-[0.68rem] tracking-wide text-cognac-soft">
+            <span className="relative flex size-1.5">
+              <span className="absolute inline-flex size-full rounded-full bg-cognac-soft opacity-70 motion-safe:animate-ping" />
+              <span className="relative inline-flex size-1.5 rounded-full bg-cognac-soft" />
+            </span>
+            Boarding soon
+          </span>
+        )}
+      </span>
+      <span className="mt-4 block font-display text-[1.35rem] leading-none text-canvas">{p.name}</span>
+      <span className="mt-2 block font-sans text-caption leading-snug text-canvas/60">{p.line}</span>
+      <span className="mt-auto flex items-end justify-between pt-4">
+        {p.key === 'motion' ? <MiniWeek /> : <MiniBars />}
+        <span aria-hidden className="text-brass-soft transition-transform duration-200 group-hover/card:translate-x-0.5">→</span>
+      </span>
+    </>
+  )
+  return (
+    <Link to={p.to as '/cailyx' | '/motion'} onClick={onGo} className={cls}>
+      {body}
+    </Link>
+  )
+}
+
+function ProductsMenu({ light, pathname }: { light: boolean; pathname: string }) {
+  const [open, setOpen] = useState(false)
+  const wrap = useRef<HTMLDivElement | null>(null)
+  const timer = useRef<number | undefined>(undefined)
+  const active = PRODUCT_PATHS.some((p) => pathname.startsWith(p))
+
+  useEffect(() => setOpen(false), [pathname])
+  useEffect(() => {
+    if (!open) return
+    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && setOpen(false)
+    const onDown = (e: MouseEvent) => {
+      if (wrap.current && !wrap.current.contains(e.target as Node)) setOpen(false)
+    }
+    document.addEventListener('keydown', onKey)
+    document.addEventListener('mousedown', onDown)
+    return () => {
+      document.removeEventListener('keydown', onKey)
+      document.removeEventListener('mousedown', onDown)
+    }
+  }, [open])
+
+  const enter = () => {
+    window.clearTimeout(timer.current)
+    setOpen(true)
+  }
+  const leave = () => {
+    window.clearTimeout(timer.current)
+    timer.current = window.setTimeout(() => setOpen(false), 140)
+  }
+  const featured = PRODUCTS.filter((p) => p.featured)
+  const more = PRODUCTS.filter((p) => !p.featured)
+
+  return (
+    <div ref={wrap} className="relative" onMouseEnter={enter} onMouseLeave={leave}>
+      <button
+        type="button"
+        aria-expanded={open}
+        aria-haspopup="true"
+        onClick={() => setOpen(true)}
+        className={`relative flex items-center gap-1.5 font-sans text-label tracking-wide transition-colors ${
+          light ? 'text-canvas/80 hover:text-canvas' : 'text-ink-80 hover:text-ink'
+        }`}
+      >
+        Products
+        <svg aria-hidden width="9" height="9" viewBox="0 0 10 10" className={`transition-transform duration-200 ${open ? 'rotate-180' : ''}`}>
+          <path d="M1.5 3.5L5 7l3.5-3.5" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+        <span aria-hidden className={`absolute -bottom-2 left-0 h-px w-full origin-left bg-brass transition-transform duration-300 ${active ? 'scale-x-100' : 'scale-x-0'}`} />
+      </button>
+
+      <div
+        className={`absolute left-1/2 top-full z-50 w-[34rem] -translate-x-1/2 pt-5 transition-all duration-200 ${
+          open ? 'visible translate-y-0 opacity-100' : 'invisible -translate-y-1 opacity-0'
+        }`}
+      >
+        <div className="overflow-hidden rounded-2xl border border-line bg-paper shadow-[0_34px_80px_-30px_rgba(26,23,18,0.5)]">
+          <div className="p-3">
+            <p className="px-1 pb-2 font-sans text-[0.68rem] font-medium uppercase tracking-[0.18em] text-ink-45">Our products</p>
+            <div className="grid grid-cols-2 gap-3">
+              {featured.map((p) => (
+                <FeaturedProduct key={p.key} p={p} onGo={() => setOpen(false)} />
+              ))}
+            </div>
+          </div>
+          <div className="border-t border-line bg-canvas-2 p-3">
+            <p className="px-1 pb-1.5 font-sans text-[0.68rem] font-medium uppercase tracking-[0.18em] text-ink-45">Also from Rothenhall</p>
+            <ul className="grid grid-cols-2 gap-1">
+              {more.map((p) => (
+                <li key={p.key}>
+                  <a href={p.to} onClick={() => setOpen(false)} className="group/row flex items-center gap-3 rounded-lg px-2 py-2 transition-colors hover:bg-paper">
+                    <Glyph k={p.key} size={34} />
+                    <span className="min-w-0 flex-1">
+                      <span className="block font-display text-[1rem] leading-tight text-ink">{p.name}</span>
+                      <span className="block truncate font-sans text-label text-ink-60">{p.short}</span>
+                    </span>
+                    <span aria-hidden className="text-brass opacity-0 transition-all duration-200 group-hover/row:translate-x-0.5 group-hover/row:opacity-100">↗</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 export function Header() {
   const [open, setOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  const [mobileProducts, setMobileProducts] = useState(false)
   const { pathname } = useLocation()
 
   useEffect(() => {
@@ -192,7 +340,10 @@ export function Header() {
               the CTA need roughly 980px of the 704px available, and flex
               items will not shrink below their own text. */}
           <nav className="hidden items-center gap-7 lg:flex">
-            {NAV.map((item) => (
+            {NAV.map((item) =>
+              item.label === 'Products' ? (
+                <ProductsMenu key={item.to} light={light} pathname={pathname} />
+              ) : (
               <Link
                 key={item.to}
                 to={item.to}
@@ -219,7 +370,8 @@ export function Header() {
                   </>
                 )}
               </Link>
-            ))}
+              ),
+            )}
             <Link
               to="/contact"
               className={`btn !px-5 !py-2.5 text-label ${
@@ -268,7 +420,40 @@ export function Header() {
         <div className="overflow-hidden">
           <Container>
             <nav className="flex flex-col py-4">
-              {NAV.map((item) => (
+              {NAV.map((item) =>
+                item.label === 'Products' ? (
+                  <div key={item.to} className="py-1">
+                    <button
+                      type="button"
+                      aria-expanded={mobileProducts}
+                      onClick={() => setMobileProducts((v) => !v)}
+                      className="flex w-full items-center justify-between py-2 text-left font-display text-2xl text-ink-80"
+                    >
+                      Products
+                      <svg aria-hidden width="14" height="14" viewBox="0 0 10 10" className={`transition-transform duration-200 ${mobileProducts ? 'rotate-180' : ''}`}>
+                        <path d="M1.5 3.5L5 7l3.5-3.5" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                    </button>
+                    <div className={`grid transition-[grid-template-rows] duration-300 ${mobileProducts ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'}`}>
+                      <ul className="overflow-hidden">
+                        {PRODUCTS.map((p) => (
+                          <li key={p.key}>
+                            <a href={p.to} onClick={() => setOpen(false)} className="flex items-center gap-4 rounded-xl py-2.5">
+                              <Glyph k={p.key} size={40} />
+                              <span className="min-w-0 flex-1">
+                                <span className="flex items-center gap-2 font-display text-xl text-ink">
+                                  {p.name}
+                                  {p.soon && <span className="rounded-full border border-cognac/40 px-2 py-px font-sans text-[0.68rem] text-cognac">Boarding soon</span>}
+                                </span>
+                                <span className="block font-sans text-caption text-ink-60">{p.short}</span>
+                              </span>
+                            </a>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                ) : (
                 <Link
                   key={item.to}
                   to={item.to}
@@ -279,7 +464,8 @@ export function Header() {
                 >
                   {item.label}
                 </Link>
-              ))}
+                ),
+              )}
               <Link
                 to="/contact"
                 onClick={() => setOpen(false)}

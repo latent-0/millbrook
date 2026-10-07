@@ -2,6 +2,8 @@ import { createFileRoute, Link } from '@tanstack/react-router'
 import { useState } from 'react'
 import { Container, Eyebrow, Reveal } from '../components/site'
 import { FreeToolsBlock } from '../components/FreeTools'
+import { HeroProduct, ProductTour } from '../components/CailyxShowcase'
+import { CapabilityVisual, EngineStrip, ProofVisual } from '../components/CailyxVisuals'
 import { seo, SITE } from '../lib/seo'
 import { joinWaitlist, type WaitlistInput, SOURCE_OPTIONS } from '../server/inquiry'
 
@@ -44,11 +46,11 @@ const CAPABILITIES = [
 ]
 
 const PIPELINE = [
-  { n: '1', title: 'Intake', body: 'You set the category, the competitors, and the buyer questions that matter.' },
-  { n: '2', title: 'Measure', body: 'Cailyx samples every engine, repeatedly, and records how you are described, cited, and ranked.' },
-  { n: '3', title: 'Diagnose', body: 'The evidence rolls into an AI Visibility Score and the reproducible reasons behind it.' },
-  { n: '4', title: 'Build', body: 'Agents and your operator produce the fixes: schema, content, citations, links.' },
-  { n: '5', title: 'Watch', body: 'Cailyx monitors the shift, so growth stays provable and nothing quietly regresses.' },
+  { n: '1', title: 'Intake', body: 'You set the category, the competitors, and the buyer questions that matter.', out: 'Query set v1' },
+  { n: '2', title: 'Measure', body: 'Cailyx samples every engine, repeatedly, and records how you are described, cited, and ranked.', out: 'Runs on 7 surfaces' },
+  { n: '3', title: 'Diagnose', body: 'The evidence rolls into an AI Visibility Score and the reproducible reasons behind it.', out: 'Score + reasons' },
+  { n: '4', title: 'Build', body: 'Agents and your operator produce the fixes: schema, content, citations, links.', out: 'Fix Plan' },
+  { n: '5', title: 'Watch', body: 'Cailyx monitors the shift, so growth stays provable and nothing quietly regresses.', out: 'Trend + alerts' },
 ]
 
 const STANDARDS = [
@@ -94,15 +96,25 @@ const schema = {
 }
 
 export const Route = createFileRoute('/cailyx')({
-  head: () => ({
-    ...seo({
+  head: () => {
+    const base = seo({
       path: '/cailyx',
       title: 'Cailyx · AI Visibility & AEO/SEO Engine · Rothenhall Partners',
       description:
         'Cailyx, Rothenhall’s agentic AEO and SEO engine, measures how AI sees you and builds the fixes that move your AI Visibility Score. Rates, not ranks.',
-    }),
-    scripts: [{ type: 'application/ld+json', children: JSON.stringify(schema) }],
-  }),
+    })
+    return {
+      meta: base.meta,
+      links: [
+        ...base.links,
+        {
+          rel: 'stylesheet',
+          href: 'https://fonts.googleapis.com/css2?family=Montserrat:wght@400..700&family=Cormorant+Garamond:wght@500;600;700&family=Geist+Mono:wght@400..600&display=swap',
+        },
+      ],
+      scripts: [{ type: 'application/ld+json', children: JSON.stringify(schema) }],
+    }
+  },
   component: Cailyx,
 })
 
@@ -118,7 +130,7 @@ function Cailyx() {
           className="pointer-events-none absolute -right-24 -top-24 hidden w-[34rem] select-none md:block"
           style={{ filter: 'brightness(0) invert(1)', opacity: 0.05 }}
         />
-        <Container className="relative pt-24 pb-20 sm:pt-32 sm:pb-28">
+        <Container className="relative pt-24 pb-10 sm:pt-32 sm:pb-16">
           <Reveal>
             <Eyebrow className="eyebrow-light">Cailyx · Our engine</Eyebrow>
             <h1
@@ -150,6 +162,10 @@ function Cailyx() {
               Access is set up by Rothenhall with your workspace, on onboarding. No
               card on this page.
             </p>
+          </Reveal>
+          <Reveal delay={280}>
+            <HeroProduct />
+            <EngineStrip />
           </Reveal>
         </Container>
       </section>
@@ -188,6 +204,28 @@ function Cailyx() {
         </Container>
       </section>
 
+      {/* Inside the product */}
+      <section className="border-t border-line bg-canvas">
+        <Container width="wide" className="py-24 sm:py-32">
+          <div className="max-w-3xl">
+            <Reveal>
+              <Eyebrow>Inside Cailyx</Eyebrow>
+              <h2 className="text-display-md mt-6">The workspace your team gets, screen by screen.</h2>
+              <p className="text-lead mt-6 text-ink-80">
+                Not a slide of promises. These are the surfaces Cailyx puts in front
+                of you: the measurement, the competitors, the technical evidence, and
+                the fixes that prove themselves.
+              </p>
+            </Reveal>
+          </div>
+          <div className="mt-14">
+            <Reveal delay={80}>
+              <ProductTour />
+            </Reveal>
+          </div>
+        </Container>
+      </section>
+
       {/* Capabilities */}
       <section className="border-t border-line bg-canvas-2">
         <Container className="py-24 sm:py-32">
@@ -197,17 +235,22 @@ function Cailyx() {
               <h2 className="text-display-lg mt-6">One engine for the whole AI-visibility loop.</h2>
             </Reveal>
           </div>
-          <div className="mt-16 divide-y divide-line border-y border-line">
+          <div className="mt-12 divide-y divide-line border-y border-line">
             {CAPABILITIES.map((c, i) => (
               <Reveal key={c.n} delay={i * 40}>
-                <div className="grid gap-3 py-8 sm:grid-cols-12 sm:items-baseline sm:gap-6">
-                  <span className="font-display text-2xl text-cognac sm:col-span-1">{c.n}</span>
-                  <h3 className="font-display text-ink sm:col-span-4" style={{ fontSize: '1.35rem', lineHeight: 1.15 }}>
-                    {c.title}
-                  </h3>
-                  <p className="font-sans text-body leading-relaxed text-ink-60 sm:col-span-7">
-                    {c.body}
-                  </p>
+                <div className="grid items-center gap-8 py-12 lg:grid-cols-12 lg:gap-14 lg:py-14">
+                  <div className={`lg:col-span-5 ${i % 2 ? 'lg:order-2' : ''}`}>
+                    <span className="font-display text-cognac" style={{ fontSize: '2.4rem', lineHeight: 1 }}>{c.n}</span>
+                    <h3 className="mt-4 font-display text-ink" style={{ fontSize: '1.7rem', lineHeight: 1.12 }}>
+                      {c.title}
+                    </h3>
+                    <p className="mt-4 font-sans text-body leading-relaxed text-ink-60">
+                      {c.body}
+                    </p>
+                  </div>
+                  <div className={`lg:col-span-7 ${i % 2 ? 'lg:order-1' : ''}`}>
+                    <CapabilityVisual n={c.n} />
+                  </div>
                 </div>
               </Reveal>
             ))}
@@ -231,6 +274,10 @@ function Cailyx() {
                   <span className="font-display text-brass" style={{ fontSize: '2rem', lineHeight: 1 }}>{s.n}</span>
                   <h3 className="mt-4 font-display text-ink" style={{ fontSize: '1.2rem' }}>{s.title}</h3>
                   <p className="mt-2 font-sans text-caption leading-relaxed text-ink-60">{s.body}</p>
+                  <p className="mt-5 inline-flex items-center gap-2 rounded-full border border-line bg-canvas-2 px-3 py-1 font-sans text-label text-ink-80">
+                    <span aria-hidden className="h-1.5 w-1.5 rounded-full bg-cognac" />
+                    {s.out}
+                  </p>
                 </div>
               </Reveal>
             ))}
@@ -304,6 +351,7 @@ function Cailyx() {
           <div className="mt-14 grid gap-6 lg:grid-cols-3">
             <Reveal delay={0}>
               <div className="convex-light flex h-full flex-col rounded-2xl p-8">
+                <ProofVisual kind="delta" />
                 <p className="font-display text-brass-deep" style={{ fontSize: '3rem', lineHeight: 1 }}>55 → 62</p>
                 <p className="mt-3 font-sans text-body leading-relaxed text-ink-60">
                   DayOne Technologies, +7 points on the AI Visibility Score in the first
@@ -313,6 +361,7 @@ function Cailyx() {
             </Reveal>
             <Reveal delay={80}>
               <div className="convex-light flex h-full flex-col rounded-2xl p-8">
+                <ProofVisual kind="ring" />
                 <p className="font-display text-brass-deep" style={{ fontSize: '3rem', lineHeight: 1 }}>43<span className="text-body-lg text-ink-45"> / 100</span></p>
                 <p className="mt-3 font-sans text-body leading-relaxed text-ink-60">
                   Napkin, a baseline the owner could not have seen alone, after the
@@ -322,6 +371,7 @@ function Cailyx() {
             </Reveal>
             <Reveal delay={160}>
               <div className="convex-light flex h-full flex-col rounded-2xl p-8">
+                <ProofVisual kind="field" />
                 <p className="font-display text-brass-deep" style={{ fontSize: '3rem', lineHeight: 1 }}>90k</p>
                 <p className="mt-3 font-sans text-body leading-relaxed text-ink-60">
                   AI answers across 15+ industries in Rothenhall’s field study, the

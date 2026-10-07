@@ -28,6 +28,7 @@ Tagline: Be the company the AI recommends.
 
 ## Optional
 - [Community](https://www.rothenhall.com/community)
+- [Motion](https://www.rothenhall.com/motion): Social studio for Instagram, Facebook and Threads (planner, pre-flight check, comment-to-DM automations). Early access list open.
 - [Cailyx](https://www.rothenhall.com/cailyx)
 - [Founders](https://www.rothenhall.com/founders)
 - [Journal](https://www.rothenhall.com/blogs)
