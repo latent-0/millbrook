@@ -33,11 +33,11 @@ const GLOSSARY: { term: string; def: string }[] = [
   },
   {
     term: 'GEO (Generative Engine Optimization)',
-    def: 'Near-synonym for AEO used by some vendors and researchers — optimizing content and entities so generative models surface and cite your brand. Rothenhall treats AEO and GEO as one discipline; if a source distinguishes them, GEO usually emphasizes the generative model\'s training-time memory and AEO the live answer surface.',
+    def: 'Near-synonym for AEO used by some vendors and researchers, optimizing content and entities so generative models surface and cite your brand. Rothenhall treats AEO and GEO as one discipline; if a source distinguishes them, GEO usually emphasizes the generative model\'s training-time memory and AEO the live answer surface.',
   },
   {
     term: 'AI SEO / LLM SEO / "answer optimization"',
-    def: 'Informal, overlapping terms marketers use for the same general practice as AEO/GEO. There is no standardized industry line between them — when you see one, check whether the author means entity/citation work (AEO-style) or classic keyword SEO applied to AI-era queries.',
+    def: 'Informal, overlapping terms marketers use for the same general practice as AEO/GEO. There is no standardized industry line between them. When you see one, check whether the author means entity/citation work (AEO-style) or classic keyword SEO applied to AI-era queries.',
   },
 ]
 
@@ -63,7 +63,7 @@ const FAQ_ITEMS: { q: string; a: string }[] = [
   },
   {
     q: 'Will AEO work replace my SEO budget?',
-    a: 'No — it sits alongside it. The pages your SEO program makes authoritative and crawlable are frequently the same pages an AI answer cites. Cutting SEO to fund AEO usually shrinks the evidence base AEO depends on.',
+    a: 'No, it sits alongside it. The pages your SEO program makes authoritative and crawlable are frequently the same pages an AI answer cites. Cutting SEO to fund AEO usually shrinks the evidence base AEO depends on.',
   },
 ]
 

@@ -8,7 +8,7 @@ export const Route = createFileRoute('/ai-visibility-score')({
       path: '/ai-visibility-score',
       title: 'The AI Visibility Score · Rothenhall Partners',
       description:
-        'The AI Visibility Score is Rothenhall Partners’ 0 to 100 measure of how likely an AI assistant is to recommend a company. Five weighted dimensions, measured across ChatGPT, Perplexity, Google AI Overviews, Google AI Mode, Gemini, Google Search, and Copilot.',
+        'The AI Visibility Score is Rothenhall Partners’ 0 to 100 measure of how likely an AI assistant is to recommend a company. Five weighted dimensions, measured across ChatGPT, Perplexity, Google AI Overviews, Google AI Mode and Gemini, with Google Search and Copilot next.',
     }),
   component: AIVisibilityScore,
 })
@@ -129,7 +129,7 @@ function AIVisibilityScore() {
                 Rothenhall Partners framework: a 0 to 100 measure of how likely an
                 AI assistant is to recommend a company, rolled up from five weighted
                 dimensions and measured across ChatGPT, Perplexity, Google AI
-                Overviews, Google AI Mode, Gemini, Google Search, and Copilot.
+                Overviews, Google AI Mode and Gemini, with Google Search and Copilot next.
               </p>
             </div>
           </Reveal>
@@ -239,7 +239,7 @@ function AIVisibilityScore() {
             {[
               ['A defined query set.', 'We never score against a vibe. The score is computed against a named, versioned set of the prompts your buyers actually type, which you own.'],
               ['At least five runs, at least two geographies.', 'AI answers are non-deterministic. A single run is noise. Every prompt runs five or more times, across geographies, so the number is a rate, not a lucky screenshot.'],
-              ['Rates, never rankings.', 'There is no rank in an AI answer. We report how often you appear, are cited, and are described accurately, as distributions across ChatGPT, Perplexity, Google AI Overviews, Google AI Mode, Gemini, Google Search, and Copilot.'],
+              ['Rates, never rankings.', 'There is no rank in an AI answer. We report how often you appear, are cited, and are described accurately, as distributions across ChatGPT, Perplexity, Google AI Overviews, Google AI Mode and Gemini, with Google Search and Copilot next.'],
               ['Every number sourced and caveated.', 'Referral data is an undercount and we say so. We do not promise placement in any individual answer, because nobody controls a probabilistic synthesis step.'],
             ].map(([t, b], i) => (
               <Reveal key={t} delay={i * 60}>

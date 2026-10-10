@@ -1,7 +1,10 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
-import { Container, Eyebrow, Reveal } from '../components/site'
+import { Container, Eyebrow, Reveal, StatusBadge } from '../components/site'
 import { FreeToolsBlock } from '../components/FreeTools'
 import { seo } from '../lib/seo'
+import { track } from '../lib/track'
+import { Glyph } from '../components/ProductVisuals'
+import { PRODUCTS } from '../lib/products'
 import { HomeHero } from '../components/HomeHero'
 import { StoryScroll } from '../components/StoryScroll'
 import { StatBlock } from '../components/StatBlock'
@@ -11,9 +14,9 @@ export const Route = createFileRoute('/')({
   head: () =>
     seo({
       path: '/',
-      title: 'Rothenhall · Cailyx, the AI Visibility Platform',
+      title: 'Rothenhall · Fractional Operating Partner for AI-Era Growth',
       description:
-        'Rothenhall is a startup building Cailyx, the AI-visibility platform that makes your company the one AI assistants recommend. Cailyx tracks how ChatGPT, Perplexity and Google AI Overviews see you, diagnoses the gaps, and does the work to fix them.',
+        'Rothenhall is a fractional operating partner for AI-era growth. We make your company the one ChatGPT, Perplexity and Google AI Overviews recommend, and run the go-to-market and revenue operations behind it, on our own platform.',
     }),
   component: Home,
 })
@@ -49,19 +52,19 @@ const PILLARS = [
 
 const ENGAGEMENTS = [
   {
-    kicker: 'Start free',
-    title: 'AI Visibility Score',
-    body: 'Run the diagnostic on your public footprint and get your score, and the specific reasons behind it, in minutes. No card, no call.',
+    kicker: 'Know',
+    title: 'Score and Diagnostic',
+    body: 'Start with a free AI Visibility Score, or a paid Diagnostic that ends in a 90-day plan. Every change after it is measured against a real baseline.',
   },
   {
-    kicker: 'Self-serve',
-    title: 'Cailyx subscription',
-    body: 'Continuous tracking, diagnosis and prioritised fixes across every major answer engine. Software that moves the number, week over week.',
+    kicker: 'Operate',
+    title: 'A monthly operating tier',
+    body: 'From measurement and tracked fixes to an embedded operator who owns the number. Fixed deliverables at each level.',
   },
   {
-    kicker: 'Done with you',
-    title: 'Managed by Cailyx',
-    body: 'Our team runs the agentic execution alongside you, building the entities, content and citations. The service, delivered as part of the product.',
+    kicker: 'Extend',
+    title: 'Add-ons and projects',
+    body: 'Add one module, such as social, a blog engine or motion video, or buy a single document at a fixed price, without moving up a tier.',
   },
 ]
 
@@ -69,6 +72,7 @@ function Home() {
   return (
     <>
       <HomeHero />
+      <FirstStep />
       <NetworkStrip />
       <StoryScroll />
       <StatBlock />
@@ -78,7 +82,7 @@ function Home() {
       <Engagements />
       <CommunityTeaser />
       <TheMoat />
-      <CailyxTeaser />
+      <PlatformBlock />
       <FreeToolsBlock placement="home" />
       <Faq />
       <ProofBand />
@@ -90,6 +94,40 @@ function Home() {
 /* ---------------------------------------------------------------- */
 /*  Network strip (early credential band)                            */
 /* ---------------------------------------------------------------- */
+
+function FirstStep() {
+  return (
+    <section className="border-b border-line bg-paper">
+      <Container width="wide" className="py-8 sm:py-10">
+        <Reveal>
+          <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-center">
+            <div className="max-w-xl">
+              <p className="font-display text-ink" style={{ fontSize: 'clamp(1.25rem,2.2vw,1.6rem)', lineHeight: 1.2 }}>
+                Buyers are already asking AI who to trust. Find out what it says about you.
+              </p>
+              <p className="mt-2 font-sans text-caption text-ink-60">
+                A free AI Visibility Score, no card and no call. Or see exactly what working with us costs.
+              </p>
+            </div>
+            <div className="flex flex-wrap gap-3">
+              <Link
+                to="/contact"
+                search={{ plan: 'diagnostic' }}
+                onClick={() => track('cta_free_score', { where: 'home' })}
+                className="btn btn-primary"
+              >
+                Get your free score
+              </Link>
+              <Link to="/pricing" className="btn btn-ghost">
+                See pricing
+              </Link>
+            </div>
+          </div>
+        </Reveal>
+      </Container>
+    </section>
+  )
+}
 
 function NetworkStrip() {
   return (
@@ -136,7 +174,7 @@ function TheShift() {
               <p className="text-lead text-ink-80 dropcap">
                 Discovery has moved. Buyers once searched and scrolled; now they
                 ask, and an answer engine decides which handful of companies are
-                worth naming. Most venture- and PE-backed companies have no
+                worth naming. Most growing companies have no
                 strategy for being found or cited there.
               </p>
               <p className="mt-6 font-sans text-body leading-relaxed text-ink-60">
@@ -186,11 +224,11 @@ function TheModel() {
           <Reveal>
             <Eyebrow>The model</Eyebrow>
             <h2 className="text-display-lg mt-6">
-              One platform runs the whole visibility loop.
+              One operator runs the whole visibility loop.
             </h2>
             <p className="text-lead mt-6 text-ink-60">
-              Not a dashboard that stops at the score. Cailyx measures, diagnoses,
-              fixes and proves, as one system, so the number actually moves.
+              Not a dashboard that stops at the score. We measure, diagnose, fix and
+              prove on our own platform, as one system, so the number actually moves.
             </p>
           </Reveal>
         </div>
@@ -219,7 +257,7 @@ function TheModel() {
         <Reveal>
           <div className="mt-12 text-center">
             <Link to="/about" className="link-line font-sans text-body">
-              See how Cailyx works →
+              See how we work →
             </Link>
           </div>
         </Reveal>
@@ -239,14 +277,17 @@ function Engagements() {
         <div className="grid gap-14 md:grid-cols-12">
           <div className="md:col-span-4">
             <Reveal>
-              <Eyebrow>Plans</Eyebrow>
+              <Eyebrow>How we work with you</Eyebrow>
               <h2 className="text-display-md mt-6">
-                Start free. Scale as you grow.
+                Start with the evidence. Then choose how much we run.
               </h2>
               <p className="mt-6 font-sans text-body leading-relaxed text-ink-60">
-                Three ways in: get your score for free, subscribe to track and
-                fix, or have our team run it with you.
+                Three ways in. Most companies take one, and add to it as the
+                work proves itself.
               </p>
+              <Link to="/pricing" className="btn btn-primary mt-8">
+                See pricing
+              </Link>
             </Reveal>
           </div>
 
@@ -312,7 +353,7 @@ function TheMoat() {
         <Reveal delay={90}>
           <blockquote className="mt-8">
             <p className="font-display text-ink" style={{ fontSize: 'clamp(1.7rem,3.4vw,2.75rem)', lineHeight: 1.16 }}>
-              “Every company Cailyx works on adds to a proprietary library: what
+              “Every company we work with adds to a proprietary library: what
               AI sees, what we changed, and what moved. It is not patentable. It
               compounds like it is.”
             </p>
@@ -321,7 +362,7 @@ function TheMoat() {
         <Reveal delay={160}>
           <p className="mx-auto mt-8 max-w-xl font-sans text-body leading-relaxed text-ink-60">
             Owning the whole loop is not just cleaner to buy. It compounds. What
-            Cailyx learns making one company the answer makes the next one faster,
+            we learn making one company the answer makes the next one faster,
             and that library cannot be replicated by a dashboard or a blog post.
           </p>
         </Reveal>
@@ -382,7 +423,7 @@ function ProofBand() {
 const FAQ_ITEMS = [
   {
     q: 'What is Rothenhall?',
-    a: 'Rothenhall is a startup building Cailyx, an AI-visibility platform. Cailyx tracks how AI assistants like ChatGPT, Perplexity and Google AI Overviews see your company, diagnoses why you are missing, and does the work to fix it.',
+    a: 'Rothenhall is a fractional operating partner for AI-era growth. We make companies the ones AI assistants like ChatGPT, Perplexity and Google AI Overviews recommend, and run the go-to-market and revenue operations behind it. Our team works on Cailyx, our own AI-visibility platform, and client access to it will follow later.',
   },
   {
     q: 'What is Answer Engine Optimization (AEO)?',
@@ -398,19 +439,19 @@ const FAQ_ITEMS = [
   },
   {
     q: 'Who is Cailyx for?',
-    a: 'Founders and teams who need to be found and recommended by AI assistants: startups, scale-ups and the agencies that serve them, in India and worldwide.',
+    a: 'Founders and teams who need to be found and recommended by AI assistants: startups, scale-ups, founder-led businesses and the agencies that serve them, in India, Europe and worldwide. Today our team runs Cailyx for you, and direct access to it follows later.',
   },
   {
     q: 'How do plans work?',
-    a: 'Start free with an AI Visibility Score, subscribe to Cailyx for continuous tracking and prioritised fixes, or add managed execution where our team runs the work with you.',
+    a: 'Start with a free AI Visibility Score or a paid Diagnostic. Then choose a monthly operating tier (Foundation, Growth or Operating Partner), and add single modules or one-off projects where you need them. The pricing page lists exactly what each one includes.',
   },
   {
     q: 'How does Cailyx measure results?',
-    a: 'By AI citation share across ChatGPT, Perplexity, Google AI Overviews, Google AI Mode, Gemini, Google Search, and Copilot, plus the pipeline and conversion that visibility drives.',
+    a: 'By AI citation share across ChatGPT, Perplexity, Google AI Overviews, Google AI Mode and Gemini, plus the pipeline and conversion that visibility drives.',
   },
   {
-    q: 'Is Cailyx available outside India?',
-    a: 'Yes. Rothenhall is India-first and Cailyx works for companies worldwide.',
+    q: 'Where do you work?',
+    a: 'Rothenhall is based in Bengaluru, with an office in Edinburgh, and works with companies in India, Europe and the US. Our team runs our platform for every client, wherever they are.',
   },
 ]
 
@@ -465,38 +506,49 @@ function CommunityTeaser() {
   )
 }
 
-function CailyxTeaser() {
+function PlatformBlock() {
+  const platform = PRODUCTS.filter((p) => p.group === 'platform')
+  const today: Record<string, string> = {
+    cailyx: 'Our team runs it for every client. You see the results in your weekly report.',
+    motion: 'Not open to clients yet. The early access list is open.',
+  }
   return (
     <section className="border-t border-line">
       <Container className="py-24 sm:py-32">
         <Reveal>
           <div className="relative overflow-hidden rounded-3xl bg-night px-8 py-14 text-canvas sm:px-14 sm:py-20">
-            <div className="grid gap-10 md:grid-cols-12 md:items-center">
-              <div className="md:col-span-8">
-                <Eyebrow className="eyebrow-light">The product</Eyebrow>
-                <h2 className="text-display-md mt-6 text-canvas">
-                  Cailyx, our agentic AI-visibility platform.
-                </h2>
-                <p className="mt-5 max-w-xl font-sans text-body leading-relaxed text-canvas/65">
-                  The product we are building: it maps how AI sees you, builds the
-                  entities and citations that move visibility, and tracks citation
-                  share across engines. A Cailyx MCP is on the roadmap.
-                </p>
-              </div>
-              <div className="md:col-span-4">
-                <div className="flex flex-col gap-4 md:items-end">
-                  <Link to="/cailyx" className="btn btn-light">
-                    Explore Cailyx
-                  </Link>
-                  <Link
-                    to="/cailyx"
-                    hash="waitlist"
-                    className="link-line font-sans text-body text-canvas/80"
-                  >
-                    Join the waitlist →
+            <div className="max-w-2xl">
+              <Eyebrow className="eyebrow-light">The platform</Eyebrow>
+              <h2 className="text-display-md mt-6 text-canvas">The platform behind the work.</h2>
+              <p className="mt-5 font-sans text-body leading-relaxed text-canvas/65">
+                Two products of our own. Cailyx measures how AI describes you and
+                tracks every fix. Motion plans and runs your social posts. Our
+                team runs Cailyx for you today, Motion follows, and client
+                access to both comes later.
+              </p>
+            </div>
+            <div className="mt-12 grid gap-5 md:grid-cols-2">
+              {platform.map((p) => (
+                <div key={p.key} className="flex flex-col rounded-2xl border border-night-line p-6 sm:p-7">
+                  <div className="flex items-start justify-between gap-4">
+                    <Glyph k={p.key} size={48} />
+                    <StatusBadge p={p} dark />
+                  </div>
+                  <h3 className="mt-5 font-display text-canvas" style={{ fontSize: '1.6rem', lineHeight: 1.1 }}>
+                    {p.name}
+                  </h3>
+                  <p className="mt-2 font-sans text-caption leading-snug text-canvas/70">{p.line}</p>
+                  <p className="mt-4 font-sans text-caption leading-relaxed text-canvas/55">{today[p.key]}</p>
+                  <Link to={p.to as '/cailyx' | '/motion'} className="link-line mt-5 self-start font-sans text-body text-brass-soft">
+                    {p.key === 'cailyx' ? 'About Cailyx' : 'Join the early access list'} →
                   </Link>
                 </div>
-              </div>
+              ))}
+            </div>
+            <div className="mt-8">
+              <Link to="/products" className="btn btn-light">
+                All products
+              </Link>
             </div>
           </div>
         </Reveal>

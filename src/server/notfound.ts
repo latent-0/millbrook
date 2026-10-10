@@ -81,7 +81,7 @@ export function isKnownPath(pathname: string): boolean {
 
 export function markdownNotFound(pathname: string): string {
   return [
-    '# 404 — Not Found',
+    '# 404 Not Found',
     '',
     `\`${pathname}\` does not exist on Rothenhall Partners.`,
     '',

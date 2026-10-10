@@ -10,7 +10,7 @@ export const Route = createFileRoute('/careers')({
       path: '/careers',
       title: 'Careers · Build the Company AI Recommends · Rothenhall Partners',
       description:
-        'Join Rothenhall Partners and Cailyx. We are building an AI-native growth engine for the answer-engine era: AEO and GEO, go-to-market, and RevOps as one accountable practice. Open roles, internships, and the Campus Scouts program.',
+        'Join Rothenhall Partners. We run AI visibility, go-to-market and RevOps as one accountable practice, on our own platform. Open roles, internships, and the Campus Scouts program.',
     }),
   component: Careers,
 })
@@ -118,7 +118,7 @@ const PATHS = [
   {
     title: 'Founders Circle',
     tag: 'Founders',
-    body: 'Not a job, a network. A private circle of founders, starting with a free AI Visibility Score and early access to Cailyx.',
+    body: 'Not a job, a network. A private circle of founders, starting with a free AI Visibility Score and early access to Cailyx and Motion.',
     cta: 'Request an invite',
     href: '/community',
     internal: true,
@@ -171,8 +171,7 @@ function Careers() {
               className="mt-8 max-w-xl font-sans text-body-lg leading-relaxed text-canvas/70"
             >
               Discovery is moving from search engines to answer engines, and most
-              companies have no idea whether they show up. We are building the
-              AI-native practice that fixes that, then proves it. Come build it
+              companies have no idea whether they show up. We are building the practice that fixes that, then proves it. Come build it
               with us.
             </motion.p>
             <motion.div variants={rise} className="mt-9 flex flex-wrap gap-3">
@@ -201,15 +200,13 @@ function Careers() {
               <div className="max-w-xl font-sans text-body leading-relaxed text-ink-60">
                 <p>
                   Rothenhall is the fractional operating partner for
-                  venture-backed and PE-backed companies. AI visibility, go-to-market,
+                  founder-led and growing companies. AI visibility, go-to-market,
                   and revenue operations, owned as one accountable engine.
                 </p>
                 <p className="mt-4">
-                  Cailyx is the product we are building on top of it: an AI-native
-                  system that diagnoses why a company is invisible to answer engines,
+                  Cailyx is the platform we have built on top of it: an agentic system that diagnoses why a company is invisible to answer engines,
                   then executes the fixes. We already have real customers, measurable
-                  outcomes, and a customer who came back for more. Now we are turning
-                  the practice into software.
+                  outcomes, and a customer who came back for more. Our team runs it for clients today, and client access will follow.
                 </p>
               </div>
             </Reveal>

@@ -398,12 +398,13 @@ function DotField() {
 
 /* ------------------------- engines strip --------------------------- */
 
-const ENGINES = ['ChatGPT', 'Perplexity', 'Google AI Overviews', 'Google AI Mode', 'Gemini', 'Google Search', 'Copilot']
+const ENGINES = ['ChatGPT', 'Perplexity', 'Google AI Overviews', 'Google AI Mode', 'Gemini']
+const NEXT_ENGINES = ['Google Search', 'Copilot']
 
 export function EngineStrip() {
   return (
     <div className="mt-12 border-t pt-8" style={{ borderColor: 'var(--color-night-line)' }}>
-      <p className="eyebrow eyebrow-light text-center">Measured across the seven surfaces buyers ask</p>
+      <p className="eyebrow eyebrow-light text-center">Measured across the engines buyers ask</p>
       <ul className="mt-6 flex flex-wrap items-center justify-center gap-x-9 gap-y-3">
         {ENGINES.map((e) => (
           <li key={e} className="font-display text-canvas/70" style={{ fontSize: '1.05rem', letterSpacing: '-0.005em' }}>
@@ -411,6 +412,9 @@ export function EngineStrip() {
           </li>
         ))}
       </ul>
+      <p className="mt-5 text-center font-sans text-label text-canvas/45">
+        Next: {NEXT_ENGINES.join(' and ')}
+      </p>
     </div>
   )
 }

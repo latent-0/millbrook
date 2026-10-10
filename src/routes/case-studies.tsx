@@ -37,7 +37,7 @@ const ANATOMY = [
 ]
 
 const METRICS = [
-  { v: 'AI citation share', d: 'Presence across ChatGPT, Perplexity, Google AI Overviews, Google AI Mode, Gemini, Google Search, and Copilot for the queries that matter.' },
+  { v: 'AI citation share', d: 'Presence across ChatGPT, Perplexity, Google AI Overviews, Google AI Mode and Gemini for the queries that matter.' },
   { v: 'Qualified pipeline', d: 'Sourced and influenced pipeline, attributable to the engine we build.' },
   { v: 'Conversion rate', d: 'Movement through a funnel that is finally measured end to end.' },
   { v: 'Reporting integrity', d: 'A single source of truth a fund can read and trust.' },
@@ -437,18 +437,19 @@ function CaseStudies() {
               Your company could be the next brief.
             </h2>
             <p className="mx-auto mt-6 max-w-xl font-sans text-body leading-relaxed text-ink-60">
-              Rothenhall works with a small number of startups and portfolio
+              Rothenhall works with a small number of startups and growing
               companies at a time, so each gets a senior operator’s full
-              attention, and every engagement is documented as proof. We are
-              taking on a few new briefs. If you want in, the capacity is worth
-              taking.
+              attention, and every engagement is documented as proof. A few
+              places are open in the Founding Partner Programme: half price for
+              the first three months, in return for a documented case study.
+              If you want in, the capacity is worth taking.
             </p>
             <div className="mt-9 flex flex-wrap justify-center gap-4">
-              <Link to="/contact" className="btn btn-primary">
-                Start an engagement
+              <Link to="/pricing" className="btn btn-primary">
+                See pricing
               </Link>
-              <Link to="/about" className="btn btn-ghost">
-                See the model
+              <Link to="/services" className="btn btn-ghost">
+                See how we work
               </Link>
             </div>
           </Reveal>

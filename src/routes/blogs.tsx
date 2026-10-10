@@ -255,7 +255,7 @@ function BlogIndex() {
               </h2>
               <p className="mt-3 font-sans text-body leading-relaxed text-ink-60">
                 The Founders Circle pairs a private network of founders with a free
-                AI Visibility Score and early access to Cailyx.
+                AI Visibility Score and early access to Cailyx and Motion.
               </p>
             </div>
             <Link to="/community" className="btn btn-primary shrink-0">

@@ -15,7 +15,7 @@ const SITE = {
   name: 'Rothenhall Partners',
   url: 'https://www.rothenhall.com',
   description:
-    'Rothenhall is a startup building Cailyx, the AI-visibility platform that makes your company the one AI assistants recommend. Cailyx tracks how ChatGPT, Perplexity, Google AI Overviews, Gemini and Copilot see you, diagnoses the gaps, and does the work to fix them.',
+    'Rothenhall Partners is a fractional operating partner for AI-era growth. We make your company the one AI assistants recommend, and run the go-to-market and revenue operations behind it, on our own platform.',
 }
 
 const orgSchema = {
@@ -23,10 +23,10 @@ const orgSchema = {
   '@type': 'Organization',
   '@id': `${SITE.url}/#organization`,
   name: SITE.name,
-  alternateName: ['Rothenhall', 'Cailyx'],
+  alternateName: ['Rothenhall'],
   description: SITE.description,
   disambiguatingDescription:
-    'Rothenhall is a B2B software startup based in Bengaluru, India, founded by Kunal Achintya Reddy, building Cailyx, an AI-visibility (AEO and GEO) platform. It is distinct from any similarly named financial, capital, or investment firm, and from the historical place of the same name.',
+    'Rothenhall Partners is a fractional operating partner practice based in Bengaluru, India, with an office in Edinburgh, founded by Kunal Achintya Reddy. It runs AI visibility (AEO and GEO), go-to-market and revenue operations for companies worldwide, and builds Cailyx and Motion, the platform behind that work. It is distinct from any similarly named financial, capital, or investment firm, and from the historical place of the same name.',
   url: SITE.url,
   logo: `${SITE.url}/brand/wordmark.png`,
   image: `${SITE.url}/og-image.jpg`,
@@ -70,11 +70,11 @@ const orgSchema = {
     'Answer Engine Optimization',
     'Generative Engine Optimization',
     'AI search visibility',
-    'ChatGPT, Perplexity, Google AI Overviews, Google AI Mode, Gemini, Google Search and Copilot citations',
+    'ChatGPT, Perplexity, Google AI Overviews, Google AI Mode and Gemini citations',
     'Go-to-Market Strategy',
     'Revenue Operations',
     'Growth Marketing',
-    'Private Equity Portfolio Operations',
+    'Growth Operations',
   ],
   serviceType: [
     'Answer Engine Optimization (AEO)',
@@ -102,7 +102,7 @@ const founderSchema = {
   '@id': `${SITE.url}/#founder`,
   name: 'Kunal Achintya Reddy',
   givenName: 'Kunal',
-  jobTitle: 'Founder',
+  jobTitle: 'Chief Executive Officer and Founder',
   url: `${SITE.url}/about#founder`,
   image: `${SITE.url}/brand/founder.jpeg`,
   email: 'kunal@rothenhall.com',
@@ -129,7 +129,7 @@ const cailyxSchema = {
   operatingSystem: 'Web',
   url: `${SITE.url}/cailyx`,
   description:
-    'Cailyx is an AI-visibility platform that tracks how AI assistants like ChatGPT, Perplexity, Google AI Overviews, Gemini and Copilot see your company, diagnoses why you are missing, and runs the agentic work to fix it.',
+    'Cailyx is an AI-visibility platform that tracks how AI assistants like ChatGPT, Perplexity, Google AI Overviews, Google AI Mode and Gemini see your company, diagnoses why you are missing, and runs the agentic work to fix it.',
   publisher: { '@id': `${SITE.url}/#organization` },
   offers: {
     '@type': 'Offer',
@@ -143,7 +143,7 @@ export const Route = createRootRoute({
     meta: [
       { charSet: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { title: 'Rothenhall · Cailyx, the AI Visibility Platform' },
+      { title: 'Rothenhall · Fractional Operating Partner for AI-Era Growth' },
       { name: 'description', content: SITE.description },
       { name: 'theme-color', content: '#f7f3ea' },
       {

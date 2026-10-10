@@ -47,7 +47,7 @@ const CAPABILITIES = [
 
 const PIPELINE = [
   { n: '1', title: 'Intake', body: 'You set the category, the competitors, and the buyer questions that matter.', out: 'Query set v1' },
-  { n: '2', title: 'Measure', body: 'Cailyx samples every engine, repeatedly, and records how you are described, cited, and ranked.', out: 'Runs on 7 surfaces' },
+  { n: '2', title: 'Measure', body: 'Cailyx samples every engine, repeatedly, and records how you are described, cited, and ranked.', out: 'Runs on 5 engines today' },
   { n: '3', title: 'Diagnose', body: 'The evidence rolls into an AI Visibility Score and the reproducible reasons behind it.', out: 'Score + reasons' },
   { n: '4', title: 'Build', body: 'Agents and your operator produce the fixes: schema, content, citations, links.', out: 'Fix Plan' },
   { n: '5', title: 'Watch', body: 'Cailyx monitors the shift, so growth stays provable and nothing quietly regresses.', out: 'Trend + alerts' },
@@ -68,11 +68,11 @@ const GUARDRAILS = [
   },
   {
     q: 'Do you just hand us a report?',
-    a: 'No. The agents and your operator build the fixes, and you keep a workspace to see them and act.',
+    a: 'No. Our team and the agents build the fixes, and you see each one in your weekly report. A workspace for your own team follows later.',
   },
   {
     q: 'Is this a login we sign up for ourselves?',
-    a: 'Not anonymous. Rothenhall sets up your workspace on onboarding and runs the deeper work behind the scenes.',
+    a: 'Not yet. Today Rothenhall runs Cailyx for you and reports the results. Direct client access follows later, and the list below is how you hear first.',
   },
   {
     q: 'A Cailyx MCP for our own AI stack?',
@@ -88,7 +88,7 @@ const schema = {
   operatingSystem: 'Web',
   image: `${SITE.url}/og-image.jpg`,
   description:
-    'AI-native, agentic engine for answer engine optimization (AEO) and SEO, built by Rothenhall Partners. Measures how AI answer engines describe and cite a company, builds the entities, content, and citations that move that view, and tracks the result as a rate. In use across every Rothenhall engagement; client access is granted on onboarding, and a Cailyx MCP is on the roadmap.',
+    'An agentic engine for answer engine optimization (AEO) and SEO, built by Rothenhall Partners. Measures how AI answer engines describe and cite a company, builds the entities, content, and citations that move that view, and tracks the result as a rate. In use across every Rothenhall engagement, run by Rothenhall’s team. Direct client access will follow later, and a Cailyx MCP is on the roadmap.',
   featureList: CAPABILITIES.map((c) => c.title),
   creator: { '@id': `${SITE.url}/#organization` },
   publisher: { '@id': `${SITE.url}/#organization` },
@@ -143,7 +143,7 @@ function Cailyx() {
           </Reveal>
           <Reveal delay={120}>
             <p className="text-lead mt-8 max-w-2xl text-canvas/70">
-              Cailyx is the engine Rothenhall runs every engagement on. It measures
+              Cailyx is the AI visibility engine in Rothenhall’s platform, and what we run every engagement on. It measures
               how AI answer engines see your brand across the queries buyers actually
               ask, builds the entities, content, and citations that move that view,
               and reports the result as a rate you can track, never a rank.
@@ -152,15 +152,15 @@ function Cailyx() {
           <Reveal delay={200}>
             <div className="mt-10 flex flex-wrap gap-4">
               <Link to="/contact" className="btn btn-light">
-                Request access
+                Talk to us
               </Link>
               <Link to="/pricing" className="btn btn-ghost-light">
                 See pricing
               </Link>
             </div>
             <p className="mt-4 font-sans text-caption text-canvas/45">
-              Access is set up by Rothenhall with your workspace, on onboarding. No
-              card on this page.
+              Our team runs Cailyx for you today, and direct client access will
+              follow. No card on this page.
             </p>
           </Reveal>
           <Reveal delay={280}>
@@ -210,7 +210,7 @@ function Cailyx() {
           <div className="max-w-3xl">
             <Reveal>
               <Eyebrow>Inside Cailyx</Eyebrow>
-              <h2 className="text-display-md mt-6">The workspace your team gets, screen by screen.</h2>
+              <h2 className="text-display-md mt-6">What your team will see, screen by screen.</h2>
               <p className="text-lead mt-6 text-ink-80">
                 Not a slide of promises. These are the surfaces Cailyx puts in front
                 of you: the measurement, the competitors, the technical evidence, and
@@ -401,11 +401,11 @@ function Cailyx() {
               Your buyers are asking AI who to trust. See exactly what it says about you.
             </h2>
             <p className="mx-auto mt-6 max-w-xl font-sans text-body leading-relaxed text-canvas/70">
-              Request access and Rothenhall sets up your Cailyx workspace with your
-              first measured score.
+              Talk to us and Rothenhall measures your company on Cailyx and
+              returns your first score.
             </p>
             <div className="mt-9 flex flex-wrap justify-center gap-4">
-              <Link to="/contact" className="btn btn-light">Request access</Link>
+              <Link to="/contact" className="btn btn-light">Talk to us</Link>
               <Link to="/pricing" className="btn btn-ghost-light">See pricing</Link>
             </div>
           </Reveal>

@@ -1,13 +1,14 @@
 # Rothenhall Partners
 
-> India-first fractional operating partner for venture- and PE-backed companies worldwide. Rothenhall runs AEO and GEO (AI search visibility), go-to-market, and revenue operations as one accountable engine, so a company becomes the one an AI assistant recommends.
+> India-first fractional operating partner for founder-led and growing companies, with funds and portfolios on request. Rothenhall runs AEO and GEO (AI search visibility), go-to-market, and revenue operations as one accountable engine, so a company becomes the one an AI assistant recommends.
 
 Rothenhall Partners embeds a senior operator to run the demand system a full-time hire would run, without the full-time hire. The primary wedge is AI answer-engine visibility: measuring whether ChatGPT, Claude, Perplexity, and Google's AI surfaces recommend a company against a defined query set, then moving that rate. Results are reported as distributions, never as rankings, and no placement in any individual AI answer is ever promised.
 
 Tagline: Be the company the AI recommends.
 
 ## Core pages
-- [Approach](https://www.rothenhall.com/approach): How Rothenhall works, the four-rung ladder from a free scorecard to a retainer, and what the firm refuses to do.
+- [Services](https://www.rothenhall.com/services): How Rothenhall works: the four disciplines, the stages of an engagement, the deliverables at each stage, and what we need from a client.
+- [Pricing](https://www.rothenhall.com/pricing): The ladder from a free score and a paid Diagnostic to three monthly operating tiers (Foundation, Growth, Operating Partner), priced add-ons and one-off projects.
 - [Case studies](https://www.rothenhall.com/case-studies): Documented before-and-after engagements with measured AI Visibility Scores.
 - [Research](https://www.rothenhall.com/research): First-party data on how AI answer engines read, quote, and cite the web.
 - [AEO vs SEO](https://www.rothenhall.com/aeo-vs-seo): Why ranking in Google and being recommended by an AI are now two different problems.
@@ -23,13 +24,14 @@ Tagline: Be the company the AI recommends.
 
 ## Facts
 - Entity: Rothenhall Partners, a fractional operating partner practice. Distinct from any similarly named financial or capital firm.
-- Serves: venture- and PE-backed companies, roughly Series A to C, worldwide, India-first.
+- Serves: founder-led and growing companies in India, Europe and the US, with funds and portfolios on request.
 - Measurement standard: at least five runs per prompt across at least two geographies; distributions reported, never rankings; every number sourced and caveated; no guaranteed placement.
 
 ## Optional
 - [Community](https://www.rothenhall.com/community)
 - [Motion](https://www.rothenhall.com/motion): Social studio for Instagram, Facebook and Threads (planner, pre-flight check, comment-to-DM automations). Early access list open.
-- [Cailyx](https://www.rothenhall.com/cailyx)
+- [Cailyx](https://www.rothenhall.com/cailyx): AI visibility engine. Measures how answer engines describe a company, audits the site and tracks every fix to done. Run by Rothenhall's team for clients today.
+- [Products](https://www.rothenhall.com/products): Cailyx, Motion, Openkit and Things, each with its current status.
 - [Founders](https://www.rothenhall.com/founders)
 - [Journal](https://www.rothenhall.com/blogs)
 - [Terms](https://www.rothenhall.com/terms)
@@ -42,3 +44,13 @@ Tagline: Be the company the AI recommends.
   It is not treated as a lever. The real work is off-site: entity consistency, third-party
   citations, reviews, and original data.
 -->
+
+## Pricing
+Prices are shown in the visitor's currency: US dollars, euros or Indian rupees, excluding VAT, GST or sales tax. Starting prices in US dollars:
+- Free: AI Visibility Score.
+- Diagnostic, one-time: from $950, credited in full against the first months of any operating tier signed within 30 days.
+- Foundation, monthly: $550. Measurement and tracked fixes. Three-month minimum.
+- Growth, monthly: $1,100. Adds positioning, content and off-site citation work.
+- Operating Partner, monthly: $2,600. A named operator who owns agreed KPIs.
+- Add-ons and one-off projects are priced per unit on https://www.rothenhall.com/pricing.
+- Rothenhall reports rates across repeated runs and never promises a ranking.

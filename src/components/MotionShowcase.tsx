@@ -621,7 +621,7 @@ export function BoardingPass() {
                       <span className="absolute inline-flex size-full rounded-full bg-cognac opacity-70 motion-safe:animate-ping" />
                       <span className="relative inline-flex size-2 rounded-full bg-cognac" />
                     </span>
-                    Boarding soon
+                    Coming later
                   </dd>
                 </div>
                 <div>

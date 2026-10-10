@@ -3,13 +3,27 @@ import { Container, Eyebrow, Reveal } from '../components/site'
 import { seo } from '../lib/seo'
 
 export const Route = createFileRoute('/about')({
-  head: () =>
-    seo({
+  head: () => ({
+    ...seo({
       path: '/about',
-      title: 'About & Approach · The AI-Era Operating Partner · Rothenhall Partners',
+      title: 'About · The Founders and the Operating Model · Rothenhall Partners',
       description:
-        'Rothenhall Partners is an India-first fractional operating partner for the AI era, running AI answer-engine visibility (AEO/GEO), go-to-market, and revenue operations as one accountable engine. The firm, the operating model, and the operator behind it.',
+        'Rothenhall Partners is an India-first fractional operating partner for the AI era, run by its four founders: Kunal Achintya Reddy (CEO), Lokesh Yarramallu (Operations and People), Madan Gopal (CTO) and Nitish Reddy Yatham (CFO).',
     }),
+    scripts: PEOPLE.filter((p) => p.schema).map((p) => ({
+      type: 'application/ld+json',
+      children: JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'Person',
+        name: p.name,
+        jobTitle: p.role,
+        email: p.email,
+        url: 'https://www.rothenhall.com/about#team',
+        worksFor: { '@id': 'https://www.rothenhall.com/#organization' },
+        sameAs: [p.linkedin],
+      }),
+    })),
+  }),
   component: About,
 })
 
@@ -112,12 +126,12 @@ const FOR = [
     v: 'That need a defined, senior push: real momentum without the cost or risk of a full-time hire.',
   },
   {
-    k: 'PE & VC portfolio companies',
+    k: 'Growing, founder-led companies',
     v: 'Lean by design, with no in-house marketing or RevOps depth, that need an operator to own growth.',
   },
   {
-    k: 'Funds',
-    v: 'That want one operating standard applied across a portfolio, backed by playbooks proven inside it.',
+    k: 'Funds and portfolios',
+    v: 'Taken on request: one operating standard applied across a portfolio, backed by playbooks proven inside it.',
   },
 ]
 
@@ -152,6 +166,163 @@ const FOUNDER_LINKS = [
   },
 ]
 
+
+/* The leadership team. Photos for three founders are placeholders for now:
+   replace the `photo` path with the real file when it is ready. */
+type Person = {
+  key: string
+  name: string
+  role: string
+  /** The small uppercase line under the name. */
+  title: string
+  lead: string
+  body: string[]
+  photo: string
+  linkedin: string
+  email: string
+  /** Icon links. Defaults to LinkedIn and email. */
+  links?: typeof FOUNDER_LINKS
+  /** Whether to emit Person structured data for this page (Kunal has his own in the root). */
+  schema: boolean
+}
+
+const PEOPLE: Person[] = [
+  {
+    key: 'kunal',
+    name: 'Kunal Achintya Reddy',
+    role: 'Chief Executive Officer',
+    title: 'CEO and founder, Rothenhall Partners',
+    lead: 'Kunal founded Rothenhall to close the gap the AI boom opened: a new front page made of AI answers, and lean teams with no way to appear in it.',
+    body: [
+      'He is the operating partner behind AEO, GTM, and RevOps for founders and funds, and researches how answer engines decide who gets recommended. The practice is that research turned into a repeatable operating standard.',
+      'As CEO he sets the direction of the company, leads the research agenda and the client work, and is accountable for the standard we hold ourselves to.',
+    ],
+    photo: '/brand/founder.jpeg',
+    linkedin: 'https://www.linkedin.com/in/kunalachintyareddy/',
+    email: 'kunal@rothenhall.com',
+    links: FOUNDER_LINKS,
+    schema: false,
+  },
+  {
+    key: 'lokesh',
+    name: 'Lokesh Yarramallu',
+    role: 'Chief Operations and People Officer',
+    title: 'COO and CPO, Rothenhall Partners',
+    lead: 'Lokesh runs how Rothenhall works day to day, and looks after the people who do the work.',
+    body: [
+      'He owns the operating rhythm of every engagement: how a client is onboarded, how the work is planned, delivered and reported each week, and how each deliverable is held to its written definition of done.',
+      'He also looks after the team itself, from hiring and onboarding to training, workload and culture, so the standard stays the same as Rothenhall grows. He works alongside our CTO on the technical side, which keeps delivery and the platform moving together.',
+    ],
+    photo: '/brand/team/lokesh-placeholder.svg',
+    linkedin: 'https://www.linkedin.com/in/lokeshyarramallu/',
+    email: 'lokesh@rothenhall.com',
+    schema: true,
+  },
+  {
+    key: 'madan',
+    name: 'Madan Gopal',
+    role: 'Chief Technology Officer',
+    title: 'CTO, Rothenhall Partners',
+    lead: 'Madan owns the technical side of Rothenhall.',
+    body: [
+      'He is responsible for our platform, Cailyx and Motion, and for the systems and data behind it. Cailyx is what our measurement and audits run on: how we measure how AI engines describe a company, and how each fix is tested on the live site before it is marked done.',
+      'He also owns the security and reliability of everything we build, including this website. Lokesh assists on technical delivery, so engineering and operations stay in step.',
+    ],
+    photo: '/brand/team/madan-placeholder.svg',
+    linkedin: 'https://www.linkedin.com/in/madan-gopal-35a9a4250/',
+    email: 'madan@rothenhall.com',
+    schema: true,
+  },
+  {
+    key: 'nitish',
+    name: 'Nitish Reddy Yatham',
+    role: 'Chief Financial Officer',
+    title: 'CFO, Rothenhall Partners',
+    lead: 'Nitish looks after Rothenhall’s finances.',
+    body: [
+      'He owns how the company is funded, priced and run financially: pricing and margins across regions, budgeting and cost control, invoicing and collections, and tax and compliance, including VAT and GST.',
+      'He also owns the financial reporting that keeps us honest about what each engagement costs and returns, and the commercial terms we sign with clients.',
+    ],
+    photo: '/brand/team/nitish-placeholder.svg',
+    linkedin: 'https://www.linkedin.com/in/nitish-reddy-yatham/',
+    email: 'nitish@rothenhall.com',
+    schema: true,
+  },
+]
+
+const IN_ICON = (
+  <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18" aria-hidden>
+    <path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM9 9h3.8v1.64h.06c.53-1 1.83-2.05 3.76-2.05 4.02 0 4.76 2.65 4.76 6.1V21h-4v-5.4c0-1.29-.02-2.95-1.8-2.95-1.8 0-2.08 1.4-2.08 2.85V21H9z" />
+  </svg>
+)
+const MAIL_ICON = (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" width="18" height="18" aria-hidden>
+    <rect x="3" y="5" width="18" height="14" rx="2" />
+    <path d="m3.5 7 8.5 6 8.5-6" />
+  </svg>
+)
+
+/** One founder, in the same layout for all four: a morphing portrait on one
+    side and the words on the other, alternating sides down the page. */
+function PersonRow({ p, flip, index }: { p: Person; flip: boolean; index: number }) {
+  const first = p.name.split(' ')[0]
+  const links =
+    p.links ??
+    ([
+      { label: `${first} on LinkedIn`, href: p.linkedin, icon: IN_ICON },
+      { label: `Email ${first}`, href: `mailto:${p.email}`, icon: MAIL_ICON },
+    ] as typeof FOUNDER_LINKS)
+  return (
+    <div id={p.key === 'kunal' ? 'founder' : p.key} className="grid scroll-mt-24 gap-14 md:grid-cols-12 md:items-center">
+      <div className={`md:col-span-5 ${flip ? 'md:order-2 md:col-start-8' : ''}`}>
+        <Reveal>
+          <div
+            className="blob-founder group relative mx-auto flex aspect-[4/5] w-full max-w-md items-center justify-center overflow-hidden bg-canvas-2"
+            style={{ boxShadow: '0 40px 80px -46px rgba(26, 23, 18, 0.5)', animationDelay: `-${index * 4}s` }}
+          >
+            <img
+              src={p.photo}
+              alt={`${p.name}, ${p.role}, Rothenhall Partners`}
+              width={800}
+              height={1000}
+              loading="lazy"
+              className="absolute inset-0 h-full w-full object-cover object-center grayscale transition-[filter,transform] duration-700 ease-out group-hover:grayscale-0 group-hover:scale-[1.03] motion-reduce:transition-none"
+            />
+          </div>
+        </Reveal>
+      </div>
+      <div className={`md:col-span-6 ${flip ? 'md:order-1 md:col-start-1' : 'md:col-start-7'}`}>
+        <Reveal delay={100}>
+          <Eyebrow>{p.role}</Eyebrow>
+          <h3 className="text-display-md mt-6">{p.name}</h3>
+          <p className="mt-3 font-sans text-caption uppercase tracking-[0.16em] text-cognac-deep">{p.title}</p>
+          <p className="mt-7 text-lead text-ink-80">{p.lead}</p>
+          {p.body.map((b) => (
+            <p key={b} className="mt-5 font-sans text-body leading-relaxed text-ink-60">
+              {b}
+            </p>
+          ))}
+          <div className="mt-8 flex items-center gap-3">
+            {links.map((l) => (
+              <a
+                key={l.label}
+                href={l.href}
+                aria-label={l.label}
+                title={l.label}
+                target={l.href.startsWith('mailto:') ? undefined : '_blank'}
+                rel={l.href.startsWith('mailto:') ? undefined : 'me noopener noreferrer'}
+                className="flex h-10 w-10 items-center justify-center rounded-full border border-line text-ink-45 transition-colors hover:border-cognac hover:text-cognac-deep"
+              >
+                {l.icon}
+              </a>
+            ))}
+          </div>
+        </Reveal>
+      </div>
+    </div>
+  )
+}
+
 function About() {
   return (
     <>
@@ -178,6 +349,35 @@ function About() {
               </Reveal>
             </div>
           </div>
+        </Container>
+      </section>
+
+      {/* The four founders, in one frame. Placed straight after the thesis so
+          the reader meets the people before the model. */}
+      <section aria-labelledby="founders-photo" className="bg-night text-canvas">
+        <Container width="wide" className="py-14 sm:py-20">
+          <Reveal>
+            <figure>
+              <div className="relative overflow-hidden rounded-2xl">
+                <img
+                  src="/brand/team/founders-group.jpg"
+                  alt="The four founders of Rothenhall Partners together: Kunal, Lokesh, Madan and Nitish"
+                  width={1920}
+                  height={1280}
+                  className="aspect-[4/3] w-full object-cover object-[50%_30%] sm:aspect-[16/9]"
+                />
+              </div>
+              <figcaption className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+                <div>
+                  <p id="founders-photo" className="eyebrow eyebrow-light">The founders</p>
+                  <p className="mt-3 font-display text-canvas" style={{ fontSize: 'clamp(1.5rem,2.6vw,2.1rem)', lineHeight: 1.15 }}>
+                    Four founders, each accountable for a part of the company.
+                  </p>
+                </div>
+                <p className="font-sans text-caption text-canvas/60">Kunal, Lokesh, Madan and Nitish</p>
+              </figcaption>
+            </figure>
+          </Reveal>
         </Container>
       </section>
 
@@ -372,65 +572,25 @@ function About() {
         </Container>
       </section>
 
-      {/* Founder */}
-      <section id="founder" className="border-t border-line">
+      {/* Leadership team */}
+      <section id="team" className="scroll-mt-24 border-t border-line">
         <Container className="py-24 sm:py-32">
-          <div className="grid gap-14 md:grid-cols-12 md:items-center">
-            <div className="md:col-span-5">
-              <Reveal>
-                <div
-                  className="blob-founder group relative mx-auto flex aspect-[4/5] w-full max-w-md items-center justify-center overflow-hidden bg-canvas-2"
-                  style={{ boxShadow: '0 40px 80px -46px rgba(26, 23, 18, 0.5)' }}
-                >
-                  <span className="font-display text-7xl text-line-strong" aria-hidden>
-                    KA
-                  </span>
-                  <img
-                    src="/brand/founder.jpeg"
-                    alt="Kunal Achintya Reddy, founder of Rothenhall Partners"
-                    onError={(e) => {
-                      e.currentTarget.style.display = 'none'
-                    }}
-                    className="absolute inset-0 h-full w-full object-cover object-center grayscale transition-[filter,transform] duration-700 ease-out group-hover:grayscale-0 group-hover:scale-[1.03] motion-reduce:transition-none"
-                  />
-                </div>
-              </Reveal>
-            </div>
-            <div className="md:col-span-6 md:col-start-7">
-              <Reveal delay={100}>
-                <Eyebrow>Founder</Eyebrow>
-                <h2 className="text-display-md mt-6">Kunal Achintya Reddy</h2>
-                <p className="mt-3 font-sans text-caption uppercase tracking-[0.16em] text-cognac-deep">
-                  Founder, Rothenhall Partners
-                </p>
-                <p className="mt-7 text-lead text-ink-80">
-                  Kunal founded Rothenhall to close the gap the AI boom opened: a
-                  new front page made of AI answers, and lean teams with no way to
-                  appear in it.
-                </p>
-                <p className="mt-5 font-sans text-body leading-relaxed text-ink-60">
-                  He is the operating partner behind AEO, GTM, and RevOps for
-                  founders and funds, and researches how answer engines decide who
-                  gets recommended. The practice is that research turned into a
-                  repeatable operating standard.
-                </p>
-                <div className="mt-8 flex items-center gap-3">
-                  {FOUNDER_LINKS.map((l) => (
-                    <a
-                      key={l.label}
-                      href={l.href}
-                      aria-label={l.label}
-                      title={l.label}
-                      target={l.href.startsWith('mailto:') ? undefined : '_blank'}
-                      rel={l.href.startsWith('mailto:') ? undefined : 'me noopener noreferrer'}
-                      className="flex h-10 w-10 items-center justify-center rounded-full border border-line text-ink-45 transition-colors hover:border-cognac hover:text-cognac-deep"
-                    >
-                      {l.icon}
-                    </a>
-                  ))}
-                </div>
-              </Reveal>
-            </div>
+          <div className="max-w-3xl">
+            <Reveal>
+              <Eyebrow>The team</Eyebrow>
+              <h2 className="text-display-md mt-6">Four founders, one standard.</h2>
+              <p className="mt-6 font-sans text-body leading-relaxed text-ink-60">
+                Rothenhall is run by its four founders. Each owns a part of the
+                company, so there is always one person accountable for it, and
+                you can write to any of them directly.
+              </p>
+            </Reveal>
+          </div>
+
+          <div className="mt-16 space-y-24 sm:space-y-32">
+            {PEOPLE.map((p, i) => (
+              <PersonRow key={p.key} p={p} flip={i % 2 === 1} index={i} />
+            ))}
           </div>
         </Container>
       </section>

@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" role="img" aria-label="Photo of Lokesh Yarramallu coming soon">
+  <rect width="800" height="1000" fill="#efe9dc"/>
+  <rect x="24" y="24" width="752" height="952" fill="none" stroke="#ddd5c4" stroke-width="2"/>
+  <circle cx="400" cy="400" r="150" fill="none" stroke="#cbc0a9" stroke-width="2"/>
+  <path d="M170 860c20-170 130-250 230-250s210 80 230 250" fill="none" stroke="#cbc0a9" stroke-width="2"/>
+  <text x="400" y="425" text-anchor="middle" font-family="Jost, 'Century Gothic', 'Segoe UI', sans-serif" font-size="110" fill="#9a7a4a">LY</text>
+  <text x="400" y="930" text-anchor="middle" font-family="'Instrument Sans', 'Segoe UI', sans-serif" font-size="22" letter-spacing="5" fill="#857d6c">PHOTO COMING SOON</text>
+</svg>

@@ -10,22 +10,29 @@ export const Route = createFileRoute('/contact')({
       path: '/contact',
       title: 'Contact · Start a Conversation · Rothenhall Partners',
       description:
-        'Talk to Rothenhall Partners about AI answer-engine visibility (AEO/GEO), go-to-market, and revenue operations for your company or portfolio, in India or worldwide. Email office@rothenhall.com.',
+        'Talk to Rothenhall Partners about AI answer-engine visibility (AEO/GEO), go-to-market, and revenue operations for your company or portfolio, in India, Europe or the US. Email office@rothenhall.com.',
     }),
+  validateSearch: (s: Record<string, unknown>): { plan?: string; note?: string } => ({
+    plan: typeof s.plan === 'string' ? s.plan : undefined,
+    note: typeof s.note === 'string' ? s.note.slice(0, 280) : undefined,
+  }),
   component: Contact,
 })
 
 const TYPES = [
-  { value: 'startup', label: 'Early-stage startup: a fixed-fee sprint' },
-  { value: 'portfolio', label: 'Portfolio company: an operating retainer' },
-  { value: 'fund', label: 'Fund: a portfolio-wide retainer' },
+  { value: 'diagnostic', label: 'A Diagnostic: know where we stand' },
+  { value: 'foundation', label: 'Foundation: measure and track the fixes' },
+  { value: 'growth', label: 'Growth: GTM and content run with us' },
+  { value: 'operating', label: 'Operating Partner: an embedded operator' },
+  { value: 'fund', label: 'A fund or portfolio-wide programme' },
   { value: 'other', label: 'Something else' },
 ]
 
 const EXPECT = [
   'A reply from a senior operator, not a sales sequence.',
   'A short, honest read on where the biggest gains likely are.',
-  'A clear proposal only if it’s a genuine fit.',
+  'A proposal and Statement of Work only if it’s a genuine fit.',
+  'If you start with a Diagnostic, its fee is credited if you continue.',
 ]
 
 type Status = 'idle' | 'submitting' | 'success' | 'error'
@@ -46,13 +53,19 @@ const empty: InquiryInput = {
   name: '',
   email: '',
   company: '',
-  type: 'startup',
+  type: 'diagnostic',
   message: '',
   source: '',
 }
 
 function Contact() {
-  const [form, setForm] = useState<InquiryInput>(empty)
+  const { plan, note } = Route.useSearch()
+  const [form, setForm] = useState<InquiryInput>(() => ({
+    ...empty,
+    type: TYPES.some((o) => o.value === plan) ? (plan as string) : empty.type,
+    // An estimate built on the pricing page arrives already written down.
+    message: note ? `I would like a proposal for: ${note}.` : '',
+  }))
   const [status, setStatus] = useState<Status>('idle')
   const [error, setError] = useState('')
 

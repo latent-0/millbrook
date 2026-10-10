@@ -355,7 +355,6 @@ const ENGINES: [string, number][] = [
   ['Gemini', 38],
   ['Google AI Overviews', 31],
   ['Google AI Mode', 29],
-  ['Copilot', 22],
 ]
 
 function DashboardScreen() {
@@ -392,7 +391,7 @@ function DashboardScreen() {
             <div className="min-w-0">
               <p style={{ fontSize: 17, fontWeight: 625, lineHeight: 1.3, color: '#fff' }}>Named in 38% of AI answers</p>
               <p className="mt-1.5" style={{ fontSize: 12, color: 'rgba(255,255,255,.65)', lineHeight: 1.5 }}>
-                Across 1,240 answers from 6 engines. Cited as a source in 21%.
+                Across 1,240 answers from 5 engines. Cited as a source in 21%.
               </p>
               <div className="mt-2.5 flex flex-wrap gap-1.5" style={{ fontSize: 11 }}>
                 <span className="rounded-full px-2.5 py-1" style={{ background: 'rgba(255,255,255,.1)', color: 'rgba(255,255,255,.85)' }}>
@@ -543,7 +542,7 @@ function VisibilityScreen() {
             <Dot />
             <span>Measured 28 Sep</span>
             <Dot />
-            <span>1,240 answers from 6 engines</span>
+            <span>1,240 answers from 5 engines</span>
           </>
         }
         summary={

@@ -17,7 +17,7 @@ export const Route = createFileRoute('/community')({
       path: '/community',
       title: 'The Founders Circle · An Invite-Only Network · Rothenhall Partners',
       description:
-        'A private founders network from Rothenhall Partners. Members get an exclusive circle of founders, early access to Cailyx, and a free AI Visibility Score to start. Request an invite.',
+        'A private founders network from Rothenhall Partners. Members get an exclusive circle of founders, early access to Cailyx and Motion, and a free AI Visibility Score to start. Request an invite.',
     }),
   component: Community,
 })
@@ -39,7 +39,7 @@ const rise: Variants = {
 const BENEFITS = [
   { n: '01', title: 'A free AI Visibility Score', body: 'Every member starts with Rothenhall’s full AI Visibility Score, and the specific, reproducible reasons behind it.' },
   { n: '02', title: 'A private founders network', body: 'Exclusive access to a circle of founders. Warm intros, shared playbooks, candid rooms.' },
-  { n: '03', title: 'Early access to Cailyx', body: 'First in line for our agentic AEO engine and the Cailyx MCP.' },
+  { n: '03', title: 'Early access to Cailyx and Motion', body: 'First in line for Cailyx, Motion and the Cailyx MCP, as they open.' },
   { n: '04', title: 'Your name in the proof', body: 'Your before-and-after becomes the case studies this practice is known by.' },
 ]
 
@@ -75,7 +75,7 @@ function Community() {
                 <p className="mt-8 max-w-md font-sans text-body-lg leading-relaxed text-ink-60">
                   A private network of founders across Europe, India, and the USA,
                   with our growth engine behind you. Every member starts with a free
-                  AI Visibility Score and early access to Cailyx.
+                  AI Visibility Score and early access to Cailyx and Motion.
                 </p>
                 <div className="mt-6 flex flex-wrap items-center gap-2.5">
                   {['Europe', 'India', 'USA'].map((r) => (

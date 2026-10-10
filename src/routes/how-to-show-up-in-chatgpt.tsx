@@ -32,7 +32,7 @@ const STEPS: { name: string; text: string }[] = [
   },
   {
     name: 'Track citation share and iterate',
-    text: 'Measure whether you are named, cited, and recommended across ChatGPT, Perplexity, Google AI Overviews, Google AI Mode, Gemini, Google Search, and Copilot for your target questions. Record position, description, source cited, and competitor mentions, then close the gaps.',
+    text: 'Measure whether you are named, cited, and recommended across ChatGPT, Perplexity, Google AI Overviews, Google AI Mode and Gemini for your target questions. Record position, description, source cited, and competitor mentions, then close the gaps.',
   },
 ]
 
@@ -47,7 +47,7 @@ const COMPARISON_ROWS: [string, string, string][] = [
 const MYTHS: { claim: string; reality: string }[] = [
   {
     claim: '"You can submit your site to ChatGPT and guarantee a mention."',
-    reality: 'There is no submission form and no guaranteed placement. You can only improve the odds by fixing entity clarity, evidence, and content structure — the same levers every competitor is also pulling.',
+    reality: 'There is no submission form and no guaranteed placement. You can only improve the odds by fixing entity clarity, evidence, and content structure, the same levers every competitor is also pulling.',
   },
   {
     claim: '"AI visibility is just Google ranking with extra steps."',
@@ -59,7 +59,7 @@ const MYTHS: { claim: string; reality: string }[] = [
   },
   {
     claim: '"One citation means you have won AI search."',
-    reality: 'A single citation is a data point, not a trend. AI outputs are probabilistic and change between runs, models, and updates — track a defined query set over time instead.',
+    reality: 'A single citation is a data point, not a trend. AI outputs are probabilistic and change between runs, models, and updates. Track a defined query set over time instead.',
   },
 ]
 
@@ -153,7 +153,7 @@ function HowTo() {
                 content it can lift. AI answers come largely from memory and are
                 corroborated with live search, so on-site and off-site signals
                 both matter. There is no submission form and no guaranteed
-                placement — only the levers below.
+                placement, only the levers below.
               </p>
             </div>
           </Reveal>
@@ -188,7 +188,7 @@ function HowTo() {
             <ul className="mt-6 space-y-4 font-sans text-body leading-relaxed text-ink-60">
               <li>
                 <strong className="text-ink">Mention.</strong> Your brand name
-                appears in the answer text, with no link — the model naming you
+                appears in the answer text, with no link, the model naming you
                 alongside others as it answers.
               </li>
               <li>
@@ -197,7 +197,7 @@ function HowTo() {
               </li>
               <li>
                 <strong className="text-ink">Recommendation.</strong> You are
-                named as a provider to consider, often with a qualifier — the
+                named as a provider to consider, often with a qualifier, the
                 highest-value outcome because it shapes the buyer's evaluation
                 set directly.
               </li>
@@ -213,7 +213,7 @@ function HowTo() {
               How AI answers differ from traditional search
             </h2>
             <p className="mt-5 font-sans text-body leading-relaxed text-ink-60">
-              AI visibility adds a discovery layer on top of classic search — it
+              AI visibility adds a discovery layer on top of classic search. It
               does not replace the need for a technically sound, well-linked
               website.
             </p>
@@ -281,12 +281,12 @@ function HowTo() {
               measurement has to be built deliberately. Track:
             </p>
             <ul className="mt-6 grid gap-3 sm:grid-cols-2 font-sans text-body leading-relaxed text-ink-60">
-              <li>Mention rate — the share of a fixed prompt panel where you are named</li>
-              <li>Citation rate — the share of answers linking back to a page you control</li>
-              <li>Source share — which domains the model cites most often in your category</li>
-              <li>Competitor share — your mentions relative to the total across named competitors</li>
-              <li>Context quality — positive, neutral, negative, or inaccurate</li>
-              <li>Referral and branded-search lift — the downstream traffic signal</li>
+              <li>Mention rate: the share of a fixed prompt panel where you are named</li>
+              <li>Citation rate: the share of answers linking back to a page you control</li>
+              <li>Source share: which domains the model cites most often in your category</li>
+              <li>Competitor share: your mentions relative to the total across named competitors</li>
+              <li>Context quality: positive, neutral, negative, or inaccurate</li>
+              <li>Referral and branded-search lift: the downstream traffic signal</li>
             </ul>
             <p className="mt-6 font-sans text-body leading-relaxed text-ink-60">
               For the full measurement framework and attribution model, see{' '}

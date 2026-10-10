@@ -22,7 +22,7 @@ export const Route = createFileRoute('/motion')({
       path: '/motion',
       title: 'Motion · Social studio for Instagram, Facebook and Threads · Rothenhall Partners',
       description:
-        'Motion is Rothenhall’s social studio: plan the week, check a post before it goes out, and run comment-to-DM automations. Boarding soon. Join the early access list.',
+        'Motion is Rothenhall’s social studio: plan the week, check a post before it goes out, and run comment-to-DM automations. Coming later. Join the early access list.',
     }),
     scripts: [{ type: 'application/ld+json', children: JSON.stringify(schema) }],
   }),

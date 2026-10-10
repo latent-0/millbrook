@@ -42,7 +42,7 @@ const WHY = [
   { k: 'Skill', title: 'Master AEO and GEO', body: 'Answer engine optimization is where discovery is heading. Learn it hands on, months before it shows up in a syllabus.' },
   { k: 'Proof', title: 'Publish in public', body: 'Every blog you write is a real, bylined portfolio piece. You leave with a body of work, not a certificate line.' },
   { k: 'Signal', title: 'Credentials that carry', body: 'A verified certificate, a personal letter of recommendation, and a LinkedIn recommendation from the founder.' },
-  { k: 'Access', title: 'Use the product', body: 'Free Cailyx credits and early access to the AI visibility tools you are writing about.' },
+  { k: 'Access', title: 'Use the product', body: 'Early access to Cailyx, Motion and the other tools you are writing about, as they open.' },
   { k: 'Reward', title: 'Earn the swag', body: 'Real gear at every milestone, from the welcome tee to the Campus Head jacket. You keep what you climb to.' },
   { k: 'Path', title: 'A door in', body: 'Top Scouts are first in line for paid project work, internships, and a co-authored Rothenhall piece.' },
 ]
@@ -69,7 +69,7 @@ const TIERS: Tier[] = [
     name: 'Advocate',
     when: 'Month 1 cleared',
     req: '8 approved posts published, onboarding done, rhythm held every week.',
-    rewards: ['Cap and field notebook', 'Verified certificate', 'LinkedIn recommendation', 'Cailyx free tier'],
+    rewards: ['Cap and field notebook', 'Verified certificate', 'LinkedIn recommendation', 'Early access to Cailyx and Motion'],
   },
   {
     step: 'Tier 03',
@@ -97,7 +97,7 @@ const RHYTHM = [
 const TRACKS = [
   { k: 'A', title: 'Content and citations', body: 'The core. Your weekly posts, threads, carousels, and the occasional guest post on a real publication.' },
   { k: 'B', title: 'Events and community', body: 'Host a webinar, run a campus talk, or start a four session AI visibility study circle. This unlocks the Lead tier.' },
-  { k: 'C', title: 'Growth', body: 'Refer a founder for a free diagnostic. Conversions earn bonus swag, product credits, and leaderboard standing.' },
+  { k: 'C', title: 'Growth', body: 'Refer a founder for a free diagnostic. Conversions earn bonus swag, early access, and leaderboard standing.' },
   { k: 'D', title: 'Insight', body: 'Run a real AI visibility audit on a local business, or interview a founder on how they get discovered.' },
 ]
 
@@ -138,7 +138,7 @@ const LADDER: Rung[] = [
   { stage: 'Stage 01', when: 'On selection', items: ['Branded tee', 'Sticker sheet and logo pin', 'Digital badge and certificate'] },
   { stage: 'Stage 02', when: 'Month 1 cleared', items: ['Cap or beanie', 'Notebook and pen', 'Advocate badge'] },
   { stage: 'Stage 03', when: 'Month 2 cleared', items: ['Hoodie', 'Bottle or tumbler', 'AEO Certified pin, members only'] },
-  { stage: 'Stage 04', when: 'Campus Head', items: ['Jacket or backpack', 'Framed certificate and LOR', 'Cailyx credits and community'], peak: true },
+  { stage: 'Stage 04', when: 'Campus Head', items: ['Jacket or backpack', 'Framed certificate and LOR', 'Early access to Cailyx, Motion and community'], peak: true },
 ]
 
 const DROPS = [
@@ -151,7 +151,7 @@ const DROPS = [
 
 const REWARDS = [
   { title: 'Credentials', body: 'A verified certificate, a personal letter of recommendation, a LinkedIn recommendation from the founder, and a feature on the Rothenhall Scouts page.' },
-  { title: 'Product access', body: 'Free Cailyx credits, early access to new tools, and an invitation into the Rothenhall founder community once you reach Lead.' },
+  { title: 'Product access', body: 'Early access to Cailyx, Motion and new tools, and an invitation into the Rothenhall founder community once you reach Lead.' },
   { title: 'The path in', body: 'Standout Scouts are first considered for paid project work, internships, a co-authored research piece, and full roles as we grow.' },
 ]
 

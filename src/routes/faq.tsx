@@ -51,11 +51,11 @@ const GROUPS: Group[] = [
       },
       {
         q: 'I have no marketing team. Can Cailyx run this for us?',
-        a: 'Yes. Cailyx does the work, not just the reporting. On managed plans our team runs the agentic execution alongside you, so you do not need in-house depth to move the number.',
+        a: 'Yes. Our operating tiers run the work alongside you, on our own platform, so you do not need in-house depth to move the number. Foundation measures and tracks the fixes, Growth adds strategy and content, and Operating Partner gives you a named operator who owns the result.',
       },
       {
         q: 'How do I show up in ChatGPT, Perplexity, and Google AI Overviews?',
-        a: 'Each engine weighs sources differently, so Cailyx tracks where you appear across ChatGPT, Perplexity, Google AI Overviews, Google AI Mode, Gemini, Google Search, and Copilot, then builds the content and citations each one rewards and measures the change.',
+        a: 'Each engine weighs sources differently, so Cailyx tracks where you appear across ChatGPT, Perplexity, Google AI Overviews, Google AI Mode and Gemini, with Google Search and Copilot next, then builds the content and citations each one rewards and measures the change.',
       },
       {
         q: 'We are pre-revenue and lean. Is it too early for this?',
@@ -68,7 +68,7 @@ const GROUPS: Group[] = [
     items: [
       {
         q: 'What is Cailyx?',
-        a: 'Cailyx is an AI-visibility platform. It tracks how AI assistants see you, diagnoses why you are missing, and runs the agentic work to fix it, across every major answer engine.',
+        a: 'Cailyx is Rothenhall’s AI-visibility platform. It tracks how AI assistants see you, diagnoses why you are missing, and runs the agentic work to fix it, across every major answer engine. Our team runs it for clients today, and direct client access will follow later.',
       },
       {
         q: 'Is Cailyx just another tracker?',
@@ -76,7 +76,28 @@ const GROUPS: Group[] = [
       },
       {
         q: 'How do plans work?',
-        a: 'Start free with an AI Visibility Score, subscribe to Cailyx for continuous tracking and prioritised fixes, or add managed execution where our team runs the work with you. Pricing scales to the stage you are at.',
+        a: 'Start with a free AI Visibility Score or a paid Diagnostic. Then choose a monthly operating tier (Foundation, Growth or Operating Partner), and add single modules or one-off projects where you need them. The pricing page lists exactly what each one includes.',
+      },
+    ],
+  },
+  {
+    title: 'Working with Rothenhall',
+    items: [
+      {
+        q: 'What do you actually deliver?',
+        a: 'A named set of documents and work for each stage: an onboarding brief, an AI visibility baseline, a site structure review with a tracked Fix Plan, a competitor analysis, positioning and ICP, a funnel plan, then weekly reports and a monthly review. Each has a written definition of done. The services page lists them.',
+      },
+      {
+        q: 'Do we need to take everything?',
+        a: 'No. Most clients take one operating tier, and some take a single add-on or a one-off project. Every company is different, so we adapt the deliverables to your business, industry and stage.',
+      },
+      {
+        q: 'What do you need from us?',
+        a: 'Facts about your business that only you hold: products, customers, pricing and proof, plus platform access given by permission. We research your market first, then ask only for what we cannot find, and we never ask for shared passwords.',
+      },
+      {
+        q: 'What are the contract terms?',
+        a: 'A three-month minimum, then 30 days written notice. Monthly invoicing in advance with 30-day payment, prices exclusive of VAT or GST, one Master Services Agreement, and a Statement of Work for each engagement. A data processing agreement is available under GDPR.',
       },
     ],
   },
@@ -93,11 +114,11 @@ const GROUPS: Group[] = [
       },
       {
         q: 'How does Cailyx measure success?',
-        a: 'By AI citation share across ChatGPT, Perplexity, Google AI Overviews, Google AI Mode, Gemini, Google Search, and Copilot, plus the qualified pipeline and conversion that visibility drives.',
+        a: 'By AI citation share across ChatGPT, Perplexity, Google AI Overviews, Google AI Mode and Gemini, plus the qualified pipeline and conversion that visibility drives.',
       },
       {
-        q: 'Where are you based, and is Cailyx available worldwide?',
-        a: 'Rothenhall is based in Bengaluru, India, with a presence in Edinburgh, UK. Cailyx works for companies worldwide.',
+        q: 'Where are you based, and who do you work with?',
+        a: 'Rothenhall is based in Bengaluru, India, with a presence in Edinburgh, UK. We work with companies in India, Europe and the US.',
       },
     ],
   },

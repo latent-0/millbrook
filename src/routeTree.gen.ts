@@ -26,8 +26,10 @@ import { Route as MotionRouteImport } from './routes/motion'
 import { Route as NapkinRothenhallRouteImport } from './routes/napkin-rothenhall'
 import { Route as OpenkitRouteImport } from './routes/openkit'
 import { Route as PricingRouteImport } from './routes/pricing'
+import { Route as ProductsRouteImport } from './routes/products'
 import { Route as ResearchRouteImport } from './routes/research'
 import { Route as ScoutsRouteImport } from './routes/scouts'
+import { Route as ServicesRouteImport } from './routes/services'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as ThingsRouteImport } from './routes/things'
 import { Route as ToolsRouteImport } from './routes/tools'
@@ -118,6 +120,11 @@ const PricingRoute = PricingRouteImport.update({
   path: '/pricing',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ProductsRoute = ProductsRouteImport.update({
+  id: '/products',
+  path: '/products',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ResearchRoute = ResearchRouteImport.update({
   id: '/research',
   path: '/research',
@@ -126,6 +133,11 @@ const ResearchRoute = ResearchRouteImport.update({
 const ScoutsRoute = ScoutsRouteImport.update({
   id: '/scouts',
   path: '/scouts',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ServicesRoute = ServicesRouteImport.update({
+  id: '/services',
+  path: '/services',
   getParentRoute: () => rootRouteImport,
 } as any)
 const TermsRoute = TermsRouteImport.update({
@@ -167,8 +179,10 @@ export interface FileRoutesByFullPath {
   '/napkin-rothenhall': typeof NapkinRothenhallRoute
   '/openkit': typeof OpenkitRoute
   '/pricing': typeof PricingRoute
+  '/products': typeof ProductsRoute
   '/research': typeof ResearchRoute
   '/scouts': typeof ScoutsRoute
+  '/services': typeof ServicesRoute
   '/terms': typeof TermsRoute
   '/things': typeof ThingsRoute
   '/tools': typeof ToolsRoute
@@ -192,8 +206,10 @@ export interface FileRoutesByTo {
   '/napkin-rothenhall': typeof NapkinRothenhallRoute
   '/openkit': typeof OpenkitRoute
   '/pricing': typeof PricingRoute
+  '/products': typeof ProductsRoute
   '/research': typeof ResearchRoute
   '/scouts': typeof ScoutsRoute
+  '/services': typeof ServicesRoute
   '/terms': typeof TermsRoute
   '/things': typeof ThingsRoute
   '/tools': typeof ToolsRoute
@@ -218,8 +234,10 @@ export interface FileRoutesById {
   '/napkin-rothenhall': typeof NapkinRothenhallRoute
   '/openkit': typeof OpenkitRoute
   '/pricing': typeof PricingRoute
+  '/products': typeof ProductsRoute
   '/research': typeof ResearchRoute
   '/scouts': typeof ScoutsRoute
+  '/services': typeof ServicesRoute
   '/terms': typeof TermsRoute
   '/things': typeof ThingsRoute
   '/tools': typeof ToolsRoute
@@ -245,8 +263,10 @@ export interface FileRouteTypes {
     | '/napkin-rothenhall'
     | '/openkit'
     | '/pricing'
+    | '/products'
     | '/research'
     | '/scouts'
+    | '/services'
     | '/terms'
     | '/things'
     | '/tools'
@@ -270,8 +290,10 @@ export interface FileRouteTypes {
     | '/napkin-rothenhall'
     | '/openkit'
     | '/pricing'
+    | '/products'
     | '/research'
     | '/scouts'
+    | '/services'
     | '/terms'
     | '/things'
     | '/tools'
@@ -295,8 +317,10 @@ export interface FileRouteTypes {
     | '/napkin-rothenhall'
     | '/openkit'
     | '/pricing'
+    | '/products'
     | '/research'
     | '/scouts'
+    | '/services'
     | '/terms'
     | '/things'
     | '/tools'
@@ -321,8 +345,10 @@ export interface RootRouteChildren {
   NapkinRothenhallRoute: typeof NapkinRothenhallRoute
   OpenkitRoute: typeof OpenkitRoute
   PricingRoute: typeof PricingRoute
+  ProductsRoute: typeof ProductsRoute
   ResearchRoute: typeof ResearchRoute
   ScoutsRoute: typeof ScoutsRoute
+  ServicesRoute: typeof ServicesRoute
   TermsRoute: typeof TermsRoute
   ThingsRoute: typeof ThingsRoute
   ToolsRoute: typeof ToolsRoute
@@ -450,6 +476,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PricingRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/products': {
+      id: '/products'
+      path: '/products'
+      fullPath: '/products'
+      preLoaderRoute: typeof ProductsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/research': {
       id: '/research'
       path: '/research'
@@ -462,6 +495,13 @@ declare module '@tanstack/react-router' {
       path: '/scouts'
       fullPath: '/scouts'
       preLoaderRoute: typeof ScoutsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/services': {
+      id: '/services'
+      path: '/services'
+      fullPath: '/services'
+      preLoaderRoute: typeof ServicesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/terms': {
@@ -513,8 +553,10 @@ const rootRouteChildren: RootRouteChildren = {
   NapkinRothenhallRoute: NapkinRothenhallRoute,
   OpenkitRoute: OpenkitRoute,
   PricingRoute: PricingRoute,
+  ProductsRoute: ProductsRoute,
   ResearchRoute: ResearchRoute,
   ScoutsRoute: ScoutsRoute,
+  ServicesRoute: ServicesRoute,
   TermsRoute: TermsRoute,
   ThingsRoute: ThingsRoute,
   ToolsRoute: ToolsRoute,

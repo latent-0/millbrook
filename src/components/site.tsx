@@ -121,18 +121,21 @@ export function Wordmark({
 /* ------------------------------------------------------------------ */
 
 const NAV = [
-  { to: '/community', label: 'Community' },
-  { to: '/cailyx', label: 'Products' },
-  { to: '/blogs', label: 'Journal' },
-  { to: '/research', label: 'Research' },
-  { to: '/case-studies', label: 'Case Studies' },
   { to: '/about', label: 'About' },
+  { to: '/cailyx', label: 'Products' },
+  { to: '/pricing', label: 'Pricing' },
+  { to: '/case-studies', label: 'Case Studies' },
+  { to: '/community', label: 'Community' },
+  { to: '/research', label: 'Research' },
+  { to: '/blogs', label: 'Journal' },
 ] as const
 
 /* Footer groups. Three short labelled columns rather than one long list, and
    no route appears twice. Every file in src/routes stays reachable here. */
 const FOOTER_LINKS = {
   product: [
+    { to: '/services', label: 'Services' },
+    { to: '/products', label: 'Products' },
     { to: '/cailyx', label: 'Cailyx' },
     { to: '/motion', label: 'Motion' },
     { to: '/ai-visibility-score', label: 'AI Visibility Score' },
@@ -160,56 +163,57 @@ const FOOTER_LINKS = {
 /*  Products menu                                                      */
 /* ------------------------------------------------------------------ */
 
-const PRODUCT_PATHS = ['/cailyx', '/motion', '/tools']
+const PRODUCT_PATHS = ['/products', '/cailyx', '/motion', '/tools', '/openkit', '/things']
 
-function MiniWeek() {
+type Product = (typeof PRODUCTS)[number]
+
+/** Small status badge. The wording comes from lib/products.ts so every place
+    that shows a product says the same thing about it. */
+export function StatusBadge({ p, dark = false }: { p: Product; dark?: boolean }) {
+  const tone =
+    p.state === 'live'
+      ? dark
+        ? 'border-brass-soft/50 text-brass-soft'
+        : 'border-brass/50 text-brass-deep'
+      : p.state === 'soon'
+        ? dark
+          ? 'border-cognac-soft/50 text-cognac-soft'
+          : 'border-cognac/40 text-cognac'
+        : dark
+          ? 'border-canvas/25 text-canvas/70'
+          : 'border-line-strong text-ink-60'
   return (
-    <span aria-hidden className="flex gap-1">
-      {[1, 1, 0, 1, 1, 0, 1].map((on, i) => (
-        <i key={i} className="h-5 w-2.5 rounded-[3px]" style={{ background: on ? 'rgba(251,249,243,.85)' : 'rgba(251,249,243,.16)' }} />
-      ))}
+    <span className={`inline-flex items-center rounded-full border px-2.5 py-0.5 font-sans text-[0.68rem] tracking-wide ${tone}`}>
+      {p.status}
     </span>
   )
 }
 
-function MiniBars() {
+function PlatformCard({ p, onGo }: { p: Product; onGo: () => void }) {
   return (
-    <span aria-hidden className="flex w-24 flex-col gap-1.5">
-      {[78, 52, 36].map((w, i) => (
-        <i key={i} className="h-1 rounded-full" style={{ width: `${w}%`, background: i === 0 ? 'rgba(251,249,243,.85)' : 'rgba(251,249,243,.3)' }} />
-      ))}
-    </span>
-  )
-}
-
-function FeaturedProduct({ p, onGo }: { p: (typeof PRODUCTS)[number]; onGo: () => void }) {
-  const cls =
-    'group/card relative flex h-full min-h-[10.5rem] flex-col rounded-xl border border-night-line bg-night p-4 text-canvas transition-all duration-200 hover:-translate-y-0.5 hover:border-brass-soft/70 hover:shadow-[0_18px_40px_-18px_rgba(26,23,18,0.6)] focus-visible:outline-brass-soft'
-  const body = (
-    <>
-      <span className="flex items-start justify-between">
-        <Glyph k={p.key} size={40} />
-        {p.soon && (
-          <span className="inline-flex items-center gap-1.5 rounded-full border border-cognac-soft/50 px-2 py-0.5 font-sans text-[0.68rem] tracking-wide text-cognac-soft">
-            <span className="relative flex size-1.5">
-              <span className="absolute inline-flex size-full rounded-full bg-cognac-soft opacity-70 motion-safe:animate-ping" />
-              <span className="relative inline-flex size-1.5 rounded-full bg-cognac-soft" />
-            </span>
-            Boarding soon
-          </span>
-        )}
+    <Link
+      to={p.to as '/cailyx' | '/motion'}
+      onClick={onGo}
+      className="group/card flex h-full flex-col rounded-xl border border-night-line bg-night p-5 text-canvas transition-all duration-300 hover:-translate-y-0.5 hover:border-brass-soft/70 hover:shadow-[0_18px_40px_-18px_rgba(26,23,18,0.6)] focus-visible:outline-brass-soft"
+    >
+      <span className="flex items-start justify-between gap-3">
+        <Glyph k={p.key} size={44} />
+        <StatusBadge p={p} dark />
       </span>
-      <span className="mt-4 block font-display text-[1.35rem] leading-none text-canvas">{p.name}</span>
-      <span className="mt-2 block font-sans text-caption leading-snug text-canvas/60">{p.line}</span>
-      <span className="mt-auto flex items-end justify-between pt-4">
-        {p.key === 'motion' ? <MiniWeek /> : <MiniBars />}
-        <span aria-hidden className="text-brass-soft transition-transform duration-200 group-hover/card:translate-x-0.5">→</span>
+      <span className="mt-5 block font-display text-[1.45rem] leading-none text-canvas">{p.name}</span>
+      <span className="mt-2 block font-sans text-caption leading-snug text-canvas/65">{p.line}</span>
+      <ul className="mt-4 space-y-1.5">
+        {p.facts.map((f) => (
+          <li key={f} className="flex gap-2 font-sans text-label leading-snug text-canvas/70">
+            <span aria-hidden className="mt-[0.45rem] h-1 w-1 flex-none rotate-45 bg-brass-soft" />
+            {f}
+          </li>
+        ))}
+      </ul>
+      <span className="mt-auto flex items-center gap-2 pt-5 font-sans text-label text-brass-soft">
+        {p.key === 'cailyx' ? 'About Cailyx' : 'Join the early access list'}
+        <span aria-hidden className="transition-transform duration-200 group-hover/card:translate-x-0.5">→</span>
       </span>
-    </>
-  )
-  return (
-    <Link to={p.to as '/cailyx' | '/motion'} onClick={onGo} className={cls}>
-      {body}
     </Link>
   )
 }
@@ -243,16 +247,27 @@ function ProductsMenu({ light, pathname }: { light: boolean; pathname: string })
     window.clearTimeout(timer.current)
     timer.current = window.setTimeout(() => setOpen(false), 140)
   }
-  const featured = PRODUCTS.filter((p) => p.featured)
-  const more = PRODUCTS.filter((p) => !p.featured)
+  const platform = PRODUCTS.filter((p) => p.group === 'platform')
+  const tools = PRODUCTS.filter((p) => p.group === 'tool')
+  const close = () => setOpen(false)
 
   return (
-    <div ref={wrap} className="relative" onMouseEnter={enter} onMouseLeave={leave}>
-      <button
-        type="button"
+    <div
+      ref={wrap}
+      className="relative"
+      onMouseEnter={enter}
+      onMouseLeave={leave}
+      onFocusCapture={enter}
+      onBlurCapture={(e) => {
+        if (wrap.current && !wrap.current.contains(e.relatedTarget as Node)) leave()
+      }}
+    >
+      {/* The label is a real link to the hub page, so crawlers and keyboard
+          users reach /products without opening the menu. */}
+      <Link
+        to="/products"
         aria-expanded={open}
         aria-haspopup="true"
-        onClick={() => setOpen(true)}
         className={`relative flex items-center gap-1.5 font-sans text-label tracking-wide transition-colors ${
           light ? 'text-canvas/80 hover:text-canvas' : 'text-ink-80 hover:text-ink'
         }`}
@@ -262,38 +277,50 @@ function ProductsMenu({ light, pathname }: { light: boolean; pathname: string })
           <path d="M1.5 3.5L5 7l3.5-3.5" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
         <span aria-hidden className={`absolute -bottom-2 left-0 h-px w-full origin-left bg-brass transition-transform duration-300 ${active ? 'scale-x-100' : 'scale-x-0'}`} />
-      </button>
+      </Link>
 
+      {/* The panel is always in the server-rendered HTML. It is hidden with
+          `visibility`, never removed, so every link in it is crawlable. */}
       <div
-        className={`absolute left-1/2 top-full z-50 w-[34rem] -translate-x-1/2 pt-5 transition-all duration-200 ${
+        className={`absolute left-1/2 top-full z-50 w-[46rem] -translate-x-1/2 pt-5 transition-all duration-200 ${
           open ? 'visible translate-y-0 opacity-100' : 'invisible -translate-y-1 opacity-0'
         }`}
       >
         <div className="overflow-hidden rounded-2xl border border-line bg-paper shadow-[0_34px_80px_-30px_rgba(26,23,18,0.5)]">
-          <div className="p-3">
-            <p className="px-1 pb-2 font-sans text-[0.68rem] font-medium uppercase tracking-[0.18em] text-ink-45">Our products</p>
-            <div className="grid grid-cols-2 gap-3">
-              {featured.map((p) => (
-                <FeaturedProduct key={p.key} p={p} onGo={() => setOpen(false)} />
-              ))}
+          <div className="grid grid-cols-12">
+            <div className="col-span-8 p-4">
+              <p className="px-1 pb-3 font-sans text-[0.68rem] font-medium uppercase tracking-[0.18em] text-ink-45">The platform</p>
+              <div className="grid grid-cols-2 gap-3">
+                {platform.map((p) => (
+                  <PlatformCard key={p.key} p={p} onGo={close} />
+                ))}
+              </div>
+            </div>
+            <div className="col-span-4 border-l border-line bg-canvas-2 p-4">
+              <p className="px-1 pb-3 font-sans text-[0.68rem] font-medium uppercase tracking-[0.18em] text-ink-45">Free tools</p>
+              <ul className="space-y-1">
+                {tools.map((p) => (
+                  <li key={p.key}>
+                    <a href={p.to} onClick={close} className="group/row flex items-start gap-3 rounded-lg px-2 py-2.5 transition-colors hover:bg-paper">
+                      <Glyph k={p.key} size={36} />
+                      <span className="min-w-0 flex-1">
+                        <span className="block font-display text-[1.05rem] leading-tight text-ink">{p.name}</span>
+                        <span className="mt-0.5 block font-sans text-label leading-snug text-ink-60">{p.short}</span>
+                      </span>
+                      <span aria-hidden className="pt-1 text-brass opacity-0 transition-all duration-200 group-hover/row:translate-x-0.5 group-hover/row:opacity-100">↗</span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+              <p className="mt-3 px-2 font-sans text-label leading-snug text-ink-45">No account needed.</p>
             </div>
           </div>
-          <div className="border-t border-line bg-canvas-2 p-3">
-            <p className="px-1 pb-1.5 font-sans text-[0.68rem] font-medium uppercase tracking-[0.18em] text-ink-45">Also from Rothenhall</p>
-            <ul className="grid grid-cols-2 gap-1">
-              {more.map((p) => (
-                <li key={p.key}>
-                  <a href={p.to} onClick={() => setOpen(false)} className="group/row flex items-center gap-3 rounded-lg px-2 py-2 transition-colors hover:bg-paper">
-                    <Glyph k={p.key} size={34} />
-                    <span className="min-w-0 flex-1">
-                      <span className="block font-display text-[1rem] leading-tight text-ink">{p.name}</span>
-                      <span className="block truncate font-sans text-label text-ink-60">{p.short}</span>
-                    </span>
-                    <span aria-hidden className="text-brass opacity-0 transition-all duration-200 group-hover/row:translate-x-0.5 group-hover/row:opacity-100">↗</span>
-                  </a>
-                </li>
-              ))}
-            </ul>
+          <div className="flex items-center justify-between gap-4 border-t border-line bg-canvas px-5 py-3">
+            <p className="font-sans text-label text-ink-60">Our team runs the platform for every client today.</p>
+            <span className="flex flex-none items-center gap-5 font-sans text-label">
+              <Link to="/services" onClick={close} className="link-line text-ink-80">How we work</Link>
+              <Link to="/products" onClick={close} className="link-line text-ink-80">All products →</Link>
+            </span>
           </div>
         </div>
       </div>
@@ -441,15 +468,20 @@ export function Header() {
                             <a href={p.to} onClick={() => setOpen(false)} className="flex items-center gap-4 rounded-xl py-2.5">
                               <Glyph k={p.key} size={40} />
                               <span className="min-w-0 flex-1">
-                                <span className="flex items-center gap-2 font-display text-xl text-ink">
+                                <span className="flex flex-wrap items-center gap-2 font-display text-xl text-ink">
                                   {p.name}
-                                  {p.soon && <span className="rounded-full border border-cognac/40 px-2 py-px font-sans text-[0.68rem] text-cognac">Boarding soon</span>}
+                                  <StatusBadge p={p} />
                                 </span>
                                 <span className="block font-sans text-caption text-ink-60">{p.short}</span>
                               </span>
                             </a>
                           </li>
                         ))}
+                        <li>
+                          <Link to="/products" onClick={() => setOpen(false)} className="block py-2.5 font-sans text-caption text-ink-80 link-line">
+                            All products →
+                          </Link>
+                        </li>
                       </ul>
                     </div>
                   </div>
@@ -508,9 +540,9 @@ export function Footer() {
             />
             <Wordmark tone="light" />
             <p className="mt-5 max-w-sm font-sans text-caption leading-relaxed text-canvas/60">
-              The startup building Cailyx, the AI-visibility platform that gets
-              your company found, understood and recommended by AI assistants.
-              Track, diagnose and fix, in one product.
+              A fractional operating partner for AI-era growth. We make your
+              company the one AI assistants recommend, and run the go-to-market
+              and revenue operations behind it, on our own platform.
             </p>
           </div>
 
