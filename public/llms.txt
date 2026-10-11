@@ -28,11 +28,10 @@ Tagline: Be the company the AI recommends.
 - Measurement standard: at least five runs per prompt across at least two geographies; distributions reported, never rankings; every number sourced and caveated; no guaranteed placement.
 
 ## Optional
-- [Community](https://www.rothenhall.com/community)
+- [Founders Circle](https://www.rothenhall.com/founders-circle): Invite-only private network of founders from Rothenhall Partners.
 - [Motion](https://www.rothenhall.com/motion): Social studio for Instagram, Facebook and Threads (planner, pre-flight check, comment-to-DM automations). Early access list open.
 - [Cailyx](https://www.rothenhall.com/cailyx): AI visibility engine. Measures how answer engines describe a company, audits the site and tracks every fix to done. Run by Rothenhall's team for clients today.
 - [Products](https://www.rothenhall.com/products): Cailyx, Motion, Openkit and Things, each with its current status.
-- [Founders](https://www.rothenhall.com/founders)
 - [Journal](https://www.rothenhall.com/blogs)
 - [Terms](https://www.rothenhall.com/terms)
 

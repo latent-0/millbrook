@@ -2,9 +2,41 @@
   "buildCommand": "npm run build",
   "installCommand": "npm ci",
   "redirects": [
-    { "source": "/approach", "destination": "/about", "permanent": true }
+    {
+      "source": "/approach",
+      "destination": "/about",
+      "permanent": true
+    },
+    {
+      "source": "/community",
+      "destination": "/founders-circle",
+      "permanent": true
+    }
   ],
   "crons": [
-    { "path": "/api/cron/publish-scheduled", "schedule": "0 9 * * *" }
+    {
+      "path": "/api/cron/publish-scheduled",
+      "schedule": "0 9 * * *"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/internal/(.*)",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        }
+      ]
+    },
+    {
+      "source": "/reports/(.*)",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        }
+      ]
+    }
   ]
 }

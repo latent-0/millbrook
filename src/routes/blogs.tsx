@@ -163,7 +163,7 @@ function EmptyState() {
         Founders Circle is where the sharpest of it happens first.
       </p>
       <div className="mt-8 flex justify-center">
-        <Link to="/community" className="btn btn-primary">
+        <Link to="/founders-circle" className="btn btn-primary">
           Request a free invite
         </Link>
       </div>
@@ -258,7 +258,7 @@ function BlogIndex() {
                 AI Visibility Score and early access to Cailyx and Motion.
               </p>
             </div>
-            <Link to="/community" className="btn btn-primary shrink-0">
+            <Link to="/founders-circle" className="btn btn-primary shrink-0">
               Request a free invite
             </Link>
           </div>

@@ -488,11 +488,11 @@ function CommunityTeaser() {
           <div className="md:col-span-4">
             <Reveal delay={100}>
               <div className="flex flex-col gap-4 md:items-end">
-                <Link to="/community" className="btn btn-primary">
+                <Link to="/founders-circle" className="btn btn-primary">
                   Request a free invite
                 </Link>
                 <Link
-                  to="/community"
+                  to="/founders-circle"
                   className="link-line font-sans text-body text-ink-80"
                 >
                   See what members get →

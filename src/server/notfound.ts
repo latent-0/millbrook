@@ -24,27 +24,16 @@ const SITE = 'https://www.rothenhall.com'
 // never serves a cached HTML page to a client asking for markdown, or vice versa.
 export const ACCEPT_VARY = 'Accept, Accept-Encoding'
 
-// Static marketing pages (kept in sync with scripts/generate-sitemap.mjs).
-const KNOWN_PAGES = new Set([
-  '/',
-  '/about',
-  '/aeo-vs-seo',
-  '/ai-visibility-score',
-  '/blogs',
-  '/cailyx',
-  '/careers',
-  '/case-studies',
-  '/community',
-  '/contact',
-  '/faq',
-  '/founders',
-  '/how-to-show-up-in-chatgpt',
-  '/napkin-rothenhall',
-  '/pricing',
-  '/research',
-  '/scouts',
-  '/terms',
-])
+// Every static page is derived from the route files themselves, so a new route
+// can never be mistaken for a 404 (the hand-kept list had drifted: /motion,
+// /products, /services, /tools, /openkit and /things were all missing).
+// `index` is "/", dynamic segments ($) are covered by KNOWN_PREFIXES below.
+const KNOWN_PAGES = new Set<string>(
+  Object.keys(import.meta.glob('../routes/*.tsx'))
+    .map((f) => f.replace('../routes/', '').replace(/\.tsx$/, ''))
+    .filter((n) => n !== '__root' && !n.includes('$'))
+    .map((n) => (n === 'index' ? '/' : '/' + n)),
+)
 
 // Dynamic or asset prefixes that we never claim to 404 from the middleware.
 const KNOWN_PREFIXES = [

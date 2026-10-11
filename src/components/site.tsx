@@ -125,7 +125,7 @@ const NAV = [
   { to: '/cailyx', label: 'Products' },
   { to: '/pricing', label: 'Pricing' },
   { to: '/case-studies', label: 'Case Studies' },
-  { to: '/community', label: 'Community' },
+  { to: '/founders-circle', label: 'Community' },
   { to: '/research', label: 'Research' },
   { to: '/blogs', label: 'Journal' },
 ] as const
@@ -145,7 +145,7 @@ const FOOTER_LINKS = {
   ],
   firm: [
     { to: '/about', label: 'About' },
-    { to: '/community', label: 'Founders Circle' },
+    { to: '/founders-circle', label: 'Founders Circle' },
     { to: '/careers', label: 'Careers' },
     { to: '/scouts', label: 'Campus Scouts' },
     { to: '/contact', label: 'Contact' },

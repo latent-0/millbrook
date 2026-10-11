@@ -17,10 +17,10 @@ import { Route as BlogsRouteImport } from './routes/blogs'
 import { Route as CailyxRouteImport } from './routes/cailyx'
 import { Route as CareersRouteImport } from './routes/careers'
 import { Route as CaseStudiesRouteImport } from './routes/case-studies'
-import { Route as CommunityRouteImport } from './routes/community'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as FaqRouteImport } from './routes/faq'
 import { Route as FoundersRouteImport } from './routes/founders'
+import { Route as FoundersCircleRouteImport } from './routes/founders-circle'
 import { Route as HowToShowUpInChatgptRouteImport } from './routes/how-to-show-up-in-chatgpt'
 import { Route as MotionRouteImport } from './routes/motion'
 import { Route as NapkinRothenhallRouteImport } from './routes/napkin-rothenhall'
@@ -75,11 +75,6 @@ const CaseStudiesRoute = CaseStudiesRouteImport.update({
   path: '/case-studies',
   getParentRoute: () => rootRouteImport,
 } as any)
-const CommunityRoute = CommunityRouteImport.update({
-  id: '/community',
-  path: '/community',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const ContactRoute = ContactRouteImport.update({
   id: '/contact',
   path: '/contact',
@@ -93,6 +88,11 @@ const FaqRoute = FaqRouteImport.update({
 const FoundersRoute = FoundersRouteImport.update({
   id: '/founders',
   path: '/founders',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FoundersCircleRoute = FoundersCircleRouteImport.update({
+  id: '/founders-circle',
+  path: '/founders-circle',
   getParentRoute: () => rootRouteImport,
 } as any)
 const HowToShowUpInChatgptRoute = HowToShowUpInChatgptRouteImport.update({
@@ -170,10 +170,10 @@ export interface FileRoutesByFullPath {
   '/cailyx': typeof CailyxRoute
   '/careers': typeof CareersRoute
   '/case-studies': typeof CaseStudiesRoute
-  '/community': typeof CommunityRoute
   '/contact': typeof ContactRoute
   '/faq': typeof FaqRoute
   '/founders': typeof FoundersRoute
+  '/founders-circle': typeof FoundersCircleRoute
   '/how-to-show-up-in-chatgpt': typeof HowToShowUpInChatgptRoute
   '/motion': typeof MotionRoute
   '/napkin-rothenhall': typeof NapkinRothenhallRoute
@@ -197,10 +197,10 @@ export interface FileRoutesByTo {
   '/cailyx': typeof CailyxRoute
   '/careers': typeof CareersRoute
   '/case-studies': typeof CaseStudiesRoute
-  '/community': typeof CommunityRoute
   '/contact': typeof ContactRoute
   '/faq': typeof FaqRoute
   '/founders': typeof FoundersRoute
+  '/founders-circle': typeof FoundersCircleRoute
   '/how-to-show-up-in-chatgpt': typeof HowToShowUpInChatgptRoute
   '/motion': typeof MotionRoute
   '/napkin-rothenhall': typeof NapkinRothenhallRoute
@@ -225,10 +225,10 @@ export interface FileRoutesById {
   '/cailyx': typeof CailyxRoute
   '/careers': typeof CareersRoute
   '/case-studies': typeof CaseStudiesRoute
-  '/community': typeof CommunityRoute
   '/contact': typeof ContactRoute
   '/faq': typeof FaqRoute
   '/founders': typeof FoundersRoute
+  '/founders-circle': typeof FoundersCircleRoute
   '/how-to-show-up-in-chatgpt': typeof HowToShowUpInChatgptRoute
   '/motion': typeof MotionRoute
   '/napkin-rothenhall': typeof NapkinRothenhallRoute
@@ -254,10 +254,10 @@ export interface FileRouteTypes {
     | '/cailyx'
     | '/careers'
     | '/case-studies'
-    | '/community'
     | '/contact'
     | '/faq'
     | '/founders'
+    | '/founders-circle'
     | '/how-to-show-up-in-chatgpt'
     | '/motion'
     | '/napkin-rothenhall'
@@ -281,10 +281,10 @@ export interface FileRouteTypes {
     | '/cailyx'
     | '/careers'
     | '/case-studies'
-    | '/community'
     | '/contact'
     | '/faq'
     | '/founders'
+    | '/founders-circle'
     | '/how-to-show-up-in-chatgpt'
     | '/motion'
     | '/napkin-rothenhall'
@@ -308,10 +308,10 @@ export interface FileRouteTypes {
     | '/cailyx'
     | '/careers'
     | '/case-studies'
-    | '/community'
     | '/contact'
     | '/faq'
     | '/founders'
+    | '/founders-circle'
     | '/how-to-show-up-in-chatgpt'
     | '/motion'
     | '/napkin-rothenhall'
@@ -336,10 +336,10 @@ export interface RootRouteChildren {
   CailyxRoute: typeof CailyxRoute
   CareersRoute: typeof CareersRoute
   CaseStudiesRoute: typeof CaseStudiesRoute
-  CommunityRoute: typeof CommunityRoute
   ContactRoute: typeof ContactRoute
   FaqRoute: typeof FaqRoute
   FoundersRoute: typeof FoundersRoute
+  FoundersCircleRoute: typeof FoundersCircleRoute
   HowToShowUpInChatgptRoute: typeof HowToShowUpInChatgptRoute
   MotionRoute: typeof MotionRoute
   NapkinRothenhallRoute: typeof NapkinRothenhallRoute
@@ -413,13 +413,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CaseStudiesRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/community': {
-      id: '/community'
-      path: '/community'
-      fullPath: '/community'
-      preLoaderRoute: typeof CommunityRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/contact': {
       id: '/contact'
       path: '/contact'
@@ -439,6 +432,13 @@ declare module '@tanstack/react-router' {
       path: '/founders'
       fullPath: '/founders'
       preLoaderRoute: typeof FoundersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/founders-circle': {
+      id: '/founders-circle'
+      path: '/founders-circle'
+      fullPath: '/founders-circle'
+      preLoaderRoute: typeof FoundersCircleRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/how-to-show-up-in-chatgpt': {
@@ -544,10 +544,10 @@ const rootRouteChildren: RootRouteChildren = {
   CailyxRoute: CailyxRoute,
   CareersRoute: CareersRoute,
   CaseStudiesRoute: CaseStudiesRoute,
-  CommunityRoute: CommunityRoute,
   ContactRoute: ContactRoute,
   FaqRoute: FaqRoute,
   FoundersRoute: FoundersRoute,
+  FoundersCircleRoute: FoundersCircleRoute,
   HowToShowUpInChatgptRoute: HowToShowUpInChatgptRoute,
   MotionRoute: MotionRoute,
   NapkinRothenhallRoute: NapkinRothenhallRoute,

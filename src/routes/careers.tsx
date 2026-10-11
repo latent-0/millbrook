@@ -120,7 +120,7 @@ const PATHS = [
     tag: 'Founders',
     body: 'Not a job, a network. A private circle of founders, starting with a free AI Visibility Score and early access to Cailyx and Motion.',
     cta: 'Request an invite',
-    href: '/community',
+    href: '/founders-circle',
     internal: true,
   },
 ]

@@ -11,10 +11,10 @@ import { Container, Eyebrow, Reveal } from '../components/site'
 import { seo } from '../lib/seo'
 import { joinCommunity, type CommunityInput, SOURCE_OPTIONS } from '../server/inquiry'
 
-export const Route = createFileRoute('/community')({
+export const Route = createFileRoute('/founders-circle')({
   head: () =>
     seo({
-      path: '/community',
+      path: '/founders-circle',
       title: 'The Founders Circle · An Invite-Only Network · Rothenhall Partners',
       description:
         'A private founders network from Rothenhall Partners. Members get an exclusive circle of founders, early access to Cailyx and Motion, and a free AI Visibility Score to start. Request an invite.',
