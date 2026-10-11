@@ -17,6 +17,7 @@ import { Route as BlogsRouteImport } from './routes/blogs'
 import { Route as CailyxRouteImport } from './routes/cailyx'
 import { Route as CareersRouteImport } from './routes/careers'
 import { Route as CaseStudiesRouteImport } from './routes/case-studies'
+import { Route as ClaimDiagnosticRouteImport } from './routes/claim-diagnostic'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as FaqRouteImport } from './routes/faq'
 import { Route as FoundersRouteImport } from './routes/founders'
@@ -73,6 +74,11 @@ const CareersRoute = CareersRouteImport.update({
 const CaseStudiesRoute = CaseStudiesRouteImport.update({
   id: '/case-studies',
   path: '/case-studies',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ClaimDiagnosticRoute = ClaimDiagnosticRouteImport.update({
+  id: '/claim-diagnostic',
+  path: '/claim-diagnostic',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ContactRoute = ContactRouteImport.update({
@@ -170,6 +176,7 @@ export interface FileRoutesByFullPath {
   '/cailyx': typeof CailyxRoute
   '/careers': typeof CareersRoute
   '/case-studies': typeof CaseStudiesRoute
+  '/claim-diagnostic': typeof ClaimDiagnosticRoute
   '/contact': typeof ContactRoute
   '/faq': typeof FaqRoute
   '/founders': typeof FoundersRoute
@@ -197,6 +204,7 @@ export interface FileRoutesByTo {
   '/cailyx': typeof CailyxRoute
   '/careers': typeof CareersRoute
   '/case-studies': typeof CaseStudiesRoute
+  '/claim-diagnostic': typeof ClaimDiagnosticRoute
   '/contact': typeof ContactRoute
   '/faq': typeof FaqRoute
   '/founders': typeof FoundersRoute
@@ -225,6 +233,7 @@ export interface FileRoutesById {
   '/cailyx': typeof CailyxRoute
   '/careers': typeof CareersRoute
   '/case-studies': typeof CaseStudiesRoute
+  '/claim-diagnostic': typeof ClaimDiagnosticRoute
   '/contact': typeof ContactRoute
   '/faq': typeof FaqRoute
   '/founders': typeof FoundersRoute
@@ -254,6 +263,7 @@ export interface FileRouteTypes {
     | '/cailyx'
     | '/careers'
     | '/case-studies'
+    | '/claim-diagnostic'
     | '/contact'
     | '/faq'
     | '/founders'
@@ -281,6 +291,7 @@ export interface FileRouteTypes {
     | '/cailyx'
     | '/careers'
     | '/case-studies'
+    | '/claim-diagnostic'
     | '/contact'
     | '/faq'
     | '/founders'
@@ -308,6 +319,7 @@ export interface FileRouteTypes {
     | '/cailyx'
     | '/careers'
     | '/case-studies'
+    | '/claim-diagnostic'
     | '/contact'
     | '/faq'
     | '/founders'
@@ -336,6 +348,7 @@ export interface RootRouteChildren {
   CailyxRoute: typeof CailyxRoute
   CareersRoute: typeof CareersRoute
   CaseStudiesRoute: typeof CaseStudiesRoute
+  ClaimDiagnosticRoute: typeof ClaimDiagnosticRoute
   ContactRoute: typeof ContactRoute
   FaqRoute: typeof FaqRoute
   FoundersRoute: typeof FoundersRoute
@@ -411,6 +424,13 @@ declare module '@tanstack/react-router' {
       path: '/case-studies'
       fullPath: '/case-studies'
       preLoaderRoute: typeof CaseStudiesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/claim-diagnostic': {
+      id: '/claim-diagnostic'
+      path: '/claim-diagnostic'
+      fullPath: '/claim-diagnostic'
+      preLoaderRoute: typeof ClaimDiagnosticRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/contact': {
@@ -544,6 +564,7 @@ const rootRouteChildren: RootRouteChildren = {
   CailyxRoute: CailyxRoute,
   CareersRoute: CareersRoute,
   CaseStudiesRoute: CaseStudiesRoute,
+  ClaimDiagnosticRoute: ClaimDiagnosticRoute,
   ContactRoute: ContactRoute,
   FaqRoute: FaqRoute,
   FoundersRoute: FoundersRoute,

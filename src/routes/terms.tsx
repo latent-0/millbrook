@@ -185,7 +185,7 @@ function Terms() {
           </p>
 
           <div className="mt-10 flex flex-wrap gap-x-8 gap-y-3">
-            <Link to="/founders" className="link-line font-sans text-body">
+            <Link to="/claim-diagnostic" className="link-line font-sans text-body">
               ← Back to the diagnostic
             </Link>
             <Link to="/pricing" className="link-line font-sans text-body">

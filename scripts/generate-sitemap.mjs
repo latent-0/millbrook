@@ -13,7 +13,7 @@
  *     the root layout. Blog posts are published by the separate, DB-driven
  *     /blog-sitemap.xml (see api/blog-sitemap.get.ts), also referenced in
  *     robots.txt.
- *   - It skips any route that marks itself `noindex` — currently /founders
+ *   - It skips any route that marks itself `noindex` — currently /claim-diagnostic
  *     and /napkin-rothenhall.
  *   - <lastmod> comes from each route file's last git commit date, falling back
  *     to the file mtime, then to the build date.
