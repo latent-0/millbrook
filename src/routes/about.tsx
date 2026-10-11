@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
+import { FoundersPhoto } from '../components/FoundersPhoto'
 import { Container, Eyebrow, Reveal } from '../components/site'
 import { seo } from '../lib/seo'
 
@@ -191,8 +192,8 @@ const PEOPLE: Person[] = [
     key: 'kunal',
     name: 'Kunal Achintya Reddy',
     role: 'Chief Executive Officer',
-    title: 'CEO and founder, Rothenhall Partners',
-    lead: 'Kunal founded Rothenhall to close the gap the AI boom opened: a new front page made of AI answers, and lean teams with no way to appear in it.',
+    title: 'CEO, Rothenhall Partners',
+    lead: 'Kunal co-founded Rothenhall to close the gap the AI boom opened: a new front page made of AI answers, and lean teams with no way to appear in it.',
     body: [
       'He is the operating partner behind AEO, GTM, and RevOps for founders and funds, and researches how answer engines decide who gets recommended. The practice is that research turned into a repeatable operating standard.',
       'As CEO he sets the direction of the company, leads the research agenda and the client work, and is accountable for the standard we hold ourselves to.',
@@ -358,15 +359,7 @@ function About() {
         <Container width="wide" className="py-14 sm:py-20">
           <Reveal>
             <figure>
-              <div className="relative overflow-hidden rounded-2xl">
-                <img
-                  src="/brand/team/founders-group.jpg"
-                  alt="The four founders of Rothenhall Partners together: Kunal, Lokesh, Madan and Nitish"
-                  width={1920}
-                  height={1280}
-                  className="aspect-[4/3] w-full object-cover object-[50%_30%] sm:aspect-[16/9]"
-                />
-              </div>
+              <FoundersPhoto />
               <figcaption className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
                 <div>
                   <p id="founders-photo" className="eyebrow eyebrow-light">The founders</p>
