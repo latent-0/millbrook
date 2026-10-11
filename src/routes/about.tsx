@@ -168,8 +168,7 @@ const FOUNDER_LINKS = [
 ]
 
 
-/* The leadership team. Photos for three founders are placeholders for now:
-   replace the `photo` path with the real file when it is ready. */
+/* The leadership team. Portraits live in public/brand/team and public/brand. */
 type Person = {
   key: string
   name: string
@@ -214,7 +213,7 @@ const PEOPLE: Person[] = [
       'He owns the operating rhythm of every engagement: how a client is onboarded, how the work is planned, delivered and reported each week, and how each deliverable is held to its written definition of done.',
       'He also looks after the team itself, from hiring and onboarding to training, workload and culture, so the standard stays the same as Rothenhall grows. He works alongside our CTO on the technical side, which keeps delivery and the platform moving together.',
     ],
-    photo: '/brand/team/lokesh-placeholder.svg',
+    photo: '/brand/team/lokesh.jpg',
     linkedin: 'https://www.linkedin.com/in/lokeshyarramallu/',
     email: 'lokesh@rothenhall.com',
     schema: true,
@@ -229,7 +228,7 @@ const PEOPLE: Person[] = [
       'He is responsible for our platform, Cailyx and Motion, and for the systems and data behind it. Cailyx is what our measurement and audits run on: how we measure how AI engines describe a company, and how each fix is tested on the live site before it is marked done.',
       'He also owns the security and reliability of everything we build, including this website. Lokesh assists on technical delivery, so engineering and operations stay in step.',
     ],
-    photo: '/brand/team/madan-placeholder.svg',
+    photo: '/brand/team/madan.jpg',
     linkedin: 'https://www.linkedin.com/in/madan-gopal-35a9a4250/',
     email: 'madan@rothenhall.com',
     schema: true,
@@ -244,7 +243,7 @@ const PEOPLE: Person[] = [
       'He owns how the company is funded, priced and run financially: pricing and margins across regions, budgeting and cost control, invoicing and collections, and tax and compliance, including VAT and GST.',
       'He also owns the financial reporting that keeps us honest about what each engagement costs and returns, and the commercial terms we sign with clients.',
     ],
-    photo: '/brand/team/nitish-placeholder.svg',
+    photo: '/brand/team/nitish.jpg',
     linkedin: 'https://www.linkedin.com/in/nitish-reddy-yatham/',
     email: 'nitish@rothenhall.com',
     schema: true,
