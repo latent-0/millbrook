@@ -469,7 +469,7 @@ function WaitlistForm() {
       <div className="rounded-2xl border border-line bg-paper p-8 text-center">
         <p className="font-display text-2xl text-ink">You’re on the list.</p>
         <p className="mt-3 font-sans text-body leading-relaxed text-ink-60">
-          We will email you when Cailyx early access opens.
+          We will email you when Cailyx MCP early access opens.
         </p>
       </div>
     )
@@ -566,7 +566,7 @@ function WaitlistForm() {
         {status === 'submitting' ? 'Joining…' : 'Join the MCP waitlist'}
       </button>
       <p className="text-center font-sans text-label text-ink-45">
-        We will only email you about Cailyx early access.
+        We will only email you about Cailyx MCP early access.
       </p>
     </form>
   )

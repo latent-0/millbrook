@@ -916,7 +916,7 @@ export function ProductTour() {
   return (
     <div onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}>
       <div className="grid gap-10 lg:grid-cols-12 lg:gap-12">
-        <div className="lg:col-span-4">
+        <div className="min-w-0 lg:col-span-4">
           <ul role="tablist" aria-label="Cailyx product screens" className="flex gap-2 overflow-x-auto pb-2 lg:flex-col lg:gap-0 lg:overflow-visible lg:pb-0">
             {TOUR.map((t, n) => {
               const on = n === i
@@ -951,7 +951,7 @@ export function ProductTour() {
           </ul>
           <p className="mt-3 font-sans text-caption leading-relaxed text-ink-60 lg:hidden">{cur.body}</p>
         </div>
-        <div className="lg:col-span-8" role="tabpanel" id="tour-panel" aria-labelledby={`tour-tab-${cur.key}`}>
+        <div className="min-w-0 lg:col-span-8" role="tabpanel" id="tour-panel" aria-labelledby={`tour-tab-${cur.key}`}>
           <div className="rounded-[1.6rem] p-3 sm:p-5" style={{ background: '#1d1c1a', boxShadow: 'inset 0 0 0 1px var(--color-night-line)' }}>
             <ProductFrame screen={cur.key} label={`${cur.title}. ${cur.body}`} />
           </div>

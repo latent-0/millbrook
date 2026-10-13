@@ -2,7 +2,7 @@
 
 > India-first fractional operating partner for founder-led and growing companies, with funds and portfolios on request. Rothenhall runs AEO and GEO (AI search visibility), go-to-market, and revenue operations as one accountable engine, so a company becomes the one an AI assistant recommends.
 
-Rothenhall Partners embeds a senior operator to run the demand system a full-time hire would run, without the full-time hire. The primary wedge is AI answer-engine visibility: measuring whether ChatGPT, Claude, Perplexity, and Google's AI surfaces recommend a company against a defined query set, then moving that rate. Results are reported as distributions, never as rankings, and no placement in any individual AI answer is ever promised.
+Rothenhall Partners embeds a senior operator to run the demand system a full-time hire would run, without the full-time hire. The primary wedge is AI answer-engine visibility: measuring whether ChatGPT, Perplexity, Google AI Overviews, Google AI Mode and Gemini recommend a company against a defined query set, then moving that rate. Results are reported as distributions, never as rankings, and no placement in any individual AI answer is ever promised.
 
 Tagline: Be the company the AI recommends.
 
@@ -18,7 +18,7 @@ Tagline: Be the company the AI recommends.
 - [Contact](https://www.rothenhall.com/contact): Book a conversation or request a diagnostic.
 
 ## What Rothenhall does
-- AEO and GEO (AI search visibility): measurement against a defined query set across ChatGPT, Claude, Perplexity, and Google's AI surfaces; entity and schema work; off-site corpus building; crawler-access and rendering audits.
+- AEO and GEO (AI search visibility): measurement against a defined query set across ChatGPT, Perplexity, Google AI Overviews, Google AI Mode and Gemini; entity and schema work; off-site corpus building; crawler-access and rendering audits.
 - Go-to-market: demand strategy, positioning, and pipeline as one system.
 - RevOps: measurement, attribution, and a single source of truth a fund can read and trust.
 
@@ -49,7 +49,9 @@ Prices are shown in the visitor's currency: US dollars, euros or Indian rupees, 
 - Free: AI Visibility Score.
 - Diagnostic, one-time: from $950, credited in full against the first months of any operating tier signed within 30 days.
 - Foundation, monthly: $550. Measurement and tracked fixes. Three-month minimum.
-- Growth, monthly: $1,100. Adds positioning, content and off-site citation work.
-- Operating Partner, monthly: $2,600. A named operator who owns agreed KPIs.
+- Growth, monthly: $1,100. Adds positioning, content and website change specifications.
+- Operating Partner, monthly: $2,600. A named operator who owns agreed KPIs, plus off-site citation work, partnerships and sales enablement.
+- Billing: quarterly prepayment saves 10% and yearly prepayment saves 25% on the monthly fee.
+- Founding Partner Programme: 30% off the monthly fee for the first three months of a quarterly or yearly plan, in return for a documented case study. Places are limited.
 - Add-ons and one-off projects are priced per unit on https://www.rothenhall.com/pricing.
 - Rothenhall reports rates across repeated runs and never promises a ranking.

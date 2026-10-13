@@ -105,7 +105,7 @@ const FOUNDING_OFF = 0.3
 
 const DX_PLATFORMS: string[][] = [
   ['ChatGPT', 'Gemini'],
-  ['ChatGPT', 'Gemini', 'Google AI', 'Claude'],
+  ['ChatGPT', 'Gemini', 'Google AI Overviews', 'Claude'],
   ['ChatGPT', 'Gemini', 'Perplexity', 'Copilot', 'Grok', 'Google AI Overviews', 'Google AI Mode', 'Google Search'],
 ]
 const DX_ROWS: { group: string; label: string; chip?: string; hint?: string; vals: (string | null)[] }[] = [
@@ -576,7 +576,7 @@ function Pricing() {
                     <p className="font-sans text-label text-canvas/50">Each depth includes the one before it.</p>
                   </div>
 
-                  <div className="mt-5 grid grid-cols-3 gap-2" role="radiogroup" aria-label="Diagnostic depth">
+                  <div className="mt-5 grid gap-2 sm:grid-cols-3" role="radiogroup" aria-label="Diagnostic depth">
                     {DIAGNOSTIC.scopes.map((t, i) => {
                       const on = scope === i
                       return (
@@ -589,7 +589,7 @@ function Pricing() {
                             setScope(i)
                             track('diagnostic_select', { scope: t.key })
                           }}
-                          className={`cursor-pointer rounded-xl border px-3 py-3 text-left transition-colors ${
+                          className={`flex cursor-pointer items-baseline justify-between gap-3 rounded-xl border px-4 py-3 text-left transition-colors sm:block sm:px-3 ${
                             on ? 'border-cognac-soft bg-canvas/[0.07]' : 'border-night-line hover:border-canvas/30'
                           }`}
                         >
@@ -708,10 +708,10 @@ function Pricing() {
                     <p className={`mt-2 min-h-[2.6rem] font-sans text-caption leading-snug ${hl ? 'text-canvas/70' : 'text-ink-60'}`}>
                       {t.tagline}
                     </p>
-                    <p className="mt-6 flex items-baseline gap-1">
+                    <p className="mt-6 flex flex-wrap items-baseline gap-x-1 gap-y-0.5">
                       <span
                         className={`font-display tabular-nums ${hl ? 'text-canvas' : 'text-ink'}`}
-                        style={{ fontSize: '2.9rem', lineHeight: 1 }}
+                        style={{ fontSize: 'clamp(2.1rem, 9vw, 2.9rem)', lineHeight: 1 }}
                       >
                         {money(t.price)}
                       </span>
@@ -843,7 +843,7 @@ function Pricing() {
                         setFounding(false)
                         setBilling('monthly')
                       }}
-                      className="link-line cursor-pointer font-sans text-label text-ink-60"
+                      className="link-line -my-2 cursor-pointer py-2 font-sans text-label text-ink-60"
                     >
                       Reset everything
                     </button>

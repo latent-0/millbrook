@@ -258,7 +258,7 @@ function CaseStudies() {
                   <p className="mt-3 font-sans text-caption leading-relaxed text-ink-60">
                     {cs.body}
                   </p>
-                  <div className="mt-auto flex items-center justify-between gap-4 border-t border-line pt-5">
+                  <div className="mt-auto flex flex-wrap items-center justify-between gap-x-4 gap-y-2 border-t border-line pt-5">
                     <span className="font-sans text-label leading-tight text-ink-45">
                       <span className="uppercase tracking-[0.16em] text-brass-deep">
                         Engagement
@@ -441,7 +441,7 @@ function CaseStudies() {
               companies at a time, so each gets a senior operator’s full
               attention, and every engagement is documented as proof. A few
               places are open in the Founding Partner Programme: 30% off for
-              the first three months, in return for a documented case study.
+              the first three months of a quarterly or yearly plan, in return for a documented case study.
               If you want in, the capacity is worth taking.
             </p>
             <div className="mt-9 flex flex-wrap justify-center gap-4">

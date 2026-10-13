@@ -530,7 +530,7 @@ export function MotionTour() {
   return (
     <div onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}>
       <div className="grid gap-10 lg:grid-cols-12 lg:gap-12">
-        <div className="lg:col-span-4">
+        <div className="min-w-0 lg:col-span-4">
           <ul role="tablist" aria-label="Motion product screens" className="flex gap-2 overflow-x-auto pb-2 lg:flex-col lg:gap-0 lg:overflow-visible lg:pb-0">
             {TOUR.map((t, n) => {
               const on = n === i
@@ -563,7 +563,7 @@ export function MotionTour() {
           </ul>
           <p className="mt-3 font-sans text-caption leading-relaxed text-canvas/60 lg:hidden">{cur.body}</p>
         </div>
-        <div className="lg:col-span-8" role="tabpanel" id="mtour-panel" aria-labelledby={`mtour-${cur.key}`}>
+        <div className="min-w-0 lg:col-span-8" role="tabpanel" id="mtour-panel" aria-labelledby={`mtour-${cur.key}`}>
           <MotionFrame screen={cur.key} label={`${cur.title}. ${cur.body}`} />
           <ol className="mt-5 grid gap-x-8 gap-y-3 sm:grid-cols-2">
             {cur.notes.map((n, k) => (
@@ -667,7 +667,7 @@ export function BoardingPass() {
               <span className="relative inline-flex size-3 rounded-full bg-cognac-soft" />
             </span>
             <span>
-              Public launch <span className="text-cognac-soft">· boarding soon</span>
+              Public launch <span className="text-cognac-soft">· coming later</span>
             </span>
           </li>
         </ul>

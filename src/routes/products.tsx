@@ -38,7 +38,7 @@ export const Route = createFileRoute('/products')({
       path: '/products',
       title: 'Products · Cailyx, Motion, Openkit and Things · Rothenhall Partners',
       description:
-        'The platform behind Rothenhall’s work and two free tools. Cailyx measures how AI describes you and tracks every fix, Motion plans your social posts, and Openkit and Things are free to use.',
+        'The platform behind Rothenhall’s work and two tools. Cailyx measures how AI describes you and tracks every fix, Motion plans your social posts, and Openkit and Things are open to anyone.',
     }),
     scripts: [{ type: 'application/ld+json', children: JSON.stringify(schema) }],
   }),
@@ -56,7 +56,7 @@ function Products() {
                 <Eyebrow>Products</Eyebrow>
                 <h1 className="text-display-lg mt-8 max-w-3xl">
                   The platform behind the work,{' '}
-                  <span style={{ color: 'var(--color-cognac)' }}>and two free tools.</span>
+                  <span style={{ color: 'var(--color-cognac)' }}>and two tools.</span>
                 </h1>
               </Reveal>
             </div>
@@ -115,7 +115,7 @@ function Products() {
       <section className="border-t border-line bg-canvas-2">
         <Container className="py-20 sm:py-24">
           <Reveal>
-            <Eyebrow>Free tools</Eyebrow>
+            <Eyebrow>Tools</Eyebrow>
             <h2 className="text-display-md mt-6 max-w-2xl">Two small tools, open to anyone.</h2>
             <p className="text-lead mt-5 max-w-2xl text-ink-60">No account and no card. They exist to be useful, and to show how we think.</p>
           </Reveal>

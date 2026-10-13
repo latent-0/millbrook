@@ -820,3 +820,20 @@ html.js .reveal-blur:not(.is-in) {
 @media (prefers-reduced-motion: reduce) {
   .bar-grow { animation: none; }
 }
+
+/* Mobile guard: a grid or flex child may shrink below its content, and long
+   unbroken strings wrap, so one wide element can never widen the whole page. */
+@media (max-width: 1023px) {
+  main .grid > * {
+    min-width: 0;
+  }
+  main p,
+  main li,
+  main h1,
+  main h2,
+  main h3,
+  main dd,
+  main dt {
+    overflow-wrap: break-word;
+  }
+}

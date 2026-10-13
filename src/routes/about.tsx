@@ -9,7 +9,7 @@ export const Route = createFileRoute('/about')({
       path: '/about',
       title: 'About · The Founders and the Operating Model · Rothenhall Partners',
       description:
-        'Rothenhall Partners is an India-first fractional operating partner for the AI era, run by its four founders: Kunal Achintya Reddy (CEO), Lokesh Yarramallu (Operations and People), Madan Gopal (CTO) and Nitish Reddy Yatham (CFO).',
+        'Rothenhall Partners is an India-first fractional operating partner for the AI era, run by its four founders: Kunal Achintya Reddy (CEO), Lokesh Yarramallu (COO and CPO), Madan Gopal (CTO) and Nitish Reddy Yatham (CFO).',
     }),
     scripts: PEOPLE.filter((p) => p.schema).map((p) => ({
       type: 'application/ld+json',

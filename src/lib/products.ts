@@ -1,5 +1,5 @@
 /* One list for the Products menu, the /products hub and the footer. Order is
-   priority: the platform first, then the free tools. Each entry goes straight
+   priority: the platform first, then the tools. Each entry goes straight
    to its own page. `status` is the honest state of the product today, and the
    same wording is used everywhere it appears. */
 
@@ -63,7 +63,7 @@ export const PRODUCTS: {
     short: 'Sales Call Trainer',
     to: '/openkit',
     group: 'tool',
-    status: 'Free to use',
+    status: '',
     state: 'free',
     facts: ['Voice practice with an AI buyer', 'No account needed'],
   },
@@ -74,7 +74,7 @@ export const PRODUCTS: {
     short: 'Website mascots',
     to: '/things',
     group: 'tool',
-    status: 'Free to use',
+    status: '',
     state: 'free',
     facts: ['Build a plush mascot character', 'No account needed'],
   },

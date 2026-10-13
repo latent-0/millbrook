@@ -97,7 +97,7 @@ const GROUPS: Group[] = [
       },
       {
         q: 'What are the contract terms?',
-        a: 'A three-month minimum, then 30 days written notice. Monthly invoicing in advance with 30-day payment, prices exclusive of VAT or GST, one Master Services Agreement, and a Statement of Work for each engagement. A data processing agreement is available under GDPR.',
+        a: 'A three-month minimum, then 30 days written notice. Invoiced in advance for the billing term you choose (monthly, quarterly or yearly, with 10% off quarterly and 25% off yearly), payable within 30 days, prices exclusive of VAT or GST, one Master Services Agreement, and a Statement of Work for each engagement. A data processing agreement is available under GDPR.',
       },
     ],
   },

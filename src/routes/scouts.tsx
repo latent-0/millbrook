@@ -96,7 +96,7 @@ const RHYTHM = [
 
 const TRACKS = [
   { k: 'A', title: 'Content and citations', body: 'The core. Your weekly posts, threads, carousels, and the occasional guest post on a real publication.' },
-  { k: 'B', title: 'Events and community', body: 'Host a webinar, run a campus talk, or start a four session AI visibility study circle. This unlocks the Lead tier.' },
+  { k: 'B', title: 'Events and community', body: 'Host a webinar, run a campus talk, or start a four session AI visibility study circle. This earns the Lead tier.' },
   { k: 'C', title: 'Growth', body: 'Refer a founder for a free diagnostic. Conversions earn bonus swag, early access, and leaderboard standing.' },
   { k: 'D', title: 'Insight', body: 'Run a real AI visibility audit on a local business, or interview a founder on how they get discovered.' },
 ]
@@ -254,7 +254,7 @@ function Scouts() {
               <h2 id="journey-heading" className="text-display-md mt-6">Four tiers over three months. You climb by shipping.</h2>
               <p className="mt-5 font-sans text-body leading-relaxed text-ink-60">
                 Everyone starts as a Scout. Keep the weekly rhythm and hit each
-                checkpoint to rank up. Higher tiers unlock better swag, deeper
+                checkpoint to rank up. Higher tiers earn better swag, deeper
                 access, and the internship track.
               </p>
             </Reveal>
@@ -387,7 +387,7 @@ function Scouts() {
               <Eyebrow className="eyebrow-light">The swag ladder</Eyebrow>
               <h2 id="swag-heading" className="text-display-md mt-6 text-canvas">Gear you earn, not gear you are given.</h2>
               <p className="mt-5 font-sans text-body leading-relaxed text-canvas/65">
-                Each checkpoint unlocks the next drop. Wear it, and you carry the
+                Each checkpoint opens the next drop. Wear it, and you carry the
                 brand across campus.
               </p>
             </Reveal>

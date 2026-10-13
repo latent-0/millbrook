@@ -182,6 +182,8 @@ export function StatusBadge({ p, dark = false }: { p: Product; dark?: boolean })
         : dark
           ? 'border-canvas/25 text-canvas/70'
           : 'border-line-strong text-ink-60'
+  // Tools carry no badge: only the platform products show a status.
+  if (!p.status) return null
   return (
     <span className={`inline-flex items-center rounded-full border px-2.5 py-0.5 font-sans text-[0.68rem] tracking-wide ${tone}`}>
       {p.status}
@@ -297,7 +299,7 @@ function ProductsMenu({ light, pathname }: { light: boolean; pathname: string })
               </div>
             </div>
             <div className="col-span-4 border-l border-line bg-canvas-2 p-4">
-              <p className="px-1 pb-3 font-sans text-[0.68rem] font-medium uppercase tracking-[0.18em] text-ink-45">Free tools</p>
+              <p className="px-1 pb-3 font-sans text-[0.68rem] font-medium uppercase tracking-[0.18em] text-ink-45">Tools</p>
               <ul className="space-y-1">
                 {tools.map((p) => (
                   <li key={p.key}>
