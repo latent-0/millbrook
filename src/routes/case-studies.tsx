@@ -440,7 +440,7 @@ function CaseStudies() {
               Rothenhall works with a small number of startups and growing
               companies at a time, so each gets a senior operator’s full
               attention, and every engagement is documented as proof. A few
-              places are open in the Founding Partner Programme: half price for
+              places are open in the Founding Partner Programme: 30% off for
               the first three months, in return for a documented case study.
               If you want in, the capacity is worth taking.
             </p>

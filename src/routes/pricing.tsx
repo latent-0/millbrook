@@ -2,7 +2,7 @@ import { createFileRoute, Link } from '@tanstack/react-router'
 import { useEffect, useMemo, useState } from 'react'
 import { Container, Eyebrow, Reveal } from '../components/site'
 import { seo, SITE } from '../lib/seo'
-import { getPriceRegion, REGION_COOKIE, type PriceRegion } from '../server/geo'
+import { getPriceRegion, type PriceRegion } from '../server/geo'
 import { track } from '../lib/track'
 
 /* ------------------------------------------------------------------ */
@@ -44,10 +44,11 @@ function guessRegion(): Region | undefined {
   return undefined
 }
 
-function taxNote(region: Region): string {
-  if (region === 'IN') return 'Prices exclude GST.'
-  if (region === 'EU') return 'Prices exclude VAT.'
-  return 'Prices exclude any applicable sales tax.'
+/** Short tag shown beside a price so the tax treatment is visible at a glance. */
+function taxTag(region: Region): string {
+  if (region === 'IN') return '+ GST'
+  if (region === 'EU') return '+ VAT'
+  return '+ tax'
 }
 
 /* ------------------------------------------------------------------ */
@@ -76,26 +77,49 @@ const DIAGNOSTIC: {
   price: Money
   upper: Money
   scopes: { key: string; name: string; sub: string; price: Money }[]
-  facts: { n: string; label: string }[]
 } = {
   price: { usd: 950, eur: 875, inr: 45000 },
   upper: { usd: 2250, eur: 2050, inr: 110000 },
   scopes: [
-    { key: 'focused', name: 'Focused', sub: 'One product, one market, up to three rivals', price: { usd: 950, eur: 875, inr: 45000 } },
-    { key: 'standard', name: 'Standard', sub: 'Up to three products or two markets', price: { usd: 1500, eur: 1400, inr: 75000 } },
-    { key: 'comprehensive', name: 'Comprehensive', sub: 'Several products and markets, a full rival map', price: { usd: 2250, eur: 2050, inr: 110000 } },
-  ],
-  // These are upper limits of our method, or a real past result. The page
-  // says so, and the report states the exact numbers for each company.
-  facts: [
-    { n: 'up to 560', label: 'buyer questions built for your business, each asked five or more times' },
-    { n: 'up to 2,800', label: 'AI answers collected per engine from those questions' },
-    { n: '8', label: 'technical checks, with a score for every page in your sitemap' },
-    { n: '3', label: 'comparisons against each rival: site, search and reviews' },
-    { n: '104', label: 'specific fixes found in a recent audit of one consumer fintech site' },
-    { n: '90 days', label: 'of actions, each with an owner and a test for done' },
+    { key: 'focused', name: 'Focused', sub: 'Is the site sound, and do AI engines name you?', price: { usd: 950, eur: 875, inr: 45000 } },
+    { key: 'standard', name: 'Standard', sub: 'More depth: more prompts and engines, a longer plan, your competitors and your wider digital presence.', price: { usd: 1500, eur: 1400, inr: 75000 } },
+    { key: 'comprehensive', name: 'Comprehensive', sub: 'The full read: every engine, every channel, and a quarter of content.', price: { usd: 2250, eur: 2050, inr: 110000 } },
   ],
 }
+
+// What each Diagnostic includes. Every fact appears once: a cell is the value
+// for that tier, and a dash means it is not part of the tier. Higher tiers
+// include everything below them.
+// Billing terms. The longer the prepayment, the bigger the discount on the
+// monthly fee. One-off items are never discounted.
+type BillingKey = 'monthly' | 'quarterly' | 'yearly'
+const BILLING: { key: BillingKey; label: string; off: number; every: string }[] = [
+  { key: 'monthly', label: 'Monthly', off: 0, every: 'month' },
+  { key: 'quarterly', label: 'Quarterly', off: 0.1, every: 'quarter' },
+  { key: 'yearly', label: 'Yearly', off: 0.25, every: 'year' },
+]
+// Founding Partner Programme: this rate applies to the first three months only,
+// and only on a quarterly or yearly plan. It replaces the plan discount for
+// those three months (the two do not stack).
+const FOUNDING_OFF = 0.3
+
+const DX_PLATFORMS: string[][] = [
+  ['ChatGPT', 'Gemini'],
+  ['ChatGPT', 'Gemini', 'Google AI', 'Claude'],
+  ['ChatGPT', 'Gemini', 'Perplexity', 'Copilot', 'Grok', 'Google AI Overviews', 'Google AI Mode', 'Google Search'],
+]
+const DX_ROWS: { group: string; label: string; chip?: string; hint?: string; vals: (string | null)[] }[] = [
+  { group: 'Site', label: 'Technical audits', chip: 'Technical audits: performance, SEO, structure', hint: 'Performance, technical SEO and site structure', vals: ['Included', 'Included', 'Included'] },
+  { group: 'Site', label: 'Site copy audit', hint: 'Your site content, page by page', vals: [null, null, 'Included'] },
+  { group: 'AI answers', label: 'Prompts tested', vals: ['50', '100', '200'] },
+  { group: 'AI answers', label: 'AI platforms', vals: ['2', '4', '8'] },
+  { group: 'AI answers', label: 'Service locations', vals: ['3', '3', '10'] },
+  { group: 'AI answers', label: 'AI interest', vals: [null, null, 'Included'] },
+  { group: 'Plan', label: 'Content plan', hint: 'Ideas and direction, not produced content', vals: ['30 days', '60 days', '90 days'] },
+  { group: 'Presence', label: 'Competitor analysis', hint: 'How you compare with the rivals buyers weigh you against', vals: [null, 'Included', 'Included'] },
+  { group: 'Presence', label: 'Digital presence audit', hint: 'Built around your business, industry, the profiles you need and where you stand online today', vals: [null, 'Included', 'Included'] },
+  { group: 'Presence', label: 'Social media audit', hint: 'Accounts, post analytics and engagement', vals: [null, null, 'Included'] },
+]
 
 const SERVICE_TIERS: ServiceTier[] = [
   {
@@ -107,8 +131,7 @@ const SERVICE_TIERS: ServiceTier[] = [
     hours: 'About 15 hours a month',
     coverage: [1, 0, 0, 0],
     included: [
-      'Measurement of one project, run on Cailyx by our team',
-      'Monthly AEO measurement, five or more runs per prompt',
+      'Monthly AEO measurement on Cailyx, five or more runs per prompt',
       'Fix Plan tracking, each fix tested on the live site',
       'Weekly report',
       'One strategy call a month',
@@ -129,11 +152,10 @@ const SERVICE_TIERS: ServiceTier[] = [
       'Positioning, ICP, messaging, funnel and channel plan',
       'Quarterly re-baseline of your AI visibility',
       '12 to 16 content pieces a month across two channels',
-      'Off-site citation work: comparison tables, communities, listings',
       'Website change specifications for your developers',
       'Weekly call',
     ],
-    excluded: ['Embedded ownership of company KPIs', 'Multi-product programmes'],
+    excluded: ['Embedded ownership of company KPIs'],
   },
   {
     key: 'operating',
@@ -146,7 +168,7 @@ const SERVICE_TIERS: ServiceTier[] = [
     included: [
       'Everything in Growth',
       'A named operator accountable for agreed KPIs',
-      'Multiple products or brands under one plan',
+      'Off-site citation work: comparison tables, communities, listings',
       'Partnerships and sales enablement',
       'Short-form video, two pieces a month',
       'Monthly review with the founder or fund',
@@ -156,7 +178,7 @@ const SERVICE_TIERS: ServiceTier[] = [
 ]
 
 /** Add-ons priced per unit. `monthly` ones recur, the rest are one-off. */
-type AddonKey = 'social' | 'blog' | 'video' | 'project' | 'engine'
+type AddonKey = 'social' | 'blog' | 'video' | 'engine'
 const ADDONS: {
   key: AddonKey
   name: string
@@ -169,7 +191,6 @@ const ADDONS: {
   { key: 'social', name: 'Social channel management', unit: 'per channel, per month', price: { usd: 150, eur: 140, inr: 7000 }, monthly: true, max: 4 },
   { key: 'blog', name: 'Blog engine, four posts', unit: 'per month', price: { usd: 250, eur: 230, inr: 12000 }, monthly: true, max: 3 },
   { key: 'video', name: 'Short-form video', unit: 'per piece, one-off', price: { usd: 320, eur: 290, inr: 15000 }, upper: { usd: 750, eur: 690, inr: 36000 }, monthly: false, max: 6 },
-  { key: 'project', name: 'Extra project or domain in measurement', unit: 'per month', price: { usd: 100, eur: 90, inr: 4500 }, monthly: true, max: 4 },
   { key: 'engine', name: 'Extra AI engine or region in measurement', unit: 'per month', price: { usd: 75, eur: 70, inr: 3500 }, monthly: true, max: 4 },
 ]
 
@@ -196,63 +217,11 @@ const PROJECTS: { name: string; body: string; price: Money }[] = [
   },
 ]
 
-const TAX_TERMS: Record<Region, string> = {
-  US: 'Prices exclude any sales or use tax, which is added where it applies.',
-  EU: 'Prices exclude VAT, which is added where it applies. Reverse charge applies to eligible cross-border business customers in the EU.',
-  IN: 'Prices exclude GST, which is added where it applies.',
-}
-
-const TERMS: { k: string; v: string }[] = [
-  { k: 'Tax', v: '' },
-  { k: 'Term', v: 'Three months minimum, then 30 days written notice. AI visibility lags the work by 30 to 60 days, so a shorter term would not show it.' },
-  { k: 'Invoicing', v: 'Monthly in advance, payable within 30 days. Annual prepayment earns a 10% discount.' },
-  { k: 'Contract', v: 'One Master Services Agreement, and a Statement of Work for each engagement. Prices are reviewed once a year.' },
-  { k: 'Data', v: 'A data processing agreement is available under GDPR. We work through platform permissions and never ask for shared passwords.' },
-  { k: 'Scope', v: 'Anything outside the Statement of Work is quoted as a change request before work starts.' },
-]
-
-const SERVICE_COMPARE: { label: string; vals: string[] }[] = [
-  { label: 'Projects measured', vals: ['1 project', '1 project', 'Several projects'] },
-  { label: 'AEO measurement', vals: ['Monthly', 'Monthly', 'Monthly, with multi-region'] },
-  { label: 'Fix Plan tracking and verification', vals: ['Yes', 'Yes', 'Yes'] },
-  { label: 'Positioning, ICP, messaging, funnel and channel plan', vals: ['No', 'Yes', 'Yes'] },
-  { label: 'Content a month', vals: ['No', '12 to 16 pieces', '12 to 16 pieces, plus video'] },
-  { label: 'Off-site citation work', vals: ['No', 'Yes', 'Yes'] },
-  { label: 'Website change specifications', vals: ['No', 'Yes', 'Yes'] },
-  { label: 'Named operator owning agreed KPIs', vals: ['No', 'No', 'Yes'] },
-  { label: 'Partnerships and sales enablement', vals: ['No', 'No', 'Yes'] },
-  { label: 'Meetings', vals: ['One call a month', 'Weekly call', 'Weekly call and monthly review'] },
-]
-
-/** What the market quotes, shown before our own prices so they can be judged
-    against something. All are agency-published estimates, and the page says so. */
-const MARKET: Record<'IN' | 'INTL', { rows: { k: string; v: string }[]; src: { label: string; href: string }[] }> = {
-  IN: {
-    rows: [
-      { k: 'Agency SEO retainers in India', v: '₹25,000 to ₹2,50,000+ a month' },
-      { k: 'Content-led retainers for early-stage SaaS', v: '₹1,50,000 to ₹2,50,000 a month' },
-      { k: 'Fractional CMO in India', v: '₹1,50,000 to ₹5,00,000 a month' },
-    ],
-    src: [
-      { label: 'upGrowth, SEO services cost in India', href: 'https://upgrowth.in/seo-services-cost-in-india/' },
-      { label: 'upGrowth, fractional CMO pricing 2026', href: 'https://upgrowth.in/fractional-cmo-pricing-india-2026/' },
-    ],
-  },
-  INTL: {
-    rows: [
-      { k: 'One-time AEO or GEO audit', v: '$1,500 to $5,000' },
-      { k: 'Mid-market AEO and GEO retainers', v: '$2,000 to $8,000 a month' },
-      { k: 'Retainer with content, mid-market', v: '$5,000 to $8,000 a month' },
-    ],
-    src: [{ label: '310 Creative, AEO agency pricing 2026', href: 'https://www.310creative.com/blog/aeo-agency-pricing' }],
-  },
-}
-
 const NEXT_STEPS = [
   { n: '01', t: 'You tell us what you need', b: 'Pick a tier and any modules above, or just describe the problem. Your estimate comes with you.' },
   { n: '02', t: 'A senior operator replies', b: 'A short, honest read on where the biggest gains likely are, not a sales sequence.' },
   { n: '03', t: 'You get a proposal if it fits', b: 'A Statement of Work with the deliverables, the dates and the fees. Nothing starts without it.' },
-  { n: '04', t: 'Work begins from a baseline', b: 'We measure on day one, so every change is checkable. A Diagnostic fee is credited if you continue.' },
+  { n: '04', t: 'Work begins from a baseline', b: 'We measure on day one, so every change is checkable.' },
 ]
 
 const faqFor = (money: (m: Money) => string) => [
@@ -261,12 +230,8 @@ const faqFor = (money: (m: Money) => string) => [
     a: 'No. Most clients take one tier, and some take a single add-on or project. The tiers fix what is included, so you know the scope, and the add-ons let you add one thing without moving up a level.',
   },
   {
-    q: 'What does a Diagnostic cost, and is it credited?',
-    a: `From ${money(DIAGNOSTIC.price)} for a focused scope (one product and one market) up to ${money(DIAGNOSTIC.upper)} for several products and markets. If you sign a Foundation, Growth or Operating Partner engagement within 30 days, the full fee is credited against the first months.`,
-  },
-  {
     q: 'How much does AEO cost?',
-    a: `Rothenhall’s AEO and GEO work starts at ${money(SERVICE_TIERS[0].price)} a month for measurement and tracked fixes, ${money(SERVICE_TIERS[1].price)} a month when strategy and execution are added, and ${money(SERVICE_TIERS[2].price)} a month with a named operator. A one-time Diagnostic starts at ${money(DIAGNOSTIC.price)}. Agency quotes vary widely, so compare the deliverables line by line, not the headline.`,
+    a: `Monthly operating work starts at ${money(SERVICE_TIERS[0].price)}, and a one-time Diagnostic at ${money(DIAGNOSTIC.price)}. Each tier above lists exactly what it includes. Agency quotes vary widely, so compare the deliverables line by line, not the headline.`,
   },
   {
     q: 'AEO agency, fractional operator or an in-house hire?',
@@ -285,16 +250,8 @@ const faqFor = (money: (m: Money) => string) => [
     a: 'Cailyx and Motion are our own platform. Cailyx measures how AI engines describe you, audits your site and tracks every fix until it is verified. Motion is our social studio and is not open yet. Today our team runs Cailyx for you and reports the results. Direct client access to both will follow later.',
   },
   {
-    q: 'What is the Founding Partner Programme?',
-    a: 'A small number of early clients receive 50% off list for the first three months, in return for a documented case study and a testimonial. It is how we build the proof that other clients can check.',
-  },
-  {
     q: 'Can you promise a ranking or a result?',
-    a: 'No. AI answers vary by engine, region and day, so we report rates across repeated runs, never a single position. Each deliverable has a test that shows it is done, and you see the result in the weekly report.',
-  },
-  {
-    q: 'Why a three-month minimum?',
-    a: 'Changes to how AI engines describe a company usually take 30 to 60 days to show. Three months gives the work time to be measured fairly.',
+    a: 'No. AI answers vary by engine, region and day, so we report rates across repeated runs, never a single position.',
   },
   {
     q: 'Can I change plans or cancel?',
@@ -330,10 +287,10 @@ const schema = [
       '@type': 'OfferCatalog',
       name: 'Rothenhall price book',
       itemListElement: [
-        ...DIAGNOSTIC.scopes.map((s) => offersFor(`Diagnostic, ${s.name} scope (one-time)`, s.price)),
+        ...DIAGNOSTIC.scopes.map((s) => offersFor(`Diagnostic, ${s.name} (one-time)`, s.price)),
         ...SERVICE_TIERS.map((s) => offersFor(`${s.name} operating tier`, s.price, 'MON')),
-        ...ADDONS.map((a) => offersFor(a.name, a.price, a.monthly ? 'MON' : undefined)),
         ...PROJECTS.map((x) => offersFor(x.name, x.price)),
+        ...ADDONS.map((a) => offersFor(a.name, a.price, a.monthly ? 'MON' : undefined)),
       ],
     },
   },
@@ -385,15 +342,6 @@ function Check({ light = false }: { light?: boolean }) {
         <path d="M11.5 3.5 5.5 10 2.5 7" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
     </span>
-  )
-}
-
-function Diamond({ className = '' }: { className?: string }) {
-  return (
-    <span
-      aria-hidden="true"
-      className={`inline-block h-1.5 w-1.5 flex-none rotate-45 bg-brass ${className}`}
-    />
   )
 }
 
@@ -449,9 +397,6 @@ function Coverage({ values, light }: { values: ServiceTier['coverage']; light: b
           </li>
         ))}
       </ul>
-      <p className={`mt-2 font-sans text-label ${light ? 'text-canvas/45' : 'text-ink-45'}`}>
-        One bar measured and tracked. Two bars run by us.
-      </p>
     </div>
   )
 }
@@ -464,16 +409,15 @@ function Pricing() {
   const geo = Route.useLoaderData()
   // Server-detected region first, so the right prices are in the first paint.
   const [region, setRegion] = useState<Region>(geo.region)
-  const [manual, setManual] = useState(false)
   const [tier, setTier] = useState<TierKey | 'none'>('growth')
   const [qty, setQty] = useState<Record<AddonKey, number>>({
     social: 0,
     blog: 0,
     video: 0,
-    project: 0,
     engine: 0,
   })
   const [founding, setFounding] = useState(false)
+  const [billing, setBilling] = useState<BillingKey>('monthly')
   const [scope, setScope] = useState(0)
 
   // With no edge country (local development), fall back to the time zone.
@@ -493,7 +437,6 @@ function Pricing() {
   const regionName = REGIONS.find((r) => r.key === region)!.name
   const money = (m: Money) => fmt(pick(m))
   const faq = faqFor(money)
-  const terms = TERMS.map((x) => (x.k === 'Tax' ? { ...x, v: TAX_TERMS[region] } : x))
 
   const selected = SERVICE_TIERS.find((t) => t.key === tier)
 
@@ -514,42 +457,33 @@ function Pricing() {
   const step = (k: AddonKey, delta: number, max: number) =>
     setQty((q) => ({ ...q, [k]: Math.max(0, Math.min(max, q[k] + delta)) }))
 
-  const choose = (k: TierKey) => {
-    setTier(k)
-    const el = document.getElementById('build')
-    if (el) {
-      const calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-      el.scrollIntoView({ behavior: calm ? 'auto' : 'smooth', block: 'start' })
-    }
-  }
   const diagnostic = DIAGNOSTIC.scopes[scope]
+
+  // The Founding rate needs a three-month or longer plan, so it never applies on monthly billing.
+  const bill = BILLING.find((b) => b.key === billing)!
+  const foundingOn = founding && billing !== 'monthly'
+  const planMonthly = totals.monthly * (1 - bill.off) // the ongoing monthly fee on this billing term
+  const firstRate = foundingOn ? totals.monthly * (1 - FOUNDING_OFF) : planMonthly // monthly fee for months 1 to 3
+  const firstQuarter = firstRate * 3 + totals.oneOff
+  // What each invoice comes to: a quarter or a year at a time (the first one reflects the Founding rate).
+  const invoice = billing === 'quarterly' ? firstRate * 3 : billing === 'yearly' ? firstRate * 3 + planMonthly * 9 : planMonthly
 
   const estimateNote = [
     selected ? `${selected.name} tier` : 'No tier',
     ...ADDONS.filter((a) => qty[a.key] > 0).map((a) => `${a.name} x ${qty[a.key]}`),
-    hasAnything ? `estimate ${fmt(totals.monthly)} a month` : '',
-    founding ? 'Founding Partner Programme' : '',
+    hasAnything ? `estimate ${fmt(planMonthly)} a month` : '',
+    `${bill.label} billing`,
+    foundingOn ? 'Founding Partner Programme' : '',
   ]
     .filter(Boolean)
     .join(', ')
     .slice(0, 280)
 
-  const firstQuarter = (founding ? totals.monthly * 0.5 : totals.monthly) * 3 + totals.oneOff
-
-  const ladder: {
-    n: string
-    name: string
-    price: string
-    note: string
-    href: string
-    phase: 'Know' | 'Operate'
-    run?: number
-  }[] = [
-    { n: '00', name: 'AI Visibility Score', price: fmt(0), note: 'A free, automated read of your public footprint.', href: '#start', phase: 'Know' },
-    { n: '01', name: 'Diagnostic', price: `from ${money(DIAGNOSTIC.price)}`, note: 'One-time. Written evidence and a 90-day plan.', href: '#start', phase: 'Know' },
-    { n: '02', name: 'Foundation', price: `${money(SERVICE_TIERS[0].price)}/mo`, note: 'Measure it, and keep the fixes moving.', href: '#operate', phase: 'Operate', run: 25 },
-    { n: '03', name: 'Growth', price: `${money(SERVICE_TIERS[1].price)}/mo`, note: 'Strategy and execution, run with your team.', href: '#operate', phase: 'Operate', run: 60 },
-    { n: '04', name: 'Operating Partner', price: `${money(SERVICE_TIERS[2].price)}/mo`, note: 'A named operator who owns the number.', href: '#operate', phase: 'Operate', run: 90 },
+  // Three steps, not seven rows: the tiers are one step, since the card below explains each.
+  const ladder: { n: string; name: string; note: string; href: string }[] = [
+    { n: '1', name: 'AI Visibility Score', note: 'A free read of your public footprint.', href: '#start' },
+    { n: '2', name: 'Diagnostic', note: 'One-time written audits and a plan to act on.', href: '#start' },
+    { n: '3', name: 'Operating tiers', note: 'Foundation, Growth or Operating Partner. We run more of the work as you climb.', href: '#operate' },
   ]
 
   return (
@@ -586,38 +520,8 @@ function Pricing() {
               </Reveal>
               <Reveal delay={120}>
                 <div className="mt-10 flex flex-wrap items-center gap-4">
-                  <div
-                    className="inline-flex items-center rounded-full border border-line-strong bg-paper p-1"
-                    role="group"
-                    aria-label="Currency and region"
-                  >
-                    {REGIONS.map((r) => (
-                      <button
-                        key={r.key}
-                        type="button"
-                        onClick={() => {
-                          setRegion(r.key)
-                          setManual(true)
-                          track('region_change', { region: r.key })
-                          try {
-                            document.cookie = `${REGION_COOKIE}=${r.key}; path=/; max-age=31536000; SameSite=Lax`
-                          } catch {
-                            /* cookies blocked: the choice still holds for this visit */
-                          }
-                        }}
-                        aria-pressed={region === r.key}
-                        title={r.name}
-                        className={`rounded-full px-4 py-2 font-sans text-caption font-medium transition-colors ${
-                          region === r.key ? 'bg-ink text-canvas' : 'text-ink-60 hover:text-ink'
-                        }`}
-                      >
-                        {r.label}
-                      </button>
-                    ))}
-                  </div>
                   <span className="font-sans text-caption text-ink-45">
-                    {manual || geo.source === 'cookie' || !geo.detected ? `Showing ${regionName} prices.` : `Showing prices for ${regionName}, based on your location.`}{' '}
-                    {taxNote(region)}
+                    {geo.detected ? `Showing prices for ${regionName}, based on your location.` : `Showing ${regionName} prices.`}
                   </span>
                 </div>
               </Reveal>
@@ -626,49 +530,23 @@ function Pricing() {
             <div className="lg:col-span-6">
               <Reveal delay={80}>
                 <div className="rounded-2xl border border-line bg-canvas p-6 shadow-[0_30px_60px_-45px_rgba(26,23,18,0.4)] sm:p-8">
-                  <div className="flex flex-wrap items-baseline justify-between gap-2">
-                    <p className="eyebrow">The ladder</p>
-                    <p className="font-sans text-label text-ink-45">Bars show the share of the work we run, indicatively</p>
-                  </div>
+                  <p className="eyebrow">Where to start</p>
                   <ol className="relative mt-6">
-                    <span aria-hidden="true" className="absolute bottom-4 left-[0.55rem] top-4 w-px bg-line-strong" />
-                    {ladder.map((s, i) => (
+                    <span aria-hidden="true" className="absolute bottom-6 left-[0.9rem] top-6 w-px bg-line-strong" />
+                    {ladder.map((s) => (
                       <li key={s.n}>
-                        {(i === 0 || s.phase !== ladder[i - 1].phase) && (
-                          <p className="relative mb-1 ml-8 mt-3 font-sans text-[0.68rem] font-medium uppercase tracking-[0.2em] text-brass-deep first:mt-0">
-                            {s.phase}
-                          </p>
-                        )}
-                        <a
-                          href={s.href}
-                          className="group relative -mx-2 flex gap-4 rounded-lg px-2 py-3 transition-colors hover:bg-canvas-2"
-                        >
+                        <a href={s.href} className="group relative -mx-2 flex gap-4 rounded-lg px-2 py-3.5 transition-colors hover:bg-canvas-2">
                           <span
                             aria-hidden="true"
-                            className={`relative z-10 mt-1 h-[1.15rem] w-[1.15rem] flex-none rounded-full border-2 bg-canvas transition-colors ${
-                              s.run ? 'border-cognac group-hover:bg-cognac' : 'border-brass group-hover:bg-brass'
-                            }`}
-                          />
+                            className="relative z-10 grid h-7 w-7 flex-none place-items-center rounded-full border border-line-strong bg-canvas font-display text-caption text-ink transition-colors group-hover:border-ink group-hover:bg-ink group-hover:text-canvas"
+                          >
+                            {s.n}
+                          </span>
                           <span className="min-w-0 flex-1">
-                            <span className="flex items-baseline justify-between gap-4">
-                              <span className="font-display text-ink" style={{ fontSize: '1.25rem' }}>
-                                {s.name}
-                              </span>
-                              <span className="whitespace-nowrap font-display tabular-nums text-ink" style={{ fontSize: '1.1rem' }}>
-                                {s.price}
-                              </span>
+                            <span className="block font-display text-ink" style={{ fontSize: '1.25rem' }}>
+                              {s.name}
                             </span>
                             <span className="mt-0.5 block font-sans text-label leading-snug text-ink-60">{s.note}</span>
-                            {s.run && (
-                              <span className="mt-3 block">
-                                <span className="block h-1.5 overflow-hidden rounded-full bg-line">
-                                  <span className="bar-grow block h-full rounded-full bg-cognac" style={{ width: `${s.run}%` }} />
-                                </span>
-                                <span className="mt-1.5 block font-sans text-label text-ink-45">
-                                  We run about {s.run}%, your team the rest
-                                </span>
-                              </span>
-                            )}
                           </span>
                         </a>
                       </li>
@@ -692,178 +570,110 @@ function Pricing() {
           <Reveal delay={60}>
             <div className="mt-12 overflow-hidden rounded-3xl bg-night text-canvas shadow-[0_40px_80px_-40px_rgba(26,23,18,0.55)]">
               <div className="grid lg:grid-cols-12">
-                <div className="p-8 sm:p-10 lg:col-span-7">
-                  <p className="eyebrow eyebrow-light">One-time · Diagnostic</p>
-                  <h3 className="mt-4 font-display text-canvas" style={{ fontSize: 'clamp(1.8rem,3vw,2.4rem)', lineHeight: 1.08 }}>
-                    A full read of where you stand, in writing, with a plan to act on.
-                  </h3>
-                  <p className="mt-4 max-w-xl font-sans text-body leading-relaxed text-canvas/65">
-                    Buyers are already asking AI who to trust. Here is what the
-                    work behind the Diagnostic covers.
-                  </p>
-                  <dl className="mt-8 grid gap-px overflow-hidden rounded-xl border border-night-line bg-night-line sm:grid-cols-2">
-                    {DIAGNOSTIC.facts.map((f) => (
-                      <div key={f.label} className="bg-night p-5">
-                        <dt className="font-display tabular-nums" style={{ fontSize: '2rem', lineHeight: 1, color: 'var(--color-cognac-soft)' }}>
-                          {f.n}
-                        </dt>
-                        <dd className="mt-2 font-sans text-caption leading-snug text-canvas/75">{f.label}</dd>
-                      </div>
-                    ))}
-                  </dl>
-                  <p className="mt-4 font-sans text-label leading-relaxed text-canvas/45">
-                    Counts are the upper limits of our method, and the 104 is a
-                    real result from one past audit. Your report states the
-                    exact numbers for your company.
-                  </p>
-                </div>
+                <div className="p-7 sm:p-9 lg:col-span-8">
+                  <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1">
+                    <p className="eyebrow eyebrow-light">One-time · Diagnostic</p>
+                    <p className="font-sans text-label text-canvas/50">Each depth includes the one before it.</p>
+                  </div>
 
-                <div className="border-t border-night-line bg-night-2 p-8 sm:p-10 lg:col-span-5 lg:border-l lg:border-t-0">
-                  <p className="eyebrow eyebrow-light">Choose your scope</p>
-                  <div className="mt-4 space-y-2.5" role="radiogroup" aria-label="Diagnostic scope">
-                    {DIAGNOSTIC.scopes.map((s, i) => {
+                  <div className="mt-5 grid grid-cols-3 gap-2" role="radiogroup" aria-label="Diagnostic depth">
+                    {DIAGNOSTIC.scopes.map((t, i) => {
                       const on = scope === i
                       return (
                         <button
-                          key={s.key}
+                          key={t.key}
                           type="button"
                           role="radio"
                           aria-checked={on}
                           onClick={() => {
                             setScope(i)
-                            track('diagnostic_select', { scope: s.key })
+                            track('diagnostic_select', { scope: t.key })
                           }}
-                          className={`flex w-full cursor-pointer items-start gap-3 rounded-xl border px-4 py-3.5 text-left transition-colors ${
-                            on ? 'border-cognac-soft bg-canvas/[0.06]' : 'border-night-line hover:border-canvas/30'
+                          className={`cursor-pointer rounded-xl border px-3 py-3 text-left transition-colors ${
+                            on ? 'border-cognac-soft bg-canvas/[0.07]' : 'border-night-line hover:border-canvas/30'
                           }`}
                         >
-                          <span
-                            aria-hidden="true"
-                            className={`mt-1 grid h-4 w-4 flex-none place-items-center rounded-full border ${
-                              on ? 'border-cognac-soft' : 'border-canvas/40'
-                            }`}
-                          >
-                            {on && <span className="h-2 w-2 rounded-full bg-cognac-soft" />}
+                          <span className={`block font-display ${on ? 'text-canvas' : 'text-canvas/60'}`} style={{ fontSize: '1.05rem' }}>
+                            {t.name}
                           </span>
-                          <span className="min-w-0 flex-1">
-                            <span className="flex items-baseline justify-between gap-3">
-                              <span className="font-display text-canvas" style={{ fontSize: '1.1rem' }}>
-                                {s.name}
-                              </span>
-                              <span className="font-display tabular-nums text-canvas/85" style={{ fontSize: '1.05rem' }}>
-                                {money(s.price)}
-                              </span>
-                            </span>
-                            <span className="mt-0.5 block font-sans text-label leading-snug text-canvas/55">{s.sub}</span>
+                          <span className={`mt-0.5 block font-sans text-label tabular-nums ${on ? 'text-cognac-soft' : 'text-canvas/40'}`}>
+                            {money(t.price)}
                           </span>
                         </button>
                       )
                     })}
                   </div>
 
-                  <div className="mt-7 border-t border-night-line pt-6">
-                    <p className="font-sans text-label uppercase tracking-[0.14em] text-canvas/55">Your Diagnostic</p>
-                    <p className="mt-2 flex items-baseline gap-2">
-                      <span className="font-display tabular-nums text-canvas" style={{ fontSize: '3rem', lineHeight: 1 }}>
+                  <dl className="mt-5 grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-night-line bg-night-line sm:grid-cols-4">
+                    {['Prompts tested', 'AI platforms', 'Service locations', 'Content plan'].map((label) => {
+                      const v = DX_ROWS.find((r) => r.label === label)!.vals[scope]
+                      return (
+                        <div key={label} className="bg-night px-4 py-3.5">
+                          <dd className="font-display tabular-nums text-canvas" style={{ fontSize: '1.7rem', lineHeight: 1 }}>
+                            {v}
+                          </dd>
+                          <dt className="mt-1.5 font-sans text-label text-canvas/55">{label}</dt>
+                        </div>
+                      )
+                    })}
+                  </dl>
+                  <p className="mt-3 font-sans text-label leading-relaxed text-canvas/50">
+                    <span className="text-canvas/70">Platforms:</span> {DX_PLATFORMS[scope].join(', ')}. The content plan is ideas and direction, not produced content.
+                  </p>
+
+                  <ul className="mt-5 flex flex-wrap gap-2">
+                    {DX_ROWS.filter((r) => r.vals[scope] === 'Included').map((r) => {
+                      const added = scope > 0 && r.vals[scope - 1] !== 'Included'
+                      return (
+                        <li
+                          key={r.label}
+                          title={r.hint}
+                          className={`rounded-full border px-3 py-1 font-sans text-caption ${
+                            added ? 'border-cognac-soft/60 bg-cognac/15 text-canvas' : 'border-canvas/20 bg-canvas/[0.04] text-canvas/80'
+                          }`}
+                        >
+                          {added && <span aria-hidden="true" className="mr-1 text-cognac-soft">+</span>}
+                          {r.chip ?? r.label}
+                        </li>
+                      )
+                    })}
+                  </ul>
+                </div>
+
+                <div className="flex flex-col justify-between gap-6 border-t border-night-line bg-night-2 p-7 sm:p-9 lg:col-span-4 lg:border-l lg:border-t-0">
+                  <div>
+                    <p className="font-sans text-label uppercase tracking-[0.14em] text-canvas/55">{DIAGNOSTIC.scopes[scope].name} Diagnostic</p>
+                    <p className="mt-2 flex flex-wrap items-baseline gap-x-2">
+                      <span className="font-display tabular-nums text-canvas" style={{ fontSize: '2.8rem', lineHeight: 1 }}>
                         {money(diagnostic.price)}
                       </span>
-                      <span className="font-sans text-caption text-canvas/55">one-time</span>
+                      <span className="font-sans text-caption text-canvas/55">one-time {taxTag(region)}</span>
                     </p>
-                    <p className="mt-4 rounded-lg border border-brass-soft/30 bg-brass-soft/10 px-4 py-3 font-sans text-caption leading-relaxed text-canvas/85">
-                      <span className="font-semibold text-brass-soft">Credited in full.</span>{' '}
-                      Sign an operating tier within 30 days and this fee comes
-                      off your first months, so the Diagnostic costs nothing net.
+                    <p className="mt-3 font-sans text-caption leading-snug text-canvas/65">{DIAGNOSTIC.scopes[scope].sub}</p>
+                    <p className="mt-4 font-sans text-caption leading-snug text-brass-soft">
+                      Credited in full if you sign an operating tier within 30 days.
                     </p>
                   </div>
-
-                  <Link
-                    to="/contact"
-                    search={{ plan: 'diagnostic' }}
-                    onClick={() => track('diagnostic_click', { scope: diagnostic.key })}
-                    className="btn btn-light mt-7 w-full justify-center"
-                  >
-                    Book a Diagnostic
-                  </Link>
-                  <p className="mt-4 text-center font-sans text-label text-canvas/50">
-                    Not ready?{' '}
-                    <Link to="/contact" className="link-line text-canvas/80">
-                      Start with the free score
+                  <div>
+                    <Link
+                      to="/contact"
+                      search={{ plan: 'diagnostic' }}
+                      onClick={() => track('diagnostic_click', { scope: diagnostic.key })}
+                      className="btn btn-light w-full justify-center"
+                    >
+                      Book a Diagnostic
                     </Link>
-                  </p>
+                    <p className="mt-3 text-center font-sans text-label text-canvas/50">
+                      Not ready?{' '}
+                      <Link to="/contact" className="link-line text-canvas/80">
+                        Start with the free score
+                      </Link>
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
           </Reveal>
-        </Container>
-      </section>
-
-      {/* Market context: the anchor, honestly sourced, before our own prices */}
-      <section className="border-t border-line bg-canvas-2">
-        <Container className="py-16 sm:py-20">
-          <div className="grid gap-10 lg:grid-cols-12 lg:items-start">
-            <div className="lg:col-span-5">
-              <Reveal>
-                <Eyebrow>For reference</Eyebrow>
-                <h2 className="text-display-md mt-6">What the market quotes.</h2>
-                <p className="mt-5 font-sans text-body leading-relaxed text-ink-60">
-                  Before you read our tiers, here is what agencies publish for
-                  similar work. Scope differs a great deal, so compare the
-                  deliverables, not the headline.
-                </p>
-              </Reveal>
-            </div>
-            <div className="lg:col-span-7">
-              <Reveal delay={80}>
-                <dl className="divide-y divide-line border-y border-line">
-                  {MARKET[region === 'IN' ? 'IN' : 'INTL'].rows.map((r) => (
-                    <div key={r.k} className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 py-4">
-                      <dt className="font-sans text-caption text-ink-60">{r.k}</dt>
-                      <dd className="font-display tabular-nums text-ink" style={{ fontSize: '1.2rem' }}>
-                        {r.v}
-                      </dd>
-                    </div>
-                  ))}
-                </dl>
-                <p className="mt-4 font-sans text-label leading-relaxed text-ink-45">
-                  Agency-published estimates, not rate cards. {region === 'IN' ? '' : 'Quoted in US dollars. '}
-                  Sources:{' '}
-                  {MARKET[region === 'IN' ? 'IN' : 'INTL'].src.map((s, i) => (
-                    <span key={s.href}>
-                      {i > 0 && ', '}
-                      <a href={s.href} target="_blank" rel="noopener noreferrer" className="link-line text-ink-60">
-                        {s.label}
-                      </a>
-                    </span>
-                  ))}
-                  .
-                </p>
-              </Reveal>
-              <Reveal delay={140}>
-                <ul className="mt-8 grid gap-3 sm:grid-cols-3">
-                  {[
-                    { t: 'Built on research', b: 'A study of about 90,000 AI answers across 15+ industries.', to: '/research' as const },
-                    { t: 'Every deliverable tested', b: 'A written definition of done for each one.', to: '/services' as const },
-                    { t: 'Proof, documented', b: 'Before-and-after work, with a baseline on day one.', to: '/case-studies' as const },
-                  ].map((e) => (
-                    <li key={e.t}>
-                      <Link
-                        to={e.to}
-                        className="group block h-full rounded-xl border border-line bg-canvas p-4 transition-colors hover:border-line-strong hover:bg-paper"
-                      >
-                        <span className="block font-display text-ink" style={{ fontSize: '1.05rem' }}>
-                          {e.t}
-                        </span>
-                        <span className="mt-1.5 block font-sans text-label leading-snug text-ink-60">{e.b}</span>
-                        <span className="mt-3 block font-sans text-label text-brass-deep">
-                          Read more <span aria-hidden="true">→</span>
-                        </span>
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </Reveal>
-            </div>
-          </div>
         </Container>
       </section>
 
@@ -873,7 +683,7 @@ function Pricing() {
           <SectionHead
             eyebrow="Operating tiers"
             title="Three levels of ownership."
-            body="Monthly, with fixed deliverables. Our team runs the work on our own platform, starting with Cailyx for measurement, so the measurement and the work come from one system."
+            body="Monthly, with fixed deliverables. The bars on each card show how much of each discipline we run: one bar is measured and tracked, two bars are run by us."
           />
           <div className="mt-12 grid gap-6 lg:grid-cols-3">
             {SERVICE_TIERS.map((t, i) => {
@@ -906,9 +716,10 @@ function Pricing() {
                         {money(t.price)}
                       </span>
                       <span className={`font-sans text-caption ${hl ? 'text-canvas/60' : 'text-ink-45'}`}>/month</span>
+                      <span className={`ml-1 font-sans text-caption font-medium ${hl ? 'text-canvas/80' : 'text-ink-60'}`}>{taxTag(region)}</span>
                     </p>
                     <p className={`mt-2 font-sans text-label ${hl ? 'text-canvas/55' : 'text-ink-45'}`}>
-                      {t.hours}. Three-month minimum.
+                      {t.hours}.
                     </p>
                     <p className={`mt-5 font-sans text-caption leading-relaxed ${hl ? 'text-canvas/80' : 'text-ink-80'}`}>
                       <span className="font-semibold">Best for: </span>
@@ -947,58 +758,6 @@ function Pricing() {
             })}
           </div>
 
-          <Reveal delay={80}>
-            <div className="mt-14 overflow-x-auto rounded-2xl border border-line bg-canvas">
-              <table className="w-full border-collapse text-left" style={{ minWidth: '40rem' }}>
-                <caption className="sr-only">Deliverables by tier</caption>
-                <thead>
-                  <tr className="bg-canvas-2">
-                    <th scope="col" className="p-5 font-sans text-label uppercase tracking-[0.14em] text-ink-45">
-                      Deliverable
-                    </th>
-                    {SERVICE_TIERS.map((t) => (
-                      <th key={t.key} scope="col" className="p-5 align-bottom">
-                        <span className="block font-display text-ink" style={{ fontSize: '1.05rem' }}>
-                          {t.name}
-                        </span>
-                        <button
-                          type="button"
-                          onClick={() => choose(t.key)}
-                          className="mt-2 inline-flex cursor-pointer items-center gap-1.5 rounded-full border border-line-strong px-3 py-1 font-sans text-label text-ink-80 transition-colors hover:bg-ink hover:text-canvas"
-                        >
-                          Choose <span aria-hidden="true">→</span>
-                        </button>
-                      </th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {SERVICE_COMPARE.map((row) => (
-                    <tr key={row.label} className="border-t border-line">
-                      <th scope="row" className="p-5 text-left font-sans text-caption font-normal text-ink-60">
-                        {row.label}
-                      </th>
-                      {row.vals.map((v, i) => (
-                        <td key={i} className="p-5 font-sans text-caption text-ink-80">
-                          {v === 'No' ? (
-                            <span className="inline-flex items-center gap-2 text-ink-45">
-                              <span aria-hidden="true" className="inline-block h-px w-4 bg-line-strong" />
-                              <span className="sr-only">Not included</span>
-                            </span>
-                          ) : (
-                            <span className="inline-flex items-center gap-2.5">
-                              <Diamond />
-                              {v}
-                            </span>
-                          )}
-                        </td>
-                      ))}
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </Reveal>
         </Container>
       </section>
 
@@ -1008,7 +767,7 @@ function Pricing() {
           <SectionHead
             eyebrow="Build your engagement"
             title="Take only what you need."
-            body="Choose a tier, then add single modules. The estimate updates as you go. The final scope is set in your Statement of Work."
+            body="Choose a tier, then add single modules. The estimate updates as you go."
           />
           <div className="mt-12 grid gap-8 lg:grid-cols-12">
             {/* Controls */}
@@ -1024,7 +783,7 @@ function Pricing() {
                   {(
                     [
                       { key: 'none' as const, name: 'No tier', sub: 'Add-ons only', line: 'Take one module without a monthly tier.' },
-                      ...SERVICE_TIERS.map((t) => ({ key: t.key, name: t.name, sub: `${money(t.price)}/month`, line: t.tagline })),
+                      ...SERVICE_TIERS.map((t) => ({ key: t.key, name: t.name, sub: `${money(t.price)}/month`, line: '' })),
                     ] as { key: TierKey | 'none'; name: string; sub: string; line: string }[]
                   ).map((o) => {
                     const on = tier === o.key
@@ -1063,7 +822,6 @@ function Pricing() {
                           </span>
                         </span>
                         <span className={`mt-1 block font-sans text-label ${on ? 'text-canvas/70' : 'text-ink-45'}`}>{o.sub}</span>
-                        <span className={`mt-2 block font-sans text-label leading-snug ${on ? 'text-canvas/80' : 'text-ink-60'}`}>{o.line}</span>
                         <span className={`mt-3 block font-sans text-[0.68rem] font-medium uppercase tracking-[0.16em] ${on ? 'text-cognac-soft' : 'text-brass-deep'}`}>
                           {on ? 'Selected' : 'Select'}
                         </span>
@@ -1076,13 +834,14 @@ function Pricing() {
               <Reveal delay={80}>
                 <div className="mt-10 flex flex-wrap items-baseline justify-between gap-3">
                   <p className="eyebrow">2. Add modules, if you want them</p>
-                  {(tier !== 'none' || Object.values(qty).some((n) => n > 0) || founding) && (
+                  {(tier !== 'none' || Object.values(qty).some((n) => n > 0) || founding || billing !== 'monthly') && (
                     <button
                       type="button"
                       onClick={() => {
                         setTier('none')
-                        setQty({ social: 0, blog: 0, video: 0, project: 0, engine: 0 })
+                        setQty({ social: 0, blog: 0, video: 0, engine: 0 })
                         setFounding(false)
+                        setBilling('monthly')
                       }}
                       className="link-line cursor-pointer font-sans text-label text-ink-60"
                     >
@@ -1151,22 +910,58 @@ function Pricing() {
                 </ul>
               </Reveal>
 
+              <Reveal delay={100}>
+                <p className="eyebrow mt-10">3. Choose how you pay</p>
+                <div className="mt-4 grid gap-3 sm:grid-cols-3" role="radiogroup" aria-label="Billing term">
+                  {BILLING.map((b) => {
+                    const on = billing === b.key
+                    return (
+                      <button
+                        key={b.key}
+                        type="button"
+                        role="radio"
+                        aria-checked={on}
+                        onClick={() => setBilling(b.key)}
+                        className={`cursor-pointer rounded-xl border px-4 py-3.5 text-left transition-colors ${
+                          on ? 'border-ink bg-paper' : 'border-line bg-canvas hover:border-line-strong'
+                        }`}
+                      >
+                        <span className="flex items-baseline justify-between gap-2">
+                          <span className="font-display text-ink" style={{ fontSize: '1.1rem' }}>{b.label}</span>
+                          {b.off > 0 && (
+                            <span className="shrink-0 whitespace-nowrap rounded-full bg-cognac/15 px-2 py-0.5 font-sans text-label font-semibold text-cognac-deep">
+                              Save {Math.round(b.off * 100)}%
+                            </span>
+                          )}
+                        </span>
+                        <span className="mt-1 block font-sans text-label text-ink-60">
+                          {b.key === 'monthly' ? 'Billed each month' : `Billed every ${b.every === 'year' ? 'year' : 'three months'}, in advance`}
+                        </span>
+                      </button>
+                    )
+                  })}
+                </div>
+              </Reveal>
+
               <Reveal delay={120}>
                 <label
                   className={`mt-6 flex cursor-pointer items-start gap-3 rounded-xl border px-5 py-4 transition-colors ${
-                    founding ? 'border-cognac bg-paper' : 'border-line bg-canvas hover:border-line-strong'
+                    foundingOn ? 'border-cognac bg-paper' : 'border-line bg-canvas hover:border-line-strong'
                   }`}
                 >
                   <input
                     type="checkbox"
-                    checked={founding}
-                    onChange={(e) => setFounding(e.target.checked)}
+                    checked={foundingOn}
+                    onChange={(e) => {
+                      setFounding(e.target.checked)
+                      // The programme needs a three-month or longer plan, so move off monthly billing.
+                      if (e.target.checked && billing === 'monthly') setBilling('quarterly')
+                    }}
                     className="mt-1 h-4 w-4 flex-none cursor-pointer accent-[#a85c30]"
                   />
                   <span className="font-sans text-caption leading-relaxed text-ink-80">
                     <span className="font-semibold">Founding Partner Programme.</span>{' '}
-                    50% off monthly fees for the first three months, in return for
-                    a documented case study. Places are limited.
+                    30% off monthly fees for the first three months.
                   </span>
                 </label>
               </Reveal>
@@ -1201,12 +996,17 @@ function Pricing() {
                   {hasAnything && (
                     <>
                       <div className="mt-6 border-t border-night-line pt-6">
-                        <p className="font-sans text-label uppercase tracking-[0.14em] text-canvas/55">Monthly</p>
-                        <p className="mt-2 flex items-baseline gap-2">
+                        <p className="font-sans text-label uppercase tracking-[0.14em] text-canvas/55">
+                          {foundingOn ? 'Then, each month' : 'Monthly'}
+                        </p>
+                        <p className="mt-2 flex flex-wrap items-baseline gap-x-2">
                           <span className="font-display tabular-nums text-canvas" style={{ fontSize: '2.8rem', lineHeight: 1 }}>
-                            {fmt(totals.monthly)}
+                            {fmt(planMonthly)}
                           </span>
                           <span className="font-sans text-caption text-canvas/55">/month</span>
+                          {bill.off > 0 && (
+                            <span className="font-sans text-caption tabular-nums text-canvas/45 line-through">{fmt(totals.monthly)}</span>
+                          )}
                         </p>
                         {totals.oneOff > 0 && (
                           <p className="mt-2 font-sans text-caption text-canvas/65">
@@ -1219,12 +1019,23 @@ function Pricing() {
                         <p className="mt-2 font-display tabular-nums" style={{ fontSize: '1.6rem', color: 'var(--color-cognac-soft)' }}>
                           {fmt(firstQuarter)}
                         </p>
-                        {founding && (
+                        {foundingOn && (
                           <p className="mt-1 font-sans text-caption text-canvas/55">
-                            With 50% off monthly fees. One-off items are not discounted.
+                            Founding rate: {fmt(firstRate)}/month. One-off items are not discounted.
                           </p>
                         )}
                       </div>
+                      {billing !== 'monthly' && (
+                        <div className="mt-6 border-t border-night-line pt-6">
+                          <p className="font-sans text-label uppercase tracking-[0.14em] text-canvas/55">
+                            {billing === 'yearly' ? 'Billed yearly' : 'Billed quarterly'}
+                          </p>
+                          <p className="mt-2 font-display tabular-nums text-canvas" style={{ fontSize: '1.3rem' }}>
+                            {fmt(invoice)}
+                            <span className="ml-2 font-sans text-caption text-canvas/55">first invoice</span>
+                          </p>
+                        </div>
+                      )}
                     </>
                   )}
 
@@ -1237,8 +1048,7 @@ function Pricing() {
                     Request this proposal
                   </Link>
                   <p className="mt-4 font-sans text-label leading-relaxed text-canvas/45">
-                    An estimate, not a quote. {taxNote(region)} A tier
-                    needs a three-month minimum.
+                    An estimate, not a quote.
                   </p>
                 </div>
               </Reveal>
@@ -1289,10 +1099,10 @@ function Pricing() {
             <div className="md:col-span-8">
               <Reveal>
                 <Eyebrow className="eyebrow-light">Founding Partner Programme</Eyebrow>
-                <h2 className="text-display-md mt-6 text-canvas">Half price for three months, in return for proof.</h2>
+                <h2 className="text-display-md mt-6 text-canvas">30% off for three months, in return for proof.</h2>
                 <p className="mt-6 max-w-2xl font-sans text-body leading-relaxed text-canvas/65">
-                  We take a small number of early clients at 50% off list for the
-                  first three months. In return we document the work as a
+                  We take a small number of early clients at 30% off list for the
+                  first three months, on a quarterly or yearly plan, in place of that plan’s own discount. In return we document the work as a
                   before-and-after case study, with a testimonial from you. The
                   baseline is captured on day one, so the result is checkable.
                 </p>
@@ -1304,33 +1114,9 @@ function Pricing() {
                   <Link to="/contact" search={{ plan: 'growth' }} className="btn btn-light">
                     Ask about the programme
                   </Link>
-                  <Link to="/case-studies" className="link-line font-sans text-body text-canvas/80">
-                    How we document proof →
-                  </Link>
                 </div>
               </Reveal>
             </div>
-          </div>
-        </Container>
-      </section>
-
-      {/* Terms in plain words */}
-      <section className="border-t border-line bg-canvas-2">
-        <Container className="py-20 sm:py-24">
-          <SectionHead
-            eyebrow="Terms in plain words"
-            title="How we work together."
-            body="The detail is set out in your contract. This is the shape of it."
-          />
-          <div className="mt-12 grid gap-px overflow-hidden rounded-2xl border border-line bg-line sm:grid-cols-2 lg:grid-cols-3">
-            {terms.map((t, i) => (
-              <Reveal key={t.k} delay={i * 40} className="bg-canvas">
-                <div className="h-full p-7">
-                  <p className="eyebrow">{t.k}</p>
-                  <p className="mt-3 font-sans text-caption leading-relaxed text-ink-80">{t.v}</p>
-                </div>
-              </Reveal>
-            ))}
           </div>
         </Container>
       </section>

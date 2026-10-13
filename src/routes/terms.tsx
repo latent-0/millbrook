@@ -42,11 +42,11 @@ const SERVICES: Section[] = [
   },
   {
     h: '5. The Founding Partner Programme',
-    body: 'Founding Partners receive 50% off the monthly fees of their tier for the first three months. One-off items are not discounted. In return, Rothenhall may document the work as a before-and-after case study with a testimonial from you. We will show you the case study and the testimonial before they are published, and we will not name you or your figures without your written approval. Places are limited and we may close the programme at any time for new clients.',
+    body: 'Founding Partners on a quarterly or annual plan receive 30% off the monthly fees of their tier for the first three months, in place of the quarterly or annual discount for that period. One-off items are not discounted. In return, Rothenhall may document the work as a before-and-after case study with a testimonial from you. We will show you the case study and the testimonial before they are published, and we will not name you or your figures without your written approval. Places are limited and we may close the programme at any time for new clients.',
   },
   {
     h: '6. Fees, invoicing and tax',
-    body: 'Fees are set in US dollars, euros or Indian rupees according to the price book for your region, and are stated in your Statement of Work. We invoice monthly in advance and payment is due within 30 days. Prices exclude VAT, GST and any sales or use tax, which we add where the law requires it. Where the EU reverse-charge applies to a cross-border business customer, we invoice accordingly. If an invoice is paid late we may charge interest as the applicable law allows. Annual prepayment earns a 10% discount. We review prices once a year and give 30 days notice of any change.',
+    body: 'Fees are set in US dollars, euros or Indian rupees according to the price book for your region, and are stated in your Statement of Work. We invoice monthly in advance and payment is due within 30 days. Prices exclude VAT, GST and any sales or use tax, which we add where the law requires it. Where the EU reverse-charge applies to a cross-border business customer, we invoice accordingly. If an invoice is paid late we may charge interest as the applicable law allows. Quarterly prepayment earns a 10% discount and annual prepayment earns a 25% discount. We review prices once a year and give 30 days notice of any change.',
   },
   {
     h: '7. Your responsibilities',
