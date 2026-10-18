@@ -20,3 +20,27 @@ export function track(event: FunnelEvent, params: Record<string, string | number
     /* analytics must never break the page */
   }
 }
+
+/** Meta Pixel (dataset "Rothenhall Pixel" in the Rothenhall business). Public by design. */
+export const META_PIXEL_ID = '1997864257575385'
+
+/** Meta standard events this site sends. */
+export type MetaEvent = 'PageView' | 'Lead'
+
+/**
+ * Sends a standard event to the Meta Pixel when it is loaded, and does nothing
+ * otherwise. `eventId` lets a later Conversions API call deduplicate against it.
+ */
+export function metaTrack(
+  event: MetaEvent,
+  params: Record<string, string | number> = {},
+  eventId?: string,
+) {
+  try {
+    const w = window as unknown as { fbq?: (...a: unknown[]) => void }
+    if (eventId) w.fbq?.('track', event, params, { eventID: eventId })
+    else w.fbq?.('track', event, params)
+  } catch {
+    /* analytics must never break the page */
+  }
+}

@@ -25,7 +25,8 @@ function doPost(e) {
     const ss = SpreadsheetApp.getActiveSpreadsheet()
     const sheet = ss.getSheetByName('Submissions') || ss.insertSheet('Submissions')
     if (sheet.getLastRow() === 0) {
-      sheet.appendRow(['Received', 'Form', 'Name', 'Email', 'Company', 'Type / Building', 'Message'])
+      sheet.appendRow(['Received', 'Form', 'Name', 'Email', 'Company', 'Type / Building', 'Message',
+        'Website', 'Company size', 'Budget', 'Country', 'Source', 'Campaign tags'])
     }
     sheet.appendRow([
       data.receivedAt || new Date().toISOString(),
@@ -35,6 +36,12 @@ function doPost(e) {
       data.company || '',
       data.type || data.building || '',
       data.message || '',
+      data.website || '',
+      data.size || '',
+      data.budget || '',
+      data.country || '',
+      data.source || '',
+      data.utm || '',
     ])
     MailApp.sendEmail({
       to: RECIPIENT,
@@ -72,6 +79,12 @@ Set the environment variable `FORMS_WEBHOOK_URL` to the web app URL.
   `FORMS_WEBHOOK_URL=https://script.google.com/macros/s/XXXX/exec`
 - Production (Vercel): Project Settings -> Environment Variables -> add
   `FORMS_WEBHOOK_URL`, then redeploy.
+
+**Already have the Sheet?** Paste the updated script, redeploy (Deploy -> Manage
+deployments -> edit -> New version), and add the six new headers (Website,
+Company size, Budget, Country, Source, Campaign tags) to row 1 by hand: the
+script only writes headers into an empty sheet. Every field also appears in the
+notification email, so nothing is lost before the Sheet is updated.
 
 ## Step 4, test
 

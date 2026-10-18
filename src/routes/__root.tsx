@@ -10,6 +10,7 @@ import {
 import appCss from '../styles.css?url'
 import { Header, Footer } from '../components/site'
 import { NotFound } from '../components/NotFound'
+import { META_PIXEL_ID, metaTrack } from '../lib/track'
 
 const SITE = {
   name: 'Rothenhall Partners',
@@ -223,6 +224,22 @@ function RootDocument({ children }: { children: React.ReactNode }) {
     })(window, document, "clarity", "script", "yjros0h93e");`,
           }}
         />
+        {/* Meta Pixel. The first PageView fires here; SpaPageViewTracker sends
+            the rest on client-side navigation. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `!function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '${META_PIXEL_ID}');
+  fbq('track', 'PageView');`,
+          }}
+        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(orgSchema) }}
@@ -241,6 +258,11 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         />
       </head>
       <body>
+        <noscript
+          dangerouslySetInnerHTML={{
+            __html: `<img height="1" width="1" style="display:none" alt="" src="https://www.facebook.com/tr?id=${META_PIXEL_ID}&ev=PageView&noscript=1" />`,
+          }}
+        />
         <div className="flex min-h-screen flex-col">
           <Header />
           <main className="flex-1">{children ?? <Outlet />}</main>
@@ -258,11 +280,13 @@ function SpaPageViewTracker() {
   const isFirstRender = useRef(true)
 
   useEffect(() => {
-    // gtag's initial config already fired the first page_view, so skip mount.
+    // gtag's initial config and the Meta Pixel snippet already fired the first
+    // page view, so skip mount.
     if (isFirstRender.current) {
       isFirstRender.current = false
       return
     }
+    metaTrack('PageView')
     const pagePath = `${location.pathname}${location.searchStr ?? ''}`
     ;(window as unknown as { gtag?: (...args: unknown[]) => void }).gtag?.(
       'event',

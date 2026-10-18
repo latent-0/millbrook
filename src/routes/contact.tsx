@@ -1,8 +1,15 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Container, Eyebrow, Reveal } from '../components/site'
-import { submitInquiry, type InquiryInput, SOURCE_OPTIONS } from '../server/inquiry'
+import {
+  submitInquiry,
+  type InquiryInput,
+  SOURCE_OPTIONS,
+  COMPANY_SIZE_OPTIONS,
+  BUDGET_OPTIONS,
+} from '../server/inquiry'
 import { seo } from '../lib/seo'
+import { metaTrack } from '../lib/track'
 
 export const Route = createFileRoute('/contact')({
   head: () =>
@@ -23,6 +30,7 @@ const TYPES = [
   { value: 'diagnostic', label: 'A Diagnostic: know where we stand' },
   { value: 'foundation', label: 'Foundation: measure and track the fixes' },
   { value: 'growth', label: 'Growth: GTM and content run with us' },
+  { value: 'strategy', label: 'Strategy: ICP, positioning and a GTM plan' },
   { value: 'operating', label: 'Operating Partner: an embedded operator' },
   { value: 'fund', label: 'A fund or portfolio-wide programme' },
   { value: 'other', label: 'Something else' },
@@ -42,8 +50,17 @@ type Status = 'idle' | 'submitting' | 'success' | 'error'
 const ERROR_KEYS: Array<[RegExp, keyof InquiryInput]> = [
   [/\bname\b/i, 'name'],
   [/email/i, 'email'],
+  [/website/i, 'website'],
+  [/size/i, 'size'],
+  [/budget/i, 'budget'],
   [/tell us|message/i, 'message'],
 ]
+
+/** Ad and campaign links may use these names for an existing option. */
+const PLAN_ALIASES: Record<string, string> = { visibility: 'diagnostic' }
+
+/** Campaign tags worth keeping with an inquiry, read from the landing URL. */
+const UTM_KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'fbclid']
 function fieldForError(msg: string): keyof InquiryInput | null {
   for (const [re, key] of ERROR_KEYS) if (re.test(msg)) return key
   return null
@@ -53,16 +70,21 @@ const empty: InquiryInput = {
   name: '',
   email: '',
   company: '',
+  website: '',
+  size: '',
+  budget: '',
   type: 'diagnostic',
   message: '',
   source: '',
+  utm: '',
 }
 
 function Contact() {
   const { plan, note } = Route.useSearch()
+  const planType = plan ? (PLAN_ALIASES[plan] ?? plan) : undefined
   const [form, setForm] = useState<InquiryInput>(() => ({
     ...empty,
-    type: TYPES.some((o) => o.value === plan) ? (plan as string) : empty.type,
+    type: TYPES.some((o) => o.value === planType) ? (planType as string) : empty.type,
     // An estimate built on the pricing page arrives already written down.
     message: note ? `I would like a proposal for: ${note}.` : '',
   }))
@@ -85,14 +107,32 @@ function Contact() {
     ) =>
       setForm((f) => ({ ...f, [key]: e.target.value }))
 
+  // Keep the ad's campaign tags with the inquiry. Read once, on the client.
+  useEffect(() => {
+    const q = new URLSearchParams(window.location.search)
+    const kept = new URLSearchParams()
+    for (const k of UTM_KEYS) {
+      const v = q.get(k)
+      if (v) kept.set(k, v.slice(0, 120))
+    }
+    const utm = kept.toString()
+    if (utm) setForm((f) => ({ ...f, utm }))
+  }, [])
+
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault()
     setStatus('submitting')
     setError('')
     try {
       await submitInquiry({ data: form })
+      // Lead fires only after the server accepted the inquiry.
+      metaTrack(
+        'Lead',
+        { content_name: form.type, content_category: 'contact_inquiry' },
+        `inquiry-${Date.now()}`,
+      )
       setStatus('success')
-      setForm(empty)
+      setForm({ ...empty, utm: form.utm })
     } catch (err) {
       setStatus('error')
       setError(err instanceof Error ? err.message : 'Something went wrong.')
@@ -234,6 +274,82 @@ function Contact() {
                           className={inputCls}
                           placeholder="Company or fund"
                         />
+                      </Field>
+                    </div>
+
+                    <Field
+                      label="Company website"
+                      htmlFor="website"
+                      error={errorField === 'website' ? error : undefined}
+                    >
+                      <input
+                        id="website"
+                        name="website"
+                        type="url"
+                        inputMode="url"
+                        autoComplete="url"
+                        required
+                        aria-invalid={invalid('website')}
+                        aria-describedby={describedBy('website')}
+                        value={form.website}
+                        onChange={set('website')}
+                        className={cls('website')}
+                        placeholder="yourcompany.com"
+                      />
+                    </Field>
+
+                    <div className="grid gap-6 sm:grid-cols-2">
+                      <Field
+                        label="Company size"
+                        htmlFor="size"
+                        error={errorField === 'size' ? error : undefined}
+                      >
+                        <div className="relative">
+                          <select
+                            id="size"
+                            name="size"
+                            required
+                            aria-invalid={invalid('size')}
+                            aria-describedby={describedBy('size')}
+                            value={form.size}
+                            onChange={set('size')}
+                            className={`${cls('size')} appearance-none pr-10`}
+                          >
+                            <option value="">Select one</option>
+                            {COMPANY_SIZE_OPTIONS.map((s) => (
+                              <option key={s} value={s}>
+                                {s}
+                              </option>
+                            ))}
+                          </select>
+                          <ChevronDown />
+                        </div>
+                      </Field>
+                      <Field
+                        label="Monthly budget (USD)"
+                        htmlFor="budget"
+                        error={errorField === 'budget' ? error : undefined}
+                      >
+                        <div className="relative">
+                          <select
+                            id="budget"
+                            name="budget"
+                            required
+                            aria-invalid={invalid('budget')}
+                            aria-describedby={describedBy('budget')}
+                            value={form.budget}
+                            onChange={set('budget')}
+                            className={`${cls('budget')} appearance-none pr-10`}
+                          >
+                            <option value="">Select one</option>
+                            {BUDGET_OPTIONS.map((b) => (
+                              <option key={b} value={b}>
+                                {b}
+                              </option>
+                            ))}
+                          </select>
+                          <ChevronDown />
+                        </div>
                       </Field>
                     </div>
 

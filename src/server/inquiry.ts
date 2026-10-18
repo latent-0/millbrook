@@ -1,4 +1,5 @@
 import { createServerFn } from '@tanstack/react-start'
+import { getRequestHeader } from '@tanstack/react-start/server'
 
 /**
  * Forwards a validated submission to a Google Apps Script web app that appends
@@ -41,19 +42,43 @@ export const SOURCE_OPTIONS = [
   'Microsoft Copilot',
   'Google search',
   'LinkedIn',
+  'Facebook or Instagram',
   'X (Twitter)',
   'A referral or word of mouth',
   'A podcast, event, or talk',
   'Other',
 ] as const
 
+/** Screening questions on the contact form, so high-fit inquiries stand out. */
+export const COMPANY_SIZE_OPTIONS = [
+  'Just the founders',
+  '2 to 10 people',
+  '11 to 50 people',
+  '51 to 200 people',
+  'More than 200 people',
+] as const
+
+/** Monthly budget bands in USD, set around the monthly tiers on /pricing. */
+export const BUDGET_OPTIONS = [
+  'Under $500',
+  '$500 to $1,000',
+  '$1,000 to $2,500',
+  '$2,500 or more',
+  'Not sure yet',
+] as const
+
 export type InquiryInput = {
   name: string
   email: string
   company: string
+  website: string
+  size: string
+  budget: string
   type: string
   message: string
   source: string
+  /** Campaign tags from the landing URL (utm_*, fbclid), as a query string. */
+  utm: string
 }
 
 /** Runs on the client and the server; throws with a user-facing message. */
@@ -65,18 +90,32 @@ function validate(data: unknown): InquiryInput {
   const name = String(d.name ?? '').trim()
   const email = String(d.email ?? '').trim()
   const company = String(d.company ?? '').trim()
+  const website = String(d.website ?? '').trim()
+  const size = String(d.size ?? '').trim()
+  const budget = String(d.budget ?? '').trim()
   const type = String(d.type ?? '').trim()
   const message = String(d.message ?? '').trim()
   const source = String(d.source ?? '').trim()
+  const utm = String(d.utm ?? '').trim().slice(0, 500)
 
   if (name.length < 2) throw new Error('Please enter your name.')
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     throw new Error('Please enter a valid email address.')
   }
+  const host = website.replace(/^https?:\/\//i, '').replace(/\/+$/, '')
+  if (!/^([a-z0-9-]+\.)+[a-z]{2,}(\/.*)?$/i.test(host)) {
+    throw new Error('Please enter your company website.')
+  }
+  if (!(COMPANY_SIZE_OPTIONS as readonly string[]).includes(size)) {
+    throw new Error('Please choose your company size.')
+  }
+  if (!(BUDGET_OPTIONS as readonly string[]).includes(budget)) {
+    throw new Error('Please choose a monthly budget range.')
+  }
   if (message.length < 10) {
     throw new Error('Please tell us a little more about what you need.')
   }
-  return { name, email, company, type, message, source }
+  return { name, email, company, website, size, budget, type, message, source, utm }
 }
 
 export type WaitlistInput = { name: string; email: string; company: string; source: string }
@@ -198,6 +237,10 @@ export const claimDiagnostic = createServerFn({ method: 'POST' })
 export const submitInquiry = createServerFn({ method: 'POST' })
   .validator(validate)
   .handler(async ({ data }) => {
-    await forward('inquiry', data)
+    // The visitor's country from the edge, so the form does not have to ask.
+    const raw = getRequestHeader('x-vercel-ip-country') || getRequestHeader('cf-ipcountry') || ''
+    const code = raw.trim().toUpperCase().slice(0, 2)
+    const country = /^[A-Z]{2}$/.test(code) && code !== 'XX' && code !== 'T1' ? code : ''
+    await forward('inquiry', { ...data, country })
     return { ok: true as const }
   })
