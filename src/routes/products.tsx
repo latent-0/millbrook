@@ -153,8 +153,8 @@ function Products() {
               You buy the work. The platform is how we do it.
             </h2>
             <p className="mx-auto mt-6 max-w-xl font-sans text-body leading-relaxed text-canvas/70">
-              Every operating tier runs on Cailyx. See what each tier includes,
-              or start with a Diagnostic.
+              Every engagement runs on Cailyx. Choose your length and curate
+              the services you need.
             </p>
             <div className="mt-9 flex flex-wrap justify-center gap-4">
               <Link to="/pricing" className="btn btn-light">

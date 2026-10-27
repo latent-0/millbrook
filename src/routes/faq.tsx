@@ -51,7 +51,7 @@ const GROUPS: Group[] = [
       },
       {
         q: 'I have no marketing team. Can Cailyx run this for us?',
-        a: 'Yes. Our operating tiers run the work alongside you, on our own platform, so you do not need in-house depth to move the number. Foundation measures and tracks the fixes, Growth adds strategy and content, and Operating Partner gives you a named operator who owns the result.',
+        a: 'Yes. We run the work alongside you, on our own platform, so you do not need in-house depth to move the number. You choose the services you need, from measurement and tracked fixes to strategy, content and a named operator who owns the result.',
       },
       {
         q: 'How do I show up in ChatGPT, Perplexity, and Google AI Overviews?',
@@ -76,7 +76,7 @@ const GROUPS: Group[] = [
       },
       {
         q: 'How do plans work?',
-        a: 'Start with a free AI Visibility Score or a paid Diagnostic. Then choose a monthly operating tier (Foundation, Growth or Operating Partner), and add single modules or one-off projects where you need them. The pricing page lists exactly what each one includes.',
+        a: 'Start with a free AI Visibility Score, or go straight to an engagement. Choose a three, six or twelve month length, then curate the services you need from our catalogue, or enter your website and we suggest them. Longer engagements save more on monthly fees.',
       },
     ],
   },
@@ -89,7 +89,7 @@ const GROUPS: Group[] = [
       },
       {
         q: 'Do we need to take everything?',
-        a: 'No. Most clients take one operating tier, and some take a single add-on or a one-off project. Every company is different, so we adapt the deliverables to your business, industry and stage.',
+        a: 'No. You build your engagement from the services you need, and some clients take a single project. Every company is different, so we adapt the deliverables to your business, industry and stage.',
       },
       {
         q: 'What do you need from us?',
@@ -97,7 +97,7 @@ const GROUPS: Group[] = [
       },
       {
         q: 'What are the contract terms?',
-        a: 'A three-month minimum, then 30 days written notice. Invoiced in advance for the billing term you choose (monthly, quarterly or yearly, with 10% off quarterly and 25% off yearly), payable within 30 days, prices exclusive of VAT or GST, one Master Services Agreement, and a Statement of Work for each engagement. A data processing agreement is available under GDPR.',
+        a: 'A fixed engagement of three, six or twelve months, then 30 days written notice. The first month is paid when you confirm and the rest is invoiced monthly in advance, payable within 30 days. Project work is paid half to begin and half on delivery. Prices are in US dollars or euros and exclude VAT or GST, with one Master Services Agreement and a Statement of Work for each engagement. A data processing agreement is available under GDPR.',
       },
     ],
   },

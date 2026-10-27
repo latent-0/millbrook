@@ -26,27 +26,27 @@ const mail = (
 const SERVICES: Section[] = [
   {
     h: '1. What these terms cover',
-    body: 'These terms apply when you buy a Diagnostic, an operating tier (Foundation, Growth or Operating Partner), an add-on module or a one-off project from Rothenhall Partners. They sit alongside a Master Services Agreement and a Statement of Work for each engagement. If a Statement of Work says something different, the Statement of Work applies to that engagement.',
+    body: 'These terms apply when you buy an engagement of three, six or twelve months, or a one-off project, from Rothenhall Partners. They sit alongside a Master Services Agreement and a Statement of Work for each engagement. If a Statement of Work says something different, the Statement of Work applies to that engagement.',
   },
   {
     h: '2. Engagements and Statements of Work',
-    body: 'Each engagement is set out in a Statement of Work that names the tier, the add-ons, the deliverables, who owns each action, the start date and the fees. Anything outside it is a change request, which we quote before any work starts.',
+    body: 'Each engagement is set out in a Statement of Work that names the engagement length, the services, the deliverables, who owns each action, the start date and the fees. Anything outside it is a change request, which we quote before any work starts.',
   },
   {
-    h: '3. The Diagnostic and its credit',
-    body: 'The Diagnostic is a one-time, paid piece of work priced by scope. If you sign an operating tier within 30 days of receiving the Diagnostic, its fee is credited in full against the first months of that tier. If you do not, the fee is not refundable once the work has started.',
+    h: '3. Engagement lengths',
+    body: 'An engagement runs for three, six or twelve months, chosen when you confirm it. The length sets the discount on every monthly fee: 10% for three months, 15% for six months and 25% for twelve months. The monthly fee is fixed for the whole term. After the term, either of us can end the engagement or change the services at the end of any month with 30 days written notice.',
   },
   {
-    h: '4. Operating tiers and add-ons',
-    body: 'Operating tiers are billed monthly and have a three-month minimum term. After the first three months you can move between tiers, or stop, at the end of any month with 30 days written notice. Add-on modules are billed per unit, monthly or once, as stated in the Statement of Work. Paid media spend, where it applies, is billed at cost and separately.',
+    h: '4. Services, projects and payment',
+    body: 'You build an engagement from the services in our catalogue, each with its own price. Monthly services recur for the whole term. One-off projects are paid once, with half due to begin and half on delivery, and are not discounted. When you confirm, you pay the first month of your monthly services plus the deposit on any projects, and we invoice the remaining months monthly in advance. Paid media spend, where it applies, is billed at cost and separately.',
   },
   {
     h: '5. The Founding Partner Programme',
-    body: 'Founding Partners on a quarterly or annual plan receive 30% off the monthly fees of their tier for the first three months, in place of the quarterly or annual discount for that period. One-off items are not discounted. In return, Rothenhall may document the work as a before-and-after case study with a testimonial from you. We will show you the case study and the testimonial before they are published, and we will not name you or your figures without your written approval. Places are limited and we may close the programme at any time for new clients.',
+    body: 'Founding Partners receive 30% off their monthly fees for the first three months of an engagement, in place of the engagement-length discount for that period. One-off items are not discounted. In return, Rothenhall may document the work as a before-and-after case study with a testimonial from you. We will show you the case study and the testimonial before they are published, and we will not name you or your figures without your written approval. Places are limited and we may close the programme at any time for new clients.',
   },
   {
     h: '6. Fees, invoicing and tax',
-    body: 'Fees are set in US dollars, euros or Indian rupees according to the price book for your region, and are stated in your Statement of Work. We invoice monthly in advance and payment is due within 30 days. Prices exclude VAT, GST and any sales or use tax, which we add where the law requires it. Where the EU reverse-charge applies to a cross-border business customer, we invoice accordingly. If an invoice is paid late we may charge interest as the applicable law allows. Quarterly prepayment earns a 10% discount and annual prepayment earns a 25% discount. We review prices once a year and give 30 days notice of any change.',
+    body: 'Fees are set in US dollars, or in euros for customers in Europe, and are stated in your Statement of Work. We invoice monthly in advance and payment is due within 30 days. Prices exclude VAT, GST and any sales or use tax, which we add where the law requires it. Where the EU reverse-charge applies to a cross-border business customer, we invoice accordingly. If an invoice is paid late we may charge interest as the applicable law allows. We review prices once a year and give 30 days notice of any change.',
   },
   {
     h: '7. Your responsibilities',

@@ -1,38 +1,25 @@
 import { createServerFn } from '@tanstack/react-start'
 import { createHmac, timingSafeEqual } from 'node:crypto'
+import { SERVICE_BY_ID, TERMS, isTerm, priceCart, type Cart, type Currency, type TermKey } from '../lib/catalog'
+import { regionForCountry } from './geo'
 
 /**
  * Razorpay Standard Checkout, server side.
  *
- *   - createRazorpayOrder   -> POST https://api.razorpay.com/v1/orders
+ *   - createEngagementOrder -> POST https://api.razorpay.com/v1/orders
  *   - verifyRazorpayPayment -> HMAC-SHA256(order_id|payment_id) signature check
  *
- * The price list and the currency decision live here, on the server, so the
- * amount cannot be tampered with from the browser. The buyer's location decides
- * the currency: India is billed in INR, everyone else in USD (international
- * payments must be enabled on the Razorpay account for USD).
+ * Every order is priced here, on the server, from the catalogue in
+ * src/lib/catalog.ts, so the amount cannot be tampered with from the browser.
+ * The buyer's location decides the currency: Europe is billed in EUR and
+ * everywhere else, India included, in USD (international payments must be
+ * enabled on the Razorpay account).
  *
  * Credentials come from environment variables (RAZORPAY_KEY_ID / _SECRET). The
  * KEY_ID is public and is returned to the client; the KEY_SECRET stays here.
  */
 
 const RAZORPAY_API = 'https://api.razorpay.com/v1'
-
-// Fixed INR conversion for India. Prices are authored in USD; Indian buyers pay
-// USD x this rate, in whole rupees. Market rate 96.33 on 2026-10-04. Keep in
-// sync with INR_RATE in src/routes/pricing.tsx (the displayed price).
-const USD_TO_INR = 96.33
-// Flat rupee surcharge per month on every India price (annual plans carry it
-// x12). Keep in sync with INR_MONTHLY_SURCHARGE in src/routes/pricing.tsx.
-const INR_MONTHLY_SURCHARGE = 2000
-
-// The charged amount per plan, in USD. `annual` is the full yearly total.
-// This is the source of truth for pricing.
-const PLANS: Record<string, { monthly: number; annual: number }> = {
-  starter: { monthly: 159, annual: 1668 }, // $139/mo billed annually
-  growth: { monthly: 319, annual: 3228 }, // $269/mo billed annually
-  scale: { monthly: 669, annual: 6828 }, // $569/mo billed annually
-}
 
 function creds() {
   const keyId = process.env.RAZORPAY_KEY_ID
@@ -46,70 +33,99 @@ function creds() {
 }
 
 /**
- * Buyer country. On Vercel the edge sets `x-vercel-ip-country`; we read it from
- * the server request. `hint` is a client-supplied fallback (e.g. derived from
- * the browser timezone) used only when the header is absent, such as in local
- * dev. Defaults to US so international pricing is the safe default.
+ * Buyer country. On Vercel the edge sets `x-vercel-ip-country`. `hint` is a
+ * client fallback used only when the header is absent (local development).
+ * Defaults to the US, so dollars are the safe default.
  */
 async function detectCountry(hint?: string): Promise<string> {
   try {
     const mod = (await import('@tanstack/react-start/server')) as {
       getWebRequest?: () => Request | undefined
     }
-    const req = mod.getWebRequest?.()
-    const c = req?.headers?.get('x-vercel-ip-country')
+    const c = mod.getWebRequest?.()?.headers?.get('x-vercel-ip-country')
     if (c) return c.toUpperCase()
   } catch {
-    // request accessor unavailable (e.g. some dev contexts) -> use hint
+    // request accessor unavailable (some dev contexts) -> use the hint
   }
   return (hint || 'US').toUpperCase()
 }
 
 /* ------------------------------------------------------------------ */
-/*  Create order                                                       */
+/*  Create an engagement order                                         */
 /* ------------------------------------------------------------------ */
 
-export type CreateOrderInput = {
-  planId: string
-  billing: 'monthly' | 'annual'
+export type EngagementOrderInput = {
+  term: TermKey
+  items: { id: string; qty: number }[]
+  founding: boolean
+  name: string
+  email: string
+  company: string
+  website: string
   country?: string
 }
 
-function validateOrder(data: unknown): CreateOrderInput {
+function validateEngagement(data: unknown): EngagementOrderInput {
   if (!data || typeof data !== 'object') throw new Error('Invalid request.')
   const d = data as Record<string, unknown>
-  const planId = String(d.planId ?? '').trim().toLowerCase()
-  const billing = String(d.billing ?? '').trim() === 'monthly' ? 'monthly' : 'annual'
-  const country = d.country ? String(d.country).trim().slice(0, 2) : undefined
-  if (!PLANS[planId]) throw new Error('Unknown plan.')
-  return { planId, billing, country }
+  if (!isTerm(d.term)) throw new Error('Choose an engagement length.')
+  const rawItems = Array.isArray(d.items) ? d.items.slice(0, 60) : []
+  const items: { id: string; qty: number }[] = []
+  for (const it of rawItems) {
+    const r = it as Record<string, unknown>
+    const id = String(r?.id ?? '')
+    const svc = SERVICE_BY_ID.get(id)
+    if (!svc) throw new Error('One of the services is no longer available.')
+    const qty = Math.floor(Number(r?.qty) || 0)
+    if (qty < 1 || qty > (svc.per?.max ?? 1)) throw new Error('Invalid quantity.')
+    items.push({ id, qty })
+  }
+  if (!items.length) throw new Error('Add at least one service.')
+  const name = String(d.name ?? '').trim()
+  const email = String(d.email ?? '').trim()
+  if (name.length < 2) throw new Error('Please enter your name.')
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) throw new Error('Please enter a valid email address.')
+  return {
+    term: d.term,
+    items,
+    founding: d.founding === true,
+    name: name.slice(0, 120),
+    email: email.slice(0, 160),
+    company: String(d.company ?? '').trim().slice(0, 120),
+    website: String(d.website ?? '').trim().slice(0, 200),
+    country: d.country ? String(d.country).trim().slice(0, 2) : undefined,
+  }
 }
 
-export const createRazorpayOrder = createServerFn({ method: 'POST' })
-  .validator(validateOrder)
+export const createEngagementOrder = createServerFn({ method: 'POST' })
+  .validator(validateEngagement)
   .handler(async ({ data }) => {
     const { keyId, keySecret } = creds()
 
-    const plan = PLANS[data.planId]
-    const usd = data.billing === 'annual' ? plan.annual : plan.monthly
-
     const country = await detectCountry(data.country)
-    const isIndia = country === 'IN'
-    const currency = isIndia ? 'INR' : 'USD'
-    // INR charged in paise ((USD x rate + surcharge) x 100); USD charged in cents (USD x 100).
-    const months = data.billing === 'annual' ? 12 : 1
-    const amount = isIndia
-      ? (Math.round(usd * USD_TO_INR) + INR_MONTHLY_SURCHARGE * months) * 100
-      : usd * 100
+    const currency: Currency = regionForCountry(country) === 'EU' ? 'EUR' : 'USD'
+    const cart: Cart = {}
+    for (const it of data.items) cart[it.id] = it.qty
+    const priced = priceCart(cart, data.term, currency, data.founding)
+    if (priced.isEmpty || priced.dueToday < 1) throw new Error('Add at least one service.')
 
-    if (amount < 100) throw new Error('Amount must be at least 100.')
-
-    const receipt = `cailyx_${data.planId}_${data.billing}`.slice(0, 40)
+    // Minor units: cents for USD and EUR.
+    const amount = Math.round(priced.dueToday * 100)
+    const term = TERMS.find((t) => t.key === data.term)!
+    const receipt = `eng_${data.term}_${Date.now()}`.slice(0, 40)
     const notes = {
-      plan: data.planId,
-      billing: data.billing,
-      country,
+      term: data.term,
+      months: String(term.months),
+      founding: data.founding ? 'yes' : 'no',
+      services: data.items.map((i) => `${i.id}${i.qty > 1 ? 'x' + i.qty : ''}`).join(',').slice(0, 250),
+      due_today: String(priced.dueToday),
+      term_total: String(priced.termTotal),
       currency,
+      country,
+      name: data.name,
+      email: data.email,
+      company: data.company,
+      website: data.website,
     }
     const auth = Buffer.from(`${keyId}:${keySecret}`).toString('base64')
 
@@ -117,17 +133,13 @@ export const createRazorpayOrder = createServerFn({ method: 'POST' })
     try {
       res = await fetch(`${RAZORPAY_API}/orders`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Basic ${auth}`,
-        },
+        headers: { 'Content-Type': 'application/json', Authorization: `Basic ${auth}` },
         body: JSON.stringify({ amount, currency, receipt, notes, payment_capture: 1 }),
       })
     } catch (err) {
       console.error('[razorpay] network error creating order', err)
       throw new Error('Could not reach the payment provider. Please try again.')
     }
-
     if (res.status === 401) {
       console.error('[razorpay] authentication failed (401)')
       throw new Error('Payment provider authentication failed.')
@@ -139,12 +151,7 @@ export const createRazorpayOrder = createServerFn({ method: 'POST' })
     }
 
     const order = (await res.json()) as { id: string; amount: number; currency: string }
-    return {
-      orderId: order.id,
-      amount: order.amount,
-      currency: order.currency,
-      keyId, // public key, safe for the client
-    }
+    return { orderId: order.id, amount: order.amount, currency: order.currency, keyId }
   })
 
 /* ------------------------------------------------------------------ */

@@ -19,6 +19,7 @@ import { Route as CareersRouteImport } from './routes/careers'
 import { Route as CaseStudiesRouteImport } from './routes/case-studies'
 import { Route as ClaimDiagnosticRouteImport } from './routes/claim-diagnostic'
 import { Route as ContactRouteImport } from './routes/contact'
+import { Route as EngageRouteImport } from './routes/engage'
 import { Route as FaqRouteImport } from './routes/faq'
 import { Route as FoundersRouteImport } from './routes/founders'
 import { Route as FoundersCircleRouteImport } from './routes/founders-circle'
@@ -84,6 +85,11 @@ const ClaimDiagnosticRoute = ClaimDiagnosticRouteImport.update({
 const ContactRoute = ContactRouteImport.update({
   id: '/contact',
   path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EngageRoute = EngageRouteImport.update({
+  id: '/engage',
+  path: '/engage',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FaqRoute = FaqRouteImport.update({
@@ -178,6 +184,7 @@ export interface FileRoutesByFullPath {
   '/case-studies': typeof CaseStudiesRoute
   '/claim-diagnostic': typeof ClaimDiagnosticRoute
   '/contact': typeof ContactRoute
+  '/engage': typeof EngageRoute
   '/faq': typeof FaqRoute
   '/founders': typeof FoundersRoute
   '/founders-circle': typeof FoundersCircleRoute
@@ -206,6 +213,7 @@ export interface FileRoutesByTo {
   '/case-studies': typeof CaseStudiesRoute
   '/claim-diagnostic': typeof ClaimDiagnosticRoute
   '/contact': typeof ContactRoute
+  '/engage': typeof EngageRoute
   '/faq': typeof FaqRoute
   '/founders': typeof FoundersRoute
   '/founders-circle': typeof FoundersCircleRoute
@@ -235,6 +243,7 @@ export interface FileRoutesById {
   '/case-studies': typeof CaseStudiesRoute
   '/claim-diagnostic': typeof ClaimDiagnosticRoute
   '/contact': typeof ContactRoute
+  '/engage': typeof EngageRoute
   '/faq': typeof FaqRoute
   '/founders': typeof FoundersRoute
   '/founders-circle': typeof FoundersCircleRoute
@@ -265,6 +274,7 @@ export interface FileRouteTypes {
     | '/case-studies'
     | '/claim-diagnostic'
     | '/contact'
+    | '/engage'
     | '/faq'
     | '/founders'
     | '/founders-circle'
@@ -293,6 +303,7 @@ export interface FileRouteTypes {
     | '/case-studies'
     | '/claim-diagnostic'
     | '/contact'
+    | '/engage'
     | '/faq'
     | '/founders'
     | '/founders-circle'
@@ -321,6 +332,7 @@ export interface FileRouteTypes {
     | '/case-studies'
     | '/claim-diagnostic'
     | '/contact'
+    | '/engage'
     | '/faq'
     | '/founders'
     | '/founders-circle'
@@ -350,6 +362,7 @@ export interface RootRouteChildren {
   CaseStudiesRoute: typeof CaseStudiesRoute
   ClaimDiagnosticRoute: typeof ClaimDiagnosticRoute
   ContactRoute: typeof ContactRoute
+  EngageRoute: typeof EngageRoute
   FaqRoute: typeof FaqRoute
   FoundersRoute: typeof FoundersRoute
   FoundersCircleRoute: typeof FoundersCircleRoute
@@ -438,6 +451,13 @@ declare module '@tanstack/react-router' {
       path: '/contact'
       fullPath: '/contact'
       preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/engage': {
+      id: '/engage'
+      path: '/engage'
+      fullPath: '/engage'
+      preLoaderRoute: typeof EngageRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/faq': {
@@ -566,6 +586,7 @@ const rootRouteChildren: RootRouteChildren = {
   CaseStudiesRoute: CaseStudiesRoute,
   ClaimDiagnosticRoute: ClaimDiagnosticRoute,
   ContactRoute: ContactRoute,
+  EngageRoute: EngageRoute,
   FaqRoute: FaqRoute,
   FoundersRoute: FoundersRoute,
   FoundersCircleRoute: FoundersCircleRoute,

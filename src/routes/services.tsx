@@ -8,17 +8,17 @@ export const Route = createFileRoute('/services')({
       path: '/services',
       title: 'Services · How We Work · Rothenhall Partners',
       description:
-        'How Rothenhall runs AI visibility, go-to-market and revenue operations as one engagement: a Diagnostic, a named set of deliverables for each stage, and clear lines on what we do and what we need from you.',
+        'How Rothenhall runs AI visibility, go-to-market and revenue operations as one engagement: a baseline, a named set of deliverables for each stage, and clear lines on what we do and what we need from you.',
     }),
   component: Services,
 })
 
-/** Who gets a deliverable. Kept in step with the tier lists on /pricing. */
+/** Which engagements a deliverable comes with. Kept in step with the catalogue on /engage. */
 type Who = 'all' | 'growth' | 'operating' | 'agreed'
 const WHO: Record<Who, string> = {
-  all: 'All tiers',
-  growth: 'Growth and up',
-  operating: 'Operating Partner',
+  all: 'Every engagement',
+  growth: 'With strategy services',
+  operating: 'With a growth operator',
   agreed: 'Where agreed',
 }
 
@@ -146,8 +146,8 @@ function Services() {
                   <Link to="/pricing" className="btn btn-primary">
                     See pricing
                   </Link>
-                  <Link to="/contact" search={{ plan: 'diagnostic' }} className="btn btn-ghost">
-                    Book a Diagnostic
+                  <Link to="/contact" className="btn btn-ghost">
+                    Schedule a call
                   </Link>
                 </div>
               </Reveal>
@@ -195,15 +195,15 @@ function Services() {
               <h2 className="text-display-md mt-6">Evidence first, then a plan, then the work.</h2>
               <p className="text-lead mt-5 text-ink-60">
                 The documents below are what you actually receive. A tag on each
-                one shows which tier includes it, and each is adapted to your
+                one shows which engagements it comes with, and each is adapted to your
                 company, industry and stage.
               </p>
               <p className="mt-4 max-w-2xl font-sans text-caption leading-relaxed text-ink-60">
-                Timing is typical for Growth and Operating Partner. Foundation
-                starts measuring in week one and does not include the Decide
+                Timing is typical for a broad engagement. A measurement-only
+                engagement starts in week one and does not include the Decide
                 stage. Your Statement of Work sets the dates.{' '}
                 <Link to="/pricing" className="link-line text-ink-80">
-                  Compare the tiers
+                  Build your engagement
                 </Link>
               </p>
             </Reveal>
@@ -310,7 +310,7 @@ function Services() {
                 Our products
               </Link>
               <Link to="/pricing" className="btn btn-primary">
-                Choose a tier
+                Choose your engagement
               </Link>
             </div>
           </Reveal>

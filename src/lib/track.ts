@@ -11,6 +11,13 @@ export type FunnelEvent =
   | 'addon_add'
   | 'estimate_request'
   | 'region_change'
+  | 'term_choose'
+  | 'service_add'
+  | 'site_scan'
+  | 'plan_review'
+  | 'checkout_start'
+  | 'checkout_paid'
+  | 'call_request'
 
 export function track(event: FunnelEvent, params: Record<string, string | number | boolean> = {}) {
   try {

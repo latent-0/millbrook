@@ -1,12 +1,14 @@
-import { createRazorpayOrder, verifyRazorpayPayment } from '../server/razorpay'
+import { createEngagementOrder, verifyRazorpayPayment } from '../server/razorpay'
+import type { TermKey } from './catalog'
 
 /**
  * Client side of Razorpay Standard Checkout.
  *
- * startCheckout() creates an order on the server, opens the Razorpay modal with
- * the returned order_id, and on success sends the three fields back to the
- * server for signature verification. KEY_SECRET is never touched here; the
- * public KEY_ID comes back from createRazorpayOrder.
+ * startCheckout() creates an engagement order on the server (which prices it
+ * from the catalogue), opens the Razorpay modal with the returned order_id, and
+ * on success sends the three fields back to the server for signature
+ * verification. KEY_SECRET is never touched here; the public KEY_ID comes back
+ * from createEngagementOrder.
  */
 
 const SCRIPT_SRC = 'https://checkout.razorpay.com/v1/checkout.js'
@@ -50,13 +52,13 @@ export function loadRazorpay(): Promise<boolean> {
 }
 
 export type CheckoutArgs = {
-  planId: string
-  billing: 'monthly' | 'annual'
+  term: TermKey
+  items: { id: string; qty: number }[]
+  founding: boolean
+  customer: { name: string; email: string; company: string; website: string }
   country?: string // optional client hint; server geo header is authoritative
-  name?: string
   description?: string
-  prefill?: { name?: string; email?: string; contact?: string }
-  onSuccess?: (result: { paymentId: string }) => void
+  onSuccess?: (result: { paymentId: string; amount: number; currency: string }) => void
   onError?: (message: string) => void
   onDismiss?: () => void
 }
@@ -68,12 +70,17 @@ export async function startCheckout(args: CheckoutArgs): Promise<void> {
     return
   }
 
-  let order: Awaited<ReturnType<typeof createRazorpayOrder>>
+  let order: Awaited<ReturnType<typeof createEngagementOrder>>
   try {
-    order = await createRazorpayOrder({
+    order = await createEngagementOrder({
       data: {
-        planId: args.planId,
-        billing: args.billing,
+        term: args.term,
+        items: args.items,
+        founding: args.founding,
+        name: args.customer.name,
+        email: args.customer.email,
+        company: args.customer.company,
+        website: args.customer.website,
         country: args.country,
       },
     })
@@ -87,9 +94,9 @@ export async function startCheckout(args: CheckoutArgs): Promise<void> {
     order_id: order.orderId,
     amount: order.amount,
     currency: order.currency,
-    name: args.name ?? 'Rothenhall Partners',
+    name: 'Rothenhall Partners',
     description: args.description,
-    prefill: args.prefill,
+    prefill: { name: args.customer.name, email: args.customer.email },
     theme: { color: '#a85c30' },
     modal: {
       ondismiss: () => args.onDismiss?.(),
@@ -104,7 +111,7 @@ export async function startCheckout(args: CheckoutArgs): Promise<void> {
           },
         })
         if (result.verified) {
-          args.onSuccess?.({ paymentId: resp.razorpay_payment_id })
+          args.onSuccess?.({ paymentId: resp.razorpay_payment_id, amount: order.amount, currency: order.currency })
         } else {
           args.onError?.(
             'Payment could not be verified. If any amount was deducted, contact us and we will resolve it.',

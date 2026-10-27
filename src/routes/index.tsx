@@ -53,13 +53,13 @@ const PILLARS = [
 const ENGAGEMENTS = [
   {
     kicker: 'Know',
-    title: 'Score and Diagnostic',
-    body: 'Start with a free AI Visibility Score, or a paid Diagnostic that ends in a 90-day plan. Every change after it is measured against a real baseline.',
+    title: 'The AI Visibility Score',
+    body: 'Start with a free AI Visibility Score. Every change after it is measured against a real baseline.',
   },
   {
     kicker: 'Operate',
-    title: 'A monthly operating tier',
-    body: 'From measurement and tracked fixes to an embedded operator who owns the number. Fixed deliverables at each level.',
+    title: 'An engagement you curate',
+    body: 'Choose three, six or twelve months, then pick the services you need, from SEO and AEO to brand, content and growth strategy.',
   },
   {
     kicker: 'Extend',
@@ -443,7 +443,7 @@ const FAQ_ITEMS = [
   },
   {
     q: 'How do plans work?',
-    a: 'Start with a free AI Visibility Score or a paid Diagnostic. Then choose a monthly operating tier (Foundation, Growth or Operating Partner), and add single modules or one-off projects where you need them. The pricing page lists exactly what each one includes.',
+    a: 'Start with a free AI Visibility Score, or go straight to an engagement. Choose a three, six or twelve month length, then curate the services you need from our catalogue, or enter your website and we suggest them. Longer engagements save more on monthly fees.',
   },
   {
     q: 'How does Cailyx measure results?',

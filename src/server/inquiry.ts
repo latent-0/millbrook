@@ -150,6 +150,48 @@ export const joinMotionWaitlist = createServerFn({ method: 'POST' })
     return { ok: true as const }
   })
 
+export type EngagementLeadInput = {
+  name: string
+  email: string
+  company: string
+  website: string
+  intent: 'review' | 'call'
+  term: string
+  summary: string
+  total: string
+}
+
+function validateEngagementLead(data: unknown): EngagementLeadInput {
+  if (!data || typeof data !== 'object') throw new Error('Invalid submission.')
+  const d = data as Record<string, unknown>
+  const name = String(d.name ?? '').trim()
+  const email = String(d.email ?? '').trim()
+  if (name.length < 2) throw new Error('Please enter your name.')
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) throw new Error('Please enter a valid email address.')
+  return {
+    name: name.slice(0, 120),
+    email: email.slice(0, 160),
+    company: String(d.company ?? '').trim().slice(0, 120),
+    website: String(d.website ?? '').trim().slice(0, 200),
+    intent: d.intent === 'call' ? 'call' : 'review',
+    term: String(d.term ?? '').slice(0, 40),
+    summary: String(d.summary ?? '').slice(0, 600),
+    total: String(d.total ?? '').slice(0, 60),
+  }
+}
+
+/**
+ * An engagement plan reaches us the moment someone confirms their details, so a
+ * plan that is not paid for still becomes a conversation. Same wiring note as
+ * submitInquiry applies.
+ */
+export const submitEngagementLead = createServerFn({ method: 'POST' })
+  .validator(validateEngagementLead)
+  .handler(async ({ data }) => {
+    await forward('engagement-lead', data)
+    return { ok: true as const }
+  })
+
 export type CommunityInput = {
   name: string
   email: string

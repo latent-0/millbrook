@@ -2,11 +2,10 @@ import { createServerFn } from '@tanstack/react-start'
 import { getRequestHeader } from '@tanstack/react-start/server'
 
 /**
- * Which price book a visitor sees. Three regions, each with its own list
- * prices and currency: the United States (USD, also the default for the rest
- * of the world), Europe (EUR) and India (INR).
+ * Which currency a visitor sees. Two regions: Europe (EUR) and everywhere else,
+ * including India, in US dollars (USD). There are no rupee prices.
  */
-export type PriceRegion = 'US' | 'EU' | 'IN'
+export type PriceRegion = 'US' | 'EU'
 
 // EU member states, the EEA and the wider European countries we price in euro.
 const EUROPE = new Set([
@@ -19,10 +18,7 @@ const EUROPE = new Set([
 ])
 
 export function regionForCountry(country: string): PriceRegion {
-  const c = country.toUpperCase()
-  if (c === 'IN') return 'IN'
-  if (EUROPE.has(c)) return 'EU'
-  return 'US'
+  return EUROPE.has(country.toUpperCase()) ? 'EU' : 'US'
 }
 
 /**

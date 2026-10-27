@@ -27,20 +27,17 @@ export const Route = createFileRoute('/contact')({
 })
 
 const TYPES = [
-  { value: 'diagnostic', label: 'A Diagnostic: know where we stand' },
-  { value: 'foundation', label: 'Foundation: measure and track the fixes' },
-  { value: 'growth', label: 'Growth: GTM and content run with us' },
-  { value: 'strategy', label: 'Strategy: ICP, positioning and a GTM plan' },
-  { value: 'operating', label: 'Operating Partner: an embedded operator' },
+  { value: 'diagnostic', label: 'A free read: know where we stand' },
+  { value: 'other', label: 'An engagement: help me choose my services' },
   { value: 'fund', label: 'A fund or portfolio-wide programme' },
-  { value: 'other', label: 'Something else' },
+  { value: 'general', label: 'Something else' },
 ]
 
 const EXPECT = [
   'A reply from a senior operator, not a sales sequence.',
   'A short, honest read on where the biggest gains likely are.',
   'A proposal and Statement of Work only if it’s a genuine fit.',
-  'If you start with a Diagnostic, its fee is credited if you continue.',
+  'An engagement built from the services you choose, with the price shown before you commit.',
 ]
 
 type Status = 'idle' | 'submitting' | 'success' | 'error'
