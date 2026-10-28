@@ -1,11 +1,11 @@
 /* ------------------------------------------------------------------ */
-/*  The engagement catalogue: one source for the pricing page, the     */
-/*  atelier (/engage) and the server that prices an order.             */
-/*                                                                     */
-/*  Prices are list prices in US dollars and euros. They are curated    */
-/*  figures for the catalogue launch: change them here and everything   */
-/*  (page, cart, payment amount) follows. The server prices every       */
-/*  order from this file, never from what the browser sends.            */
+/*  The engagement catalogue: one source for the pricing page and the   */
+/*  atelier (/engage).                                                  */
+/*                                                                      */
+/*  Every figure here is a STARTING POINT, shown as "from". Rothenhall  */
+/*  does not publish fixed prices: scope, size and markets change the   */
+/*  work, so the final price is agreed on a call and set out in a       */
+/*  proposal. Change a starting point here and both pages follow.       */
 /* ------------------------------------------------------------------ */
 
 export type Currency = 'USD' | 'EUR'
@@ -76,6 +76,46 @@ export const UMBRELLAS: { id: UmbrellaId; name: string; tagline: string }[] = [
   { id: 'growth', name: 'Growth strategy, GTM and RevOps', tagline: 'One plan and one owner for the whole growth system.' },
 ]
 
+/* --------------------------- common starting points ---------------------------- */
+
+/** Realistic combinations of services that clients often begin with. They are examples, not packages. */
+export const PRESETS: {
+  id: string
+  name: string
+  who: string
+  term: TermKey
+  ids: string[]
+}[] = [
+  {
+    id: 'visibility-sprint',
+    name: 'AI visibility sprint',
+    who: 'For a company that wants to know how AI describes it, and fix what is wrong first.',
+    term: 'quarterly',
+    ids: ['aeo-baseline', 'aeo-measure', 'geo-crawl', 'geo-entity', 'seo-onpage'],
+  },
+  {
+    id: 'content-engine',
+    name: 'Visibility and content engine',
+    who: 'For a team that needs a steady rhythm of content that search and AI can quote.',
+    term: 'half-yearly',
+    ids: ['aeo-measure', 'aeo-content', 'content-blog', 'seo-onpage', 'content-casestudy'],
+  },
+  {
+    id: 'demand-engine',
+    name: 'Demand engine',
+    who: 'For a company that has traffic and needs it turned into qualified conversations.',
+    term: 'half-yearly',
+    ids: ['lead-funnel', 'lead-outbound', 'crm-setup', 'crm-email', 'an-tracking'],
+  },
+  {
+    id: 'growth-system',
+    name: 'Full growth system',
+    who: 'For a founder or fund that wants one accountable owner across the whole system.',
+    term: 'annual',
+    ids: ['growth-operator', 'aeo-measure', 'seo-onpage', 'content-thought', 'paid-manage', 'an-kpi'],
+  },
+]
+
 /* ------------------------------- services -------------------------------- */
 
 export type Service = {
@@ -83,10 +123,11 @@ export type Service = {
   umbrella: UmbrellaId
   name: string
   blurb: string
-  /** `month` recurs for the whole term, `once` is a project paid once. */
+  /** `month` recurs for the whole term, `once` is a project. Both prices are starting points. */
   unit: 'month' | 'once'
   /** For priced-per-unit services: what the unit is, and how many can be taken. */
   per?: { label: string; max: number }
+  /** The starting point ("from") for this service. The final price is agreed after a call. */
   price: Money
 }
 

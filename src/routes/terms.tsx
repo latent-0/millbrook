@@ -38,7 +38,7 @@ const SERVICES: Section[] = [
   },
   {
     h: '4. Services, projects and payment',
-    body: 'You build an engagement from the services in our catalogue, each with its own price. Monthly services recur for the whole term. One-off projects are paid once, with half due to begin and half on delivery, and are not discounted. When you confirm, you pay the first month of your monthly services plus the deposit on any projects, and we invoice the remaining months monthly in advance. Paid media spend, where it applies, is billed at cost and separately.',
+    body: 'You build an engagement from the services in our catalogue, each with a starting price; the final price is agreed with you and written into your proposal. Monthly services recur for the whole term. One-off projects are paid once, with half due to begin and half on delivery, and are not discounted. Once you agree the proposal, you pay the first month of your monthly services plus the deposit on any projects, and we invoice the remaining months monthly in advance. Paid media spend, where it applies, is billed at cost and separately.',
   },
   {
     h: '5. The Founding Partner Programme',

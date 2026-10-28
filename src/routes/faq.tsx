@@ -97,7 +97,7 @@ const GROUPS: Group[] = [
       },
       {
         q: 'What are the contract terms?',
-        a: 'A fixed engagement of three, six or twelve months, then 30 days written notice. The first month is paid when you confirm and the rest is invoiced monthly in advance, payable within 30 days. Project work is paid half to begin and half on delivery. Prices are in US dollars or euros and exclude VAT or GST, with one Master Services Agreement and a Statement of Work for each engagement. A data processing agreement is available under GDPR.',
+        a: 'A fixed engagement of three, six or twelve months, then 30 days written notice. Prices are starting points and the real price is agreed with you after a call. Once you agree a written proposal, the first month is paid to begin and the rest is invoiced monthly in advance, payable within 30 days. Project work is paid half to begin and half on delivery. Prices are in US dollars or euros and exclude VAT or GST, with one Master Services Agreement and a Statement of Work for each engagement. A data processing agreement is available under GDPR.',
       },
     ],
   },

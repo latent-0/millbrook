@@ -2,8 +2,7 @@ import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Container, Eyebrow, Reveal } from '../components/site'
 import {
-  FOUNDING_OFF,
-  ONE_OFF_DEPOSIT,
+  PRESETS,
   SERVICES,
   SERVICE_BY_ID,
   TERMS,
@@ -17,35 +16,45 @@ import {
   type Service,
   type TermKey,
 } from '../lib/catalog'
-import { startCheckout } from '../lib/razorpay'
 import { track } from '../lib/track'
 import { getPriceRegion, type PriceRegion } from '../server/geo'
 import { submitEngagementLead } from '../server/inquiry'
 import { scanSite, type ScanResult } from '../server/siteScan'
 
 /* ------------------------------------------------------------------ */
-/*  The atelier: curate an engagement, review it, and begin.           */
-/*  Reached from /pricing once a length is chosen.                     */
+/*  The atelier: shape a brief. Every figure is a starting point.       */
+/*  A senior operator confirms scope and the real price on a call, and  */
+/*  sends a proposal. Nothing is charged here.                          */
 /* ------------------------------------------------------------------ */
 
 export const Route = createFileRoute('/engage')({
   head: () => ({
     meta: [
-      { title: 'Curate your engagement · The Atelier · Rothenhall Partners' },
-      { name: 'description', content: 'Choose your services from the Rothenhall catalogue, or let us read your website and suggest them. See your price as you build.' },
+      { title: 'Shape your engagement · The Atelier · Rothenhall Partners' },
+      { name: 'description', content: 'Choose the services you want from the Rothenhall catalogue, or let us read your website and suggest them. See where each starts, then receive a proposal.' },
       // A working tool, not a landing page: keep it out of search and the sitemap.
       { name: 'robots', content: 'noindex, follow' },
     ],
   }),
-  validateSearch: (s: Record<string, unknown>): { term?: TermKey } => ({ term: isTerm(s.term) ? s.term : undefined }),
+  validateSearch: (s: Record<string, unknown>): { term?: TermKey; start?: string } => ({
+    term: isTerm(s.term) ? s.term : undefined,
+    start: typeof s.start === 'string' ? s.start.slice(0, 40) : undefined,
+  }),
   loader: () => getPriceRegion(),
   component: Engage,
 })
 
-const STORE = 'rh_engage_v1'
+const STORE = 'rh_engage_v2'
 
-type Form = { name: string; email: string; company: string; website: string }
-const emptyForm: Form = { name: '', email: '', company: '', website: '' }
+type Form = { name: string; email: string; company: string; website: string; goal: string; timing: string; budget: string; message: string }
+const emptyForm: Form = { name: '', email: '', company: '', website: '', goal: '', timing: '', budget: '', message: '' }
+
+const GOALS = ['Be found by AI and search', 'Generate more qualified leads', 'Clarify our brand and message', 'Fix or rebuild our website', 'Grow across all of these']
+const TIMING = ['As soon as possible', 'Within a month', 'In one to three months', 'Just exploring']
+const BUDGETS: Record<Currency, string[]> = {
+  USD: ['Not sure yet', 'Under $1,500 a month', '$1,500 to $3,000 a month', '$3,000 to $6,000 a month', '$6,000 a month or more'],
+  EUR: ['Not sure yet', 'Under €1,400 a month', '€1,400 to €2,800 a month', '€2,800 to €5,500 a month', '€5,500 a month or more'],
+}
 
 function guessRegion(): PriceRegion | undefined {
   try {
@@ -83,21 +92,7 @@ function Check({ on }: { on: boolean }) {
   )
 }
 
-function ServiceRow({
-  s,
-  qty,
-  off,
-  currency,
-  onSet,
-  note,
-}: {
-  s: Service
-  qty: number
-  off: number
-  currency: Currency
-  onSet: (qty: number) => void
-  note?: string
-}) {
+function ServiceRow({ s, qty, off, currency, onSet, note }: { s: Service; qty: number; off: number; currency: Currency; onSet: (qty: number) => void; note?: string }) {
   const on = qty > 0
   const list = currency === 'EUR' ? s.price.eur : s.price.usd
   const shown = s.unit === 'month' ? Math.round(list * (1 - off)) : list
@@ -106,13 +101,7 @@ function ServiceRow({
     <li className={`group relative -mx-3 rounded-xl px-3 py-5 transition-colors duration-200 ${on ? 'bg-paper' : 'hover:bg-canvas-2/60'}`}>
       <span aria-hidden className={`absolute bottom-4 left-0 top-4 w-[3px] rounded-full bg-brass transition-opacity ${on ? 'opacity-100' : 'opacity-0'}`} />
       <div className="flex items-start gap-4">
-        <button
-          type="button"
-          aria-pressed={on}
-          aria-label={`${on ? 'Remove' : 'Add'} ${s.name}`}
-          onClick={() => onSet(on ? 0 : 1)}
-          className="mt-0.5 cursor-pointer"
-        >
+        <button type="button" aria-pressed={on} aria-label={`${on ? 'Remove' : 'Add'} ${s.name}`} onClick={() => onSet(on ? 0 : 1)} className="mt-0.5 cursor-pointer">
           <Check on={on} />
         </button>
         <div className="min-w-0 flex-1">
@@ -121,7 +110,8 @@ function ServiceRow({
               {s.name}
             </button>
             <span aria-hidden className="mb-1 hidden h-px flex-1 border-b border-dotted border-line-strong sm:block" />
-            <span className="flex-none whitespace-nowrap font-display tabular-nums text-ink sm:text-right" style={{ fontSize: '1.15rem' }}>
+            <span className="flex-none whitespace-nowrap font-display tabular-nums text-ink sm:text-right" style={{ fontSize: '1.05rem' }}>
+              <span className="mr-1.5 font-sans text-label text-ink-45">from</span>
               {s.unit === 'month' && off > 0 && <span className="mr-2 font-sans text-label text-ink-45 line-through">{formatMoney(list, currency)}</span>}
               {formatMoney(shown, currency)}
               <span className="ml-1 font-sans text-label text-ink-60">
@@ -139,16 +129,9 @@ function ServiceRow({
           )}
           {s.per && on && (
             <div className="mt-3 inline-flex items-center gap-1 rounded-full border border-line-strong bg-canvas p-1 font-sans text-caption">
-              <button type="button" aria-label={`Fewer ${s.per.label}s`} onClick={() => onSet(qty - 1)} className="grid size-7 cursor-pointer place-items-center rounded-full hover:bg-canvas-2">
-                −
-              </button>
-              <span className="min-w-[4.5rem] text-center tabular-nums text-ink">
-                {qty} {s.per.label}
-                {qty > 1 ? 's' : ''}
-              </span>
-              <button type="button" aria-label={`More ${s.per.label}s`} disabled={qty >= max} onClick={() => onSet(qty + 1)} className="grid size-7 cursor-pointer place-items-center rounded-full hover:bg-canvas-2 disabled:cursor-not-allowed disabled:opacity-40">
-                +
-              </button>
+              <button type="button" aria-label={`Fewer ${s.per.label}s`} onClick={() => onSet(qty - 1)} className="grid size-7 cursor-pointer place-items-center rounded-full hover:bg-canvas-2">−</button>
+              <span className="min-w-[4.5rem] text-center tabular-nums text-ink">{qty} {s.per.label}{qty > 1 ? 's' : ''}</span>
+              <button type="button" aria-label={`More ${s.per.label}s`} disabled={qty >= max} onClick={() => onSet(qty + 1)} className="grid size-7 cursor-pointer place-items-center rounded-full hover:bg-canvas-2 disabled:cursor-not-allowed disabled:opacity-40">+</button>
             </div>
           )}
         </div>
@@ -179,24 +162,22 @@ function Engage() {
   const [founding, setFounding] = useState(false)
   const [mode, setMode] = useState<'browse' | 'site'>('browse')
   const [form, setForm] = useState<Form>(emptyForm)
-  const [agree, setAgree] = useState(false)
-  const [showConfirm, setShowConfirm] = useState(false)
+  const [showBrief, setShowBrief] = useState(false)
   const [hydrated, setHydrated] = useState(false)
 
-  // scan
   const [siteUrl, setSiteUrl] = useState('')
   const [scanning, setScanning] = useState(false)
   const [scan, setScan] = useState<ScanResult | null>(null)
 
-  // checkout
-  const [paying, setPaying] = useState(false)
+  const [sending, setSending] = useState(false)
   const [error, setError] = useState('')
-  const [paid, setPaid] = useState<{ id: string; amount: string } | null>(null)
+  const [sent, setSent] = useState(false)
 
   const resultsRef = useRef<HTMLDivElement | null>(null)
 
-  // Restore a saved plan, so a visitor who leaves and returns finds it intact.
+  // Restore a saved brief, or begin from a chosen starting point.
   useEffect(() => {
+    let restored = false
     try {
       const raw = localStorage.getItem(STORE)
       if (raw) {
@@ -204,16 +185,26 @@ function Engage() {
         if (v.cart && typeof v.cart === 'object') {
           const clean: Cart = {}
           for (const [id, q] of Object.entries(v.cart)) if (SERVICE_BY_ID.has(id) && Number(q) > 0) clean[id] = Math.min(Number(q), SERVICE_BY_ID.get(id)!.per?.max ?? 1)
-          setCart(clean)
+          if (Object.keys(clean).length) {
+            setCart(clean)
+            restored = true
+          }
         }
         if (v.founding) setFounding(true)
         if (v.form) setForm({ ...emptyForm, ...v.form })
         if (v.siteUrl) setSiteUrl(v.siteUrl)
       }
     } catch {
-      /* storage blocked: the plan still works for this visit */
+      /* storage blocked: the brief still works for this visit */
+    }
+    const preset = PRESETS.find((p) => p.id === search.start)
+    if (preset && !restored) {
+      const c: Cart = {}
+      for (const id of preset.ids) c[id] = 1
+      setCart(c)
     }
     setHydrated(true)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   useEffect(() => {
     if (!hydrated) return
@@ -224,8 +215,7 @@ function Engage() {
     }
   }, [cart, founding, form, siteUrl, hydrated])
 
-  const priced = useMemo(() => priceCart(cart, term, currency, founding), [cart, term, currency, founding])
-  const foundingPossible = priced.monthlyList > 0
+  const priced = useMemo(() => priceCart(cart, term, currency, false), [cart, term, currency])
   const fmt = (n: number) => formatMoney(n, currency)
 
   const setQty = useCallback((id: string, qty: number) => {
@@ -274,11 +264,11 @@ function Engage() {
 
   const recIds = scan && scan.ok ? scan.recommended.map((r) => r.id) : []
 
-  const goConfirm = () => {
+  const goBrief = () => {
     if (priced.isEmpty) return
-    setShowConfirm(true)
-    track('plan_review', { term, monthly: Math.round(priced.monthly), due: Math.round(priced.dueToday) })
-    setTimeout(() => document.getElementById('confirm')?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 60)
+    setShowBrief(true)
+    track('plan_review', { term, monthly: Math.round(priced.monthly) })
+    setTimeout(() => document.getElementById('brief')?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 60)
   }
 
   const callHref = {
@@ -286,42 +276,35 @@ function Engage() {
     note: priced.isEmpty ? `Interested in a ${termInfo.label.toLowerCase()} engagement.` : cartSummary(priced, termInfo.label),
   }
 
-  async function pay(e: React.FormEvent) {
+  async function send(e: React.FormEvent) {
     e.preventDefault()
     setError('')
     if (form.name.trim().length < 2) return setError('Please enter your name.')
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim())) return setError('Please enter a valid email address.')
-    if (!agree) return setError('Please confirm the terms of the engagement to continue.')
-    setPaying(true)
-    // The plan reaches us now, so one that is not paid for still becomes a conversation.
-    submitEngagementLead({
-      data: { ...form, intent: 'review', term: termInfo.label, summary: cartSummary(priced, termInfo.label), total: `${fmt(priced.dueToday)} due today, ${fmt(priced.termTotal)} over the term` },
-    }).catch(() => {})
-    track('checkout_start', { term, due: Math.round(priced.dueToday) })
-    await startCheckout({
-      term,
-      items: priced.lines.map((l) => ({ id: l.id, qty: l.qty })),
-      founding: foundingPossible && founding,
-      customer: form,
-      country: currency === 'EUR' ? 'DE' : 'US',
-      description: `${termInfo.label} engagement`,
-      onSuccess: ({ paymentId, amount, currency: cur }) => {
-        track('checkout_paid', { term })
-        setPaid({ id: paymentId, amount: formatMoney(amount / 100, cur === 'EUR' ? 'EUR' : 'USD') })
-        try {
-          localStorage.removeItem(STORE)
-        } catch {
-          /* ignore */
-        }
-        setPaying(false)
-        setTimeout(() => document.getElementById('confirm')?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 60)
-      },
-      onError: (m) => {
-        setError(/not configured|authentication/i.test(m) ? 'Online payment is not available right now. Schedule a call and we will send you a secure payment link.' : m)
-        setPaying(false)
-      },
-      onDismiss: () => setPaying(false),
-    })
+    setSending(true)
+    try {
+      await submitEngagementLead({
+        data: {
+          ...form,
+          founding,
+          term: termInfo.label,
+          summary: cartSummary(priced, termInfo.label),
+          estimate: `from ${fmt(priced.monthly)} a month${priced.oneOff > 0 ? ` plus from ${fmt(priced.oneOff)} of projects` : ''} (${currency})`,
+        },
+      })
+      track('checkout_paid', { term, kind: 'brief_sent' })
+      setSent(true)
+      try {
+        localStorage.removeItem(STORE)
+      } catch {
+        /* ignore */
+      }
+      setTimeout(() => document.getElementById('brief')?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 60)
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'We could not send that. Please try again, or schedule a call.')
+    } finally {
+      setSending(false)
+    }
   }
 
   const inputCls = 'w-full rounded-lg border border-line-strong bg-canvas px-4 py-3 font-sans text-body text-ink placeholder:text-ink-45 transition-colors focus:border-cognac focus:bg-paper'
@@ -330,9 +313,26 @@ function Engage() {
   const steps = [
     { n: '1', t: 'Length', done: true, active: false },
     { n: '2', t: 'Services', done: !priced.isEmpty, active: priced.isEmpty },
-    { n: '3', t: 'Confirm', done: !!paid, active: showConfirm && !paid },
-    { n: '4', t: 'Begin', done: !!paid, active: false },
+    { n: '3', t: 'Your brief', done: sent, active: showBrief && !sent },
+    { n: '4', t: 'Proposal', done: false, active: sent },
   ]
+
+  const Starting = ({ light }: { light?: boolean }) => (
+    <>
+      {priced.monthlyList > 0 && (
+        <p className={`font-display tabular-nums ${light ? 'text-canvas' : 'text-ink'}`} style={{ fontSize: '2.2rem', lineHeight: 1 }}>
+          <span className={`mr-2 font-sans text-caption ${light ? 'text-canvas/55' : 'text-ink-60'}`}>from</span>
+          {fmt(priced.monthly)}
+          <span className={`ml-1.5 font-sans text-caption ${light ? 'text-canvas/55' : 'text-ink-60'}`}>a month</span>
+        </p>
+      )}
+      {priced.oneOff > 0 && (
+        <p className={`mt-1.5 font-sans text-caption ${light ? 'text-canvas/65' : 'text-ink-60'}`}>
+          {priced.monthlyList > 0 ? 'plus ' : ''}from {fmt(priced.oneOff)} for projects
+        </p>
+      )}
+    </>
+  )
 
   /* -------------------------------- render -------------------------------- */
 
@@ -345,10 +345,10 @@ function Engage() {
           <Reveal>
             <Eyebrow className="eyebrow-light">The atelier</Eyebrow>
             <h1 className="mt-6 max-w-3xl font-display" style={{ fontSize: 'clamp(2.3rem, 5.2vw, 4.2rem)', fontWeight: 500, letterSpacing: '-0.03em', lineHeight: 1.04 }}>
-              Curate your <span style={{ color: 'var(--color-cognac-soft)' }}>engagement.</span>
+              Shape your <span style={{ color: 'var(--color-cognac-soft)' }}>engagement.</span>
             </h1>
             <p className="mt-6 max-w-2xl font-sans text-body-lg leading-relaxed text-canvas/70">
-              Choose the services that fit, or let us read your website and suggest them. Your price takes shape as you build, and nothing is charged until you confirm.
+              Choose what you want help with, or let us read your website and suggest it. Each figure shows where a service starts. A senior operator then confirms the scope and the real price with you, and nothing is charged here.
             </p>
           </Reveal>
           <Reveal delay={120}>
@@ -390,8 +390,31 @@ function Engage() {
         <Container width="wide" className="py-12 sm:py-16">
           <div className="grid gap-10 lg:grid-cols-12 lg:gap-12">
             <div className="min-w-0 lg:col-span-8">
-              {/* How to choose */}
-              <div role="tablist" aria-label="How to choose" className="grid gap-3 sm:grid-cols-2">
+              {/* Where to begin */}
+              <div className="rounded-2xl border border-line bg-paper p-5 sm:p-6">
+                <p className="eyebrow">Start from an example</p>
+                <ul className="mt-3 flex flex-wrap gap-2">
+                  {PRESETS.map((p) => (
+                    <li key={p.id}>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const c: Cart = {}
+                          for (const id of p.ids) c[id] = 1
+                          setCart(c)
+                          setMode('browse')
+                          track('service_add', { id: `preset_${p.id}` })
+                        }}
+                        className="cursor-pointer rounded-full border border-line-strong bg-canvas px-3.5 py-1.5 font-sans text-caption text-ink-80 transition-colors hover:border-ink hover:bg-ink hover:text-canvas"
+                      >
+                        {p.name}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div role="tablist" aria-label="How to choose" className="mt-6 grid gap-3 sm:grid-cols-2">
                 {(
                   [
                     ['browse', 'Browse the catalogue', 'I know what I need.'],
@@ -415,7 +438,6 @@ function Engage() {
                 })}
               </div>
 
-              {/* Read my website */}
               {mode === 'site' && (
                 <div className="mt-8">
                   <form onSubmit={runScan} className="rounded-2xl border border-line bg-paper p-6 sm:p-8">
@@ -425,15 +447,7 @@ function Engage() {
                     </p>
                     <div className="mt-5 flex flex-col gap-3 sm:flex-row">
                       <label htmlFor="site-url" className="sr-only">Website address</label>
-                      <input
-                        id="site-url"
-                        value={siteUrl}
-                        onChange={(e) => setSiteUrl(e.target.value)}
-                        placeholder="yourcompany.com"
-                        inputMode="url"
-                        autoComplete="url"
-                        className={`${inputCls} sm:flex-1`}
-                      />
+                      <input id="site-url" value={siteUrl} onChange={(e) => setSiteUrl(e.target.value)} placeholder="yourcompany.com" inputMode="url" autoComplete="url" className={`${inputCls} sm:flex-1`} />
                       <button type="submit" disabled={scanning || !siteUrl.trim()} className="btn btn-primary justify-center disabled:opacity-60">
                         {scanning ? 'Reading your site…' : 'Read my site'}
                       </button>
@@ -444,9 +458,7 @@ function Engage() {
                     {scan && !scan.ok && (
                       <p role="alert" className="mt-5 rounded-xl border border-line bg-canvas-2 px-5 py-4 font-sans text-body text-ink-80">
                         {scan.message}{' '}
-                        <button type="button" onClick={() => setMode('browse')} className="link-line cursor-pointer text-ink">
-                          Browse the catalogue
-                        </button>
+                        <button type="button" onClick={() => setMode('browse')} className="link-line cursor-pointer text-ink">Browse the catalogue</button>
                       </p>
                     )}
                     {scan && scan.ok && (
@@ -471,15 +483,12 @@ function Engage() {
                             <Eyebrow>Recommended for you</Eyebrow>
                             <h2 className="mt-3 font-display text-ink" style={{ fontSize: '1.7rem', lineHeight: 1.1 }}>Where we would begin.</h2>
                           </div>
-                          <button type="button" onClick={() => addAll(recIds)} className="btn btn-primary">
-                            Add all {recIds.length}
-                          </button>
+                          <button type="button" onClick={() => addAll(recIds)} className="btn btn-primary">Add all {recIds.length}</button>
                         </div>
                         <ul className="mt-4">
-                          {scan.recommended.map((r) => {
-                            const s = SERVICE_BY_ID.get(r.id)!
-                            return <ServiceRow key={r.id} s={s} qty={cart[r.id] ?? 0} off={termInfo.off} currency={currency} onSet={(q) => setQty(r.id, q)} note={r.why} />
-                          })}
+                          {scan.recommended.map((r) => (
+                            <ServiceRow key={r.id} s={SERVICE_BY_ID.get(r.id)!} qty={cart[r.id] ?? 0} off={termInfo.off} currency={currency} onSet={(q) => setQty(r.id, q)} note={r.why} />
+                          ))}
                         </ul>
                         <p className="mt-6 font-sans text-body text-ink-60">
                           Want something else?{' '}
@@ -491,7 +500,6 @@ function Engage() {
                 </div>
               )}
 
-              {/* The catalogue */}
               {mode === 'browse' && (
                 <div className="mt-10">
                   <nav aria-label="Disciplines" className="-mx-1 flex gap-2 overflow-x-auto px-1 pb-3">
@@ -528,16 +536,16 @@ function Engage() {
               )}
             </div>
 
-            {/* Your engagement */}
+            {/* Your brief */}
             <aside id="cart" className="scroll-mt-24 lg:col-span-4">
               <div className="rounded-3xl bg-night p-7 text-canvas shadow-[0_40px_80px_-40px_rgba(26,23,18,0.6)] lg:sticky lg:top-24">
                 <div className="flex items-baseline justify-between gap-3">
-                  <p className="eyebrow eyebrow-light">Your engagement</p>
+                  <p className="eyebrow eyebrow-light">Your brief</p>
                   <p className="font-sans text-label text-canvas/55">{termInfo.label}, {termInfo.months} months</p>
                 </div>
 
                 {priced.isEmpty ? (
-                  <p className="mt-6 font-sans text-body leading-relaxed text-canvas/60">Nothing here yet. Add a service from the catalogue, or let us read your website and suggest where to begin.</p>
+                  <p className="mt-6 font-sans text-body leading-relaxed text-canvas/60">Nothing here yet. Add a service, start from an example, or let us read your website and suggest where to begin.</p>
                 ) : (
                   <>
                     <ul className="mt-6 space-y-3">
@@ -548,6 +556,7 @@ function Engage() {
                             <button type="button" onClick={() => setQty(l.id, 0)} className="mt-0.5 cursor-pointer text-label text-canvas/45 hover:text-canvas">Remove</button>
                           </span>
                           <span className="flex-none whitespace-nowrap tabular-nums text-canvas/85">
+                            <span className="text-canvas/45">from </span>
                             {fmt(l.unit === 'month' ? Math.round(l.total * (1 - priced.off)) : l.total)}
                             <span className="text-canvas/45">{l.unit === 'month' ? '/mo' : ''}</span>
                           </span>
@@ -555,76 +564,47 @@ function Engage() {
                       ))}
                     </ul>
 
-                    <dl className="mt-6 space-y-2.5 border-t border-night-line pt-5 font-sans text-caption">
-                      {priced.monthlyList > 0 && (
-                        <div className="flex justify-between gap-3">
-                          <dt className="text-canvas/65">Monthly fee</dt>
-                          <dd className="tabular-nums text-canvas">{fmt(priced.monthly)}</dd>
-                        </div>
-                      )}
-                      {priced.oneOff > 0 && (
-                        <div className="flex justify-between gap-3">
-                          <dt className="text-canvas/65">One-off projects</dt>
-                          <dd className="tabular-nums text-canvas">{fmt(priced.oneOff)}</dd>
-                        </div>
-                      )}
-                      <div className="flex justify-between gap-3 border-t border-night-line pt-3">
-                        <dt className="text-canvas">Over {priced.months} months</dt>
-                        <dd className="tabular-nums text-canvas">{fmt(priced.termTotal)}</dd>
-                      </div>
-                      {priced.saving > 0 && (
-                        <div className="flex justify-between gap-3 text-brass-soft">
-                          <dt>You save</dt>
-                          <dd className="tabular-nums">{fmt(priced.saving)}</dd>
-                        </div>
-                      )}
-                    </dl>
-
                     <div className="mt-6 rounded-2xl border border-night-line bg-night-2 p-5">
-                      <p className="font-sans text-label uppercase tracking-[0.14em] text-canvas/55">Due today</p>
-                      <p className="mt-1 font-display tabular-nums" style={{ fontSize: '2.4rem', lineHeight: 1, color: 'var(--color-cognac-soft)' }}>{fmt(priced.dueToday)}</p>
-                      <p className="mt-2 font-sans text-label leading-snug text-canvas/50">
-                        {priced.monthlyList > 0 ? 'The first month' : ''}
-                        {priced.monthlyList > 0 && priced.oneOff > 0 ? ' plus ' : ''}
-                        {priced.oneOff > 0 ? `${Math.round(ONE_OFF_DEPOSIT * 100)}% to begin your projects` : ''}. Excludes any VAT, GST or sales tax.
-                      </p>
+                      <p className="font-sans text-label uppercase tracking-[0.14em] text-canvas/55">Where this starts</p>
+                      <div className="mt-2"><Starting light /></div>
+                      {priced.saving > 0 && <p className="mt-3 font-sans text-caption text-brass-soft">Your {termInfo.months}-month length already takes {Math.round(priced.off * 100)}% off monthly fees.</p>}
+                      <p className="mt-3 font-sans text-label leading-snug text-canvas/50">A starting point, not a quote. Excludes any VAT, GST or sales tax. The real price is agreed after a short call.</p>
                     </div>
                   </>
                 )}
 
-                <button type="button" disabled={priced.isEmpty} onClick={goConfirm} className="btn btn-light mt-6 w-full justify-center disabled:cursor-not-allowed disabled:opacity-40">
-                  {priced.isEmpty ? 'Add a service to continue' : 'Review and confirm →'}
+                <button type="button" disabled={priced.isEmpty} onClick={goBrief} className="btn btn-light mt-6 w-full justify-center disabled:cursor-not-allowed disabled:opacity-40">
+                  {priced.isEmpty ? 'Add a service to continue' : 'Request my proposal →'}
                 </button>
                 <Link to="/contact" search={callHref} onClick={() => track('call_request', { where: 'cart' })} className="mt-3 block text-center font-sans text-caption text-canvas/70 hover:text-canvas">
                   Prefer to talk first? <span className="link-line text-canvas">Schedule a call</span>
                 </Link>
 
-                <ul className="mt-7 space-y-2 border-t border-night-line pt-5 font-sans text-label leading-snug text-canvas/50">
-                  <li>Nothing is charged until you confirm.</li>
-                  <li>A senior operator replies within one working day.</li>
-                  <li>No promised rankings, only the work and the evidence.</li>
-                </ul>
+                <ol className="mt-7 space-y-3 border-t border-night-line pt-5 font-sans text-label leading-snug text-canvas/55">
+                  <li className="flex gap-3"><span className="text-brass-soft">1</span>A senior operator replies within one working day.</li>
+                  <li className="flex gap-3"><span className="text-brass-soft">2</span>A short call to confirm scope and the real price.</li>
+                  <li className="flex gap-3"><span className="text-brass-soft">3</span>A written proposal. You pay only once you agree.</li>
+                </ol>
               </div>
             </aside>
           </div>
         </Container>
       </section>
 
-      {/* Confirm */}
-      {paid || (showConfirm && !priced.isEmpty) ? (
-        <section id="confirm" className="scroll-mt-20 border-t border-line bg-canvas-2">
+      {/* Your brief: details */}
+      {(sent || (showBrief && !priced.isEmpty)) && (
+        <section id="brief" className="scroll-mt-20 border-t border-line bg-canvas-2">
           <Container className="py-16 sm:py-20">
-            {paid ? (
+            {sent ? (
               <Reveal>
                 <div className="mx-auto max-w-2xl text-center">
                   <span className="mx-auto grid size-14 place-items-center rounded-full bg-ink text-canvas">✓</span>
-                  <h2 className="mt-6 font-display text-ink" style={{ fontSize: 'clamp(1.9rem,4vw,2.8rem)', lineHeight: 1.08 }}>Welcome to Rothenhall.</h2>
+                  <h2 className="mt-6 font-display text-ink" style={{ fontSize: 'clamp(1.9rem,4vw,2.8rem)', lineHeight: 1.08 }}>Your brief is with us.</h2>
                   <p className="mt-4 font-sans text-body-lg leading-relaxed text-ink-60">
-                    Your payment of {paid.amount} is confirmed. A senior operator will contact you within one working day to schedule your kickoff and set your baseline.
+                    A senior operator will reply within one working day to confirm the scope, agree the price with you, and send a proposal. Nothing has been charged.
                   </p>
-                  <p className="mt-3 font-sans text-label text-ink-45">Payment reference {paid.id}</p>
                   <div className="mt-8 flex flex-wrap justify-center gap-4">
-                    <Link to="/contact" search={{ plan: 'other', note: `Kickoff for my paid engagement (ref ${paid.id}).` }} className="btn btn-primary">Schedule your kickoff call</Link>
+                    <Link to="/contact" search={{ plan: 'other', note: 'I have sent my engagement brief and would like to book a call.' }} className="btn btn-primary">Book a call now</Link>
                     <Link to="/" className="btn btn-ghost">Back to the site</Link>
                   </div>
                 </div>
@@ -633,9 +613,9 @@ function Engage() {
               <div className="grid gap-10 lg:grid-cols-12 lg:gap-14">
                 <div className="lg:col-span-7">
                   <Eyebrow>Step three</Eyebrow>
-                  <h2 className="text-display-md mt-5">Confirm and begin.</h2>
-                  <p className="mt-4 max-w-xl font-sans text-body leading-relaxed text-ink-60">Tell us who we are working with. You pay the first month today, and a senior operator takes it from there.</p>
-                  <form onSubmit={pay} noValidate className="mt-8 space-y-4">
+                  <h2 className="text-display-md mt-5">Tell us a little about you.</h2>
+                  <p className="mt-4 max-w-xl font-sans text-body leading-relaxed text-ink-60">A few answers help us arrive at the call prepared, and agree a price that fits what you need.</p>
+                  <form onSubmit={send} noValidate className="mt-8 space-y-4">
                     <div className="grid gap-4 sm:grid-cols-2">
                       <div className="space-y-2">
                         <label htmlFor="f-name" className={labelCls}>Your name</label>
@@ -653,78 +633,90 @@ function Engage() {
                         <label htmlFor="f-web" className={labelCls}>Website</label>
                         <input id="f-web" value={form.website} onChange={(e) => setForm({ ...form, website: e.target.value })} inputMode="url" autoComplete="url" placeholder="yourcompany.com" className={inputCls} />
                       </div>
+                      <div className="space-y-2">
+                        <label htmlFor="f-goal" className={labelCls}>What matters most?</label>
+                        <select id="f-goal" value={form.goal} onChange={(e) => setForm({ ...form, goal: e.target.value })} className={`${inputCls} appearance-none`}>
+                          <option value="">Choose one</option>
+                          {GOALS.map((g) => <option key={g}>{g}</option>)}
+                        </select>
+                      </div>
+                      <div className="space-y-2">
+                        <label htmlFor="f-timing" className={labelCls}>When would you like to begin?</label>
+                        <select id="f-timing" value={form.timing} onChange={(e) => setForm({ ...form, timing: e.target.value })} className={`${inputCls} appearance-none`}>
+                          <option value="">Choose one</option>
+                          {TIMING.map((g) => <option key={g}>{g}</option>)}
+                        </select>
+                      </div>
+                    </div>
+                    <div className="space-y-2">
+                      <label htmlFor="f-budget" className={labelCls}>Rough monthly budget <span className="text-ink-45">(optional)</span></label>
+                      <select id="f-budget" value={form.budget} onChange={(e) => setForm({ ...form, budget: e.target.value })} className={`${inputCls} appearance-none`}>
+                        <option value="">Choose one</option>
+                        {BUDGETS[currency].map((g) => <option key={g}>{g}</option>)}
+                      </select>
+                    </div>
+                    <div className="space-y-2">
+                      <label htmlFor="f-msg" className={labelCls}>Anything we should know? <span className="text-ink-45">(optional)</span></label>
+                      <textarea id="f-msg" rows={3} value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })} className={inputCls} />
                     </div>
 
-                    {foundingPossible && (
-                      <label className={`flex cursor-pointer items-start gap-3 rounded-xl border px-5 py-4 transition-colors ${founding ? 'border-cognac bg-paper' : 'border-line bg-canvas hover:border-line-strong'}`}>
-                        <input type="checkbox" checked={founding} onChange={(e) => setFounding(e.target.checked)} className="mt-1 size-4 flex-none cursor-pointer accent-[#a85c30]" />
-                        <span className="font-sans text-caption leading-relaxed text-ink-80">
-                          <span className="font-semibold">Founding Partner Programme.</span> {Math.round(FOUNDING_OFF * 100)}% off monthly fees for the first three months, in return for a documented case study. Places are limited.
-                        </span>
-                      </label>
-                    )}
-
-                    <label className="flex cursor-pointer items-start gap-3 rounded-xl border border-line bg-canvas px-5 py-4">
-                      <input type="checkbox" checked={agree} onChange={(e) => setAgree(e.target.checked)} className="mt-1 size-4 flex-none cursor-pointer accent-[#a85c30]" />
+                    <label className={`flex cursor-pointer items-start gap-3 rounded-xl border px-5 py-4 transition-colors ${founding ? 'border-cognac bg-paper' : 'border-line bg-canvas hover:border-line-strong'}`}>
+                      <input type="checkbox" checked={founding} onChange={(e) => setFounding(e.target.checked)} className="mt-1 size-4 flex-none cursor-pointer accent-[#a85c30]" />
                       <span className="font-sans text-caption leading-relaxed text-ink-80">
-                        I understand the monthly fee is fixed for my {termInfo.months}-month engagement, with 30 days written notice after it, and that project work is paid half to begin and half on delivery.
+                        <span className="font-semibold">Ask about the Founding Partner Programme.</span> We will tell you on the call whether a place is open.
                       </span>
                     </label>
 
                     {error && (
                       <p role="alert" className="rounded-lg border border-alert/30 bg-alert/5 px-4 py-3 font-sans text-caption text-alert">
-                        {error}{' '}
-                        <Link to="/contact" search={callHref} className="link-line">Schedule a call</Link>
+                        {error} <Link to="/contact" search={callHref} className="link-line">Schedule a call</Link>
                       </p>
                     )}
 
                     <div className="flex flex-wrap items-center gap-4 pt-2">
-                      <button type="submit" disabled={paying} className="btn btn-primary disabled:opacity-60">
-                        {paying ? 'Opening secure payment…' : `Pay ${fmt(priced.dueToday)} and begin`}
-                      </button>
-                      <Link to="/contact" search={callHref} onClick={() => track('call_request', { where: 'confirm' })} className="link-line font-sans text-body text-ink-80">Schedule a call instead</Link>
+                      <button type="submit" disabled={sending} className="btn btn-primary disabled:opacity-60">{sending ? 'Sending…' : 'Send my brief'}</button>
+                      <Link to="/contact" search={callHref} onClick={() => track('call_request', { where: 'brief' })} className="link-line font-sans text-body text-ink-80">Schedule a call instead</Link>
                     </div>
-                    <p className="font-sans text-label leading-relaxed text-ink-45">Secure payment by Razorpay. Prices in {currency} and exclude VAT, GST or sales tax where it applies.</p>
+                    <p className="font-sans text-label leading-relaxed text-ink-45">No payment is taken. We use your details only to reply to you about this brief.</p>
                   </form>
                 </div>
 
                 <div className="lg:col-span-5">
                   <div className="rounded-3xl border border-line bg-paper p-7">
-                    <p className="eyebrow">Your engagement</p>
+                    <p className="eyebrow">Your brief</p>
                     <h3 className="mt-3 font-display text-ink" style={{ fontSize: '1.5rem' }}>{termInfo.label}, {termInfo.months} months</h3>
                     <ul className="mt-5 divide-y divide-line">
                       {priced.lines.map((l) => (
                         <li key={l.id} className="flex justify-between gap-4 py-3 font-sans text-caption">
                           <span className="text-ink-80">{l.name}{l.qty > 1 ? ` × ${l.qty}` : ''}</span>
-                          <span className="flex-none tabular-nums text-ink">{fmt(l.unit === 'month' ? Math.round(l.total * (1 - priced.off)) : l.total)}{l.unit === 'month' ? '/mo' : ''}</span>
+                          <span className="flex-none tabular-nums text-ink"><span className="text-ink-45">from </span>{fmt(l.unit === 'month' ? Math.round(l.total * (1 - priced.off)) : l.total)}{l.unit === 'month' ? '/mo' : ''}</span>
                         </li>
                       ))}
                     </ul>
-                    <dl className="mt-5 space-y-2 border-t border-line pt-5 font-sans text-caption">
-                      <div className="flex justify-between"><dt className="text-ink-60">Over {priced.months} months</dt><dd className="tabular-nums text-ink">{fmt(priced.termTotal)}</dd></div>
-                      {priced.saving > 0 && <div className="flex justify-between text-cognac-deep"><dt>You save</dt><dd className="tabular-nums">{fmt(priced.saving)}</dd></div>}
-                      <div className="flex items-baseline justify-between border-t border-line pt-3">
-                        <dt className="font-semibold text-ink">Due today</dt>
-                        <dd className="font-display tabular-nums text-ink" style={{ fontSize: '1.6rem' }}>{fmt(priced.dueToday)}</dd>
-                      </div>
-                    </dl>
+                    <div className="mt-5 border-t border-line pt-5">
+                      <p className="font-sans text-label uppercase tracking-[0.14em] text-ink-45">Where this starts</p>
+                      <div className="mt-2"><Starting /></div>
+                      <p className="mt-3 font-sans text-label leading-snug text-ink-45">A starting point, not a quote. The real price is agreed after a short call.</p>
+                    </div>
                   </div>
                 </div>
               </div>
             )}
           </Container>
         </section>
-      ) : null}
+      )}
 
-      {/* Mobile bar: keeps the total and the next step in reach while browsing */}
-      {!priced.isEmpty && !paid && (
+      {/* Mobile bar */}
+      {!priced.isEmpty && !sent && (
         <div className="fixed inset-x-0 bottom-0 z-40 border-t border-night-line bg-night/95 px-5 py-3 backdrop-blur lg:hidden">
           <div className="flex items-center justify-between gap-4">
             <div className="min-w-0">
-              <p className="font-sans text-label text-canvas/55">Due today</p>
-              <p className="font-display tabular-nums text-canvas" style={{ fontSize: '1.4rem', lineHeight: 1.1 }}>{fmt(priced.dueToday)}</p>
+              <p className="font-sans text-label text-canvas/55">Starts from</p>
+              <p className="font-display tabular-nums text-canvas" style={{ fontSize: '1.4rem', lineHeight: 1.1 }}>
+                {priced.monthlyList > 0 ? `${fmt(priced.monthly)}/mo` : fmt(priced.oneOff)}
+              </p>
             </div>
-            <button type="button" onClick={goConfirm} className="btn btn-light !px-5 !py-2.5 text-label">Review and confirm →</button>
+            <button type="button" onClick={goBrief} className="btn btn-light !px-5 !py-2.5 text-label">Request my proposal →</button>
           </div>
         </div>
       )}

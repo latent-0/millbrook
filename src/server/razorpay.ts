@@ -100,6 +100,12 @@ function validateEngagement(data: unknown): EngagementOrderInput {
 export const createEngagementOrder = createServerFn({ method: 'POST' })
   .validator(validateEngagement)
   .handler(async ({ data }) => {
+    // Prices are starting points and the final price is agreed on a call, so
+    // charging from the catalogue is switched off until a proposal flow uses it.
+    // Set ENGAGEMENT_CHECKOUT=on to enable it.
+    if (process.env.ENGAGEMENT_CHECKOUT !== 'on') {
+      throw new Error('Online payment is not available. Payment is arranged once your proposal is agreed.')
+    }
     const { keyId, keySecret } = creds()
 
     const country = await detectCountry(data.country)

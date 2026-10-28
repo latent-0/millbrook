@@ -49,6 +49,6 @@ Prices are shown in US dollars, or euros in Europe, excluding VAT, GST or sales 
 - Free: AI Visibility Score.
 - Engagements run for three, six or twelve months. The length sets the discount on every monthly fee: 10% for three months, 15% for six months, 25% for twelve months.
 - You build an engagement from a catalogue of curated services across thirteen disciplines (brand strategy and positioning, SEO, AEO, GEO, content and thought leadership, paid media, social media, lead generation, CRM and email, web design and CRO, public relations, analytics, and growth strategy, GTM and RevOps), each with its own price, or enter a website and receive suggested services.
-- Payment: the first month of the monthly services plus half of any one-off project is paid on confirming. Remaining months are invoiced monthly in advance, and project balances are due on delivery.
+- Payment: prices are starting points, agreed after a call and set out in a written proposal. Once agreed, the first month of the monthly services plus half of any one-off project is paid to begin. Remaining months are invoiced monthly in advance, and project balances are due on delivery.
 - Founding Partner Programme: 30% off monthly fees for the first three months, in return for a documented case study. Places are limited.
 - Rothenhall reports rates across repeated runs and never promises a ranking.

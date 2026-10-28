@@ -155,10 +155,14 @@ export type EngagementLeadInput = {
   email: string
   company: string
   website: string
-  intent: 'review' | 'call'
+  goal: string
+  timing: string
+  budget: string
+  message: string
+  founding: boolean
   term: string
   summary: string
-  total: string
+  estimate: string
 }
 
 function validateEngagementLead(data: unknown): EngagementLeadInput {
@@ -168,27 +172,32 @@ function validateEngagementLead(data: unknown): EngagementLeadInput {
   const email = String(d.email ?? '').trim()
   if (name.length < 2) throw new Error('Please enter your name.')
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) throw new Error('Please enter a valid email address.')
+  const t = (k: string, n: number) => String(d[k] ?? '').trim().slice(0, n)
   return {
     name: name.slice(0, 120),
     email: email.slice(0, 160),
-    company: String(d.company ?? '').trim().slice(0, 120),
-    website: String(d.website ?? '').trim().slice(0, 200),
-    intent: d.intent === 'call' ? 'call' : 'review',
-    term: String(d.term ?? '').slice(0, 40),
-    summary: String(d.summary ?? '').slice(0, 600),
-    total: String(d.total ?? '').slice(0, 60),
+    company: t('company', 120),
+    website: t('website', 200),
+    goal: t('goal', 80),
+    timing: t('timing', 80),
+    budget: t('budget', 80),
+    message: t('message', 1200),
+    founding: d.founding === true,
+    term: t('term', 40),
+    summary: t('summary', 600),
+    estimate: t('estimate', 200),
   }
 }
 
 /**
- * An engagement plan reaches us the moment someone confirms their details, so a
- * plan that is not paid for still becomes a conversation. Same wiring note as
- * submitInquiry applies.
+ * An engagement brief: the services someone chose, what they want to achieve
+ * and how to reach them. A senior operator replies with a proposal after a call.
+ * Same wiring note as submitInquiry applies.
  */
 export const submitEngagementLead = createServerFn({ method: 'POST' })
   .validator(validateEngagementLead)
   .handler(async ({ data }) => {
-    await forward('engagement-lead', data)
+    await forward('engagement-brief', data)
     return { ok: true as const }
   })
 
