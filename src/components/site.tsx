@@ -614,11 +614,11 @@ export function Footer() {
             <div className="mt-4 space-y-3">
               <address className="font-sans text-caption not-italic leading-relaxed text-canvas/50">
                 <span className="block text-label uppercase tracking-[0.14em] text-canvas/40">
-                  India
+                India
                 </span>
-                2nd Floor, HAL 2nd Stage
+                Regus, The Estate, 8th Floor
                 <br />
-                Vimanapura S.O., Bengaluru 560017
+                Dickenson Road, Bengaluru 560042
                 <br />
                 Karnataka, India
               </address>

@@ -39,10 +39,10 @@ const orgSchema = {
   address: [
     {
       '@type': 'PostalAddress',
-      streetAddress: '2nd Floor, HAL 2nd Stage, Vimanapura S.O.',
+      streetAddress: 'Regus, The Estate, 8th Floor, Dickenson Road',
       addressLocality: 'Bengaluru',
       addressRegion: 'Karnataka',
-      postalCode: '560017',
+      postalCode: '560042',
       addressCountry: 'IN',
     },
     {

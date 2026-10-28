@@ -194,9 +194,9 @@ function Contact() {
                     Offices
                   </p>
                   <address className="mt-3 font-sans text-body not-italic leading-relaxed text-ink-60">
-                    2nd Floor, HAL 2nd Stage
+                    Regus, The Estate, 8th Floor
                     <br />
-                    Vimanapura S.O., Bengaluru 560017
+                    Dickenson Road, Bengaluru 560042
                     <br />
                     Karnataka, India
                   </address>
